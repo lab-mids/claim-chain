@@ -1,0 +1,953 @@
+# Delmont et al. 2026, nanocrystalline c-BAs on GaAs(100) by gas-source MBE (arXiv 2610.27460).
+# Independent re-run annotation (reliability test), from the PDF. Figures 1-3 and S1-S5 were
+# inspected as rendered images; numbers marked "read from Fig." are the annotator's
+# readings of plotted points (about +/-0.1 in B/As ratio) and are not tabulated in the paper.
+id: claimchain:chain/arXiv2610.27460
+schema_version: 0.4.0
+annotator: Claude (independent re-run for reliability test), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.27460
+  title: Nanocrystalline cubic boron arsenide growth on GaAs(100) by gas source molecular beam epitaxy
+  authors: [Matthew A. Delmont, Yu Wu, Han-Hsuan Wu, Xiaoqing Pan, Christopher J. Palmstrøm, Bolin Liao]
+  year: 2026
+  arxiv: "2610.27460"
+
+entities:
+  - {id: ent:cBAs, label: cubic boron arsenide (c-BAs), entity_type: MATERIAL}
+  - {id: ent:GaAs100, label: GaAs(100) substrate, entity_type: MATERIAL}
+  - {id: ent:BSubarsenide, label: boron subarsenide (B12As2), entity_type: MATERIAL}
+  - {id: ent:BOxide, label: surface boron oxide, entity_type: MATERIAL}
+  - {id: ent:AmorphousB, label: amorphous boron, entity_type: MATERIAL}
+  - {id: ent:Film300_360, label: c-BAs film grown at 300 C ramped to 360 C for 2 h, entity_type: PROCESSING_STATE}
+  - {id: ent:GSMBE, label: gas source molecular beam epitaxy (elemental B and cracked AsH3), entity_type: METHOD}
+  - {id: ent:XPS, label: X-ray photoelectron spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:AFM, label: atomic force microscopy, entity_type: TECHNIQUE}
+  - {id: ent:RHEED, label: reflection high-energy electron diffraction, entity_type: TECHNIQUE}
+  - {id: ent:GIXRD, label: grazing-incidence X-ray diffraction, entity_type: TECHNIQUE}
+  - {id: ent:XRR, label: X-ray reflectivity, entity_type: TECHNIQUE}
+  - {id: ent:HAADF, label: HAADF scanning transmission electron microscopy, entity_type: TECHNIQUE}
+  - {id: ent:EELS, label: electron energy loss spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:EDS, label: energy-dispersive X-ray spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:OpticalMicroscopy, label: optical microscopy, entity_type: TECHNIQUE}
+  - {id: ent:BAsRatio, label: calibrated B/As atomic ratio, entity_type: QUANTITY}
+  - {id: ent:Tilt, label: out-of-plane crystallite tilt, entity_type: QUANTITY}
+  - {id: ent:VolmerWeber, label: Volmer-Weber 3D island growth mode, entity_type: CONCEPT}
+  - {id: ent:GrowthWindow, label: c-BAs growth temperature window, entity_type: CONCEPT}
+  - {id: ent:Interface, label: c-BAs/GaAs heterointerface, entity_type: CONCEPT}
+  - {id: ent:Mismatch, label: c-BAs/GaAs lattice mismatch, entity_type: QUANTITY}
+
+cited_works:
+  - {id: delmont2026:ref13, number: '13', citation: 'Lee et al., Appl. Phys. Lett. 124 (2024)', cited_for: [c-BAs lattice parameter and (220) reflection position]}
+  - {id: delmont2026:ref18, number: '18', citation: 'Cheng et al., J. Vac. Sci. Technol. A 43 (2025)', cited_for: [earlier MBE BAs layers lacked long-range order and lost arsenic at elevated temperature]}
+  - {id: delmont2026:ref22, number: '22', citation: 'Shard, J. Vac. Sci. Technol. A 38, 041201 (2020)', cited_for: [XPS quantification artefacts such as matrix and topography effects]}
+  - {id: delmont2026:ref24, number: '24', citation: 'Singer, Murday & Comas, J. Vac. Sci. Technol. 18, 161 (1981)', cited_for: [preferential sputtering of arsenic]}
+  - {id: delmont2026:ref28, number: '28', citation: 'Seah & Dench, Surf. Interface Anal. 1, 2 (1979)', cited_for: [electron inelastic mean free paths; Ga 3d probes deeper than As 3d]}
+  - {id: delmont2026:ref29, number: '29', citation: 'Volmer & Weber, Z. Phys. Chem. 119, 277 (1926)', cited_for: [definition of island (Volmer-Weber) growth]}
+  - {id: delmont2026:ref31, number: '31', citation: 'Blakemore, J. Appl. Phys. 53, R123 (1982)', cited_for: [GaAs lattice parameter and (311) reflection position]}
+  - {id: delmont2026:ref32, number: '32', citation: 'Petrov et al., J. Vac. Sci. Technol. A 21, S117 (2003)', cited_for: [columnar contrast as signature of nanocrystalline film microstructure]}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: delmont2026:BG1
+    statement_type: BACKGROUND
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: Cubic boron arsenide has a room-temperature thermal conductivity of 1300-1500 W/mK or higher.
+    evidence: [{evidence_kind: CITATION, references: ["3", "4", "5", "6"]}]
+    about: [ent:cBAs]
+  - id: delmont2026:BG2
+    statement_type: BACKGROUND
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: The acoustic stiffness and lattice properties of c-BAs closely match GaAs and GaN, which reduces thermal expansion mismatch and interfacial thermal resistance compared with diamond.
+    evidence: [{evidence_kind: CITATION, references: ["7"]}]
+    about: [ent:cBAs]
+  - id: delmont2026:BG3
+    statement_type: BACKGROUND
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: Cubic BAs has high ambipolar carrier mobility and long photocarrier lifetimes.
+    evidence: [{evidence_kind: CITATION, references: ["8", "9"]}]
+    about: [ent:cBAs]
+  - id: delmont2026:BG4
+    statement_type: BACKGROUND
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: Bulk c-BAs crystals are limited to about 1 mm with non-uniform quality, which rules out wafer-scale integration.
+    evidence: [{evidence_kind: CITATION, references: ["12", "13", "14"]}]
+    about: [ent:cBAs]
+  - id: delmont2026:BG5
+    statement_type: BACKGROUND
+    section: p. 1, p. 3
+    paper_part: INTRODUCTION
+    text: Previous c-BAs thin-film attempts yielded mainly amorphous films, possibly with thin epitaxial layers or boron subarsenide, and lost arsenic at elevated growth temperatures.
+    evidence: [{evidence_kind: CITATION, references: ["17", "18"]}]
+    about: [ent:cBAs, ent:BSubarsenide]
+  - id: delmont2026:BG6
+    statement_type: BACKGROUND
+    section: p. 3
+    paper_part: INTRODUCTION
+    text: Single-crystal growth shows a thermodynamic preference for boron subarsenide at higher temperatures.
+    evidence: [{evidence_kind: CITATION, references: ["21"]}]
+    about: [ent:BSubarsenide]
+  - id: delmont2026:BG7
+    statement_type: BACKGROUND
+    section: p. 4
+    paper_part: INTRODUCTION
+    text: Initial three-dimensional island nucleation followed by lateral coalescence defines Volmer-Weber growth, and large interfacial strain energy suppresses Frank-van der Merwe layer-by-layer growth.
+    evidence: [{evidence_kind: CITATION, references: ["29", "30"]}]
+    about: [ent:VolmerWeber]
+  - id: delmont2026:GAP1
+    statement_type: GAP
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: Thin-film epitaxy of c-BAs lacks lattice-matched substrates; GaAs(100) has a lattice mismatch of over 15 % with c-BAs, and crystalline c-BAs films have not been synthesized directly on such mismatched substrates.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: p. 1, p. 4
+        description: Lattice parameters quoted by the paper; mismatch recomputed relative to the substrate.
+        values:
+          - {symbol: a_BAs, quantity: lattice parameter c-BAs, value: 4.777, unit: Å}
+          - {symbol: a_GaAs, quantity: lattice parameter GaAs, value: 5.653, unit: Å}
+        derived_checks:
+          - {expression: mismatch (a_GaAs - a_BAs)/a_GaAs, formula: "100*(a_GaAs - a_BAs)/a_GaAs", result: 15.5, unit: '%'}
+          - {expression: mismatch relative to film lattice (a_GaAs - a_BAs)/a_BAs, formula: "100*(a_GaAs - a_BAs)/a_BAs", result: 18.34, unit: '%', note: "Annotator addition: the misfit felt by the film is about 18 %."}
+    about: [ent:cBAs, ent:GaAs100, ent:Mismatch]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The introduction calls the mismatch tensile (correct for a film with the smaller lattice), while Sec. on GIXRD (p. 5) calls it a 15.5 % compressive mismatch."}
+
+  - id: delmont2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    section: Title, abstract, p. 1
+    paper_part: INTRODUCTION
+    text: Gas source molecular beam epitaxy can directly synthesize nanocrystalline cubic BAs thin films on lattice-mismatched GaAs(100) substrates.
+    about: [ent:cBAs, ent:GaAs100, ent:GSMBE]
+    claim_modality: DESCRIPTIVE
+    scope: {materials: [ent:cBAs, ent:GaAs100], techniques: [ent:GSMBE, ent:XPS, ent:GIXRD, ent:HAADF], sample_count: 1, scope_note: "Structure characterized on one film (300 to 360 C); other growth temperatures only by XPS and optical microscopy."}
+    assessment:
+      validity: PARTIAL
+      rationale: "A continuous, Ga-free B-As film with one oriented diffraction peak at the c-BAs(220) position is shown, but the phase rests on a single reflection, the film is boron-rich (calibrated B/As about 2 at the growth temperature) and grain size is never measured, so 'nanocrystalline c-BAs' is only partly established."
+      missing_evidence:
+        - "Raman spectrum of the film (c-BAs optical phonon) to confirm the phase"
+        - "Second, independent c-BAs reflection (e.g. (111) or (400)) or a pole figure"
+        - "Lattice-resolved TEM with FFT indexing inside the film, and crystallite size from TEM or XRD peak width"
+        - "Depth-resolved composition (e.g. EELS quantification or RBS) giving B/As in the film bulk"
+        - "A second film grown under the same conditions"
+      proof_obligations:
+        - text: Show that the film is the cubic zinc-blende BAs phase and not boron subarsenide or amorphous boron with some crystalline BAs.
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [delmont2026:CLAIM1]
+          priority: CRITICAL
+          requested_data:
+            - {quantity: Raman shift of the c-BAs optical phonon, unit: cm^-1, method: Raman spectroscopy}
+            - {quantity: positions of at least two independent c-BAs reflections, unit: deg 2theta, method: GIXRD or pole figure}
+        - text: Show that the film is nanocrystalline (grain size in the nanometre range).
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [delmont2026:CLAIM2]
+          priority: HIGH
+          requested_data:
+            - {quantity: grain size distribution, unit: nm, method: lattice-resolved TEM or plan-view TEM}
+        - text: Show near-stoichiometric composition of the film bulk.
+          obligation_status: OPEN
+          discharged_by: []
+          priority: CRITICAL
+          requested_data:
+            - {quantity: B/As atomic ratio of the film bulk, method: "RBS, NRA or quantitative EELS"}
+        - text: Show the result is reproducible on more than one film.
+          obligation_status: OPEN
+          discharged_by: []
+          priority: MEDIUM
+
+  - id: delmont2026:CLAIM13
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    author_certainty: DEMONSTRATED
+    section: p. 1
+    paper_part: INTRODUCTION
+    text: Low-temperature seed initiation followed by temperature ramping promotes 3D island coalescence and provides a route to integrating c-BAs films.
+    about: [ent:GSMBE, ent:VolmerWeber]
+    claim_modality: CAUSAL
+    evidence:
+      - {evidence_kind: ARGUMENT, description: "Stated in the introduction; only the ramped film (300 to 360 C) is characterized."}
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "No film grown at constant temperature is characterized structurally, so the role of the ramp in coalescence is not tested."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: No constant-temperature control and no comparison of coalescence with and without ramping are presented.
+      missing_evidence:
+        - "Constant-temperature growth at 300 C and at 360 C with the same AFM, TEM and GIXRD characterization"
+
+  # ---------------- Methods ----------------
+  - id: delmont2026:METH1
+    statement_type: METHOD
+    section: p. 1-2
+    paper_part: METHODS
+    text: c-BAs films were grown on GaAs(100) after oxide desorption and a GaAs buffer, in a UHV chemical beam epitaxy system from elemental boron and cracked AsH3 (As2), with an As:B atomic flux ratio of 130:1 at a nominal rate of about 9 nm/h, starting at 300 C and ramping to 360 C for the film analysed in detail.
+    about: [ent:GSMBE, ent:Film300_360]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: p. 2, Fig. S1
+        values:
+          - {symbol: rate, quantity: nominal growth rate, value: 9, unit: nm/h}
+          - {symbol: t_growth, quantity: growth time of detailed film, value: 2, unit: h}
+          - {symbol: flux_ratio, quantity: As to B atomic flux ratio, value: 130}
+        derived_checks:
+          - {expression: nominal thickness = rate x time, formula: rate*t_growth, result: 18, unit: nm, note: "Consistent with XRR (16 nm + 2 nm oxide) and TEM (15-20 nm)."}
+  - id: delmont2026:METH2
+    statement_type: METHOD
+    section: p. 2
+    paper_part: METHODS
+    text: Composition was measured by XPS (Al K-alpha) and calibrated against a c-BAs single crystal; surface carbon and oxide were removed by 2 keV argon sputtering for up to 10 s at a rate calibrated on tantalum oxide.
+    about: [ent:XPS, ent:BAsRatio]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        values:
+          - {symbol: sput_rate, quantity: sputter rate on Ta oxide, value: 0.4, unit: nm/s}
+          - {symbol: sput_t, quantity: maximum sputter time, value: 10, unit: s}
+        derived_checks:
+          - {expression: maximum removed depth, formula: sput_rate*sput_t, result: 4, unit: nm}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The calibration procedure against the single crystal (sensitivity factors, which crystal state, etched or unetched) is not described."}
+  - id: delmont2026:METH3
+    statement_type: METHOD
+    section: p. 2
+    paper_part: METHODS
+    text: Surface morphology was measured by tapping-mode AFM and in-situ RHEED (11 kV), and structure by coplanar GIXRD with Cu K-alpha radiation, azimuthal and chi scans, and XRR.
+    about: [ent:AFM, ent:RHEED, ent:GIXRD, ent:XRR]
+  - id: delmont2026:METH4
+    statement_type: METHOD
+    section: p. 2
+    paper_part: METHODS
+    text: Cross-sections prepared by focused ion beam were imaged by HAADF-STEM at 300 kV with EELS and at 200 kV with EDS.
+    about: [ent:HAADF, ent:EELS, ent:EDS]
+  - id: delmont2026:DATA1
+    statement_type: DATA
+    section: Fig. 1(a)
+    paper_part: METHODS
+    text: About fourteen films grown between about 260 C and 630 C were measured by XPS to map composition against growth temperature.
+    scope: {materials: [ent:cBAs], techniques: [ent:XPS], sample_count: 14, scope_note: "Count read from the data points in Fig. 1(a); one XPS measurement per film, error bars shown but their origin not stated."}
+  - id: delmont2026:DATA2
+    statement_type: DATA
+    section: p. 4
+    paper_part: METHODS
+    text: All structural characterization (AFM, RHEED, GIXRD, XRR, TEM, EELS) is reported for a single film grown at 300 C ramped to 360 C.
+    about: [ent:Film300_360]
+    scope: {materials: [ent:cBAs], sample_count: 1}
+  - id: delmont2026:A1
+    statement_type: ASSUMPTION
+    section: p. 2-3
+    paper_part: METHODS
+    text: The single-crystal calibration of XPS B/As ratios transfers to the thin films despite differences in topography, oxidation and sputtering response.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: If the calibration already removes artefacts shared with the crystal, the residual excess boron of the films is real; if not, the calibrated scale is undefined.
+    about: [ent:XPS, ent:BAsRatio]
+  - id: delmont2026:A2
+    statement_type: ASSUMPTION
+    section: p. 4
+    paper_part: RESULTS
+    text: The diffraction peak near 54.15-54.27 deg 2theta seen below the GaAs critical angle is the c-BAs(220) reflection.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: A single reflection 0.3-0.5 deg from the GaAs(311) peak cannot by itself exclude other B-As phases or substrate-related scattering.
+    note: Implicit in the paper; formulated by the annotator.
+    about: [ent:GIXRD, ent:cBAs]
+  - id: delmont2026:A3
+    statement_type: ASSUMPTION
+    section: p. 5
+    paper_part: RESULTS
+    text: The TEM cross-sections taken in the coalesced regions between islands represent the structure and composition of the whole film, including the islands up to 70 nm high.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: The islands, which hold much of the deposited material, are never sectioned, so their crystallinity and composition are unknown.
+    note: Implicit in the paper; formulated by the annotator.
+    about: [ent:HAADF]
+
+  # ---------------- Results: XPS composition and growth window ----------------
+  - id: delmont2026:OBS1
+    statement_type: OBSERVATION
+    section: Fig. 1(a), p. 3
+    paper_part: RESULTS
+    text: The calibrated XPS B/As ratio rises from about 1.25-1.75 near 265 C to about 2.0-2.4 at 300-390 C, then steps to about 2.5-3.3 at 410-430 C and reaches about 3.6-4.3 at 630 C; no film in the series reaches 1.0.
+    about: [ent:BAsRatio, ent:GrowthWindow]
+    claim_modality: DESCRIPTIVE
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 1(a)
+        description: Values read from the plotted points by the annotator (about +/-0.1); "ox" = oxide removed by sputtering and peak fitting.
+        values:
+          - {symbol: r265_ox, quantity: calibrated B/As oxide removed, value: 1.45, condition: "about 265 C, read from Fig. 1(a)"}
+          - {symbol: r270_ox, quantity: calibrated B/As oxide removed, value: 1.25, condition: "about 270 C, read from Fig. 1(a)"}
+          - {symbol: r335_ox, quantity: calibrated B/As oxide removed, value: 2.05, condition: "about 335 C, read from Fig. 1(a)"}
+          - {symbol: r358_ox, quantity: calibrated B/As oxide removed, value: 2.15, condition: "about 358 C, read from Fig. 1(a)"}
+          - {symbol: r358_orig, quantity: calibrated B/As as measured, value: 2.4, condition: "about 358 C, read from Fig. 1(a)"}
+          - {symbol: r385_ox, quantity: calibrated B/As oxide removed, value: 1.85, condition: "about 385 C, read from Fig. 1(a)"}
+          - {symbol: r412_ox, quantity: calibrated B/As oxide removed, value: 2.5, condition: "about 412 C, read from Fig. 1(a)"}
+          - {symbol: r630_ox, quantity: calibrated B/As oxide removed, value: 3.6, condition: "about 630 C, read from Fig. 1(a)"}
+          - {symbol: fit1_lo, quantity: low-T linear fit value, value: 1.75, condition: "260 C, read from Fig. 1(a)"}
+          - {symbol: fit1_hi, quantity: low-T linear fit value, value: 2.4, condition: "390 C, read from Fig. 1(a)"}
+          - {symbol: fit2_lo, quantity: high-T linear fit value, value: 2.95, condition: "410 C, read from Fig. 1(a)"}
+          - {symbol: fit2_hi, quantity: high-T linear fit value, value: 4.0, condition: "650 C, read from Fig. 1(a)"}
+        derived_checks:
+          - {expression: slope of the 250-390 C fit, formula: "(fit1_hi - fit1_lo)/(390 - 260)", result: 0.0050, unit: 1/K}
+          - {expression: slope of the 410-650 C fit, formula: "(fit2_hi - fit2_lo)/(650 - 410)", result: 0.0044, unit: 1/K, note: "Same slope as below 400 C within reading error: the 'sharp transition' is a step of about 0.5, not a change of slope."}
+          - {expression: step between the two fits at 400 C, formula: "fit2_lo - fit1_hi", result: 0.55}
+          - {expression: As atomic fraction at the detailed film's temperature (oxide removed), formula: "1/(1 + r358_ox)", result: 0.317, note: "Stoichiometric BAs is 0.5."}
+          - {expression: near-stoichiometry (B/As within 20 % of 1) at 358 C, formula: "r358_ox < 1.2", satisfied: false}
+    scope: {materials: [ent:cBAs], techniques: [ent:XPS], sample_count: 14}
+  - id: delmont2026:OBS2
+    statement_type: OBSERVATION
+    section: Fig. S3, p. 3
+    paper_part: SUPPLEMENTARY
+    text: XPS on a stoichiometric c-BAs single crystal gives B/As of about 1.1 unetched and about 1.2 after 10 s argon sputtering.
+    about: [ent:XPS, ent:BAsRatio]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. S3
+        values:
+          - {symbol: xtal_unetched, quantity: B/As single crystal unetched, value: 1.1}
+          - {symbol: xtal_etched, quantity: B/As single crystal after 10 s sputter, value: 1.2}
+    scope: {sample_count: 1}
+  - id: delmont2026:OBS3
+    statement_type: OBSERVATION
+    section: Fig. 1(c,d)
+    paper_part: RESULTS
+    text: The As 3d peak of the film shows no arsenic oxide component, while the B 1s peak contains a boron oxide component next to the B-As/elemental B component.
+    about: [ent:XPS, ent:BOxide]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1(c), 1(d)"}]
+  - id: delmont2026:OBS4
+    statement_type: OBSERVATION
+    section: Fig. 1(b)
+    paper_part: RESULTS
+    text: The XPS survey spectrum of the 300-360 C film shows B and As peaks and no detectable Ga 3p or Ga 3d peaks.
+    about: [ent:XPS, ent:Film300_360]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 1(b), description: "Ga detection limit not stated."}]
+  - id: delmont2026:OBS5
+    statement_type: OBSERVATION
+    section: Fig. S2
+    paper_part: SUPPLEMENTARY
+    text: In optical micrographs the 260 C film has a wormy texture, the 360 C film is optically smooth, and the 600 C film is covered with round pits.
+    about: [ent:OpticalMicroscopy]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. S2}]
+    scope: {sample_count: 3}
+
+  - id: delmont2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    section: Abstract, p. 3, Fig. 1(a)
+    paper_part: RESULTS
+    text: XPS shows an optimal growth temperature window of 250-400 C in which c-BAs films keep near-stoichiometric composition and severe arsenic loss is suppressed.
+    about: [ent:GrowthWindow, ent:BAsRatio]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Fig. 1(a) shows calibrated B/As of about 1.8-2.4 (as measured) and 1.75-2.15 (oxide removed) at 300-390 C, i.e. an As fraction of about 0.32 instead of 0.5; the text's 'decreases to about 1.2' and the caption's 'approaches the ideal stoichiometry' hold only for the lowest-temperature point near 270 C."}
+      - {concern_type: OVERCLAIM, description: "'Optimal' is judged on XPS composition alone; crystallinity, morphology and orientation are characterized for one temperature only, and the 260 C film has a wormy, low-mobility texture (Fig. S2)."}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text calls the 250-400 C range a 'relatively flat plateau' with a small slope followed by a sharp transition, but the two fits in Fig. 1(a) have the same slope (about 0.005 per K); only a step of about 0.5 separates them."}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own calibrated XPS data put the films in the window at B/As 1.25-2.4, about 2 at the detailed film's growth temperature, which contradicts 'near stoichiometry'; only the reduced As loss below about 400 C relative to above is supported."
+      missing_evidence:
+        - "Bulk-sensitive composition (RBS or quantitative EELS) for films across the window"
+        - "Structural characterization (GIXRD, TEM) of films at several temperatures in and outside the window"
+      proof_obligations:
+        - text: Show that films in the window have B/As close to 1 in the film bulk.
+          obligation_status: OPEN
+          discharged_by: []
+          priority: CRITICAL
+          requested_data:
+            - {quantity: B/As atomic ratio vs growth temperature, method: "RBS or EELS quantification on cross-sections"}
+        - text: Show that arsenic loss changes abruptly at about 400 C.
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [delmont2026:CLAIM4]
+          priority: MEDIUM
+        - text: Show that the window is optimal for crystal quality, not only for composition.
+          obligation_status: OPEN
+          discharged_by: []
+          priority: HIGH
+          requested_data:
+            - {quantity: "GIXRD peak intensity and width vs growth temperature", method: GIXRD}
+
+  - id: delmont2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    section: p. 3, Fig. 1(a), Fig. S2
+    paper_part: RESULTS
+    text: Above about 400 C the films lose arsenic rapidly, trend towards boron subarsenide, lack long-range structural order and develop rough pitted surfaces.
+    about: [ent:GrowthWindow, ent:BSubarsenide]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The lack of long-range order above 400 C and the trend to boron subarsenide are not shown by diffraction; only optical images (Fig. S2, one film at 600 C) are given."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Calibrated B/As above 400 C is about 2.5-3.6, still well below B12As2 (6), so 'trending toward subarsenide' is a direction, not a phase identification."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Fig. 1(a) shows a step of about 0.5 in B/As at 400 C and pits at 600 C are visible, but loss of order and subarsenide formation are asserted without diffraction data."
+      missing_evidence:
+        - "GIXRD of films grown above 400 C"
+
+  - id: delmont2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    hedged: true
+    section: p. 3
+    paper_part: RESULTS
+    text: The excess boron measured by XPS in the films arises at least partly from measurement artefacts, namely matrix and topography effects, preferential surface boron oxidation and preferential sputtering of arsenic, rather than from the film bulk.
+    about: [ent:XPS, ent:BOxide, ent:BAsRatio]
+    claim_modality: CAUSAL
+    evidence:
+      - {evidence_kind: CITATION, references: ["22", "23", "24", "25"]}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The ratios are already calibrated against the single crystal (Fig. 1a), which shows the same matrix and sputtering artefacts (1.1 and 1.2, Fig. S3); invoking these artefacts again to explain the films' residual excess boron counts them twice."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Several candidate causes (artefacts, oxide, preferential sputtering, amorphous boron) are listed, but no measurement separates them."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible artefacts are named, but the calibration should already remove those shared with the crystal, and the authors' own alternative (amorphous boron in the film) is not excluded by any data."
+      missing_evidence:
+        - "Angle-resolved XPS or depth profile comparing crystal and film under identical sputtering"
+        - "Bulk composition by RBS/NRA"
+
+  - id: delmont2026:LIM1
+    statement_type: LIMITATION
+    limitation_kind: INTERPRETATION
+    section: p. 3
+    paper_part: RESULTS
+    text: Regions of amorphous boron within the film matrix may contribute to the observed excess boron.
+    hedged: true
+    about: [ent:AmorphousB]
+    evidence: [{evidence_kind: CITATION, references: ["26", "27"]}]
+
+  # ---------------- Results: coverage, morphology and growth mode ----------------
+  - id: delmont2026:CLAIM6
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    section: p. 3-4
+    paper_part: RESULTS
+    text: The absence of Ga in XPS shows that the c-BAs film forms a continuous and coherent layer over the GaAs substrate, so that the measured arsenic comes only from the film.
+    about: [ent:Film300_360, ent:XPS]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: If the film is thicker than the photoelectron attenuation length everywhere, substrate Ga 3d (probing deeper than As 3d) is not detected, so absence of Ga implies full coverage.
+      warrant_basis: CITATION
+      references: [delmont2026:ref28]
+      support_strength: INTERMEDIATE
+    concerns:
+      - {concern_type: OVERCLAIM, description: "'Coherent' in the epitaxial sense is contradicted by the paper's own 18 deg crystallite tilt and 3.5 deg mosaic spread; only continuous coverage is supported."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Continuous coverage is supported by the missing Ga signal and by the TEM cross-section, but 'coherent' is contradicted by the tilted, mosaic film."
+
+  - id: delmont2026:OBS6
+    statement_type: OBSERVATION
+    section: Fig. 2(a), Fig. S4
+    paper_part: RESULTS
+    text: AFM shows circular islands up to 70 nm high and hundreds of nanometres wide on a surface with 5 nm RMS roughness, similar at a second location and in SEM.
+    about: [ent:AFM, ent:Film300_360]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 2(a), Fig. S4
+        values:
+          - {symbol: h_max, quantity: maximum island height, value: 70, unit: nm}
+          - {symbol: rms, quantity: RMS roughness, value: 5, unit: nm}
+    scope: {sample_count: 1, scope_note: "One film, two AFM regions plus SEM."}
+  - id: delmont2026:OBS7
+    statement_type: OBSERVATION
+    section: Fig. 2(b)
+    paper_part: RESULTS
+    text: RHEED along a non-principal azimuth shows a streak from the GaAs substrate before growth that turns into an array of dots by 6 min of growth and remains spotty at 15 and 60 min.
+    about: [ent:RHEED]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 2(b), description: "Frames at 0, 6, 15 and 60 min; spots are not indexed."}]
+  - id: delmont2026:OBS12
+    statement_type: OBSERVATION
+    section: Fig. S1(a), Fig. 3(a)
+    paper_part: RESULTS
+    text: XRR fits a 16 nm BAs layer under a 2 nm boron oxide layer, and HAADF/EDS cross-sections between the islands show a continuous BAs film 15-20 nm thick.
+    about: [ent:XRR, ent:HAADF, ent:Film300_360]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. S1(a), Fig. 3(a)
+        values:
+          - {symbol: t_xrr, quantity: BAs thickness from XRR, value: 16, unit: nm}
+          - {symbol: t_ox, quantity: boron oxide thickness from XRR, value: 2, unit: nm}
+          - {symbol: t_tem_min, quantity: BAs thickness from TEM (min), value: 15, unit: nm}
+          - {symbol: t_tem_max, quantity: BAs thickness from TEM (max), value: 20, unit: nm}
+
+  - id: delmont2026:CLAIM7
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    section: Abstract, p. 4
+    paper_part: RESULTS
+    text: c-BAs grows on GaAs(100) in a Volmer-Weber three-dimensional island growth mode, with island nucleation followed by lateral coalescence.
+    about: [ent:VolmerWeber, ent:Film300_360]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: A transition of RHEED from streaks to spots together with islands in AFM indicates three-dimensional growth; island nucleation followed by coalescence defines Volmer-Weber growth.
+      warrant_basis: CITATION
+      references: [delmont2026:ref29]
+      support_strength: INTERMEDIATE
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Volmer-Weber is not distinguished from Stranski-Krastanov growth: TEM shows a continuous 15-20 nm film between islands, and no RHEED frame before 6 min (less than 1 nm deposited) tests for an initial wetting layer."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Coalescence is inferred, not imaged over time; island density and size distribution are not quantified."}
+    assessment:
+      validity: PARTIAL
+      rationale: "RHEED spots and AFM islands demonstrate three-dimensional growth on one film, but the specific Volmer-Weber mode (no wetting layer) is not separated from layer-plus-island growth, which the continuous film between islands seen in TEM would also fit."
+      missing_evidence:
+        - "RHEED or AFM at sub-nanometre coverage to test for a wetting layer"
+        - "Island density and height vs growth time"
+      proof_obligations:
+        - text: Show three-dimensional (island) growth.
+          obligation_status: DISCHARGED
+          discharged_by: [delmont2026:OBS6, delmont2026:OBS7]
+        - text: Exclude an initial two-dimensional wetting layer (Stranski-Krastanov).
+          obligation_status: OPEN
+          discharged_by: []
+          priority: HIGH
+          requested_data:
+            - {quantity: RHEED pattern at 0-1 nm coverage, method: in-situ RHEED with finer time steps}
+
+  - id: delmont2026:CLAIM8
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: DEMONSTRATED
+    section: p. 4
+    paper_part: RESULTS
+    text: Three-dimensional island growth of c-BAs on GaAs is energetically favoured because the interfacial strain energy of the 15.5 % lattice mismatch suppresses layer-by-layer growth.
+    about: [ent:VolmerWeber, ent:Mismatch]
+    claim_modality: CAUSAL
+    evidence: [{evidence_kind: CITATION, references: ["29", "30"]}]
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "No energy is computed; the causal attribution rests on the size of the mismatch alone."}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The SI itself attributes the 260 C texture to low adatom mobility (Fig. S2); kinetic roughening at 300-360 C is an alternative cause of 3D growth that is not discussed."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The energetic explanation is argued from mismatch and textbook growth modes; no calculation or growth-condition variation (flux, temperature) separates strain-driven from kinetically limited islanding."
+      missing_evidence:
+        - "Growth at different rates or temperatures showing how island density responds"
+
+  # ---------------- Results: crystal structure and orientation ----------------
+  - id: delmont2026:OBS8
+    statement_type: OBSERVATION
+    section: Fig. 2(c), p. 4
+    paper_part: RESULTS
+    text: In coplanar GIXRD at 0.20 deg incidence only one peak near 54.15-54.27 deg 2theta appears, while at 0.35-0.40 deg a stronger peak near 53.73-53.85 deg, assigned to GaAs(311), dominates.
+    about: [ent:GIXRD, ent:Film300_360]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 2(c), p. 4
+        description: Text gives 54.27 and 53.73 deg; the dashed lines in Fig. 2(c) are labelled 54.15 and 53.85 deg.
+        values:
+          - {symbol: lam, quantity: Cu K-alpha wavelength, value: 1.5406, unit: Å}
+          - {symbol: a_BAs, quantity: lattice parameter c-BAs, value: 4.777, unit: Å}
+          - {symbol: a_GaAs, quantity: lattice parameter GaAs, value: 5.653, unit: Å}
+          - {symbol: tt_BAs_text, quantity: 2theta c-BAs(220) in text, value: 54.27, unit: deg}
+          - {symbol: tt_BAs_fig, quantity: 2theta film peak in Fig. 2(c), value: 54.15, unit: deg}
+          - {symbol: tt_GaAs_text, quantity: 2theta GaAs(311) in text, value: 53.73, unit: deg}
+          - {symbol: tt_GaAs_fig, quantity: 2theta substrate peak in Fig. 2(c), value: 53.85, unit: deg}
+        derived_checks:
+          - {expression: "d(220) of c-BAs = a_BAs / sqrt(8)", formula: "a_BAs/sqrt(8)", result: 1.689, unit: Å}
+          - {expression: "sin(theta) of c-BAs(220) = lam / (2 d)", formula: "lam*sqrt(8)/(2*a_BAs)", result: 0.4561, note: "asin gives 2theta = 54.27 deg, matching the text (annotator recomputation)."}
+          - {expression: "d(311) of GaAs = a_GaAs / sqrt(11)", formula: "a_GaAs/sqrt(11)", result: 1.7044, unit: Å}
+          - {expression: "sin(theta) of GaAs(311) = lam / (2 d)", formula: "lam*sqrt(11)/(2*a_GaAs)", result: 0.4520, note: "asin gives 2theta = 53.74 deg, matching the text (annotator recomputation)."}
+          - {expression: shift of the observed film peak from bulk c-BAs(220), formula: "tt_BAs_fig - tt_BAs_text", result: -0.12, unit: deg}
+          - {expression: shift of the observed substrate peak from bulk GaAs(311), formula: "tt_GaAs_fig - tt_GaAs_text", result: 0.12, unit: deg}
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The observed peaks sit about 0.12 deg from the bulk positions, in opposite directions for film and substrate; neither strain, refraction nor sample displacement is discussed, and the azimuthal scan is then taken at 54.15 deg."}
+  - id: delmont2026:OBS9
+    statement_type: OBSERVATION
+    section: p. 4-5, Eq. (1)
+    paper_part: RESULTS
+    text: In the grazing coplanar geometry the scattering vector is inclined by gamma = theta - alpha_i, about 26.6 deg for GaAs(311) (whose planes are inclined 25.24 deg) and about 26.84 deg for c-BAs(220), which implies an out-of-plane tilt of about 18.2 deg relative to a (100)-oriented c-BAs crystal (45 deg).
+    about: [ent:GIXRD, ent:Tilt]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: p. 4-5, Eq. (1)
+        values:
+          - {symbol: tt_G, quantity: 2theta GaAs(311) used for gamma, value: 53.7, unit: deg}
+          - {symbol: tt_B, quantity: 2theta c-BAs(220) used for gamma, value: 54.27, unit: deg}
+          - {symbol: ai, quantity: incidence angle, value: 0.30, unit: deg}
+          - {symbol: phi220, quantity: "angle between [100] and (220) normal", value: 45.0, unit: deg}
+          - {symbol: gam_B, quantity: scattering vector inclination for c-BAs(220), value: 26.84, unit: deg}
+        derived_checks:
+          - {expression: gamma for GaAs(311) = theta - alpha_i, formula: "tt_G/2 - ai", result: 26.56, unit: deg}
+          - {expression: "cos of the GaAs(311) inclination from [100] = 3/sqrt(11)", formula: "3/sqrt(11)", result: 0.9045, note: "acos gives 25.24 deg, as stated."}
+          - {expression: gamma for c-BAs(220) = theta - alpha_i, formula: "tt_B/2 - ai", result: 26.84, unit: deg}
+          - {expression: "Eq. (1): tilt = 45 - gamma", formula: "phi220 - gam_B", result: 18.16, unit: deg}
+          - {expression: offset between gamma for GaAs(311) (26.56 deg) and the true (311) inclination (25.24 deg), result: 1.32, unit: deg, note: "Annotator addition. A single-crystal substrate reflection 1.3 deg off the Bragg geometry needs a miscut or alignment offset that is not discussed; the same offset enters the film tilt."}
+  - id: delmont2026:OBS10
+    statement_type: OBSERVATION
+    section: Fig. 2(d), p. 5
+    paper_part: RESULTS
+    text: An azimuthal scan over the full 360 deg at 2theta = 54.15 deg shows a single narrow peak at beta = 0 with 3.4 deg FWHM and no other peaks or background.
+    about: [ent:GIXRD, ent:Film300_360]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 2(d)
+        values:
+          - {symbol: fwhm_beta, quantity: azimuthal FWHM, value: 3.4, unit: deg}
+          - {symbol: n_peaks, quantity: azimuthal peaks in 360 deg, value: 1}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The incidence angle of the azimuthal scan is not stated. At 54.15 deg the GaAs(311) peak tail still contributes at alpha_i >= 0.30 deg (Fig. 2c), so film and substrate intensity are not separated."}
+  - id: delmont2026:OBS11
+    statement_type: OBSERVATION
+    section: Fig. S1(b)
+    paper_part: SUPPLEMENTARY
+    text: A chi rocking curve of the 54.15 deg reflection at 0.2 deg incidence has a FWHM of 3.5 deg.
+    about: [ent:GIXRD, ent:Tilt]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. S1(b)
+        values:
+          - {symbol: fwhm_chi, quantity: chi rocking FWHM, value: 3.5, unit: deg}
+
+  - id: delmont2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    section: p. 4, Fig. 2(c)
+    paper_part: RESULTS
+    text: The film grown at 300-360 C is crystalline cubic (zinc-blende) BAs.
+    about: [ent:cBAs, ent:Film300_360]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: A diffraction peak at the 2theta of the c-BAs(220) reflection, seen only in the surface-sensitive regime, identifies crystalline c-BAs in the film.
+      warrant_basis: UNSTATED
+      support_strength: WEAK
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Phase identification rests on one reflection (0.12 deg off its bulk position) plus unindexed RHEED spots; there is no Raman spectrum, no second reflection and no lattice-resolved image of the film (Fig. S5 cannot tell c-BAs from GaAs at the interface)."}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The calibrated B/As of about 2 at this growth temperature (Fig. 1a) leaves up to half of the boron unaccounted for by c-BAs; amorphous boron (LIM1) or a subarsenide fraction is not excluded."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The peak position matches c-BAs(220) and the film is crystalline enough to give RHEED spots and a textured reflection, but a single reflection and a boron-rich composition do not establish a phase-pure c-BAs film."
+      missing_evidence:
+        - "Raman spectroscopy"
+        - "Additional c-BAs reflections or a pole figure"
+        - "Electron diffraction or FFT from inside the film"
+
+  - id: delmont2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: PROPOSED
+    hedged: true
+    section: p. 5, Fig. 3(a)
+    paper_part: RESULTS
+    text: The c-BAs film has a nanocrystalline, columnar microstructure.
+    about: [ent:cBAs, ent:Film300_360]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: Columnar contrast in cross-sectional images indicates a nanocrystalline columnar film microstructure.
+      warrant_basis: CITATION
+      references: [delmont2026:ref32]
+      support_strength: WEAK
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "No grain size is given from TEM or XRD peak width; the 'nanocrystalline' of the title rests on columnar contrast and 'possible grain boundary regions' marked by arrows."}
+      - {concern_type: OVERCLAIM, description: "The text says 'suggests', the title states 'nanocrystalline' as established."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Mosaic spread, islands and columnar contrast support a polycrystalline film with grains no taller than about 20 nm, but grain size and boundaries are not measured."
+      missing_evidence:
+        - "Grain size from plan-view or lattice-resolved TEM"
+        - "Crystallite size from XRD peak broadening with instrument correction"
+
+  - id: delmont2026:CLAIM9
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    section: Abstract, p. 5, Fig. 2(d)
+    paper_part: RESULTS
+    text: The c-BAs film is highly oriented in-plane and preferentially aligned with the GaAs(100) substrate rather than randomly polycrystalline.
+    about: [ent:cBAs, ent:GaAs100, ent:Film300_360]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: A single narrow azimuthal peak of a film reflection, coinciding with a substrate reflection, indicates in-plane texture aligned with the substrate.
+      warrant_basis: DOMAIN_CONVENTION
+      support_strength: INTERMEDIATE
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "A cubic film aligned with a (100) zinc-blende substrate would be expected to show symmetry-equivalent variants (2- or 4-fold) in a 360 deg azimuthal scan; only one peak appears and the paper does not explain the broken symmetry (e.g. by substrate miscut). Background knowledge."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The azimuthal scan does not separate film from substrate intensity (incidence angle not stated, GaAs(311) tail at 54.15 deg)."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The single 3.4 deg azimuthal peak and 3.5 deg chi width show a strongly textured, not random, film, but the scan does not separate film from substrate signal and the missing symmetry variants are unexplained, so the alignment relationship is not determined."
+      missing_evidence:
+        - "Azimuthal scan below the GaAs critical angle with the incidence angle stated"
+        - "Pole figure of c-BAs(111) and (220)"
+      proof_obligations:
+        - text: Show the film reflection is textured, not random.
+          obligation_status: DISCHARGED
+          discharged_by: [delmont2026:OBS10, delmont2026:OBS11]
+        - text: Determine the epitaxial relationship and its symmetry variants.
+          obligation_status: OPEN
+          discharged_by: []
+          priority: HIGH
+          requested_data:
+            - {quantity: pole figures of film and substrate reflections, method: XRD pole figure or cross-sectional electron diffraction}
+
+  - id: delmont2026:CLAIM10
+    statement_type: CLAIM
+    claim_role: QUANTITATIVE_SUPPORT
+    author_certainty: DEMONSTRATED
+    section: p. 5, Eq. (1)
+    paper_part: RESULTS
+    text: The c-BAs crystallites are tilted out of plane by about 18.2 deg from the cube-on-cube (100) orientation.
+    about: [ent:Tilt, ent:cBAs]
+    claim_modality: DESCRIPTIVE
+    warrant:
+      rule: In coplanar grazing diffraction the observed reflection's plane normal is parallel to the scattering vector, inclined theta - alpha_i from the surface normal; its difference from the ideal plane inclination is the crystallite tilt.
+      warrant_basis: DEFINITION
+      support_strength: INTERMEDIATE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The tilt axis is not determined, and a 1.3 deg offset between gamma and the GaAs(311) inclination is called 'close alignment' without error estimate; the tilt carries at least that uncertainty."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The arithmetic of Eq. (1) recomputes and excludes cube-on-cube (100) growth for the diffracting grains, but one reflection at one geometry gives one angle, not an orientation, and other orientations (e.g. near (311) or (211)) could produce a (220) normal near 27 deg."
+
+  - id: delmont2026:CLAIM11
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    section: p. 5
+    paper_part: DISCUSSION
+    text: Volmer-Weber island growth of c-BAs on GaAs proceeds by nucleation of crystallites in a single tilted low-misfit orientation, and the tilt results from strain relaxation under the lattice mismatch.
+    about: [ent:Tilt, ent:VolmerWeber, ent:Mismatch]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The misfit of the proposed tilted orientation is never computed, so 'low-misfit' is asserted."}
+      - {concern_type: OVERGENERALIZATION, description: "'Single orientation' is inferred from one reflection; other orientations would need other reflections or a pole figure to be excluded."}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The mismatch is called compressive here and tensile in the introduction; c-BAs has the smaller lattice, so a coherent film would be in tension."}
+      - {concern_type: CAUSAL_OVERREACH, description: "Strain relaxation as the cause of the tilt is not tested (no strain measurement, no thickness series)."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The tilt is measured, but the paper neither computes the misfit of the tilted orientation nor shows that only one orientation is present, so the mechanism is a proposal."
+      missing_evidence:
+        - "Coincidence-lattice misfit calculation for the proposed tilted orientation"
+        - "Pole figures or cross-sectional diffraction showing a single orientation"
+
+  # ---------------- Results: interface ----------------
+  - id: delmont2026:OBS13
+    statement_type: OBSERVATION
+    section: Fig. 3(a)
+    paper_part: RESULTS
+    text: HAADF-STEM with EDS maps between the islands shows Ga confined to the substrate, B confined to the film, As on both sides, and a columnar contrast in the film near the carbon cap.
+    about: [ent:HAADF, ent:EDS, ent:Interface]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 3(a)}]
+    scope: {sample_count: 1}
+  - id: delmont2026:OBS14
+    statement_type: OBSERVATION
+    section: Fig. 3(c), p. 5
+    paper_part: RESULTS
+    text: An EELS line profile shows the Ga L signal dropping to baseline and the B K signal rising within a few nanometres at the interface (about 12 nm), with B constant over the about 16 nm film up to the carbon cap (about 28 nm).
+    about: [ent:EELS, ent:Interface]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 3(c)
+        values:
+          - {symbol: x_int, quantity: interface position, value: 12, unit: nm}
+          - {symbol: x_cap, quantity: carbon cap onset, value: 28, unit: nm}
+          - {symbol: t_eels, quantity: film thickness from EELS, value: 16, unit: nm}
+        derived_checks:
+          - {expression: film thickness from profile positions, formula: "x_cap - x_int", result: 16, unit: nm}
+    scope: {sample_count: 1, scope_note: "One line profile; detection limit and probe broadening not given."}
+  - id: delmont2026:OBS15
+    statement_type: OBSERVATION
+    section: Fig. S5
+    paper_part: SUPPLEMENTARY
+    text: Pyramidal structures at the BAs/GaAs interface have lower HAADF intensity than GaAs and no Ga in EDS, but their lattice is indistinguishable from GaAs in FFT.
+    about: [ent:HAADF, ent:Interface]
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. S5}]
+
+  - id: delmont2026:CLAIM12
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    section: Abstract, p. 5
+    paper_part: RESULTS
+    text: The c-BAs/GaAs heterointerface is chemically sharp, with no gallium interdiffusion into the c-BAs layer.
+    about: [ent:Interface]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Interface width and Ga detection limit are not quantified; evidence is one EELS line profile and one EDS map from the region between islands (A3)."}
+    assessment:
+      validity: "YES"
+      rationale: "EELS, EDS and the XPS survey independently show Ga confined to the substrate with an abrupt B/Ga transition at the measured location, which is what the claim states; quantification of width and detection limit would strengthen it."
+      missing_evidence:
+        - "Interface width from several EELS profiles, with Ga detection limit"
+      proof_obligations:
+        - text: Show Ga is absent from the film.
+          obligation_status: DISCHARGED
+          discharged_by: [delmont2026:OBS4, delmont2026:OBS13, delmont2026:OBS14]
+        - text: Show the transition is abrupt and representative of the film.
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [delmont2026:OBS14]
+          priority: MEDIUM
+          requested_data:
+            - {quantity: interface width (10-90 %), unit: nm, method: EELS line profiles at several locations including under islands}
+
+  - id: delmont2026:LIM2
+    statement_type: LIMITATION
+    limitation_kind: METHOD
+    section: p. 5, Fig. S5
+    paper_part: RESULTS
+    text: The structures at the interface cannot be conclusively determined as c-BAs or GaAs.
+    about: [ent:Interface]
+
+  # ---------------- Discussion / conclusion ----------------
+  - id: delmont2026:LIM3
+    statement_type: LIMITATION
+    limitation_kind: SCOPE
+    section: p. 5
+    paper_part: CONCLUSION
+    text: Practical devices need further growth optimization, and grain boundary scattering and defects must be overcome before thin films can reach the high thermal conductivity of c-BAs.
+    about: [ent:cBAs]
+    evidence: [{evidence_kind: CITATION, references: ["33"]}]
+  - id: delmont2026:CLAIM14
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: PROPOSED
+    section: Abstract, p. 5
+    paper_part: CONCLUSION
+    text: The results establish an initial step toward integrating c-BAs into thermal-management and optoelectronic platforms.
+    about: [ent:cBAs]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERCLAIM, description: "No thermal conductivity, carrier or optical property of the film is measured; the authors' own LIM3 says grain boundaries and defects stand between these films and the thermal application."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Outlook dressed as a conclusion: the paper measures no functional property, so whether these boron-rich, tilted nanocrystalline films are a step toward thermal or optoelectronic use is not decided by its data."
+      missing_evidence:
+        - "Thermal conductivity of the film (e.g. TDTR) and thermal boundary conductance to GaAs"
+      proof_obligations:
+        - text: Show a functional property relevant to thermal management (film thermal conductivity or interface conductance).
+          obligation_status: OPEN
+          discharged_by: []
+          priority: HIGH
+          requested_data:
+            - {quantity: thermal conductivity, unit: W/mK, method: TDTR or FDTR}
+            - {quantity: thermal boundary conductance, unit: MW/m^2K, method: TDTR}
+  - id: delmont2026:OUT1
+    statement_type: OUTLOOK
+    section: p. 5
+    paper_part: CONCLUSION
+    text: With advances in interfacial engineering, stoichiometry control and microstructural tailoring, c-BAs heterostructures could serve as integrated heat spreaders and active semiconductor layers.
+    about: [ent:cBAs]
+  - id: delmont2026:Q1
+    statement_type: QUESTION
+    priority: HIGH
+    paper_part: DISCUSSION
+    text: What is the thermal conductivity of the nanocrystalline c-BAs films and how strongly do grain boundaries and excess boron reduce it?
+    note: Formulated by the annotator from LIM3.
+  - id: delmont2026:Q2
+    statement_type: QUESTION
+    priority: CRITICAL
+    paper_part: DISCUSSION
+    text: Is the excess boron in films grown at 300-390 C a surface artefact or bulk amorphous boron or subarsenide?
+    note: Formulated by the annotator from CLAIM5 and LIM1.
+
+relations:
+  # motivation
+  - {id: delmont2026:R1, subject: delmont2026:BG1, predicate: MOTIVATES, object: delmont2026:GAP1, asserted_by: AUTHORS}
+  - {id: delmont2026:R2, subject: delmont2026:BG4, predicate: MOTIVATES, object: delmont2026:GAP1, asserted_by: AUTHORS}
+  - {id: delmont2026:R3, subject: delmont2026:BG5, predicate: MOTIVATES, object: delmont2026:GAP1, asserted_by: AUTHORS}
+  - {id: delmont2026:R4, subject: delmont2026:GAP1, predicate: MOTIVATES, object: delmont2026:HYP1, asserted_by: AUTHORS}
+  - {id: delmont2026:R5, subject: delmont2026:BG2, predicate: MOTIVATES, object: delmont2026:CLAIM14, asserted_by: AUTHORS}
+  - {id: delmont2026:R6, subject: delmont2026:BG3, predicate: MOTIVATES, object: delmont2026:CLAIM14, asserted_by: AUTHORS}
+  # method dependencies
+  - {id: delmont2026:R7, subject: delmont2026:OBS1, predicate: DEPENDS_ON, object: delmont2026:METH2, asserted_by: AUTHORS}
+  - {id: delmont2026:R8, subject: delmont2026:OBS1, predicate: DEPENDS_ON, object: delmont2026:A1, asserted_by: ANNOTATOR}
+  - {id: delmont2026:R9, subject: delmont2026:CLAIM1, predicate: DEPENDS_ON, object: delmont2026:A2, asserted_by: ANNOTATOR}
+  - {id: delmont2026:R10, subject: delmont2026:CLAIM12, predicate: DEPENDS_ON, object: delmont2026:A3, asserted_by: ANNOTATOR}
+  - {id: delmont2026:R11, subject: delmont2026:CLAIM2, predicate: DEPENDS_ON, object: delmont2026:A3, asserted_by: ANNOTATOR}
+  # growth window
+  - {id: delmont2026:R12, subject: delmont2026:OBS1, predicate: SUPPORTS, object: delmont2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R13, subject: delmont2026:OBS5, predicate: SUPPORTS, object: delmont2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R14, subject: delmont2026:BG6, predicate: SUPPORTS, object: delmont2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: delmont2026:R15, subject: delmont2026:CLAIM4, predicate: SUPPORTS, object: delmont2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "Supports the 'suppress severe arsenic loss' part only."}
+  - {id: delmont2026:R16, subject: delmont2026:OBS1, predicate: CONTRADICTS, object: delmont2026:CLAIM3, asserted_by: ANNOTATOR, note: "Calibrated B/As about 2 at 300-390 C contradicts near stoichiometry."}
+  - {id: delmont2026:R17, subject: delmont2026:CLAIM5, predicate: CONDITIONALLY_SUPPORTS, object: delmont2026:CLAIM3, asserted_by: AUTHORS, note: "Near stoichiometry would hold only if the excess boron is an artefact."}
+  - {id: delmont2026:R18, subject: delmont2026:OBS2, predicate: SUPPORTS, object: delmont2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, warrant: {rule: "Artefacts that raise B/As on a stoichiometric crystal also raise it on the film.", warrant_basis: AUTHOR_ARGUMENT}}
+  - {id: delmont2026:R19, subject: delmont2026:OBS3, predicate: SUPPORTS, object: delmont2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: delmont2026:R20, subject: delmont2026:A1, predicate: UNDERCUTS, object: delmont2026:CLAIM5, asserted_by: ANNOTATOR, note: "If the single-crystal calibration is valid, artefacts shared with the crystal are already removed from the calibrated ratios."}
+  - {id: delmont2026:R21, subject: delmont2026:LIM1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: delmont2026:CLAIM5, asserted_by: AUTHORS}
+  - {id: delmont2026:R22, subject: delmont2026:OBS1, predicate: UNDERCUTS, object: delmont2026:CLAIM1, asserted_by: ANNOTATOR, note: "B/As about 2 at the growth temperature of the detailed film leaves excess boron beyond c-BAs."}
+  - {id: delmont2026:R23, subject: delmont2026:LIM1, predicate: QUALIFIES, object: delmont2026:CLAIM1, asserted_by: AUTHORS}
+  # coverage and growth mode
+  - {id: delmont2026:R24, subject: delmont2026:OBS4, predicate: SUPPORTS, object: delmont2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: delmont2026:R25, subject: delmont2026:OBS12, predicate: SUPPORTS, object: delmont2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: delmont2026:R26, subject: delmont2026:CLAIM10, predicate: CONTRADICTS, object: delmont2026:CLAIM6, asserted_by: ANNOTATOR, note: "An 18 deg tilt with 3.5 deg mosaic contradicts 'coherent'."}
+  - {id: delmont2026:R27, subject: delmont2026:OBS6, predicate: SUPPORTS, object: delmont2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: delmont2026:R28, subject: delmont2026:OBS7, predicate: SUPPORTS, object: delmont2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R29, subject: delmont2026:BG7, predicate: SUPPORTS, object: delmont2026:CLAIM7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R30, subject: delmont2026:OBS12, predicate: QUALIFIES, object: delmont2026:CLAIM7, asserted_by: ANNOTATOR_BACKGROUND, note: "A continuous 15-20 nm film between islands is also consistent with Stranski-Krastanov (layer plus island) growth."}
+  - {id: delmont2026:R31, subject: delmont2026:BG7, predicate: SUPPORTS, object: delmont2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R32, subject: delmont2026:GAP1, predicate: SUPPORTS, object: delmont2026:CLAIM8, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, note: "The 15.5 % mismatch is the only quantitative input."}
+  - {id: delmont2026:R33, subject: delmont2026:OBS5, predicate: ALTERNATIVE_EXPLANATION_FOR, object: delmont2026:CLAIM8, asserted_by: ANNOTATOR_BACKGROUND, note: "Low adatom mobility (kinetic roughening), named in Fig. S2 for 260 C, can also produce 3D growth."}
+  - {id: delmont2026:R34, subject: delmont2026:CLAIM8, predicate: SUPPORTS, object: delmont2026:CLAIM7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R35, subject: delmont2026:METH1, predicate: SUPPORTS, object: delmont2026:CLAIM13, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R36, subject: delmont2026:CLAIM7, predicate: SUPPORTS, object: delmont2026:CLAIM13, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  # structure and orientation
+  - {id: delmont2026:R37, subject: delmont2026:OBS8, predicate: SUPPORTS, object: delmont2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R38, subject: delmont2026:OBS7, predicate: SUPPORTS, object: delmont2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "Spots show crystallinity, not phase."}
+  - {id: delmont2026:R39, subject: delmont2026:LIM2, predicate: QUALIFIES, object: delmont2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: delmont2026:R40, subject: delmont2026:OBS13, predicate: SUPPORTS, object: delmont2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R41, subject: delmont2026:OBS11, predicate: SUPPORTS, object: delmont2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: delmont2026:R42, subject: delmont2026:OBS10, predicate: SUPPORTS, object: delmont2026:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R43, subject: delmont2026:OBS11, predicate: SUPPORTS, object: delmont2026:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R44, subject: delmont2026:OBS9, predicate: SUPPORTS, object: delmont2026:CLAIM10, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R45, subject: delmont2026:OBS8, predicate: SUPPORTS, object: delmont2026:CLAIM10, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R46, subject: delmont2026:CLAIM10, predicate: SUPPORTS, object: delmont2026:CLAIM11, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R47, subject: delmont2026:CLAIM9, predicate: SUPPORTS, object: delmont2026:CLAIM11, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R48, subject: delmont2026:CLAIM7, predicate: SUPPORTS, object: delmont2026:CLAIM11, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R49, subject: delmont2026:CLAIM10, predicate: SUPPORTS, object: delmont2026:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  # interface
+  - {id: delmont2026:R50, subject: delmont2026:OBS14, predicate: SUPPORTS, object: delmont2026:CLAIM12, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: delmont2026:R51, subject: delmont2026:OBS13, predicate: SUPPORTS, object: delmont2026:CLAIM12, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: delmont2026:R52, subject: delmont2026:OBS4, predicate: SUPPORTS, object: delmont2026:CLAIM12, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: delmont2026:R53, subject: delmont2026:OBS15, predicate: QUALIFIES, object: delmont2026:CLAIM12, asserted_by: AUTHORS, note: "Unidentified Ga-free structures at the interface."}
+  - {id: delmont2026:R54, subject: delmont2026:OBS15, predicate: SUPPORTS, object: delmont2026:LIM2, asserted_by: AUTHORS}
+  # to the hypothesis
+  - {id: delmont2026:R55, subject: delmont2026:CLAIM1, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R56, subject: delmont2026:CLAIM2, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R57, subject: delmont2026:CLAIM3, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: delmont2026:R58, subject: delmont2026:CLAIM6, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: delmont2026:R59, subject: delmont2026:CLAIM9, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: delmont2026:R60, subject: delmont2026:CLAIM12, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: delmont2026:R61, subject: delmont2026:CLAIM7, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: delmont2026:R62, subject: delmont2026:OBS1, predicate: UNDERCUTS, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "Boron-rich composition of the detailed film."}
+  - {id: delmont2026:R63, subject: delmont2026:DATA2, predicate: QUALIFIES, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "All structural evidence comes from one film."}
+  # conclusion
+  - {id: delmont2026:R64, subject: delmont2026:HYP1, predicate: SUPPORTS, object: delmont2026:CLAIM14, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, warrant: {rule: "A crystalline, Ga-free c-BAs film on GaAs is a prerequisite for thermal and optoelectronic integration.", warrant_basis: AUTHOR_ARGUMENT}}
+  - {id: delmont2026:R65, subject: delmont2026:LIM3, predicate: UNDERCUTS, object: delmont2026:CLAIM14, asserted_by: AUTHORS}
+  - {id: delmont2026:R66, subject: delmont2026:CLAIM14, predicate: MOTIVATES, object: delmont2026:OUT1, asserted_by: AUTHORS}
+  - {id: delmont2026:R67, subject: delmont2026:LIM3, predicate: MOTIVATES, object: delmont2026:Q1, asserted_by: ANNOTATOR}
+  - {id: delmont2026:R68, subject: delmont2026:LIM1, predicate: MOTIVATES, object: delmont2026:Q2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper shows a continuous, Ga-free boron-arsenic film on GaAs(100) with a chemically
+    abrupt interface (EELS, EDS, XPS; CLAIM12), three-dimensional island growth (AFM, RHEED)
+    and a strongly textured diffraction peak at the c-BAs(220) position; its diffraction
+    geometry recomputes. The headline 'near-stoichiometric window of 250-400 C' (CLAIM3) is
+    contradicted by its own Fig. 1(a), which gives calibrated B/As of about 2 at the growth
+    temperature of the analysed film. Phase identity and nanocrystallinity (CLAIM1, CLAIM2)
+    rest on a single reflection and columnar contrast, and Volmer-Weber growth, the single
+    low-misfit tilted orientation and the integration claim are argued rather than shown
+    (CLAIM7, CLAIM11, CLAIM14). This is an independent draft annotation; figure values were read
+    by eye from rendered pages, and the substrate-symmetry and SK-vs-VW points rest on
+    annotator background knowledge (ANNOTATOR_BACKGROUND links).
+  key_limitations:
+    - "Own XPS data contradict near stoichiometry: B/As about 2 at 300-390 C after oxide removal (OBS1 vs CLAIM3), and the artefact explanation double-counts the single-crystal calibration (CLAIM5, A1)."
+    - "Phase identification of c-BAs rests on one GIXRD reflection, 0.12 deg off its bulk position, without Raman or lattice-resolved TEM (CLAIM1, OBS8, LIM2)."
+    - "All structural evidence comes from one film, and TEM sampled only the regions between islands (DATA2, A3)."
+    - "Orientation analysis: azimuthal scan does not separate film and substrate, no symmetry variants, tilt from one reflection, 'low-misfit' never computed, and the mismatch is called tensile and compressive in different places (CLAIM9, CLAIM10, CLAIM11, GAP1)."
+    - "No functional (thermal or electronic) property is measured, so the integration claim is an outlook (CLAIM14, LIM3)."
+  missing_evidence:
+    - "Raman spectrum and additional diffraction reflections or pole figures of the film"
+    - "Bulk-sensitive composition (RBS or quantitative EELS) across the growth window"
+    - "Grain size from TEM or XRD broadening"
+    - "Sub-nanometre-coverage RHEED/AFM to test for a wetting layer"
+    - "Constant-temperature growth control for the temperature-ramp route"
+    - "Film thermal conductivity (TDTR)"
+  score_method: see scripts/render.py

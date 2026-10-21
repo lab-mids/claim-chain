@@ -1,0 +1,1000 @@
+id: claimchain:chain/arXiv2610.26996
+schema_version: 0.4.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF; assessments removed for blind rubric assessment
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.26996
+  title: Tailoring Dielectric Relaxation and Charge Transport in Amorphous Ge-Te-Se Phase-Change Materials through Yttrium Incorporation
+  authors:
+  - Surbhi Agarwal
+  - Jiří Vacík
+  - D. K. Dwivedi
+  year: 2026
+  arxiv: '2610.26996'
+  url: https://arxiv.org/abs/2610.26996
+entities:
+- id: ent:TGSY
+  label: Te(1-x)(GeSe0.5)Yx glassy alloy (x = 0.05, 0.10, 0.15)
+  entity_type: MATERIAL
+- id: ent:GeTeSe
+  label: Ge-Te-Se chalcogenide glass
+  entity_type: MATERIAL
+- id: ent:Yttrium
+  label: yttrium dopant
+  entity_type: MATERIAL
+- id: ent:MeltQuench
+  label: melt quenching
+  entity_type: METHOD
+- id: ent:Pellet
+  label: cold-pressed pellet from ground glass powder
+  entity_type: PROCESSING_STATE
+- id: ent:DielectricSpectroscopy
+  label: dielectric / impedance spectroscopy (1 Hz - 1 MHz)
+  entity_type: TECHNIQUE
+- id: ent:CBH
+  label: correlated barrier hopping model
+  entity_type: CONCEPT
+- id: ent:Giuntini
+  label: Giuntini dielectric dispersion model
+  entity_type: CONCEPT
+- id: ent:ColeCole
+  label: Cole-Cole analysis
+  entity_type: METHOD
+- id: ent:AustinMott
+  label: Austin-Mott relation for N(EF)
+  entity_type: METHOD
+- id: ent:eps1
+  label: dielectric constant epsilon_1
+  entity_type: QUANTITY
+- id: ent:eps2
+  label: dielectric loss epsilon_2
+  entity_type: QUANTITY
+- id: ent:sigmaAC
+  label: ac conductivity
+  entity_type: QUANTITY
+- id: ent:s
+  label: frequency exponent s of ac conductivity
+  entity_type: QUANTITY
+- id: ent:Wm
+  label: maximum barrier height W_m
+  entity_type: QUANTITY
+- id: ent:NEF
+  label: density of localized states at the Fermi level N(EF)
+  entity_type: QUANTITY
+- id: ent:PCM
+  label: phase-change memory
+  entity_type: CONCEPT
+statements:
+- id: agarwal2026:BG1
+  statement_type: BACKGROUND
+  section: Sec. 1
+  paper_part: INTRODUCTION
+  text: Phase-change memory relies on reversible switching of chalcogenides between amorphous and crystalline states with large electrical and optical contrast.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - 1-5
+  about:
+  - ent:PCM
+- id: agarwal2026:BG2
+  statement_type: BACKGROUND
+  section: Sec. 1
+  paper_part: INTRODUCTION
+  text: GeTeSe0.5 is a promising phase-change memory composition, and Se addition raises the crystallization temperature and stabilizes the amorphous phase.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - 6-8
+    - '12'
+  about:
+  - ent:GeTeSe
+- id: agarwal2026:BG3
+  statement_type: BACKGROUND
+  section: Sec. 1
+  paper_part: INTRODUCTION
+  text: Rare-earth elements such as yttrium modify the local structure and electronic properties of chalcogenide glasses, influencing polarization, charge transport and thermal stability.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - 12-14
+  about:
+  - ent:Yttrium
+- id: agarwal2026:BG4
+  statement_type: BACKGROUND
+  section: Sec. 1, 3
+  paper_part: INTRODUCTION
+  text: The correlated barrier hopping (CBH) model, in which electrons hop between charged defect states D+ and D- over a Coulomb barrier, describes ac conduction in many Ge-based chalcogenide glasses;
+    its signature is a frequency exponent s < 1 that decreases with increasing temperature.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - 15-17
+    - 24-26
+  about:
+  - ent:CBH
+  - ent:s
+- id: agarwal2026:GAP1
+  statement_type: GAP
+  section: Sec. 1
+  paper_part: INTRODUCTION
+  text: The influence of yttrium incorporation on dielectric relaxation and ac conduction of Ge-Te-Se alloys has received little attention.
+  evidence:
+  - evidence_kind: ARGUMENT
+    description: No literature survey given.
+  about:
+  - ent:GeTeSe
+  - ent:Yttrium
+- id: agarwal2026:HYP1
+  statement_type: HYPOTHESIS
+  claim_role: MAIN_CONCLUSION
+  section: Sec. 1, Abstract
+  paper_part: INTRODUCTION
+  text: Yttrium incorporation tailors the dielectric relaxation and ac conduction of Te(1-x)(GeSe0.5)Yx glasses, whose conduction is governed by correlated barrier hopping, making them promising phase-change
+    memory materials.
+  about:
+  - ent:TGSY
+  - ent:CBH
+  - ent:PCM
+  claim_modality: CAUSAL
+  assessment:
+    validity: PARTIAL
+    rationale: Fig. 9/Tables 1-3 show that dielectric and ac properties change with Y content (confounded with Te, one sample each). The CBH part conflicts with the reported W_m, and no phase-change property
+      is measured to support the PCM part.
+    criteria:
+      grounded: PARTLY
+      scope_matches: NOT_MET
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: PARTLY
+      consistent: PARTLY
+      criteria_note: Y-dependent changes are measured, but CBH is contradicted by the paper's own W_m and PCM suitability is never measured.
+- id: agarwal2026:ASM1
+  statement_type: ASSUMPTION
+  section: Sec. 1, 3
+  paper_part: INTRODUCTION
+  text: The CBH model is adopted a priori as the conduction model because it has described other Ge-based chalcogenide glasses well.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - 15-17
+  about:
+  - ent:CBH
+  assumption_basis: AUTHOR_CHOICE
+  open_question: Would QMT, OLPT or small-polaron models fit the s(T) and epsilon_2 data equally well?
+- id: agarwal2026:METH1
+  statement_type: METHOD
+  section: Sec. 2
+  paper_part: METHODS
+  text: Te(1-x)(GeSe0.5)Yx (x = 0.05, 0.10, 0.15) is synthesized from >99.999 % elements in evacuated quartz ampoules at 1000 C for 10-12 h with rocking and quenched in ice water.
+  about:
+  - ent:TGSY
+  - ent:MeltQuench
+- id: agarwal2026:ASM2
+  statement_type: ASSUMPTION
+  section: Sec. 2
+  paper_part: METHODS
+  text: The melt-quenched alloys are amorphous (glassy) and measured below their glass transition temperature.
+  evidence:
+  - evidence_kind: NONE
+    description: No XRD, DSC or other structural characterization reported; Tg not given.
+  about:
+  - ent:TGSY
+  assumption_basis: AUTHOR_CHOICE
+  open_question: Are the Y-containing alloys fully amorphous, or do they contain crystalline Te or Y-rich phases that would change the dielectric response?
+  concerns:
+  - concern_type: UNTESTED_ASSERTION
+    description: Amorphous state and 'below Tg' are asserted but never verified.
+- id: agarwal2026:METH2
+  statement_type: METHOD
+  section: Sec. 2
+  paper_part: METHODS
+  text: The glass is ground and cold-pressed into pellets (10 mm diameter, ~1.2 mm thick, >5 t load) for dielectric measurements.
+  about:
+  - ent:Pellet
+- id: agarwal2026:METH3
+  statement_type: METHOD
+  section: Sec. 2
+  paper_part: METHODS
+  text: Impedance, capacitance, loss tangent and phase angle are measured with a Solartron SI 1260 from 1 Hz to 1 MHz and 302-422 K under ~1e-3 Torr; epsilon_1, epsilon_2 and sigma_ac are computed from
+    standard relations.
+  evidence:
+  - evidence_kind: ARGUMENT
+    locator: Eq. 1-3
+  about:
+  - ent:DielectricSpectroscopy
+  - ent:eps1
+  - ent:eps2
+  - ent:sigmaAC
+- id: agarwal2026:METH4
+  statement_type: METHOD
+  section: Sec. 3, 4.2, 4.3
+  paper_part: THEORY
+  text: The loss exponent m (epsilon_2 = A omega^m) gives W_m via the Giuntini model, the conductivity exponent s comes from Jonscher's power law, relaxation parameters come from Cole-Cole fits, and N(EF)
+    from the Austin-Mott relation.
+  evidence:
+  - evidence_kind: CITATION
+    references:
+    - '2'
+    - 21-23
+    - '27'
+    - '28'
+    locator: Eq. 4-16
+  about:
+  - ent:Giuntini
+  - ent:ColeCole
+  - ent:AustinMott
+  - ent:Wm
+  - ent:NEF
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: Cross-references to equations are wrong (Jonscher law cited as Eq. 5, activation energy as Eq. 13, epsilon_2 power law as 'relation (2)'); two equations are numbered (19) and (20).
+  - concern_type: REPRODUCIBILITY
+    description: Reference 23 (Jonscher law) is empty; refs 1, 2 and 33 are duplicates.
+- id: agarwal2026:DATA1
+  statement_type: DATA
+  section: Sec. 2, 4
+  paper_part: METHODS
+  text: One pellet per composition (three compositions) is measured over 1 Hz - 1 MHz; tabulated Cole-Cole parameters cover 302-342 K.
+  scope:
+    materials:
+    - ent:TGSY
+    techniques:
+    - ent:DielectricSpectroscopy
+    sample_count: 3
+    scope_note: No repeat samples, no error bars, no undoped GeTeSe0.5 reference measured. Data available on request only.
+- id: agarwal2026:OBS1
+  statement_type: OBSERVATION
+  section: Sec. 4.1, 4.2
+  paper_part: RESULTS
+  text: For all three compositions, epsilon_1 and epsilon_2 decrease with increasing frequency and increase with increasing temperature.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 2, Fig. 3
+  about:
+  - ent:eps1
+  - ent:eps2
+- id: agarwal2026:CLAIM1
+  statement_type: CLAIM
+  claim_role: INTERMEDIATE
+  section: Sec. 4.1, 4.2
+  paper_part: RESULTS
+  text: The dielectric dispersion in 1 Hz - 1 MHz is dominated by dipolar and space-charge polarization, with loss from carriers hopping between D+ and D- defect states.
+  evidence:
+  - evidence_kind: ARGUMENT
+  - evidence_kind: CITATION
+    references:
+    - '25'
+    - 29-31
+    - 36-39
+  about:
+  - ent:eps1
+  - ent:eps2
+  claim_modality: CAUSAL
+  concerns:
+  - concern_type: CAUSAL_OVERREACH
+    description: Mechanism inferred from generic frequency/temperature trends that many mechanisms (including electrode polarization) produce.
+  assessment:
+    validity: INCONCLUSIVE
+    rationale: The decrease of eps_1 and eps_2 with frequency is shown, but many mechanisms produce it and no measurement in the paper identifies dipolar/space-charge polarization or D+/D- hopping as the
+      dominant source.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: NOT_APPLICABLE
+      consistent: MET
+      criteria_note: Generic frequency/temperature trends plus citations; electrode or Maxwell-Wagner polarization is not separated from dipolar/D+D- hopping loss.
+- id: agarwal2026:OBS2
+  statement_type: OBSERVATION
+  section: Sec. 4.1, Table 1
+  paper_part: RESULTS
+  text: The temperature coefficient of permittivity at 1 kHz and room temperature decreases with Y content from 0.11 to 0.02 per K.
+  evidence:
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 1
+    values:
+    - quantity: TCP
+      value: 0.11
+      unit: 1/K
+      condition: x = 0.05
+    - quantity: TCP
+      value: 0.07
+      unit: 1/K
+      condition: x = 0.10
+    - quantity: TCP
+      value: 0.02
+      unit: 1/K
+      condition: x = 0.15
+- id: agarwal2026:OBS3
+  statement_type: OBSERVATION
+  section: Sec. 4.2, Table 1
+  paper_part: RESULTS
+  text: The maximum barrier height W_m obtained from the loss exponent m decreases with Y content, from 29.32 meV (x = 0.05) to 24.15 meV (x = 0.10) and 18.09 meV (x = 0.15).
+  evidence:
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Fig. 4, Table 1
+    values:
+    - quantity: W_m
+      value: 29.32
+      unit: meV
+      condition: x = 0.05
+    - quantity: W_m
+      value: 24.15
+      unit: meV
+      condition: x = 0.10
+    - quantity: W_m
+      value: 18.09
+      unit: meV
+      condition: x = 0.15
+  about:
+  - ent:Wm
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: W_m of 18-29 meV is comparable to kT (~26 meV at 302 K), so the stated condition W_m >> kT fails, and Eq. 14 (s = 1 - 6kT/W_m) would give negative s, contradicting OBS5 (0 < s < 1). Typical
+      CBH barriers are 0.1-1 eV.
+- id: agarwal2026:OBS4
+  statement_type: OBSERVATION
+  section: Sec. 4.3, Table 2
+  paper_part: RESULTS
+  text: Cole-Cole plots of all compositions are depressed semicircles; x = 0.05 shows two arcs, x = 0.10 partially overlapping arcs, and x = 0.15 a single arc, and the relaxation time decreases with temperature.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 5, Fig. 6
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 2
+    values:
+    - quantity: tau_0
+      value: 0.00426
+      unit: s
+      condition: x = 0.05, 302 K
+    - quantity: tau_0
+      value: 0.00042
+      unit: s
+      condition: x = 0.05, 342 K
+  about:
+  - ent:ColeCole
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: Table 2 lists epsilon_inf > epsilon_s for x = 0.15 at 302 K (35.5 vs 33.7) and x = 0.10 at 342 K (46.5 vs 46.4), which is unphysical for a relaxation. The distribution parameter alpha announced
+      in the text is not tabulated.
+- id: agarwal2026:OBS10
+  statement_type: OBSERVATION
+  section: Sec. 4.3, Table 1
+  paper_part: RESULTS
+  text: The activation energy of dielectric relaxation is reported as 5.2, 4.6 and 3.9 eV for x = 0.05, 0.10 and 0.15.
+  evidence:
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 1
+    values:
+    - quantity: activation energy of relaxation
+      value: 5.2
+      unit: eV
+      condition: x = 0.05
+    - quantity: activation energy of relaxation
+      value: 4.6
+      unit: eV
+      condition: x = 0.10
+    - quantity: activation energy of relaxation
+      value: 3.9
+      unit: eV
+      condition: x = 0.15
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: Several eV is implausible for a relaxation whose tau drops ~10x between 302 and 342 K (that corresponds to ~0.6 eV); units or values appear wrong.
+- id: agarwal2026:CLAIM2
+  statement_type: CLAIM
+  claim_role: INTERMEDIATE
+  section: Sec. 4.3, 5
+  paper_part: RESULTS
+  text: The TGSY glasses show non-Debye, thermally activated dielectric relaxation with a distribution of relaxation times arising from structural disorder.
+  about:
+  - ent:TGSY
+  - ent:ColeCole
+  claim_modality: CAUSAL
+  assessment:
+    validity: PARTIAL
+    rationale: Non-Debye, thermally activated relaxation is supported by the depressed Cole-Cole arcs, broad Z'' peaks and falling tau with T. The tabulated activation energies (3.9-5.2 eV) and eps_inf
+      > eps_s are inconsistent, and attributing the spread to structural disorder rather than to pellet interfaces is not tested.
+    criteria:
+      grounded: MET
+      scope_matches: MET
+      inference_sound: PARTLY
+      alternatives_excluded: PARTLY
+      quantified: PARTLY
+      consistent: PARTLY
+      criteria_note: Depressed arcs, broad Z'' peaks and tau(T) are shown, but alpha is not tabulated and Ea of several eV and eps_inf > eps_s are unphysical.
+- id: agarwal2026:CLAIM3
+  statement_type: CLAIM
+  claim_role: INTERMEDIATE
+  section: Sec. 4.3, 5
+  paper_part: RESULTS
+  text: Y incorporation enhances electrical homogeneity, so the impedance response changes from separate bulk and grain-boundary/interface contributions (x = 0.05) to bulk-dominated (x = 0.15).
+  about:
+  - ent:Yttrium
+  - ent:TGSY
+  claim_modality: CAUSAL
+  concerns:
+  - concern_type: UNACKNOWLEDGED_CONFLICT
+    description: The phase-angle analysis (OBS11) reports a single relaxation for x = 0.05 and a shoulder for x = 0.10, yet is said to agree with Cole-Cole, which shows two arcs for x = 0.05.
+  - concern_type: CONFOUNDED_COMPARISON
+    description: '''Grain boundaries'' in a pressed powder pellet are powder-particle interfaces; their contribution depends on pressing, not only on Y content.'
+  assessment:
+    validity: PARTIAL
+    rationale: The Cole-Cole arcs change from two to one with Y, but no equivalent-circuit fit values are given and pressed-pellet interfaces are a confounder. The paper's own phase-angle spectra (one process
+      for x = 0.05, shoulder for x = 0.10) disagree with the Cole-Cole sequence.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: NOT_MET
+      consistent: NOT_MET
+      criteria_note: Phase-angle analysis shows a single process for x = 0.05 where Cole-Cole shows two arcs; pellet interfaces are not controlled for.
+- id: agarwal2026:OBS5
+  statement_type: OBSERVATION
+  section: Sec. 4.3.1
+  paper_part: RESULTS
+  text: sigma_ac increases with frequency following Jonscher's power law, and the exponent s stays below 1 and decreases with increasing temperature for all compositions.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 7a,b
+  about:
+  - ent:sigmaAC
+  - ent:s
+- id: agarwal2026:OBS6
+  statement_type: OBSERVATION
+  section: Sec. 4.3.1, Table 3
+  paper_part: RESULTS
+  text: N(EF) at 10 kHz from the Austin-Mott relation increases with Y content and with temperature, from 1.3e23 to 3.1e23 m^-3 at 302 K across x = 0.05-0.15.
+  evidence:
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 3
+    values:
+    - quantity: N(EF)
+      value: 1.318e+23
+      unit: m^-3
+      condition: x = 0.05, 302 K
+    - quantity: N(EF)
+      value: 2.114e+23
+      unit: m^-3
+      condition: x = 0.10, 302 K
+    - quantity: N(EF)
+      value: 3.139e+23
+      unit: m^-3
+      condition: x = 0.15, 302 K
+  about:
+  - ent:NEF
+  - ent:AustinMott
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: N(EF) is a material property, yet it rises ~2.4x between 302 and 342 K; the Austin-Mott relation is a tunnelling-type expression, not CBH, so it is not consistent with the adopted model.
+- id: agarwal2026:OBS7
+  statement_type: OBSERVATION
+  section: Sec. 4.3.2
+  paper_part: RESULTS
+  text: sigma_ac increases with temperature with approximately linear Arrhenius plots, and the ac activation energy decreases with increasing frequency.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 8a,b
+  about:
+  - ent:sigmaAC
+- id: agarwal2026:CLAIM4
+  statement_type: CLAIM
+  claim_role: MECHANISTIC_INTERPRETATION
+  section: Sec. 4.3.1, 4.3.2, 5
+  paper_part: RESULTS
+  text: The ac conduction in TGSY glasses is governed by correlated barrier hopping between D+ and D- localized defect states.
+  about:
+  - ent:CBH
+  - ent:TGSY
+  claim_modality: CAUSAL
+  concerns:
+  - concern_type: UNACKNOWLEDGED_CONFLICT
+    description: The reported W_m (OBS3) is too small to be consistent with the CBH formula for s; with W_m ~ kT, CBH would predict s << 0.
+  - concern_type: UNTESTED_ASSERTION
+    description: Competing models (QMT, OLPT, NSPT) are listed but not fitted or excluded quantitatively.
+  assessment:
+    validity: PARTIAL
+    rationale: The qualitative CBH signature (s < 1 decreasing with T, Ea falling with frequency) is shown. The paper's own barrier heights are incompatible with its CBH formula for s, and competing hopping
+      models are not excluded quantitatively.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: PARTLY
+      consistent: NOT_MET
+      criteria_note: s < 1 decreasing with T fits CBH qualitatively, but W_m = 18-29 meV ~ kT gives s < 0 via Eq. 14; QMT/OLPT/NSPT are not fitted.
+- id: agarwal2026:OBS8
+  statement_type: OBSERVATION
+  section: Sec. 4.3.3
+  paper_part: RESULTS
+  text: epsilon_1, epsilon_2 and sigma_ac all increase systematically with Y content from x = 0.05 to x = 0.15.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 9
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 2
+    values:
+    - quantity: epsilon_s
+      value: 20.1
+      condition: x = 0.05, 302 K
+    - quantity: epsilon_s
+      value: 27.1
+      condition: x = 0.10, 302 K
+    - quantity: epsilon_s
+      value: 33.7
+      condition: x = 0.15, 302 K
+  about:
+  - ent:eps1
+  - ent:eps2
+  - ent:sigmaAC
+  - ent:Yttrium
+  scope:
+    sample_count: 3
+- id: agarwal2026:CLAIM5
+  statement_type: CLAIM
+  claim_role: MAIN_CONCLUSION
+  section: Sec. 4.3.3, 5
+  paper_part: RESULTS
+  text: Yttrium increases the density of localized states in the mobility gap, which reduces the hopping barrier and thereby raises epsilon_1, epsilon_2 and sigma_ac.
+  evidence:
+  - evidence_kind: ARGUMENT
+    description: Lower electronegativity and larger atomic radius of Y.
+  about:
+  - ent:Yttrium
+  - ent:NEF
+  - ent:Wm
+  claim_modality: CAUSAL
+  concerns:
+  - concern_type: CAUSAL_OVERREACH
+    description: Mechanism inferred from three compositions; no structural or spectroscopic probe of defect states (e.g. optical absorption tails, XPS).
+  - concern_type: CONFOUNDED_COMPARISON
+    description: Te content decreases as Y increases, so Y and Te effects are not separated, and no Y-free reference is measured.
+  assessment:
+    validity: PARTIAL
+    rationale: N(EF) rises, W_m falls and eps_1/eps_2/sigma_ac rise with Y content, so the correlations are shown. The causal chain through added localized states is argued from electronegativity only;
+      it is confounded by Te content, and the N(EF) and W_m values themselves are questionable.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: PARTLY
+      consistent: PARTLY
+      criteria_note: Correlations of N(EF), W_m and eps with Y across three single pellets; Y and Te change together and no Y-free reference is measured.
+- id: agarwal2026:CLAIM6
+  statement_type: CLAIM
+  claim_role: MECHANISTIC_INTERPRETATION
+  section: Sec. 4.3.4, 4.3.5, 5
+  paper_part: RESULTS
+  text: The electrical response is governed predominantly by intrinsic bulk relaxation of localized carriers rather than by electrode polarization.
+  about:
+  - ent:TGSY
+  claim_modality: CAUSAL
+  concerns:
+  - concern_type: UNTESTED_ASSERTION
+    description: Electrode polarization is never tested; the phase-angle section itself attributes the low-frequency response to interfacial polarization.
+  assessment:
+    validity: INCONCLUSIVE
+    rationale: No electrode, thickness or blocking-contact test separates bulk from electrode response. The paper's own text attributes the low-frequency Z' and phase-angle behaviour and the second Cole-Cole
+      arc to interfacial/electrode contributions, so the data do not establish bulk dominance.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: NOT_MET
+      alternatives_excluded: NOT_MET
+      quantified: NOT_APPLICABLE
+      consistent: NOT_MET
+      criteria_note: Electrode polarization is never tested; the paper itself assigns the low-frequency response and the second arc for x = 0.05 to interfacial/electrode polarization.
+- id: agarwal2026:OBS9
+  statement_type: OBSERVATION
+  section: Sec. 4.3.4
+  paper_part: RESULTS
+  text: Z' decreases with frequency and temperature, and Z'' relaxation peaks shift to higher frequency with temperature and broaden with Y content.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 10
+- id: agarwal2026:OBS11
+  statement_type: OBSERVATION
+  section: Sec. 4.3.5
+  paper_part: RESULTS
+  text: Phase-angle spectra show a single broad relaxation for x = 0.05 and 0.15 and a pronounced shoulder for x = 0.10, with the minimum shifting to higher frequency as temperature rises.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 11
+- id: agarwal2026:OBS12
+  statement_type: OBSERVATION
+  section: Sec. 4.3.6
+  paper_part: RESULTS
+  text: The induced polarization, computed as P = eps0 (eps_r - 1) E at E = 400 V/m, increases with temperature, decreases with frequency, is highest for x = 0.10, and shows no maximum between 302 and 422
+    K.
+  evidence:
+  - evidence_kind: DATA_QUALITATIVE
+    locator: Fig. 12
+  concerns:
+  - concern_type: INTERNAL_INCONSISTENCY
+    description: P is a linear function of eps_r, which increases monotonically with Y (OBS8), so x = 0.15 rather than x = 0.10 should have the highest P.
+- id: agarwal2026:CLAIM7
+  statement_type: CLAIM
+  claim_role: INTERMEDIATE
+  section: Sec. 4.3.6, 5
+  paper_part: RESULTS
+  text: The x = 0.10 alloy shows the most pronounced relaxation and polarization, an optimum balance between structural disorder and charge transport.
+  about:
+  - ent:TGSY
+  claim_modality: COMPARATIVE
+  concerns:
+  - concern_type: UNACKNOWLEDGED_CONFLICT
+    description: Conflicts with OBS8 (monotonic increase of epsilon_1 and sigma_ac with Y) and with P being proportional to eps_r - 1.
+  - concern_type: MISSING_QUANTIFICATION
+    description: '''Balance between disorder and transport'' is not defined or measured.'
+  assessment:
+    validity: 'NO'
+    rationale: By the paper's own Eq. 20 and the monotonic increase of eps_1 with Y, polarization must be highest for x = 0.15, so the x = 0.10 maximum contradicts the paper's data. The 'optimum balance
+      between disorder and transport' is neither defined nor measured.
+    criteria:
+      grounded: PARTLY
+      scope_matches: NOT_MET
+      inference_sound: NOT_MET
+      alternatives_excluded: NOT_MET
+      quantified: NOT_MET
+      consistent: NOT_MET
+      criteria_note: P = eps0(eps_r-1)E with eps_r rising monotonically with Y (Fig. 9, Table 2) makes x = 0.15, not 0.10, the highest-P composition.
+- id: agarwal2026:CLAIM8
+  statement_type: CLAIM
+  claim_role: MAIN_CONCLUSION
+  section: Sec. 5, Abstract
+  paper_part: CONCLUSION
+  text: The dielectric behaviour is consistent with the Giuntini dispersion model, and the barrier heights and frequency exponents confirm CBH conduction.
+  about:
+  - ent:Giuntini
+  - ent:CBH
+  claim_modality: DESCRIPTIVE
+  concerns:
+  - concern_type: OVERCLAIM
+    description: '''Confirm'' is stronger than the qualitative agreement shown, given the inconsistent W_m values.'
+  assessment:
+    validity: PARTIAL
+    rationale: Power-law loss and s(T) agree qualitatively with the Giuntini/CBH picture. The word 'confirm' is not supported, because the reported W_m values (~kT) contradict the CBH relation used in the
+      paper.
+    criteria:
+      grounded: PARTLY
+      scope_matches: PARTLY
+      inference_sound: PARTLY
+      alternatives_excluded: NOT_MET
+      quantified: PARTLY
+      consistent: NOT_MET
+      criteria_note: Qualitative Giuntini/CBH agreement only; the barrier heights the conclusion cites as confirmation are inconsistent with the CBH s formula.
+- id: agarwal2026:CLAIM9
+  statement_type: CLAIM
+  claim_role: INTERMEDIATE
+  section: Sec. 5, Applicability
+  paper_part: CONCLUSION
+  text: Y-modified Ge-Te-Se glasses are promising candidates for phase-change memory, with Se and Y expected to improve amorphous-phase stability and crystallization control.
+  evidence:
+  - evidence_kind: ARGUMENT
+  about:
+  - ent:PCM
+  - ent:TGSY
+  claim_modality: GENERALIZATION
+  hedged: true
+  concerns:
+  - concern_type: OVERGENERALIZATION
+    description: No phase-change property (crystallization, switching, set/reset contrast, retention) is measured; dielectric data of the amorphous state alone do not establish PCM suitability.
+  assessment:
+    validity: INCONCLUSIVE
+    rationale: Only dielectric/ac data of the presumed amorphous state are presented, which do not decide PCM suitability or the expected improvement of amorphous-phase stability. The authors' own Applicability
+      section acknowledges that crystallization and switching studies are still required.
+    criteria:
+      grounded: NOT_MET
+      scope_matches: NOT_MET
+      inference_sound: NOT_MET
+      alternatives_excluded: NOT_APPLICABLE
+      quantified: NOT_APPLICABLE
+      consistent: PARTLY
+      criteria_note: No crystallization, switching, contrast or retention data; amorphous state is not verified; the paper itself says further studies are needed.
+- id: agarwal2026:LIM1
+  statement_type: LIMITATION
+  section: Applicability
+  paper_part: CONCLUSION
+  text: Further studies on crystallization kinetics, electrical switching and cycling endurance are required before PCM suitability can be established.
+  limitation_kind: SCOPE
+- id: agarwal2026:OUT1
+  statement_type: OUTLOOK
+  section: Applicability
+  paper_part: CONCLUSION
+  hedged: true
+  text: Combined Se and Y addition is expected to improve amorphous-phase thermal stability, suppress grain growth and allow better control of crystallization.
+  evidence:
+  - evidence_kind: NONE
+relations:
+- id: agarwal2026:R1
+  subject: agarwal2026:BG1
+  predicate: MOTIVATES
+  object: agarwal2026:GAP1
+  asserted_by: AUTHORS
+- id: agarwal2026:R2
+  subject: agarwal2026:BG2
+  predicate: MOTIVATES
+  object: agarwal2026:GAP1
+  asserted_by: AUTHORS
+- id: agarwal2026:R3
+  subject: agarwal2026:BG3
+  predicate: MOTIVATES
+  object: agarwal2026:GAP1
+  asserted_by: AUTHORS
+- id: agarwal2026:R4
+  subject: agarwal2026:GAP1
+  predicate: MOTIVATES
+  object: agarwal2026:HYP1
+  asserted_by: AUTHORS
+- id: agarwal2026:R5
+  subject: agarwal2026:BG4
+  predicate: MOTIVATES
+  object: agarwal2026:ASM1
+  asserted_by: AUTHORS
+- id: agarwal2026:R6
+  subject: agarwal2026:METH2
+  predicate: DEPENDS_ON
+  object: agarwal2026:METH1
+  asserted_by: AUTHORS
+- id: agarwal2026:R7
+  subject: agarwal2026:METH1
+  predicate: DEPENDS_ON
+  object: agarwal2026:ASM2
+  asserted_by: ANNOTATOR
+- id: agarwal2026:R8
+  subject: agarwal2026:METH4
+  predicate: DEPENDS_ON
+  object: agarwal2026:ASM1
+  asserted_by: AUTHORS
+- id: agarwal2026:R9
+  subject: agarwal2026:DATA1
+  predicate: DEPENDS_ON
+  object: agarwal2026:METH3
+  asserted_by: AUTHORS
+- id: agarwal2026:R10
+  subject: agarwal2026:OBS3
+  predicate: DEPENDS_ON
+  object: agarwal2026:METH4
+  asserted_by: AUTHORS
+- id: agarwal2026:R11
+  subject: agarwal2026:OBS6
+  predicate: DEPENDS_ON
+  object: agarwal2026:METH4
+  asserted_by: AUTHORS
+- id: agarwal2026:R12
+  subject: agarwal2026:OBS1
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM1
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: MEDIUM
+- id: agarwal2026:R13
+  subject: agarwal2026:BG4
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM1
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R14
+  subject: agarwal2026:OBS4
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM2
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R15
+  subject: agarwal2026:OBS9
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM2
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: INTERMEDIATE
+  uncertainty: LOW
+- id: agarwal2026:R16
+  subject: agarwal2026:OBS10
+  predicate: UNDERCUTS
+  object: agarwal2026:CLAIM2
+  asserted_by: ANNOTATOR_BACKGROUND
+  note: Activation energies of several eV are implausible for the measured tau(T)
+- id: agarwal2026:R17
+  subject: agarwal2026:OBS4
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM3
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R18
+  subject: agarwal2026:OBS11
+  predicate: UNDERCUTS
+  object: agarwal2026:CLAIM3
+  asserted_by: ANNOTATOR
+  note: Phase angle shows a single process for x = 0.05, where Cole-Cole shows two
+- id: agarwal2026:R19
+  subject: agarwal2026:METH2
+  predicate: ALTERNATIVE_EXPLANATION_FOR
+  object: agarwal2026:OBS4
+  asserted_by: ANNOTATOR_BACKGROUND
+  note: Interface arcs in pressed-powder pellets depend on pressing and particle contacts
+- id: agarwal2026:R20
+  subject: agarwal2026:OBS5
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM4
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R21
+  subject: agarwal2026:OBS7
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM4
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: MEDIUM
+- id: agarwal2026:R22
+  subject: agarwal2026:BG4
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM4
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: INTERMEDIATE
+  uncertainty: LOW
+- id: agarwal2026:R23
+  subject: agarwal2026:OBS3
+  predicate: CONTRADICTS
+  object: agarwal2026:CLAIM4
+  asserted_by: ANNOTATOR
+  note: W_m ~ kT gives s = 1 - 6kT/W_m < 0, inconsistent with the measured 0 < s < 1
+- id: agarwal2026:R24
+  subject: agarwal2026:CLAIM4
+  predicate: DEPENDS_ON
+  object: agarwal2026:ASM1
+  asserted_by: ANNOTATOR
+  uncertainty: MEDIUM
+- id: agarwal2026:R25
+  subject: agarwal2026:CLAIM4
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM8
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R26
+  subject: agarwal2026:OBS3
+  predicate: UNDERCUTS
+  object: agarwal2026:CLAIM8
+  asserted_by: ANNOTATOR
+- id: agarwal2026:R27
+  subject: agarwal2026:OBS8
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM5
+  asserted_by: AUTHORS
+  support_basis: QUANTITATIVE
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R28
+  subject: agarwal2026:OBS6
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM5
+  asserted_by: AUTHORS
+  support_basis: QUANTITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R29
+  subject: agarwal2026:OBS3
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM5
+  asserted_by: AUTHORS
+  note: Decreasing W_m with Y
+  support_basis: QUANTITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R30
+  subject: agarwal2026:OBS9
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM6
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R31
+  subject: agarwal2026:OBS11
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM6
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R32
+  subject: agarwal2026:OBS12
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM7
+  asserted_by: AUTHORS
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R33
+  subject: agarwal2026:OBS8
+  predicate: CONTRADICTS
+  object: agarwal2026:CLAIM7
+  asserted_by: ANNOTATOR
+  note: Monotonic eps_r increase implies P is highest at x = 0.15
+- id: agarwal2026:R34
+  subject: agarwal2026:OBS11
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM7
+  asserted_by: AUTHORS
+  note: Shoulder at x = 0.10
+  support_basis: QUALITATIVE
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R35
+  subject: agarwal2026:CLAIM4
+  predicate: SUPPORTS
+  object: agarwal2026:HYP1
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R36
+  subject: agarwal2026:CLAIM5
+  predicate: SUPPORTS
+  object: agarwal2026:HYP1
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: INTERMEDIATE
+  uncertainty: MEDIUM
+- id: agarwal2026:R37
+  subject: agarwal2026:CLAIM9
+  predicate: SUPPORTS
+  object: agarwal2026:HYP1
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R38
+  subject: agarwal2026:CLAIM5
+  predicate: ANSWERS
+  object: agarwal2026:GAP1
+  asserted_by: AUTHORS
+- id: agarwal2026:R39
+  subject: agarwal2026:CLAIM2
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM9
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: WEAK
+  uncertainty: HIGH
+- id: agarwal2026:R40
+  subject: agarwal2026:LIM1
+  predicate: QUALIFIES
+  object: agarwal2026:CLAIM9
+  asserted_by: AUTHORS
+- id: agarwal2026:R41
+  subject: agarwal2026:ASM2
+  predicate: DEPENDS_ON
+  object: agarwal2026:METH1
+  asserted_by: ANNOTATOR
+  note: Glass formation is assumed to follow from quenching
+- id: agarwal2026:R42
+  subject: agarwal2026:CLAIM9
+  predicate: DEPENDS_ON
+  object: agarwal2026:ASM2
+  asserted_by: ANNOTATOR
+  uncertainty: HIGH
+- id: agarwal2026:R43
+  subject: agarwal2026:OUT1
+  predicate: SUPPORTS
+  object: agarwal2026:CLAIM9
+  asserted_by: AUTHORS
+  support_basis: LOGICAL
+  support_strength: WEAK
+  uncertainty: HIGH
