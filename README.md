@@ -169,6 +169,19 @@ The examples illustrate the format only; the tool is meant for any paper. No PDF
 - `UNDERCUTS` and `CONTRADICTS` both map to `mp:challenges` in the RDF export, so the distinction is lost there.
 - The namespaces (`w3id.org/claim-chain/...`) are placeholders.
 
+## To discuss on 22 October
+
+1. **Sepideh's and Soroush's input.** How do paper-part sub-scores and support strength feed into the score?
+2. **Headline score.** Which score is the result: the plain logic score, the role-weighted one, or the graded rubric score? Do we need more verdict levels, or a link to obligation coverage?
+3. **Criteria rubric** (draft in the schema and `render.py`). Do we adopt the six questions, and should the `claimchain` prompt ask the model to fill them in?
+4. **Reliability.** Re-assessing the same claims agrees well (83 % of verdicts), but a fresh extraction finds about twice as many claims and lowers the score by about 0.1 (`docs/reliability_2026-10-21/`). Options: fix claim granularity in the prompt, make number checks mandatory, average 2-3 runs.
+5. **Contested verdicts.** Who decides when a verdict is debatable, e.g. the near-stoichiometric window of c-BAs in 2610.26996? Do we need a second reviewer or a flag for "contested"?
+6. **Evaluate `claimchain` end to end.** Run it on the ten test papers (needs an API key, budget and the PDFs) and compare with the existing drafts.
+7. **One place for scoring.** Move the derived checks and scores from `scripts/render.py` into the package (e.g. `claimchain score`), so CLI output is scored the same way.
+8. **Held-out test papers.** The review checklist was derived from the ten test papers, so judge it on new papers, e.g. retracted vs. well-regarded ones.
+9. **Argument-only claims.** Do claims backed only by argument count against internal logic?
+10. **Hackathon deliverable.** What do we show at the end: CLI demo, report for one paper, score comparison across papers?
+
 ## Background
 
 The format is loosely modelled on the Micropublications ontology (Clark et al. 2014, doi:10.1186/2041-1480-5-28) and written in [LinkML](https://linkml.io). Warrants follow Toulmin's argument model (claim, data, warrant).
