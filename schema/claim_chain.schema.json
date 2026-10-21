@@ -1,0 +1,912 @@
+{
+    "$defs": {
+        "ArgumentChain": {
+            "additionalProperties": false,
+            "description": "The full encoded argument of one publication.",
+            "properties": {
+                "annotation_date": {
+                    "format": "date",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "annotator": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "entities": {
+                    "items": {
+                        "$ref": "#/$defs/Entity"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "paper_assessment": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/PaperAssessment"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "publication": {
+                    "$ref": "#/$defs/Publication"
+                },
+                "relations": {
+                    "items": {
+                        "$ref": "#/$defs/Relation"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "schema_version": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "statements": {
+                    "items": {
+                        "$ref": "#/$defs/Statement"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "id",
+                "publication"
+            ],
+            "title": "ArgumentChain",
+            "type": "object"
+        },
+        "AssertionSource": {
+            "description": "",
+            "enum": [
+                "AUTHORS",
+                "ANNOTATOR",
+                "ANNOTATOR_BACKGROUND"
+            ],
+            "title": "AssertionSource",
+            "type": "string"
+        },
+        "Assessment": {
+            "additionalProperties": false,
+            "description": "Verdict on one claim or hypothesis: does the data presented in the paper support it?",
+            "properties": {
+                "missing_evidence": {
+                    "description": "Data or analysis that would be needed to support the statement.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "proof_obligations": {
+                    "items": {
+                        "$ref": "#/$defs/ProofObligation"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "rationale": {
+                    "type": "string"
+                },
+                "validity": {
+                    "$ref": "#/$defs/Validity"
+                }
+            },
+            "required": [
+                "validity",
+                "rationale"
+            ],
+            "title": "Assessment",
+            "type": "object"
+        },
+        "AssumptionBasis": {
+            "description": "",
+            "enum": [
+                "COMMUNITY_ACCEPTED",
+                "AUTHOR_CHOICE"
+            ],
+            "title": "AssumptionBasis",
+            "type": "string"
+        },
+        "ClaimModality": {
+            "description": "",
+            "enum": [
+                "DESCRIPTIVE",
+                "COMPARATIVE",
+                "CORRELATIONAL",
+                "CAUSAL",
+                "GENERALIZATION",
+                "CONCEPTUAL"
+            ],
+            "title": "ClaimModality",
+            "type": "string"
+        },
+        "Concern": {
+            "additionalProperties": false,
+            "description": "An annotator's (not the authors') remark on a logical weakness.",
+            "properties": {
+                "concern_type": {
+                    "$ref": "#/$defs/ConcernType"
+                },
+                "description": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "concern_type"
+            ],
+            "title": "Concern",
+            "type": "object"
+        },
+        "ConcernType": {
+            "description": "",
+            "enum": [
+                "UNTESTED_ASSERTION",
+                "OVERCLAIM",
+                "UNFALSIFIABLE_VALIDATION",
+                "CONFOUNDED_COMPARISON",
+                "AD_HOC_PARAMETER",
+                "MISSING_QUANTIFICATION",
+                "OVERGENERALIZATION",
+                "UNACKNOWLEDGED_CONFLICT",
+                "UNADDRESSED_COUNTEREVIDENCE",
+                "INTERNAL_INCONSISTENCY",
+                "REPRODUCIBILITY",
+                "CAUSAL_OVERREACH"
+            ],
+            "title": "ConcernType",
+            "type": "string"
+        },
+        "Entity": {
+            "additionalProperties": false,
+            "description": "A thing statements are about (material, technique, quantity, method, concept), defined once per paper so statements and scopes can refer to it.",
+            "properties": {
+                "description": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "entity_type": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/EntityType"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "label": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "label"
+            ],
+            "title": "Entity",
+            "type": "object"
+        },
+        "EntityType": {
+            "description": "",
+            "enum": [
+                "MATERIAL",
+                "PROCESSING_STATE",
+                "TECHNIQUE",
+                "DATA_TYPE",
+                "QUANTITY",
+                "METHOD",
+                "CONCEPT"
+            ],
+            "title": "EntityType",
+            "type": "string"
+        },
+        "Evidence": {
+            "additionalProperties": false,
+            "description": "What the paper offers in support of a statement.",
+            "properties": {
+                "description": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "evidence_kind": {
+                    "$ref": "#/$defs/EvidenceKind"
+                },
+                "locator": {
+                    "description": "Figure, table, equation or section, e.g. \"Fig. 5a\".",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "references": {
+                    "description": "Reference numbers or DOIs cited as evidence.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "values": {
+                    "items": {
+                        "$ref": "#/$defs/QuantitativeValue"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "evidence_kind"
+            ],
+            "title": "Evidence",
+            "type": "object"
+        },
+        "EvidenceKind": {
+            "description": "",
+            "enum": [
+                "CITATION",
+                "ARGUMENT",
+                "DATA_QUALITATIVE",
+                "DATA_QUANTITATIVE",
+                "NONE"
+            ],
+            "title": "EvidenceKind",
+            "type": "string"
+        },
+        "LimitationKind": {
+            "description": "",
+            "enum": [
+                "SCOPE",
+                "METHOD",
+                "DATA",
+                "INTERPRETATION",
+                "INCONSISTENCY"
+            ],
+            "title": "LimitationKind",
+            "type": "string"
+        },
+        "ObligationStatus": {
+            "description": "",
+            "enum": [
+                "OPEN",
+                "PARTIALLY_DISCHARGED",
+                "DISCHARGED"
+            ],
+            "title": "ObligationStatus",
+            "type": "string"
+        },
+        "PaperAssessment": {
+            "additionalProperties": false,
+            "description": "Paper-level result with the three outputs: logic (verdict and score), limitations, and missing evidence.",
+            "properties": {
+                "key_limitations": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "logic_score": {
+                    "description": "Computed by scripts/render.py from the claim verdicts; see score_method.",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "missing_evidence": {
+                    "description": "Data or analysis that would be needed to support the statement.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "overall_validity": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Validity"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "score_method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "summary": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "title": "PaperAssessment",
+            "type": "object"
+        },
+        "PaperPart": {
+            "description": "",
+            "enum": [
+                "ABSTRACT",
+                "INTRODUCTION",
+                "THEORY",
+                "METHODS",
+                "RESULTS",
+                "DISCUSSION",
+                "CONCLUSION",
+                "SUPPLEMENTARY"
+            ],
+            "title": "PaperPart",
+            "type": "string"
+        },
+        "ProofObligation": {
+            "additionalProperties": false,
+            "description": "Something that has to be shown for a claim to hold (reviewer's view). Open obligations are what a reviewer would ask for.",
+            "properties": {
+                "discharged_by": {
+                    "description": "Ids of statements that (partly) discharge the obligation.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "obligation_status": {
+                    "$ref": "#/$defs/ObligationStatus"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "text",
+                "obligation_status"
+            ],
+            "title": "ProofObligation",
+            "type": "object"
+        },
+        "Publication": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "arxiv": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "authors": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "doi": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "title": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "url": {
+                    "format": "uri",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "year": {
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "Publication",
+            "type": "object"
+        },
+        "QuantitativeValue": {
+            "additionalProperties": false,
+            "description": "",
+            "properties": {
+                "condition": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "quantity": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "value": {
+                    "type": "number"
+                }
+            },
+            "required": [
+                "quantity",
+                "value"
+            ],
+            "title": "QuantitativeValue",
+            "type": "object"
+        },
+        "Relation": {
+            "additionalProperties": false,
+            "description": "A directed, typed link between two statements.",
+            "properties": {
+                "asserted_by": {
+                    "$ref": "#/$defs/AssertionSource"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "object": {
+                    "description": "Id of a Statement (or, for ANALOG_OF, an Entity).",
+                    "type": "string"
+                },
+                "predicate": {
+                    "$ref": "#/$defs/RelationType"
+                },
+                "subject": {
+                    "description": "Id of a Statement (or, for ANALOG_OF, an Entity).",
+                    "type": "string"
+                },
+                "support_basis": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportBasis"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How the subject supports the object (qualitative, quantitative, logical)."
+                },
+                "support_strength": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportStrength"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How strongly the subject supports the object."
+                },
+                "uncertainty": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Uncertainty"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Qualitative uncertainty of the link itself."
+                }
+            },
+            "required": [
+                "id",
+                "subject",
+                "predicate",
+                "object",
+                "asserted_by"
+            ],
+            "title": "Relation",
+            "type": "object"
+        },
+        "RelationType": {
+            "description": "",
+            "enum": [
+                "SUPPORTS",
+                "UNDERCUTS",
+                "CONTRADICTS",
+                "QUALIFIES",
+                "ALTERNATIVE_EXPLANATION_FOR",
+                "MOTIVATES",
+                "ANSWERS",
+                "DEPENDS_ON",
+                "ANALOG_OF"
+            ],
+            "title": "RelationType",
+            "type": "string"
+        },
+        "Scope": {
+            "additionalProperties": false,
+            "description": "Conditions under which a statement was shown to hold.",
+            "properties": {
+                "crystal_structures": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "materials": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "sample_count": {
+                    "description": "Number of independent samples or datasets.",
+                    "type": [
+                        "integer",
+                        "null"
+                    ]
+                },
+                "scope_note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "techniques": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                }
+            },
+            "title": "Scope",
+            "type": "object"
+        },
+        "Statement": {
+            "additionalProperties": false,
+            "description": "One self-contained proposition, phrased so it is understandable on its own (no pronouns pointing to other statements).",
+            "properties": {
+                "about": {
+                    "description": "Entities this statement is about.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "assessment": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Assessment"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Validity verdict; expected for every CLAIM and HYPOTHESIS."
+                },
+                "assumption_basis": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/AssumptionBasis"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "For ASSUMPTION statements, where the premise comes from."
+                },
+                "claim_modality": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ClaimModality"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "What kind of statement a claim or observation makes, e.g. correlational vs. causal."
+                },
+                "concerns": {
+                    "items": {
+                        "$ref": "#/$defs/Concern"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "evidence": {
+                    "items": {
+                        "$ref": "#/$defs/Evidence"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "hedged": {
+                    "description": "True if the authors themselves hedge (\"likely\", \"we expect\").",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "limitation_kind": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/LimitationKind"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "open_question": {
+                    "description": "For ASSUMPTION statements, what remains open if the premise is questioned.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "paper_part": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/PaperPart"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Part of the paper the statement comes from; lets extraction run part by part."
+                },
+                "scope": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Scope"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "section": {
+                    "description": "Location in the paper, e.g. \"Sec. 4.2\".",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "statement_type": {
+                    "$ref": "#/$defs/StatementType"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "statement_type",
+                "text"
+            ],
+            "title": "Statement",
+            "type": "object"
+        },
+        "StatementType": {
+            "description": "",
+            "enum": [
+                "BACKGROUND",
+                "GAP",
+                "HYPOTHESIS",
+                "QUESTION",
+                "DEFINITION",
+                "ASSUMPTION",
+                "METHOD",
+                "DATA",
+                "OBSERVATION",
+                "CLAIM",
+                "LIMITATION",
+                "OUTLOOK"
+            ],
+            "title": "StatementType",
+            "type": "string"
+        },
+        "SupportBasis": {
+            "description": "",
+            "enum": [
+                "QUALITATIVE",
+                "QUANTITATIVE",
+                "LOGICAL"
+            ],
+            "title": "SupportBasis",
+            "type": "string"
+        },
+        "SupportStrength": {
+            "description": "",
+            "enum": [
+                "STRONG",
+                "INTERMEDIATE",
+                "WEAK"
+            ],
+            "title": "SupportStrength",
+            "type": "string"
+        },
+        "Uncertainty": {
+            "description": "",
+            "enum": [
+                "LOW",
+                "MEDIUM",
+                "HIGH"
+            ],
+            "title": "Uncertainty",
+            "type": "string"
+        },
+        "Validity": {
+            "description": "Does the data presented in the paper support the statement?",
+            "enum": [
+                "YES",
+                "PARTIAL",
+                "INCONCLUSIVE",
+                "NO"
+            ],
+            "title": "Validity",
+            "type": "string"
+        }
+    },
+    "$id": "https://w3id.org/claim-chain/schema",
+    "$schema": "https://json-schema.org/draft/2019-09/schema",
+    "additionalProperties": false,
+    "description": "The full encoded argument of one publication.",
+    "metamodel_version": "1.12.0",
+    "properties": {
+        "annotation_date": {
+            "format": "date",
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "annotator": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "entities": {
+            "items": {
+                "$ref": "#/$defs/Entity"
+            },
+            "type": [
+                "array",
+                "null"
+            ]
+        },
+        "id": {
+            "type": "string"
+        },
+        "paper_assessment": {
+            "anyOf": [
+                {
+                    "$ref": "#/$defs/PaperAssessment"
+                },
+                {
+                    "type": "null"
+                }
+            ]
+        },
+        "publication": {
+            "$ref": "#/$defs/Publication"
+        },
+        "relations": {
+            "items": {
+                "$ref": "#/$defs/Relation"
+            },
+            "type": [
+                "array",
+                "null"
+            ]
+        },
+        "schema_version": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "statements": {
+            "items": {
+                "$ref": "#/$defs/Statement"
+            },
+            "type": [
+                "array",
+                "null"
+            ]
+        }
+    },
+    "required": [
+        "id",
+        "publication"
+    ],
+    "title": "claim_chain",
+    "type": "object",
+    "version": "0.3.0"
+}
+

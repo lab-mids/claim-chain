@@ -1,0 +1,48 @@
+flowchart TD
+  GAP1 --> HYP1
+  CLAIM1a --> HYP1
+  CLAIM1b --> HYP1
+  CLAIM1c --> HYP1
+  CLAIM1d --> HYP1
+  CLAIM2 -->|answers| GAP1
+  CLAIM3 -->|answers| Q1
+  LIM1 -.->|qualifies| CLAIM3
+  CLAIM4 -->|answers| Q1
+  ASM2 --> CLAIM5
+  LIM3 -.->|undercuts| CLAIM6
+  CLAIM6 -->|answers| Q1
+  CLAIM7 -->|answers| Q1
+  LIM2 -.->|undercuts| CLAIM1c
+  LIM3 -.->|undercuts| CLAIM1c
+  LIM3 -.->|undercuts| CLAIM1d
+  CLAIM4 -.-> ASM3
+  CLAIM6 -.-> ASM4
+  CLAIM7 -.-> ASM4
+  ASM2["<b>ASM2</b><br/>The elbow of the within-cluster sum of squares vs. …"]:::asm
+  ASM3["<b>ASM3</b><br/>Grain maps from 5 degree misorientation thresholding are an …"]:::asm
+  ASM4["<b>ASM4</b><br/>KAM and GOS are accepted measures of local and …"]:::asm
+  CLAIM1a["<b>CLAIM1a (partial)</b><br/>The VAE latent vector of a Kikuchi pattern is …"]:::claim
+  CLAIM1b["<b>CLAIM1b ✓</b><br/>With a pretrained encoder, the latent vector is obtained …"]:::claim
+  CLAIM1c["<b>CLAIM1c ✗</b><br/>Distance between latent vectors of Kikuchi patterns reflects the …"]:::claim
+  CLAIM1d["<b>CLAIM1d ?</b><br/>Because the Kikuchi pattern can be reconstructed from it, …"]:::claim
+  CLAIM2["<b>CLAIM2 ?</b><br/>The lattice genome extends the materials genome concept to …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>PCA-based latent component maps are an analog of orientation …"]:::claim
+  CLAIM4["<b>CLAIM4 (partial)</b><br/>Segmentation by latent angle and distance thresholds produces domain …"]:::claim
+  CLAIM5["<b>CLAIM5 (partial)</b><br/>A single percentile parameter with automatic elbow detection produces …"]:::claim
+  CLAIM6["<b>CLAIM6 (partial)</b><br/>KLVS reproduces KAM trends with better contrast for real …"]:::claim
+  CLAIM7["<b>CLAIM7 (partial)</b><br/>LVS is a high-dimensional analog of GOS that recovers …"]:::claim
+  GAP1["<b>GAP1</b><br/>No notion of materials genes exists for spatially heterogeneous …"]:::bg
+  HYP1["<b>HYP1 (partial)</b><br/>VAE latent representations of Kikuchi patterns satisfy the criteria …"]:::claim
+  LIM1["<b>LIM1</b><br/>Latent component map colours are dataset-dependent because PCA is …"]:::lim
+  LIM2["<b>LIM2</b><br/>Crystal symmetry is encoded only implicitly in lattice genes; …"]:::lim
+  LIM3["<b>LIM3</b><br/>Lattice genes also encode measurement conditions (detector geometry, pattern …"]:::lim
+  Q1["<b>Q1</b><br/>Can the lattice genome support visualization, segmentation and heterogeneity …"]:::q
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

@@ -1,0 +1,526 @@
+id: https://w3id.org/claim-chain/schema
+name: claim_chain
+title: claim-chain argument-chain schema
+description: >-
+  Draft schema for encoding the argument chain of a single research paper: typed statements, the evidence offered for each,
+  typed relations between statements, scope, and annotator concerns. Each
+  paper is encoded on its own; no cross-paper linking or external
+  ontologies. Each claim gets a validity verdict ("does the presented data
+  support it?"), and the paper gets a logic score. Modelled loosely on the
+  Micropublications ontology (Clark et al. 2014, doi:10.1186/2041-1480-5-28).
+version: 0.3.0
+license: CC-BY-4.0
+prefixes:
+  linkml: https://w3id.org/linkml/
+  claimchain: https://w3id.org/claim-chain/schema/
+  mp: http://purl.org/mp/
+  dcterms: http://purl.org/dc/terms/
+  schema: http://schema.org/
+  arxiv: https://arxiv.org/abs/
+  doi: https://doi.org/
+  # Placeholder namespaces for RDF export (not registered). One prefix per encoded paper.
+  ent: https://w3id.org/claim-chain/entity/
+  wang2026: https://w3id.org/claim-chain/arXiv2606.09611v1/
+default_prefix: claimchain
+default_range: string
+imports:
+  - linkml:types
+
+classes:
+
+  ArgumentChain:
+    tree_root: true
+    description: The full encoded argument of one publication.
+    slots:
+      - id
+      - publication
+      - annotator
+      - annotation_date
+      - schema_version
+      - entities
+      - statements
+      - relations
+      - paper_assessment
+
+  Publication:
+    class_uri: schema:ScholarlyArticle
+    slots:
+      - id
+      - title
+      - authors
+      - year
+      - doi
+      - arxiv
+      - url
+
+  Statement:
+    class_uri: mp:Statement
+    description: >-
+      One self-contained proposition, phrased so it is understandable on its
+      own (no pronouns pointing to other statements).
+    slots:
+      - id
+      - statement_type
+      - text
+      - section
+      - paper_part
+      - hedged
+      - evidence
+      - scope
+      - about
+      - claim_modality
+      - assumption_basis
+      - open_question
+      - limitation_kind
+      - assessment
+      - concerns
+      - note
+
+  Evidence:
+    class_uri: mp:Support
+    description: What the paper offers in support of a statement.
+    slots:
+      - evidence_kind
+      - locator
+      - references
+      - description
+      - values
+
+  QuantitativeValue:
+    slots:
+      - quantity
+      - value
+      - unit
+      - condition
+
+  Scope:
+    description: Conditions under which a statement was shown to hold.
+    slots:
+      - materials
+      - techniques
+      - sample_count
+      - crystal_structures
+      - scope_note
+
+  Relation:
+    description: A directed, typed link between two statements.
+    slots:
+      - id
+      - subject
+      - predicate
+      - object
+      - asserted_by
+      - support_basis
+      - support_strength
+      - uncertainty
+      - note
+
+  Assessment:
+    description: >-
+      Verdict on one claim or hypothesis: does the data presented in the paper
+      support it?
+    slots:
+      - validity
+      - rationale
+      - missing_evidence
+      - proof_obligations
+
+  ProofObligation:
+    description: >-
+      Something that has to be shown for a claim to hold (reviewer's view).
+      Open obligations are what a reviewer would ask for.
+    slots:
+      - text
+      - obligation_status
+      - discharged_by
+
+  PaperAssessment:
+    description: >-
+      Paper-level result with the three outputs: logic (verdict and score),
+      limitations, and missing evidence.
+    slots:
+      - overall_validity
+      - logic_score
+      - score_method
+      - summary
+      - key_limitations
+      - missing_evidence
+
+  Entity:
+    description: >-
+      A thing statements are about (material, technique, quantity, method,
+      concept), defined once per paper so statements and scopes can refer to it.
+    slots:
+      - id
+      - label
+      - entity_type
+      - description
+
+  Concern:
+    description: An annotator's (not the authors') remark on a logical weakness.
+    slots:
+      - concern_type
+      - description
+
+slots:
+  id:
+    identifier: true
+    range: uriorcurie
+  publication:
+    range: Publication
+    inlined: true
+    required: true
+  annotator:
+  annotation_date:
+    range: date
+  schema_version:
+  entities:
+    range: Entity
+    multivalued: true
+    inlined_as_list: true
+  statements:
+    range: Statement
+    multivalued: true
+    inlined_as_list: true
+  relations:
+    range: Relation
+    multivalued: true
+    inlined_as_list: true
+  title:
+    slot_uri: dcterms:title
+  authors:
+    multivalued: true
+    slot_uri: dcterms:creator
+  year:
+    range: integer
+  doi:
+  arxiv:
+  url:
+    range: uri
+  statement_type:
+    range: StatementType
+    required: true
+  text:
+    required: true
+  section:
+    description: Location in the paper, e.g. "Sec. 4.2".
+  hedged:
+    range: boolean
+    description: True if the authors themselves hedge ("likely", "we expect").
+  evidence:
+    range: Evidence
+    multivalued: true
+    inlined_as_list: true
+  scope:
+    range: Scope
+    inlined: true
+  about:
+    range: Entity
+    multivalued: true
+    description: Entities this statement is about.
+  concerns:
+    range: Concern
+    multivalued: true
+    inlined_as_list: true
+  note:
+  evidence_kind:
+    range: EvidenceKind
+    required: true
+  locator:
+    description: Figure, table, equation or section, e.g. "Fig. 5a".
+  references:
+    multivalued: true
+    description: Reference numbers or DOIs cited as evidence.
+  description:
+  values:
+    range: QuantitativeValue
+    multivalued: true
+    inlined_as_list: true
+  quantity:
+    required: true
+  value:
+    range: float
+    required: true
+  unit:
+  condition:
+  materials:
+    range: Entity
+    multivalued: true
+  techniques:
+    range: Entity
+    multivalued: true
+  sample_count:
+    range: integer
+    description: Number of independent samples or datasets.
+  crystal_structures:
+    multivalued: true
+  scope_note:
+  subject:
+    range: uriorcurie
+    required: true
+    description: Id of a Statement (or, for ANALOG_OF, an Entity).
+  predicate:
+    range: RelationType
+    required: true
+  object:
+    range: uriorcurie
+    required: true
+    description: Id of a Statement (or, for ANALOG_OF, an Entity).
+  asserted_by:
+    range: AssertionSource
+    required: true
+  label:
+    required: true
+  entity_type:
+    range: EntityType
+  concern_type:
+    range: ConcernType
+    required: true
+  claim_modality:
+    range: ClaimModality
+    description: What kind of statement a claim or observation makes, e.g. correlational vs. causal.
+  assumption_basis:
+    range: AssumptionBasis
+    description: For ASSUMPTION statements, where the premise comes from.
+  open_question:
+    description: For ASSUMPTION statements, what remains open if the premise is questioned.
+  limitation_kind:
+    range: LimitationKind
+  assessment:
+    range: Assessment
+    inlined: true
+    description: Validity verdict; expected for every CLAIM and HYPOTHESIS.
+  validity:
+    range: Validity
+    required: true
+  rationale:
+    required: true
+  missing_evidence:
+    multivalued: true
+    description: Data or analysis that would be needed to support the statement.
+  paper_assessment:
+    range: PaperAssessment
+    inlined: true
+  overall_validity:
+    range: Validity
+  logic_score:
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+    description: Computed by scripts/render.py from the claim verdicts; see score_method.
+  score_method:
+  summary:
+  key_limitations:
+    multivalued: true
+  support_basis:
+    range: SupportBasis
+    description: How the subject supports the object (qualitative, quantitative, logical).
+  paper_part:
+    range: PaperPart
+    description: Part of the paper the statement comes from; lets extraction run part by part.
+  support_strength:
+    range: SupportStrength
+    description: How strongly the subject supports the object.
+  proof_obligations:
+    range: ProofObligation
+    multivalued: true
+    inlined_as_list: true
+  obligation_status:
+    range: ObligationStatus
+    required: true
+  discharged_by:
+    range: uriorcurie
+    multivalued: true
+    description: Ids of statements that (partly) discharge the obligation.
+  uncertainty:
+    range: Uncertainty
+    description: Qualitative uncertainty of the link itself.
+
+enums:
+
+  StatementType:
+    permissible_values:
+      BACKGROUND:
+        description: Established fact taken from the literature.
+      GAP:
+        description: Problem or gap the work addresses.
+      HYPOTHESIS:
+        description: Proposition the paper sets out to establish (the central thesis or a sub-hypothesis).
+      QUESTION:
+        description: Research or bridging question.
+      DEFINITION:
+        description: New term or concept introduced.
+      ASSUMPTION:
+        description: >-
+          Premise the argument relies on but does not test in this paper. Either a
+          general claim accepted in the community, or a choice made by the
+          authors (see assumption_basis). Questioning it opens an open question.
+      METHOD:
+        description: Methodological choice or procedure.
+      DATA:
+        description: Description of datasets or samples used.
+      OBSERVATION:
+        description: Result read from this paper's own data.
+      CLAIM:
+        meaning: mp:Claim
+        description: Conclusion drawn by the authors.
+      LIMITATION:
+        description: Limitation or inconsistency acknowledged by the authors (see limitation_kind).
+      OUTLOOK:
+        description: Speculation or future work.
+
+  EvidenceKind:
+    permissible_values:
+      CITATION:
+        description: Supported by reference to prior work.
+      ARGUMENT:
+        description: Supported by reasoning only.
+      DATA_QUALITATIVE:
+        description: Supported by data judged by eye (maps, plots).
+      DATA_QUANTITATIVE:
+        description: Supported by numbers or statistics.
+      NONE:
+        description: No support given (including "preliminary tests" not shown).
+
+  RelationType:
+    permissible_values:
+      SUPPORTS:
+        meaning: mp:supports
+      UNDERCUTS:
+        meaning: mp:challenges
+        description: Weakens the object without directly contradicting it.
+      CONTRADICTS:
+        meaning: mp:challenges
+      QUALIFIES:
+        description: Restricts the scope or strength of the object.
+      ALTERNATIVE_EXPLANATION_FOR:
+        description: Offers another cause for an observation or claim.
+      MOTIVATES:
+      ANSWERS:
+      DEPENDS_ON:
+        description: The subject uses the object (e.g. a method uses a definition).
+      ANALOG_OF:
+        description: The subject is defined by analogy to the object.
+
+  AssertionSource:
+    permissible_values:
+      AUTHORS:
+        description: The link is stated or implied in the paper.
+      ANNOTATOR:
+        description: The link was added by the annotator from the paper's own content; the paper does not make it.
+      ANNOTATOR_BACKGROUND:
+        description: The link was added by the annotator (human or LLM) using domain knowledge outside the paper.
+
+  EntityType:
+    permissible_values:
+      MATERIAL:
+      PROCESSING_STATE:
+      TECHNIQUE:
+      DATA_TYPE:
+      QUANTITY:
+      METHOD:
+      CONCEPT:
+
+  ConcernType:
+    permissible_values:
+      UNTESTED_ASSERTION:
+        description: Claimed as shown, but supported only by argument.
+      OVERCLAIM:
+        description: Wording stronger than evidence.
+      UNFALSIFIABLE_VALIDATION:
+        description: Validation design where no outcome counts against the claim.
+      CONFOUNDED_COMPARISON:
+      AD_HOC_PARAMETER:
+      MISSING_QUANTIFICATION:
+      OVERGENERALIZATION:
+        description: Claim exceeds the scope of the data.
+      UNACKNOWLEDGED_CONFLICT:
+        description: Conflicts with another statement in the same paper, and the paper does not say so.
+      UNADDRESSED_COUNTEREVIDENCE:
+      INTERNAL_INCONSISTENCY:
+        description: Notation, numbering or terminology mismatch.
+      REPRODUCIBILITY:
+      CAUSAL_OVERREACH:
+        description: Causal or mechanistic claim supported only by correlational or visual evidence.
+
+  ClaimModality:
+    permissible_values:
+      DESCRIPTIVE:
+        description: States what something is or what was seen.
+      COMPARATIVE:
+        description: States that A agrees with, or is better or worse than, B.
+      CORRELATIONAL:
+        description: States that two quantities go together.
+      CAUSAL:
+        description: States that A causes or explains B (including mechanisms).
+      GENERALIZATION:
+        description: Extends a result beyond the tested cases.
+      CONCEPTUAL:
+        description: Definitional or framing claim; not testable by data alone.
+
+  AssumptionBasis:
+    permissible_values:
+      COMMUNITY_ACCEPTED:
+        description: General claim accepted in the community (may be cited).
+      AUTHOR_CHOICE:
+        description: Choice or premise introduced by the authors.
+
+  LimitationKind:
+    permissible_values:
+      SCOPE:
+      METHOD:
+      DATA:
+      INTERPRETATION:
+      INCONSISTENCY:
+        description: Inconsistency within the paper or with the background literature.
+
+  Validity:
+    description: Does the data presented in the paper support the statement?
+    permissible_values:
+      "YES":
+        description: The presented data supports the statement.
+      PARTIAL:
+        description: Part of the statement is supported, part is not.
+      INCONCLUSIVE:
+        description: The paper presents no data that decides the statement either way.
+      "NO":
+        description: The presented data, or the paper's own statements, contradict it.
+
+  SupportBasis:
+    permissible_values:
+      QUALITATIVE:
+        description: Visual or descriptive support.
+      QUANTITATIVE:
+        description: Numerical support.
+      LOGICAL:
+        description: Support by inference or definition.
+
+  Uncertainty:
+    permissible_values:
+      LOW:
+      MEDIUM:
+      HIGH:
+
+  PaperPart:
+    permissible_values:
+      ABSTRACT:
+      INTRODUCTION:
+      THEORY:
+        description: Concept, theory or model section before the methods.
+      METHODS:
+      RESULTS:
+      DISCUSSION:
+      CONCLUSION:
+      SUPPLEMENTARY:
+
+  SupportStrength:
+    permissible_values:
+      STRONG:
+      INTERMEDIATE:
+      WEAK:
+
+  ObligationStatus:
+    permissible_values:
+      OPEN:
+      PARTIALLY_DISCHARGED:
+      DISCHARGED:

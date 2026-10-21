@@ -1,0 +1,1349 @@
+@prefix wang2026: <https://w3id.org/claim-chain/arXiv2606.09611v1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix claimchain: <https://w3id.org/claim-chain/schema/> .
+@prefix ent: <https://w3id.org/claim-chain/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix arxiv: <https://arxiv.org/abs/> .
+@prefix mp: <http://purl.org/mp/> .
+@prefix schema1: <http://schema.org/> .
+arxiv:2606.09611v1 dcterms:creator "J.C. Stinville" , "Jiayang Wang" , "Marat I. Latypov" , "Mathieu Calvat" ;
+	dcterms:title "Lattice genome: representation and analysis of heterogeneous crystalline microstructures" ;
+	a schema1:ScholarlyArticle ;
+	claimchain:arxiv "2606.09611v1" ;
+	claimchain:year 2026 .
+wang2026:ASM1 a mp:Statement ;
+	claimchain:assumption_basis "AUTHOR_CHOICE" ;
+	claimchain:evidence _:c14n81 ;
+	claimchain:open_question "Does a fixed percentile assume a fixed fraction of boundary pixel pairs in every map?" ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3" ;
+	claimchain:statement_type "ASSUMPTION" ;
+	claimchain:text "Absolute latent-space thresholds do not transfer between microstructures, so A* and D* are set to the p-th percentile of each map's own A and D distributions." .
+wang2026:ASM2 a mp:Statement ;
+	claimchain:assumption_basis "COMMUNITY_ACCEPTED" ;
+	claimchain:concerns _:c14n40 ;
+	claimchain:evidence _:c14n29 ;
+	claimchain:hedged true ;
+	claimchain:open_question "Does the WCSS elbow coincide with physically meaningful boundaries, or only with a statistical knee?" ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3" ;
+	claimchain:statement_type "ASSUMPTION" ;
+	claimchain:text "The elbow of the within-cluster sum of squares vs. number-of-clusters curve corresponds to the optimal microstructure segmentation." .
+wang2026:ASM3 a mp:Statement ;
+	claimchain:assumption_basis "COMMUNITY_ACCEPTED" ;
+	claimchain:evidence _:c14n68 ;
+	claimchain:open_question "Which of the extra latent domains are real boundaries the 5 degree reference misses, and which are artifacts?" ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "ASSUMPTION" ;
+	claimchain:text "Grain maps from 5 degree misorientation thresholding are an adequate reference for judging a microstructure segmentation." .
+wang2026:ASM4 a mp:Statement ;
+	claimchain:assumption_basis "COMMUNITY_ACCEPTED" ;
+	claimchain:evidence _:c14n103 ;
+	claimchain:open_question "If KLVS differs from KAM, which one is closer to the true defect content?" ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "ASSUMPTION" ;
+	claimchain:text "KAM and GOS are accepted measures of local and grain-level microstructural heterogeneity, so agreement with them indicates a meaningful heterogeneity metric." .
+wang2026:BG1 a mp:Statement ;
+	claimchain:about ent:MaterialsGene ;
+	claimchain:evidence _:c14n39 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "The Materials Genome Initiative assumes materials have an underlying code dictating behaviour, but what a materials gene looks like in practice remains unclear." .
+wang2026:BG2 a mp:Statement ;
+	claimchain:about ent:MaterialsGene ;
+	claimchain:evidence _:c14n59 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "A generalized materials gene should be a vector that is compact, unique, experimentally accessible, and has a distance metric reflecting structural similarity." .
+wang2026:BG3 a mp:Statement ;
+	claimchain:evidence _:c14n47 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Atomic pair distribution functions meet the gene criteria for uniform materials but lack spatial information at the mesoscale." .
+wang2026:BG4 a mp:Statement ;
+	claimchain:evidence _:c14n43 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "In structural alloys, spatial heterogeneity of phases, orientations and defects governs macroscale properties." .
+wang2026:BG5 a mp:Statement ;
+	claimchain:about ent:EBSD , ent:KikuchiPattern ;
+	claimchain:evidence _:c14n44 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "EBSD maps Kikuchi patterns over large areas at the mesoscale with high automation and speed." .
+wang2026:BG6 a mp:Statement ;
+	claimchain:about ent:EBSD , ent:KikuchiPattern ;
+	claimchain:evidence _:c14n27 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Conventional EBSD reduces Kikuchi patterns to individual lossy descriptors (phase, orientation, rotation, strain, dislocation densities); combining them does not recover all pattern information." .
+wang2026:BG7 a mp:Statement ;
+	claimchain:evidence _:c14n54 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Prior PCA, matrix-factorization and deep-learning approaches to Kikuchi patterns compress them or extract known features, but do not give a holistic compact encoding." .
+wang2026:BG8 a mp:Statement ;
+	claimchain:about ent:KikuchiPattern , ent:VAE ;
+	claimchain:evidence _:c14n51 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "A VAE trained on Kikuchi patterns compresses each pattern into a latent vector from which the pattern can be reconstructed to a predefined accuracy." .
+wang2026:BG9 a mp:Statement ;
+	claimchain:evidence _:c14n17 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:scope _:c14n91 ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Spatial maps of VAE latent features of Kikuchi patterns reveal microstructural heterogeneities with sensitivity exceeding conventional EBSD analysis." .
+wang2026:CLAIM10 a mp:Statement ;
+	claimchain:assessment _:c14n79 ;
+	claimchain:claim_modality "CONCEPTUAL" ;
+	claimchain:evidence _:c14n28 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "One encoded lattice genome can serve many downstream tasks without reprocessing raw patterns." .
+wang2026:CLAIM1a a mp:Statement ;
+	claimchain:about ent:LatticeGene ;
+	claimchain:assessment _:c14n73 ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:concerns _:c14n50 ;
+	claimchain:evidence _:c14n64 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The VAE latent vector of a Kikuchi pattern is a compact, low-dimensional representation of the pattern." .
+wang2026:CLAIM1b a mp:Statement ;
+	claimchain:about ent:LatticeGene ;
+	claimchain:assessment _:c14n77 ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:evidence _:c14n106 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "With a pretrained encoder, the latent vector is obtained from a measured pattern by a single forward pass, so it is experimentally accessible." .
+wang2026:CLAIM1c a mp:Statement ;
+	claimchain:about ent:LatticeGene ;
+	claimchain:assessment _:c14n86 ;
+	claimchain:claim_modality "CORRELATIONAL" ;
+	claimchain:concerns _:c14n109 , _:c14n70 ;
+	claimchain:evidence _:c14n112 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Distance between latent vectors of Kikuchi patterns reflects the physical similarity of the probed lattice (crystallography, orientation, defects), and the continuous latent space avoids discontinuities of space-group classification." .
+wang2026:CLAIM1d a mp:Statement ;
+	claimchain:about ent:LatticeGene ;
+	claimchain:assessment _:c14n10 ;
+	claimchain:claim_modality "CONCEPTUAL" ;
+	claimchain:concerns _:c14n94 ;
+	claimchain:evidence _:c14n100 , _:c14n2 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Because the Kikuchi pattern can be reconstructed from it, the latent vector encodes lattice parameter, orientation, strain and defect density, and maps near-uniquely to the local lattice state within reconstruction error." .
+wang2026:CLAIM2 a mp:Statement ;
+	claimchain:about ent:LatticeGenome , ent:MaterialsGene ;
+	claimchain:assessment _:c14n57 ;
+	claimchain:claim_modality "CONCEPTUAL" ;
+	claimchain:evidence _:c14n53 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The lattice genome extends the materials genome concept to heterogeneous crystalline materials at the mesoscale." .
+wang2026:CLAIM3 a mp:Statement ;
+	claimchain:about ent:LatticeGenome , ent:PCA ;
+	claimchain:assessment _:c14n93 ;
+	claimchain:claim_modality "COMPARATIVE" ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n89 ;
+	claimchain:section "Sec. 4.1, 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "PCA-based latent component maps are an analog of orientation maps that reveal finer microstructural heterogeneity than IPF maps." .
+wang2026:CLAIM4 a mp:Statement ;
+	claimchain:about ent:GrainSegmentation , ent:LatticeGenome ;
+	claimchain:assessment _:c14n82 ;
+	claimchain:claim_modality "COMPARATIVE" ;
+	claimchain:concerns _:c14n66 , _:c14n75 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n78 ;
+	claimchain:section "Sec. 4.2, 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Segmentation by latent angle and distance thresholds produces domain maps consistent with misorientation grain maps while being more sensitive." .
+wang2026:CLAIM5 a mp:Statement ;
+	claimchain:assessment _:c14n110 ;
+	claimchain:claim_modality "GENERALIZATION" ;
+	claimchain:concerns _:c14n99 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:scope _:c14n97 ;
+	claimchain:section "Sec. 5, Suppl." ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "A single percentile parameter with automatic elbow detection produces suitable segmentations across microstructures with very different statistics, without case-by-case calibration." .
+wang2026:CLAIM6 a mp:Statement ;
+	claimchain:about ent:KAM , ent:KLVS ;
+	claimchain:assessment _:c14n72 ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:concerns _:c14n114 , _:c14n48 ;
+	claimchain:evidence _:c14n9 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3, 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "KLVS reproduces KAM trends with better contrast for real features and fewer artifacts, because it operates on the encoded pattern rather than on indexed orientations." .
+wang2026:CLAIM7 a mp:Statement ;
+	claimchain:about ent:GOS , ent:LVS ;
+	claimchain:assessment _:c14n26 ;
+	claimchain:claim_modality "COMPARATIVE" ;
+	claimchain:concerns _:c14n41 , _:c14n8 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3, 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "LVS is a high-dimensional analog of GOS that recovers qualitatively similar trends of grain-level heterogeneity." .
+wang2026:CLAIM8 a mp:Statement ;
+	claimchain:assessment _:c14n38 ;
+	claimchain:claim_modality "CORRELATIONAL" ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Angle and Euclidean distance in the latent space are consistent descriptors of local microstructural variation." .
+wang2026:CLAIM9 a mp:Statement ;
+	claimchain:assessment _:c14n92 ;
+	claimchain:claim_modality "GENERALIZATION" ;
+	claimchain:concerns _:c14n104 ;
+	claimchain:evidence _:c14n108 , _:c14n62 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5, 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Lattice-genome analysis needs no pattern indexing and is therefore applicable to patterns that are hard to index, such as heavily deformed or multiphase regions." .
+wang2026:DATA1 a mp:Statement ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n42 ;
+	claimchain:section "Sec. 4" ;
+	claimchain:statement_type "DATA" ;
+	claimchain:text "Three EBSD maps with raw Kikuchi patterns are analysed, all from Calvat et al. - wrought fully recrystallized IN718 (RX), partially recrystallized Waspaloy (W), and as-built DED IN718 (AM)." .
+wang2026:DEF1 a mp:Statement ;
+	claimchain:about ent:LatticeGene ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type "DEFINITION" ;
+	claimchain:text "A lattice gene is the latent encoding z_i in R^d of a single Kikuchi pattern." .
+wang2026:DEF2 a mp:Statement ;
+	claimchain:about ent:LatticeGenome ;
+	claimchain:concerns _:c14n67 ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type "DEFINITION" ;
+	claimchain:text "A lattice genome is the spatially resolved collection of lattice genes, Z in R^(HxWxd), over a statistically representative area or volume of a material in a given state." .
+wang2026:GAP1 a mp:Statement ;
+	claimchain:about ent:MaterialsGene ;
+	claimchain:evidence _:c14n49 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "GAP" ;
+	claimchain:text "No notion of materials genes exists for spatially heterogeneous materials at the mesoscale." .
+wang2026:HYP1 a mp:Statement ;
+	claimchain:about ent:LatticeGene , ent:LatticeGenome ;
+	claimchain:assessment _:c14n3 ;
+	claimchain:claim_modality "CONCEPTUAL" ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1" ;
+	claimchain:statement_type "HYPOTHESIS" ;
+	claimchain:text "VAE latent representations of Kikuchi patterns satisfy the criteria for a generalized materials gene, which extends the materials genome to heterogeneous crystalline materials, and they support standard microstructure analysis." .
+wang2026:LIM1 a mp:Statement ;
+	claimchain:limitation_kind "SCOPE" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "LIMITATION" ;
+	claimchain:text "Latent component map colours are dataset-dependent because PCA is fitted per map, unlike the universal IPF colour scheme." .
+wang2026:LIM2 a mp:Statement ;
+	claimchain:evidence _:c14n84 ;
+	claimchain:limitation_kind "METHOD" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "LIMITATION" ;
+	claimchain:text "Crystal symmetry is encoded only implicitly in lattice genes; latent angles are not symmetry-reduced, so KLVS and LVS are systematically larger than KAM and GOS and do not match them quantitatively." .
+wang2026:LIM3 a mp:Statement ;
+	claimchain:evidence _:c14n56 ;
+	claimchain:limitation_kind "DATA" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "LIMITATION" ;
+	claimchain:text "Lattice genes also encode measurement conditions (detector geometry, pattern centre, background, noise), complicating comparisons across datasets." .
+wang2026:LIM4 a mp:Statement ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:evidence _:c14n111 ;
+	claimchain:limitation_kind "INTERPRETATION" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "LIMITATION" ;
+	claimchain:text "Where the interaction volume spans several lattices, e.g. at grain or twin boundaries, the lattice gene encodes a superposition, which is harder to interpret but makes the encoding sensitive to overlaps." .
+wang2026:METH1 a mp:Statement ;
+	claimchain:about ent:VAE ;
+	claimchain:evidence _:c14n69 ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3, 4" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Kikuchi patterns are encoded with the pretrained VAE encoder of Calvat et al.; one of 128 latent dimensions is dropped because it mainly captures measurement geometry, giving d = 127." .
+wang2026:METH2 a mp:Statement ;
+	claimchain:about ent:PCA ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3, 4.1" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Latent component maps are built by PCA of all lattice genes of one map and mapping PC1-3 to RGB; optionally each latent dimension is first rescaled so its 1st and 99th percentiles map to 0 and 1." .
+wang2026:METH3 a mp:Statement ;
+	claimchain:concerns _:c14n90 ;
+	claimchain:evidence _:c14n16 ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Neighbouring pixels are merged into one domain if both the latent angle A and the latent Euclidean distance D are below thresholds A* and D*, scanning row by row over right and down neighbours; domains under 6 pixels are dismissed." .
+wang2026:METH4 a mp:Statement ;
+	claimchain:concerns _:c14n33 ;
+	claimchain:evidence _:c14n14 ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 3, Suppl." ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "The percentile p is scanned from 95 to 60 in steps of 1 and the search stops when three consecutive relative WCSS reductions fall below 10 % of the mean of the first eight; p* is the middle of that window." .
+wang2026:METH5 a mp:Statement ;
+	claimchain:about ent:KLVS ;
+	claimchain:concerns _:c14n0 ;
+	claimchain:evidence _:c14n63 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Kernel latent vector spread (KLVS) of a pixel is the mean latent angle between its lattice gene and those of its nearest neighbours." .
+wang2026:METH6 a mp:Statement ;
+	claimchain:about ent:LVS ;
+	claimchain:concerns _:c14n35 ;
+	claimchain:evidence _:c14n31 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Latent vector spread (LVS) of a domain is the mean latent angle between each pixel's lattice gene and the domain centroid." .
+wang2026:OBS10 a mp:Statement ;
+	claimchain:evidence _:c14n1 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Area distributions of latent domains and misorientation grains closely match for RX and W but not for AM." .
+wang2026:OBS11 a mp:Statement ;
+	claimchain:about ent:KAM , ent:KLVS ;
+	claimchain:evidence _:c14n34 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "KLVS and KAM maps show the same qualitative trends - high values at boundaries in RX, elevated values throughout W, and patches in AM." .
+wang2026:OBS12 a mp:Statement ;
+	claimchain:about ent:KAM , ent:KLVS ;
+	claimchain:evidence _:c14n101 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "High-KAM artifacts from poorly indexed grains (RX) and a polishing scratch (W) are absent or weaker in KLVS maps." .
+wang2026:OBS13 a mp:Statement ;
+	claimchain:evidence _:c14n60 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "KLVS resolves intragranular substructure in large AM grains that is not visible in KAM." .
+wang2026:OBS14 a mp:Statement ;
+	claimchain:evidence _:c14n118 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "KLVS values span 0-120 degrees whereas KAM spans 0-8 degrees, so absolute values are not comparable." .
+wang2026:OBS15 a mp:Statement ;
+	claimchain:evidence _:c14n58 ;
+	claimchain:paper_part "SUPPLEMENTARY" ;
+	claimchain:section "Suppl." ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Distance-based KLVS maps are similar to angle-based KLVS maps." .
+wang2026:OBS16 a mp:Statement ;
+	claimchain:about ent:GOS , ent:LVS ;
+	claimchain:evidence _:c14n96 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "LVS maps show the same trends as GOS maps - low in RX, high in W, intermediate in AM." .
+wang2026:OBS17 a mp:Statement ;
+	claimchain:evidence _:c14n61 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Area-weighted LVS and GOS distributions differ, most strongly for AM; for RX and W they show similar but shifted peaks." .
+wang2026:OBS1 a mp:Statement ;
+	claimchain:evidence _:c14n18 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n87 ;
+	claimchain:section "Sec. 4.1" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "In the three maps, the first three principal components of the lattice genes explain 25-37 % of the variance, and about 20 components are needed to explain nearly 100 %." .
+wang2026:OBS2 a mp:Statement ;
+	claimchain:evidence _:c14n21 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n85 ;
+	claimchain:section "Sec. 4.1" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Latent component maps capture the grain-scale heterogeneity seen in IPF orientation maps in all three microstructure states." .
+wang2026:OBS3 a mp:Statement ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:concerns _:c14n98 ;
+	claimchain:evidence _:c14n76 ;
+	claimchain:hedged true ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.1" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Latent component maps show features faint or absent in IPF maps - preparation deformation and an extra grain (RX), smooth intragranular gradients likely from orientation variation (W), and substructure likely from dislocation cells (AM)." .
+wang2026:OBS4 a mp:Statement ;
+	claimchain:evidence _:c14n55 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.1" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Pre-PCA per-dimension scaling reveals an annealing twin and intragranular gradients missed by unscaled latent component maps and otherwise visible only in single-dimension maps." .
+wang2026:OBS5 a mp:Statement ;
+	claimchain:evidence _:c14n116 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.1" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "In a 2D PCA projection, lattice genes form visible clusters, most clearly for the RX microstructure." .
+wang2026:OBS6 a mp:Statement ;
+	claimchain:evidence _:c14n30 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "The early-stopping search selects percentile thresholds p76 (RX), p80 (W) and p73 (AM)." .
+wang2026:OBS7 a mp:Statement ;
+	claimchain:concerns _:c14n71 ;
+	claimchain:evidence _:c14n6 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Latent domain boundaries largely coincide with grain boundaries from 5 degree misorientation thresholding, most closely for RX and W." .
+wang2026:OBS8 a mp:Statement ;
+	claimchain:evidence _:c14n113 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Latent segmentation yields more domains than misorientation segmentation yields grains in all three microstructures." .
+wang2026:OBS9 a mp:Statement ;
+	claimchain:evidence _:c14n36 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Latent segmentation misses some grain boundaries - those of small grains in AM and W, those near poorly indexed regions in RX, and a few regular grain boundaries." .
+wang2026:OUT1 a mp:Statement ;
+	claimchain:evidence _:c14n115 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "Rotation-invariant or conditional, disentangling encoders could make symmetry explicit and separate physical quantities in the latent space." .
+wang2026:OUT2 a mp:Statement ;
+	claimchain:evidence _:c14n117 ;
+	claimchain:hedged true ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "Training on large, diverse diffraction datasets can yield a unique, instrument-invariant encoding with a universal distance metric." .
+wang2026:OUT3 a mp:Statement ;
+	claimchain:evidence _:c14n20 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5, 6" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "The lattice-genome analysis tools are encoder-agnostic and will remain applicable as encoder architectures evolve." .
+wang2026:OUT4 a mp:Statement ;
+	claimchain:evidence _:c14n22 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "Lattice genomes can be extended to chord-length and n-point statistics, multiphase materials, EDS coupling and machine-learning property prediction." .
+wang2026:OUT5 a mp:Statement ;
+	claimchain:hedged true ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 5" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "The lattice genome may offer a practical realization of the Materials Genome Initiative vision for heterogeneous crystalline materials at the mesoscale." .
+wang2026:Q1 a mp:Statement ;
+	claimchain:paper_part "THEORY" ;
+	claimchain:section "Sec. 2" ;
+	claimchain:statement_type "QUESTION" ;
+	claimchain:text "Can the lattice genome support visualization, segmentation and heterogeneity quantification as done in conventional EBSD workflows?" .
+wang2026:R10 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG8 .
+wang2026:R11 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG9 .
+wang2026:R12 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM1a ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG8 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R13 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM1b ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG8 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "STRONG" ;
+	claimchain:uncertainty "LOW" .
+wang2026:R14 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM1c ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG8 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R15 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM1d ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG8 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R17 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM1a ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R18 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM1b ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "STRONG" ;
+	claimchain:uncertainty "LOW" .
+wang2026:R19 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM1c ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R20 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM1d ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R21 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:DEF1 .
+wang2026:R22 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:DEF1 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:DEF2 .
+wang2026:R23 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM2 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:DEF2 .
+wang2026:R24 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:GAP1 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:CLAIM2 .
+wang2026:R25 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:Q1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:DEF2 .
+wang2026:R27 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "object is an entity, not a statement" ;
+	claimchain:object ent:GrainSegmentation ;
+	claimchain:predicate "ANALOG_OF" ;
+	claimchain:subject wang2026:METH3 .
+wang2026:R28 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:ASM1 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:METH4 .
+wang2026:R29 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:ASM2 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:METH4 .
+wang2026:R30 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "object is an entity, not a statement" ;
+	claimchain:object ent:KAM ;
+	claimchain:predicate "ANALOG_OF" ;
+	claimchain:subject wang2026:METH5 .
+wang2026:R31 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "object is an entity, not a statement" ;
+	claimchain:object ent:GOS ;
+	claimchain:predicate "ANALOG_OF" ;
+	claimchain:subject wang2026:METH6 .
+wang2026:R33 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS2 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R34 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS3 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R35 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS4 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R36 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "3-PC projection is lossy" ;
+	claimchain:object wang2026:CLAIM3 ;
+	claimchain:predicate "QUALIFIES" ;
+	claimchain:subject wang2026:OBS1 .
+wang2026:R37 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "Not used by the authors for compactness" ;
+	claimchain:object wang2026:CLAIM1a ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS1 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R38 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:METH3 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:OBS5 .
+wang2026:R39 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:Q1 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:CLAIM3 .
+wang2026:R3 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:GAP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:BG2 .
+wang2026:R40 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM3 ;
+	claimchain:predicate "QUALIFIES" ;
+	claimchain:subject wang2026:LIM1 .
+wang2026:R41 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:METH4 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:OBS6 .
+wang2026:R42 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM4 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS7 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R43 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "Read as higher sensitivity" ;
+	claimchain:object wang2026:CLAIM4 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS8 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R44 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM4 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS10 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R45 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object wang2026:CLAIM4 ;
+	claimchain:predicate mp:challenges ;
+	claimchain:subject wang2026:OBS9 .
+wang2026:R46 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "Authors present overlap as a contributor to finer boundary networks" ;
+	claimchain:object wang2026:OBS8 ;
+	claimchain:predicate "ALTERNATIVE_EXPLANATION_FOR" ;
+	claimchain:subject wang2026:LIM4 .
+wang2026:R47 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:Q1 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:CLAIM4 .
+wang2026:R48 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS6 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R49 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:ASM2 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R4 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:GAP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:BG3 .
+wang2026:R50 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM6 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS11 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R51 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM6 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS12 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R52 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM6 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS13 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "WEAK" ;
+	claimchain:uncertainty "HIGH" .
+wang2026:R53 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "The gene also encodes noise, which weakens the artifact-robustness mechanism" ;
+	claimchain:object wang2026:CLAIM6 ;
+	claimchain:predicate mp:challenges ;
+	claimchain:subject wang2026:LIM3 .
+wang2026:R54 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM7 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS16 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R55 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM7 ;
+	claimchain:predicate "QUALIFIES" ;
+	claimchain:subject wang2026:OBS17 .
+wang2026:R56 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "Authors use LIM2 to explain the scale difference" ;
+	claimchain:object wang2026:OBS14 ;
+	claimchain:predicate "ALTERNATIVE_EXPLANATION_FOR" ;
+	claimchain:subject wang2026:LIM2 .
+wang2026:R57 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:OBS17 ;
+	claimchain:predicate "ALTERNATIVE_EXPLANATION_FOR" ;
+	claimchain:subject wang2026:LIM2 .
+wang2026:R58 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:CLAIM8 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OBS15 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "STRONG" ;
+	claimchain:uncertainty "LOW" .
+wang2026:R59 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:Q1 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:CLAIM6 .
+wang2026:R5 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:GAP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:BG4 .
+wang2026:R60 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:Q1 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:CLAIM7 .
+wang2026:R61 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR_BACKGROUND" ;
+	claimchain:note "Symmetry-equivalent states need not be close in latent space" ;
+	claimchain:object wang2026:CLAIM1c ;
+	claimchain:predicate mp:challenges ;
+	claimchain:subject wang2026:LIM2 .
+wang2026:R62 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "Distance reflects measurement as well as lattice" ;
+	claimchain:object wang2026:CLAIM1c ;
+	claimchain:predicate mp:challenges ;
+	claimchain:subject wang2026:LIM3 .
+wang2026:R63 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object wang2026:CLAIM1d ;
+	claimchain:predicate mp:challenges ;
+	claimchain:subject wang2026:LIM3 .
+wang2026:R64 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "A whole latent dimension tracked measurement geometry" ;
+	claimchain:object wang2026:LIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:METH1 .
+wang2026:R65 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:LIM2 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:OUT1 .
+wang2026:R66 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:LIM3 ;
+	claimchain:predicate "ANSWERS" ;
+	claimchain:subject wang2026:OUT2 .
+wang2026:R67 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:OUT5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM2 .
+wang2026:R68 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:OUT5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM9 .
+wang2026:R69 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:OUT5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:CLAIM10 .
+wang2026:R6 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:GAP1 .
+wang2026:R70 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:OUT5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:OUT4 .
+wang2026:R71 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object wang2026:ASM3 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:CLAIM4 ;
+	claimchain:uncertainty "MEDIUM" .
+wang2026:R72 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object wang2026:ASM4 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:CLAIM6 ;
+	claimchain:uncertainty "LOW" .
+wang2026:R73 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object wang2026:ASM4 ;
+	claimchain:predicate "DEPENDS_ON" ;
+	claimchain:subject wang2026:CLAIM7 ;
+	claimchain:uncertainty "LOW" .
+wang2026:R7 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject wang2026:BG5 .
+wang2026:R8 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:BG6 .
+wang2026:R9 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object wang2026:HYP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject wang2026:BG7 .
+ent:DED a claimchain:Entity ;
+	claimchain:entity_type "PROCESSING_STATE" ;
+	claimchain:label "additively manufactured by directed energy deposition (as built)" .
+ent:EBSD a claimchain:Entity ;
+	claimchain:entity_type "TECHNIQUE" ;
+	claimchain:label "electron backscatter diffraction" .
+ent:GOS a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "grain orientation spread" .
+ent:GrainSegmentation a claimchain:Entity ;
+	claimchain:entity_type "METHOD" ;
+	claimchain:label "grain segmentation by misorientation threshold" .
+ent:IN718 a claimchain:Entity ;
+	claimchain:entity_type "MATERIAL" ;
+	claimchain:label "Inconel 718" .
+ent:KAM a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "kernel average misorientation" .
+ent:KLVS a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "kernel latent vector spread" .
+ent:KikuchiPattern a claimchain:Entity ;
+	claimchain:entity_type "DATA_TYPE" ;
+	claimchain:label "Kikuchi diffraction pattern" .
+ent:LVS a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "latent vector spread" .
+ent:LatticeGene a claimchain:Entity ;
+	claimchain:entity_type "CONCEPT" ;
+	claimchain:label "lattice gene" .
+ent:LatticeGenome a claimchain:Entity ;
+	claimchain:entity_type "CONCEPT" ;
+	claimchain:label "lattice genome" .
+ent:MaterialsGene a claimchain:Entity ;
+	claimchain:entity_type "CONCEPT" ;
+	claimchain:label "generalized materials gene" .
+ent:PCA a claimchain:Entity ;
+	claimchain:entity_type "METHOD" ;
+	claimchain:label "principal component analysis" .
+ent:PartialRX a claimchain:Entity ;
+	claimchain:entity_type "PROCESSING_STATE" ;
+	claimchain:label "wrought and partially recrystallized" .
+ent:RX a claimchain:Entity ;
+	claimchain:entity_type "PROCESSING_STATE" ;
+	claimchain:label "wrought and fully recrystallized" .
+ent:VAE a claimchain:Entity ;
+	claimchain:entity_type "METHOD" ;
+	claimchain:label "variational autoencoder" .
+ent:Waspaloy a claimchain:Entity ;
+	claimchain:entity_type "MATERIAL" ;
+	claimchain:label "Waspaloy" .
+claimchain:chain\/arXiv2606.09611v1 a claimchain:ArgumentChain ;
+	claimchain:annotation_date "2026-10-21"^^xsd:date ;
+	claimchain:annotator "Claude (draft for Markus Stricker), manual" ;
+	claimchain:entities ent:DED , ent:EBSD , ent:GOS , ent:GrainSegmentation , ent:IN718 , ent:KAM , ent:KLVS , ent:KikuchiPattern , ent:LVS , ent:LatticeGene , ent:LatticeGenome , ent:MaterialsGene , ent:PCA , ent:PartialRX , ent:RX , ent:VAE , ent:Waspaloy ;
+	claimchain:paper_assessment _:c14n74 ;
+	claimchain:publication arxiv:2606.09611v1 ;
+	claimchain:relations wang2026:R10 , wang2026:R11 , wang2026:R12 , wang2026:R13 , wang2026:R14 , wang2026:R15 , wang2026:R17 , wang2026:R18 , wang2026:R19 , wang2026:R20 , wang2026:R21 , wang2026:R22 , wang2026:R23 , wang2026:R24 , wang2026:R25 , wang2026:R27 , wang2026:R28 , wang2026:R29 , wang2026:R30 , wang2026:R31 , wang2026:R33 , wang2026:R34 , wang2026:R35 , wang2026:R36 , wang2026:R37 , wang2026:R38 , wang2026:R39 , wang2026:R3 , wang2026:R40 , wang2026:R41 , wang2026:R42 , wang2026:R43 , wang2026:R44 , wang2026:R45 , wang2026:R46 , wang2026:R47 , wang2026:R48 , wang2026:R49 , wang2026:R4 , wang2026:R50 , wang2026:R51 , wang2026:R52 , wang2026:R53 , wang2026:R54 , wang2026:R55 , wang2026:R56 , wang2026:R57 , wang2026:R58 , wang2026:R59 , wang2026:R5 , wang2026:R60 , wang2026:R61 , wang2026:R62 , wang2026:R63 , wang2026:R64 , wang2026:R65 , wang2026:R66 , wang2026:R67 , wang2026:R68 , wang2026:R69 , wang2026:R6 , wang2026:R70 , wang2026:R71 , wang2026:R72 , wang2026:R73 , wang2026:R7 , wang2026:R8 , wang2026:R9 ;
+	claimchain:schema_version "0.3.0" ;
+	claimchain:statements wang2026:ASM1 , wang2026:ASM2 , wang2026:ASM3 , wang2026:ASM4 , wang2026:BG1 , wang2026:BG2 , wang2026:BG3 , wang2026:BG4 , wang2026:BG5 , wang2026:BG6 , wang2026:BG7 , wang2026:BG8 , wang2026:BG9 , wang2026:CLAIM10 , wang2026:CLAIM1a , wang2026:CLAIM1b , wang2026:CLAIM1c , wang2026:CLAIM1d , wang2026:CLAIM2 , wang2026:CLAIM3 , wang2026:CLAIM4 , wang2026:CLAIM5 , wang2026:CLAIM6 , wang2026:CLAIM7 , wang2026:CLAIM8 , wang2026:CLAIM9 , wang2026:DATA1 , wang2026:DEF1 , wang2026:DEF2 , wang2026:GAP1 , wang2026:HYP1 , wang2026:LIM1 , wang2026:LIM2 , wang2026:LIM3 , wang2026:LIM4 , wang2026:METH1 , wang2026:METH2 , wang2026:METH3 , wang2026:METH4 , wang2026:METH5 , wang2026:METH6 , wang2026:OBS10 , wang2026:OBS11 , wang2026:OBS12 , wang2026:OBS13 , wang2026:OBS14 , wang2026:OBS15 , wang2026:OBS16 , wang2026:OBS17 , wang2026:OBS1 , wang2026:OBS2 , wang2026:OBS3 , wang2026:OBS4 , wang2026:OBS5 , wang2026:OBS6 , wang2026:OBS7 , wang2026:OBS8 , wang2026:OBS9 , wang2026:OUT1 , wang2026:OUT2 , wang2026:OUT3 , wang2026:OUT4 , wang2026:OUT5 , wang2026:Q1 .
+_:c14n0 a claimchain:Concern ;
+	claimchain:concern_type "INTERNAL_INCONSISTENCY" ;
+	claimchain:description "Text says \"average cosine angle\", the equation uses the arccos angle; Sec. 5 cites Eq. 6 (which is D-KLVS) for KLVS." .
+_:c14n1 a mp:Support ;
+	claimchain:description "No statistical test." ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 5b" .
+_:c14n10 a claimchain:Assessment ;
+	claimchain:missing_evidence "Reconstruction error statistics" , "Recovery of orientation, strain and dislocation density from decoded patterns" ;
+	claimchain:rationale "Rests on an inference from reconstruction; reconstruction error is not reported and the pattern-to-lattice-state uniqueness is not shown." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n100 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "15" .
+_:c14n101 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 6" .
+_:c14n102 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Explain the missed grain boundaries" .
+_:c14n103 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "35" , "6" .
+_:c14n104 a claimchain:Concern ;
+	claimchain:concern_type "OVERGENERALIZATION" ;
+	claimchain:description "Not demonstrated; all three maps are single-phase and indexable." .
+_:c14n105 a claimchain:QuantitativeValue ;
+	claimchain:condition "minimum over maps" ;
+	claimchain:quantity "explained variance PC1-3" ;
+	claimchain:unit "%" ;
+	claimchain:value "25.0"^^xsd:float .
+_:c14n106 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n107 a claimchain:QuantitativeValue ;
+	claimchain:condition "AM" ;
+	claimchain:quantity "domains" ;
+	claimchain:value "3143.0"^^xsd:float .
+_:c14n108 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "10" .
+_:c14n109 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "Never tested, e.g. latent distance vs. misorientation or vs. dislocation density." .
+_:c14n11 a claimchain:QuantitativeValue ;
+	claimchain:quantity "KLVS range max" ;
+	claimchain:unit "deg" ;
+	claimchain:value "120.0"^^xsd:float .
+_:c14n110 a claimchain:Assessment ;
+	claimchain:missing_evidence "Sensitivity of the result to the early-stopping constants" , "Tests on other crystal structures and instruments" ;
+	claimchain:rationale "The procedure ran on three FCC Ni datasets; suitability rests on the elbow assumption and generality beyond n = 3 is not tested." ;
+	claimchain:validity "PARTIAL" .
+_:c14n111 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "15" , "37" , "38" , "39" .
+_:c14n112 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n113 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Fig. 5a" ;
+	claimchain:values _:c14n107 , _:c14n19 , _:c14n32 , _:c14n52 , _:c14n65 , _:c14n95 .
+_:c14n114 a claimchain:Concern ;
+	claimchain:concern_type "CAUSAL_OVERREACH" ;
+	claimchain:description "Mechanism ('because it operates on the encoded pattern') inferred from visual comparison only." .
+_:c14n115 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "40" , "41" , "42" .
+_:c14n116 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 4" .
+_:c14n117 a mp:Support ;
+	claimchain:evidence_kind "NONE" .
+_:c14n118 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Fig. 6 colour bars" ;
+	claimchain:values _:c14n11 , _:c14n15 .
+_:c14n12 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Show that latent distance is insensitive to detector geometry and noise" .
+_:c14n13 a claimchain:QuantitativeValue ;
+	claimchain:condition "AM" ;
+	claimchain:quantity "p*" ;
+	claimchain:value "73.0"^^xsd:float .
+_:c14n14 a mp:Support ;
+	claimchain:description "The 60-95 range is from \"preliminary tests\" not shown." ;
+	claimchain:evidence_kind "NONE" .
+_:c14n15 a claimchain:QuantitativeValue ;
+	claimchain:quantity "KAM range max" ;
+	claimchain:unit "deg" ;
+	claimchain:value "8.0"^^xsd:float .
+_:c14n16 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" ;
+	claimchain:locator "Eq. 1a, 1b" .
+_:c14n17 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "15" .
+_:c14n18 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Fig. 2c" ;
+	claimchain:values _:c14n105 , _:c14n80 , _:c14n83 .
+_:c14n19 a claimchain:QuantitativeValue ;
+	claimchain:condition "RX" ;
+	claimchain:quantity "domains" ;
+	claimchain:value "1269.0"^^xsd:float .
+_:c14n2 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n20 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n21 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 2a,b" .
+_:c14n22 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "43-49" .
+_:c14n23 a claimchain:ProofObligation ;
+	claimchain:discharged_by wang2026:CLAIM3 , wang2026:CLAIM4 , wang2026:CLAIM6 , wang2026:CLAIM7 ;
+	claimchain:obligation_status "PARTIALLY_DISCHARGED" ;
+	claimchain:text "Show that the lattice genome supports standard EBSD analyses" .
+_:c14n24 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Show that extra domain boundaries are real microstructural features, not artifacts or pattern overlap" .
+_:c14n25 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Quantify the contrast gain over KAM" .
+_:c14n26 a claimchain:Assessment ;
+	claimchain:missing_evidence "LVS computed on the conventional grains" ;
+	claimchain:rationale "Qualitative trends match GOS, but the distributions differ and the comparison mixes metric and segmentation." ;
+	claimchain:validity "PARTIAL" .
+_:c14n27 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "10" , "11" , "12" , "13" , "14" , "15" , "8" , "9" .
+_:c14n28 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n29 a mp:Support ;
+	claimchain:description "\"We expect the elbow region corresponds to an optimal segmentation.\"" ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n3 a claimchain:Assessment ;
+	claimchain:missing_evidence "Independent ground truth for the finer features" , "Quantitative test of the gene criteria (see CLAIM1a-d)" ;
+	claimchain:proof_obligations _:c14n23 , _:c14n46 ;
+	claimchain:rationale "The tools work comparably to conventional EBSD on three maps, but the gene criteria are argued, not shown, and the distance criterion is contradicted by LIM2 and LIM3." ;
+	claimchain:validity "PARTIAL" .
+_:c14n30 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Sec. 4.2, Fig. S2/9" ;
+	claimchain:values _:c14n13 , _:c14n45 , _:c14n7 .
+_:c14n31 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" ;
+	claimchain:locator "Eq. 4" .
+_:c14n32 a claimchain:QuantitativeValue ;
+	claimchain:condition "W" ;
+	claimchain:quantity "grains" ;
+	claimchain:value "3314.0"^^xsd:float .
+_:c14n33 a claimchain:Concern ;
+	claimchain:concern_type "AD_HOC_PARAMETER" ;
+	claimchain:description "Range 60-95, 8-step baseline, 10 % and 3-step window are not justified." .
+_:c14n34 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 6" .
+_:c14n35 a claimchain:Concern ;
+	claimchain:concern_type "INTERNAL_INCONSISTENCY" ;
+	claimchain:description "Fig. 7 caption says 'lattice vector spread'." .
+_:c14n36 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 5a" .
+_:c14n37 a claimchain:ProofObligation ;
+	claimchain:discharged_by wang2026:OBS10 , wang2026:OBS7 , wang2026:OBS8 ;
+	claimchain:obligation_status "PARTIALLY_DISCHARGED" ;
+	claimchain:text "Show that domain boundaries coincide with grain boundaries, quantitatively" .
+_:c14n38 a claimchain:Assessment ;
+	claimchain:rationale "Fig. S3 shows similar maps for both metrics; the claim is modest." ;
+	claimchain:validity "YES" .
+_:c14n39 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "1" , "2" .
+_:c14n4 a claimchain:ProofObligation ;
+	claimchain:discharged_by wang2026:OBS11 ;
+	claimchain:obligation_status "DISCHARGED" ;
+	claimchain:text "Show that KLVS reproduces KAM trends" .
+_:c14n40 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "Elbow is a heuristic without physical meaning; not validated against a ground truth." .
+_:c14n41 a claimchain:Concern ;
+	claimchain:concern_type "CONFOUNDED_COMPARISON" ;
+	claimchain:description "LVS is computed on latent domains, GOS on grains, so metric and segmentation differences are mixed." .
+_:c14n42 a claimchain:Scope ;
+	claimchain:crystal_structures "FCC" ;
+	claimchain:materials ent:IN718 , ent:Waspaloy ;
+	claimchain:sample_count 3 ;
+	claimchain:scope_note "Single encoder; whether it was trained on these maps is not stated." ;
+	claimchain:techniques ent:EBSD .
+_:c14n43 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "4" , "5" .
+_:c14n44 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "6" , "7" .
+_:c14n45 a claimchain:QuantitativeValue ;
+	claimchain:condition "RX" ;
+	claimchain:quantity "p*" ;
+	claimchain:value "76.0"^^xsd:float .
+_:c14n46 a claimchain:ProofObligation ;
+	claimchain:discharged_by wang2026:CLAIM1a , wang2026:CLAIM1b ;
+	claimchain:obligation_status "PARTIALLY_DISCHARGED" ;
+	claimchain:text "Show that each of the four gene criteria holds with data" .
+_:c14n47 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "3" .
+_:c14n48 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "Contrast judged by eye; no contrast or SNR metric." .
+_:c14n49 a mp:Support ;
+	claimchain:description "No literature survey given." ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n5 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Show that latent distance increases with misorientation, after symmetry reduction" .
+_:c14n50 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "Pattern size vs. latent size (128) never stated. Fig. 2c (~20 PCs explain ~100 %) could support compactness but is not used for it." .
+_:c14n51 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "15" , "26" , "27" , "28" .
+_:c14n52 a claimchain:QuantitativeValue ;
+	claimchain:condition "RX" ;
+	claimchain:quantity "grains" ;
+	claimchain:value "624.0"^^xsd:float .
+_:c14n53 a mp:Support ;
+	claimchain:description "Analogy with biological genome; decoder as \"ribosome\"." ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n54 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "16-25" .
+_:c14n55 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 3" .
+_:c14n56 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "36" .
+_:c14n57 a claimchain:Assessment ;
+	claimchain:rationale "Framing claim by analogy; no data can decide it." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n58 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. S3/10" .
+_:c14n59 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "3" .
+_:c14n6 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 5a" .
+_:c14n60 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 6b" .
+_:c14n61 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 7c" .
+_:c14n62 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n63 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" ;
+	claimchain:locator "Eq. 3" .
+_:c14n64 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n65 a claimchain:QuantitativeValue ;
+	claimchain:condition "AM" ;
+	claimchain:quantity "grains" ;
+	claimchain:value "1326.0"^^xsd:float .
+_:c14n66 a claimchain:Concern ;
+	claimchain:concern_type "UNFALSIFIABLE_VALIDATION" ;
+	claimchain:description "Agreement is counted as validation, extra domains as higher sensitivity; no independent ground truth." .
+_:c14n67 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "Statistical representativeness of the maps used is never assessed." .
+_:c14n68 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "29" .
+_:c14n69 a mp:Support ;
+	claimchain:description "Geometry-tracking of the dropped dimension stated but not shown." ;
+	claimchain:evidence_kind "NONE" .
+_:c14n7 a claimchain:QuantitativeValue ;
+	claimchain:condition "W" ;
+	claimchain:quantity "p*" ;
+	claimchain:value "80.0"^^xsd:float .
+_:c14n70 a claimchain:Concern ;
+	claimchain:concern_type "UNACKNOWLEDGED_CONFLICT" ;
+	claimchain:description "Undercut by LIM2 and LIM3 (no symmetry reduction; measurement conditions encoded)." .
+_:c14n71 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "No boundary overlap metric given." .
+_:c14n72 a claimchain:Assessment ;
+	claimchain:missing_evidence "Contrast-to-noise metric for KLVS vs. KAM" , "Controlled test with artificially perturbed patterns" ;
+	claimchain:proof_obligations _:c14n25 , _:c14n4 , _:c14n88 ;
+	claimchain:rationale "Trend agreement with KAM is visible; better contrast and fewer artifacts are judged by eye, and the mechanism is argued, not tested." ;
+	claimchain:validity "PARTIAL" .
+_:c14n73 a claimchain:Assessment ;
+	claimchain:missing_evidence "Compression ratio of pattern pixels to latent dimensions" , "Intrinsic dimensionality vs. reconstruction error" ;
+	claimchain:rationale "Fig. 2c (about 20 PCs explain nearly all variance) supports compactness, but the paper does not use it that way and gives no size ratio." ;
+	claimchain:validity "PARTIAL" .
+_:c14n74 a claimchain:PaperAssessment ;
+	claimchain:key_limitations "Latent distance is not symmetry-reduced and also encodes measurement conditions (LIM2, LIM3), contradicting the distance-metric criterion (CLAIM1c)." , "Three maps, two alloys, one crystal structure, one encoder; generality claims exceed this scope (CLAIM5, CLAIM9)." , "Threshold selection rests on an assumed WCSS elbow and ad hoc constants (ASM2, METH4)." , "Validation by agreement with conventional EBSD cannot fail: disagreements are read as higher sensitivity (CLAIM4)." ;
+	claimchain:missing_evidence "Boundary precision/recall and a contrast-to-noise metric." , "Data beyond FCC Ni-base alloys and a single detector; released code." , "Independent ground truth (HR-EBSD, ECCI, TEM or synthetic patterns) for extra domains and substructure." , "Quantitative test of latent distance against misorientation and dislocation density." , "Reconstruction error and compression ratio." ;
+	claimchain:overall_validity "PARTIAL" ;
+	claimchain:summary "Clear concept and well-described tools that reproduce conventional EBSD trends on three FCC Ni-base maps. The central gene claim is argued rather than shown, the distance criterion is contradicted by the paper's own limitations, and \"finer detail\" and \"better contrast\" are judged by eye without ground truth." .
+_:c14n75 a claimchain:Concern ;
+	claimchain:concern_type "UNADDRESSED_COUNTEREVIDENCE" ;
+	claimchain:description "Missed grain boundaries (OBS9) not weighed against the claim." .
+_:c14n76 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 2d A-D" .
+_:c14n77 a claimchain:Assessment ;
+	claimchain:rationale "True by construction: a pretrained encoder maps a measured pattern in one forward pass." ;
+	claimchain:validity "YES" .
+_:c14n78 a claimchain:Scope ;
+	claimchain:materials ent:IN718 , ent:Waspaloy ;
+	claimchain:sample_count 3 .
+_:c14n79 a claimchain:Assessment ;
+	claimchain:rationale "Argued from the design; no downstream task is demonstrated." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n8 a claimchain:Concern ;
+	claimchain:concern_type "OVERCLAIM" ;
+	claimchain:description "Conclusion attributes \"better contrast\" to the spreads; only shown (by eye) for KLVS." .
+_:c14n80 a claimchain:QuantitativeValue ;
+	claimchain:condition "maximum over maps" ;
+	claimchain:quantity "explained variance PC1-3" ;
+	claimchain:unit "%" ;
+	claimchain:value "37.0"^^xsd:float .
+_:c14n81 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. S1/8" .
+_:c14n82 a claimchain:Assessment ;
+	claimchain:missing_evidence "Boundary precision/recall against a reference" , "Ground truth for the extra domain boundaries" ;
+	claimchain:proof_obligations _:c14n102 , _:c14n24 , _:c14n37 ;
+	claimchain:rationale "Boundary agreement is shown visually and counts are given; 'more sensitive' is not distinguished from artifacts or pattern overlap (LIM4), and missed boundaries are not weighed." ;
+	claimchain:validity "PARTIAL" .
+_:c14n83 a claimchain:QuantitativeValue ;
+	claimchain:quantity "components for ~100 % variance" ;
+	claimchain:value "20.0"^^xsd:float .
+_:c14n84 a mp:Support ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n85 a claimchain:Scope ;
+	claimchain:sample_count 3 .
+_:c14n86 a claimchain:Assessment ;
+	claimchain:missing_evidence "Latent distance vs. GND density" , "Latent distance vs. misorientation (symmetry-reduced) for the same pixel pairs" , "Same sample measured with two detector geometries" ;
+	claimchain:proof_obligations _:c14n12 , _:c14n5 ;
+	claimchain:rationale "No data tests it, and the paper's own limitations (no symmetry reduction; measurement conditions encoded) contradict it." ;
+	claimchain:validity "NO" .
+_:c14n87 a claimchain:Scope ;
+	claimchain:sample_count 3 .
+_:c14n88 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:text "Test that artifact robustness comes from operating on encoded patterns" .
+_:c14n89 a claimchain:Scope ;
+	claimchain:materials ent:IN718 , ent:Waspaloy ;
+	claimchain:sample_count 3 .
+_:c14n9 a mp:Support ;
+	claimchain:description "Mechanism." ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n90 a claimchain:Concern ;
+	claimchain:concern_type "REPRODUCIBILITY" ;
+	claimchain:description "Label-conflict resolution during the row scan not specified." .
+_:c14n91 a claimchain:Scope ;
+	claimchain:materials ent:IN718 , ent:Waspaloy ;
+	claimchain:scope_note "Same data source as this paper." .
+_:c14n92 a claimchain:Assessment ;
+	claimchain:missing_evidence "Analysis of heavily deformed or multiphase regions where indexing fails" ;
+	claimchain:rationale "Plausible from the method, but no hard-to-index or multiphase data is analysed." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n93 a claimchain:Assessment ;
+	claimchain:missing_evidence "Independent characterization (e.g. HR-EBSD, ECCI) of the extra features" ;
+	claimchain:rationale "Agreement with IPF maps is shown visually; 'finer heterogeneity' is interpreted as likely physics without an independent check." ;
+	claimchain:validity "PARTIAL" .
+_:c14n94 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "Reconstruction shows code determines the pattern, not that the pattern uniquely determines the lattice state. Reconstruction error not reported." .
+_:c14n95 a claimchain:QuantitativeValue ;
+	claimchain:condition "W" ;
+	claimchain:quantity "domains" ;
+	claimchain:value "3634.0"^^xsd:float .
+_:c14n96 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUALITATIVE" ;
+	claimchain:locator "Fig. 7a,b" .
+_:c14n97 a claimchain:Scope ;
+	claimchain:crystal_structures "FCC" ;
+	claimchain:sample_count 3 .
+_:c14n98 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "Physical interpretation not checked by an independent technique." .
+_:c14n99 a claimchain:Concern ;
+	claimchain:concern_type "OVERGENERALIZATION" ;
+	claimchain:description "Supplement says it 'readily generalizes to any EBSD dataset' from n = 3." .

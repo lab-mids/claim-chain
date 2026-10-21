@@ -1,0 +1,750 @@
+id: claimchain:chain/arXiv2606.09611v1
+schema_version: 0.3.0
+annotator: Claude (draft for Markus Stricker), manual
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2606.09611v1
+  title: "Lattice genome: representation and analysis of heterogeneous crystalline microstructures"
+  authors: [Jiayang Wang, Mathieu Calvat, J.C. Stinville, Marat I. Latypov]
+  year: 2026
+  arxiv: 2606.09611v1
+
+# Entities this paper's statements refer to.
+entities:
+  - {id: ent:EBSD, label: electron backscatter diffraction, entity_type: TECHNIQUE}
+  - {id: ent:KikuchiPattern, label: Kikuchi diffraction pattern, entity_type: DATA_TYPE}
+  - {id: ent:VAE, label: variational autoencoder, entity_type: METHOD}
+  - {id: ent:PCA, label: principal component analysis, entity_type: METHOD}
+  - {id: ent:KAM, label: kernel average misorientation, entity_type: QUANTITY}
+  - {id: ent:GOS, label: grain orientation spread, entity_type: QUANTITY}
+  - {id: ent:KLVS, label: kernel latent vector spread, entity_type: QUANTITY}
+  - {id: ent:LVS, label: latent vector spread, entity_type: QUANTITY}
+  - {id: ent:LatticeGene, label: lattice gene, entity_type: CONCEPT}
+  - {id: ent:LatticeGenome, label: lattice genome, entity_type: CONCEPT}
+  - {id: ent:MaterialsGene, label: generalized materials gene, entity_type: CONCEPT}
+  - {id: ent:GrainSegmentation, label: grain segmentation by misorientation threshold, entity_type: METHOD}
+  - {id: ent:IN718, label: Inconel 718, entity_type: MATERIAL}
+  - {id: ent:Waspaloy, label: Waspaloy, entity_type: MATERIAL}
+  - {id: ent:RX, label: wrought and fully recrystallized, entity_type: PROCESSING_STATE}
+  - {id: ent:PartialRX, label: wrought and partially recrystallized, entity_type: PROCESSING_STATE}
+  - {id: ent:DED, label: additively manufactured by directed energy deposition (as built), entity_type: PROCESSING_STATE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: wang2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The Materials Genome Initiative assumes materials have an underlying code dictating behaviour, but what a materials gene looks like in practice remains unclear.
+    evidence: [{evidence_kind: CITATION, references: ["1", "2"]}]
+    about: [ent:MaterialsGene]
+  - id: wang2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: A generalized materials gene should be a vector that is compact, unique, experimentally accessible, and has a distance metric reflecting structural similarity.
+    evidence: [{evidence_kind: CITATION, references: ["3"]}]
+    about: [ent:MaterialsGene]
+  - id: wang2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Atomic pair distribution functions meet the gene criteria for uniform materials but lack spatial information at the mesoscale.
+    evidence: [{evidence_kind: CITATION, references: ["3"]}]
+  - id: wang2026:BG4
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: In structural alloys, spatial heterogeneity of phases, orientations and defects governs macroscale properties.
+    evidence: [{evidence_kind: CITATION, references: ["4", "5"]}]
+  - id: wang2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: No notion of materials genes exists for spatially heterogeneous materials at the mesoscale.
+    evidence: [{evidence_kind: ARGUMENT, description: No literature survey given.}]
+    about: [ent:MaterialsGene]
+  - id: wang2026:BG5
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: EBSD maps Kikuchi patterns over large areas at the mesoscale with high automation and speed.
+    evidence: [{evidence_kind: CITATION, references: ["6", "7"]}]
+    about: [ent:EBSD, ent:KikuchiPattern]
+  - id: wang2026:BG6
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Conventional EBSD reduces Kikuchi patterns to individual lossy descriptors (phase, orientation, rotation, strain, dislocation densities); combining them does not recover all pattern information.
+    evidence: [{evidence_kind: CITATION, references: ["8", "9", "10", "11", "12", "13", "14", "15"]}]
+    about: [ent:EBSD, ent:KikuchiPattern]
+  - id: wang2026:BG7
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Prior PCA, matrix-factorization and deep-learning approaches to Kikuchi patterns compress them or extract known features, but do not give a holistic compact encoding.
+    evidence: [{evidence_kind: CITATION, references: ["16-25"]}]
+  - id: wang2026:BG8
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: A VAE trained on Kikuchi patterns compresses each pattern into a latent vector from which the pattern can be reconstructed to a predefined accuracy.
+    evidence: [{evidence_kind: CITATION, references: ["26", "27", "28", "15"]}]
+    about: [ent:VAE, ent:KikuchiPattern]
+  - id: wang2026:BG9
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Spatial maps of VAE latent features of Kikuchi patterns reveal microstructural heterogeneities with sensitivity exceeding conventional EBSD analysis.
+    evidence: [{evidence_kind: CITATION, references: ["15"]}]
+    scope: {materials: [ent:IN718, ent:Waspaloy], scope_note: Same data source as this paper.}
+  - id: wang2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: VAE latent representations of Kikuchi patterns satisfy the criteria for a generalized materials gene, which extends the materials genome to heterogeneous crystalline materials, and they support standard microstructure analysis.
+    about: [ent:LatticeGene, ent:LatticeGenome]
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: "PARTIAL"
+      rationale: "The tools work comparably to conventional EBSD on three maps, but the gene criteria are argued, not shown, and the distance criterion is contradicted by LIM2 and LIM3."
+      missing_evidence:
+        - "Quantitative test of the gene criteria (see CLAIM1a-d)"
+        - "Independent ground truth for the finer features"
+      proof_obligations:
+        - text: "Show that each of the four gene criteria holds with data"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [wang2026:CLAIM1a, wang2026:CLAIM1b]
+        - text: "Show that the lattice genome supports standard EBSD analyses"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [wang2026:CLAIM3, wang2026:CLAIM4, wang2026:CLAIM6, wang2026:CLAIM7]
+
+  # ---------------- Sec. 2: concept ----------------
+  - id: wang2026:CLAIM1a
+    statement_type: CLAIM
+    section: Sec. 2
+    paper_part: THEORY
+    text: The VAE latent vector of a Kikuchi pattern is a compact, low-dimensional representation of the pattern.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:LatticeGene]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Pattern size vs. latent size (128) never stated. Fig. 2c (~20 PCs explain ~100 %) could support compactness but is not used for it."}
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Fig. 2c (about 20 PCs explain nearly all variance) supports compactness, but the paper does not use it that way and gives no size ratio."
+      missing_evidence:
+        - "Compression ratio of pattern pixels to latent dimensions"
+        - "Intrinsic dimensionality vs. reconstruction error"
+  - id: wang2026:CLAIM1b
+    statement_type: CLAIM
+    section: Sec. 2
+    paper_part: THEORY
+    text: With a pretrained encoder, the latent vector is obtained from a measured pattern by a single forward pass, so it is experimentally accessible.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:LatticeGene]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: "True by construction: a pretrained encoder maps a measured pattern in one forward pass."
+  - id: wang2026:CLAIM1c
+    statement_type: CLAIM
+    section: Sec. 2
+    paper_part: THEORY
+    text: Distance between latent vectors of Kikuchi patterns reflects the physical similarity of the probed lattice (crystallography, orientation, defects), and the continuous latent space avoids discontinuities of space-group classification.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:LatticeGene]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Never tested, e.g. latent distance vs. misorientation or vs. dislocation density."}
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "Undercut by LIM2 and LIM3 (no symmetry reduction; measurement conditions encoded)."}
+    claim_modality: CORRELATIONAL
+    assessment:
+      validity: "NO"
+      rationale: "No data tests it, and the paper's own limitations (no symmetry reduction; measurement conditions encoded) contradict it."
+      missing_evidence:
+        - "Latent distance vs. misorientation (symmetry-reduced) for the same pixel pairs"
+        - "Latent distance vs. GND density"
+        - "Same sample measured with two detector geometries"
+      proof_obligations:
+        - text: "Show that latent distance increases with misorientation, after symmetry reduction"
+          obligation_status: OPEN
+        - text: "Show that latent distance is insensitive to detector geometry and noise"
+          obligation_status: OPEN
+  - id: wang2026:CLAIM1d
+    statement_type: CLAIM
+    section: Sec. 2
+    paper_part: THEORY
+    text: Because the Kikuchi pattern can be reconstructed from it, the latent vector encodes lattice parameter, orientation, strain and defect density, and maps near-uniquely to the local lattice state within reconstruction error.
+    evidence:
+      - {evidence_kind: ARGUMENT}
+      - {evidence_kind: CITATION, references: ["15"]}
+    about: [ent:LatticeGene]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Reconstruction shows code determines the pattern, not that the pattern uniquely determines the lattice state. Reconstruction error not reported."}
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: "INCONCLUSIVE"
+      rationale: "Rests on an inference from reconstruction; reconstruction error is not reported and the pattern-to-lattice-state uniqueness is not shown."
+      missing_evidence:
+        - "Reconstruction error statistics"
+        - "Recovery of orientation, strain and dislocation density from decoded patterns"
+  - id: wang2026:DEF1
+    statement_type: DEFINITION
+    section: Sec. 2
+    paper_part: THEORY
+    text: A lattice gene is the latent encoding z_i in R^d of a single Kikuchi pattern.
+    about: [ent:LatticeGene]
+  - id: wang2026:DEF2
+    statement_type: DEFINITION
+    section: Sec. 2
+    paper_part: THEORY
+    text: A lattice genome is the spatially resolved collection of lattice genes, Z in R^(HxWxd), over a statistically representative area or volume of a material in a given state.
+    about: [ent:LatticeGenome]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Statistical representativeness of the maps used is never assessed."}
+  - id: wang2026:CLAIM2
+    statement_type: CLAIM
+    section: Sec. 2
+    paper_part: THEORY
+    text: The lattice genome extends the materials genome concept to heterogeneous crystalline materials at the mesoscale.
+    evidence: [{evidence_kind: ARGUMENT, description: Analogy with biological genome; decoder as "ribosome".}]
+    about: [ent:LatticeGenome, ent:MaterialsGene]
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: "INCONCLUSIVE"
+      rationale: "Framing claim by analogy; no data can decide it."
+  - id: wang2026:Q1
+    statement_type: QUESTION
+    section: Sec. 2
+    paper_part: THEORY
+    text: Can the lattice genome support visualization, segmentation and heterogeneity quantification as done in conventional EBSD workflows?
+
+  # ---------------- Sec. 3: methods ----------------
+  - id: wang2026:METH1
+    statement_type: METHOD
+    section: Sec. 3, 4
+    paper_part: METHODS
+    text: Kikuchi patterns are encoded with the pretrained VAE encoder of Calvat et al.; one of 128 latent dimensions is dropped because it mainly captures measurement geometry, giving d = 127.
+    evidence: [{evidence_kind: NONE, description: Geometry-tracking of the dropped dimension stated but not shown.}]
+    about: [ent:VAE]
+  - id: wang2026:METH2
+    statement_type: METHOD
+    section: Sec. 3, 4.1
+    paper_part: METHODS
+    text: Latent component maps are built by PCA of all lattice genes of one map and mapping PC1-3 to RGB; optionally each latent dimension is first rescaled so its 1st and 99th percentiles map to 0 and 1.
+    about: [ent:PCA]
+  - id: wang2026:METH3
+    statement_type: METHOD
+    section: Sec. 3
+    paper_part: METHODS
+    text: Neighbouring pixels are merged into one domain if both the latent angle A and the latent Euclidean distance D are below thresholds A* and D*, scanning row by row over right and down neighbours; domains under 6 pixels are dismissed.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eq. 1a, 1b"}]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Label-conflict resolution during the row scan not specified."}
+  - id: wang2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 3
+    paper_part: METHODS
+    text: Absolute latent-space thresholds do not transfer between microstructures, so A* and D* are set to the p-th percentile of each map's own A and D distributions.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. S1/8}]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does a fixed percentile assume a fixed fraction of boundary pixel pairs in every map?"
+  - id: wang2026:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 3
+    paper_part: METHODS
+    hedged: true
+    text: The elbow of the within-cluster sum of squares vs. number-of-clusters curve corresponds to the optimal microstructure segmentation.
+    evidence: [{evidence_kind: ARGUMENT, description: '"We expect the elbow region corresponds to an optimal segmentation."'}]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Elbow is a heuristic without physical meaning; not validated against a ground truth."}
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Does the WCSS elbow coincide with physically meaningful boundaries, or only with a statistical knee?"
+  - id: wang2026:ASM3
+    statement_type: ASSUMPTION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: Grain maps from 5 degree misorientation thresholding are an adequate reference for judging a microstructure segmentation.
+    evidence: [{evidence_kind: CITATION, references: ["29"]}]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Which of the extra latent domains are real boundaries the 5 degree reference misses, and which are artifacts?"
+  - id: wang2026:ASM4
+    statement_type: ASSUMPTION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: KAM and GOS are accepted measures of local and grain-level microstructural heterogeneity, so agreement with them indicates a meaningful heterogeneity metric.
+    evidence: [{evidence_kind: CITATION, references: ["6", "35"]}]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "If KLVS differs from KAM, which one is closer to the true defect content?"
+  - id: wang2026:METH4
+    statement_type: METHOD
+    section: Sec. 3, Suppl.
+    paper_part: METHODS
+    text: The percentile p is scanned from 95 to 60 in steps of 1 and the search stops when three consecutive relative WCSS reductions fall below 10 % of the mean of the first eight; p* is the middle of that window.
+    evidence: [{evidence_kind: NONE, description: The 60-95 range is from "preliminary tests" not shown.}]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Range 60-95, 8-step baseline, 10 % and 3-step window are not justified."}
+  - id: wang2026:METH5
+    statement_type: METHOD
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: Kernel latent vector spread (KLVS) of a pixel is the mean latent angle between its lattice gene and those of its nearest neighbours.
+    evidence: [{evidence_kind: ARGUMENT, locator: Eq. 3}]
+    about: [ent:KLVS]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: 'Text says "average cosine angle", the equation uses the arccos angle; Sec. 5 cites Eq. 6 (which is D-KLVS) for KLVS.'}
+  - id: wang2026:METH6
+    statement_type: METHOD
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: Latent vector spread (LVS) of a domain is the mean latent angle between each pixel's lattice gene and the domain centroid.
+    evidence: [{evidence_kind: ARGUMENT, locator: Eq. 4}]
+    about: [ent:LVS]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Fig. 7 caption says 'lattice vector spread'."}
+  - id: wang2026:DATA1
+    statement_type: DATA
+    section: Sec. 4
+    paper_part: RESULTS
+    text: Three EBSD maps with raw Kikuchi patterns are analysed, all from Calvat et al. - wrought fully recrystallized IN718 (RX), partially recrystallized Waspaloy (W), and as-built DED IN718 (AM).
+    scope:
+      materials: [ent:IN718, ent:Waspaloy]
+      techniques: [ent:EBSD]
+      sample_count: 3
+      crystal_structures: [FCC]
+      scope_note: Single encoder; whether it was trained on these maps is not stated.
+
+  # ---------------- Sec. 4.1: visualization ----------------
+  - id: wang2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 4.1
+    paper_part: RESULTS
+    text: In the three maps, the first three principal components of the lattice genes explain 25-37 % of the variance, and about 20 components are needed to explain nearly 100 %.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 2c
+        values:
+          - {quantity: explained variance PC1-3, value: 25, unit: "%", condition: minimum over maps}
+          - {quantity: explained variance PC1-3, value: 37, unit: "%", condition: maximum over maps}
+          - {quantity: components for ~100 % variance, value: 20}
+    scope: {sample_count: 3}
+  - id: wang2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 4.1
+    paper_part: RESULTS
+    text: Latent component maps capture the grain-scale heterogeneity seen in IPF orientation maps in all three microstructure states.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2a,b"}]
+    scope: {sample_count: 3}
+  - id: wang2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 4.1
+    paper_part: RESULTS
+    hedged: true
+    text: Latent component maps show features faint or absent in IPF maps - preparation deformation and an extra grain (RX), smooth intragranular gradients likely from orientation variation (W), and substructure likely from dislocation cells (AM).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2d A-D"}]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Physical interpretation not checked by an independent technique."}
+    claim_modality: CAUSAL
+  - id: wang2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 4.1
+    paper_part: RESULTS
+    text: Pre-PCA per-dimension scaling reveals an annealing twin and intragranular gradients missed by unscaled latent component maps and otherwise visible only in single-dimension maps.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 3}]
+  - id: wang2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 4.1
+    paper_part: RESULTS
+    text: In a 2D PCA projection, lattice genes form visible clusters, most clearly for the RX microstructure.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 4}]
+  - id: wang2026:CLAIM3
+    statement_type: CLAIM
+    section: Sec. 4.1, 6
+    paper_part: RESULTS
+    text: PCA-based latent component maps are an analog of orientation maps that reveal finer microstructural heterogeneity than IPF maps.
+    about: [ent:PCA, ent:LatticeGenome]
+    scope: {materials: [ent:IN718, ent:Waspaloy], sample_count: 3}
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Agreement with IPF maps is shown visually; 'finer heterogeneity' is interpreted as likely physics without an independent check."
+      missing_evidence:
+        - "Independent characterization (e.g. HR-EBSD, ECCI) of the extra features"
+
+  # ---------------- Sec. 4.2: segmentation ----------------
+  - id: wang2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: The early-stopping search selects percentile thresholds p76 (RX), p80 (W) and p73 (AM).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 4.2, Fig. S2/9
+        values:
+          - {quantity: p*, value: 76, condition: RX}
+          - {quantity: p*, value: 80, condition: W}
+          - {quantity: p*, value: 73, condition: AM}
+  - id: wang2026:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: Latent domain boundaries largely coincide with grain boundaries from 5 degree misorientation thresholding, most closely for RX and W.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 5a}]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "No boundary overlap metric given."}
+  - id: wang2026:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: Latent segmentation yields more domains than misorientation segmentation yields grains in all three microstructures.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 5a
+        values:
+          - {quantity: grains, value: 624, condition: RX}
+          - {quantity: domains, value: 1269, condition: RX}
+          - {quantity: grains, value: 3314, condition: W}
+          - {quantity: domains, value: 3634, condition: W}
+          - {quantity: grains, value: 1326, condition: AM}
+          - {quantity: domains, value: 3143, condition: AM}
+  - id: wang2026:OBS9
+    statement_type: OBSERVATION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: Latent segmentation misses some grain boundaries - those of small grains in AM and W, those near poorly indexed regions in RX, and a few regular grain boundaries.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 5a}]
+  - id: wang2026:OBS10
+    statement_type: OBSERVATION
+    section: Sec. 4.2
+    paper_part: RESULTS
+    text: Area distributions of latent domains and misorientation grains closely match for RX and W but not for AM.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 5b, description: No statistical test.}]
+  - id: wang2026:CLAIM4
+    statement_type: CLAIM
+    section: Sec. 4.2, 6
+    paper_part: RESULTS
+    text: Segmentation by latent angle and distance thresholds produces domain maps consistent with misorientation grain maps while being more sensitive.
+    about: [ent:GrainSegmentation, ent:LatticeGenome]
+    scope: {materials: [ent:IN718, ent:Waspaloy], sample_count: 3}
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "Agreement is counted as validation, extra domains as higher sensitivity; no independent ground truth."}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Missed grain boundaries (OBS9) not weighed against the claim."}
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Boundary agreement is shown visually and counts are given; 'more sensitive' is not distinguished from artifacts or pattern overlap (LIM4), and missed boundaries are not weighed."
+      missing_evidence:
+        - "Boundary precision/recall against a reference"
+        - "Ground truth for the extra domain boundaries"
+      proof_obligations:
+        - text: "Show that domain boundaries coincide with grain boundaries, quantitatively"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [wang2026:OBS7, wang2026:OBS8, wang2026:OBS10]
+        - text: "Show that extra domain boundaries are real microstructural features, not artifacts or pattern overlap"
+          obligation_status: OPEN
+        - text: "Explain the missed grain boundaries"
+          obligation_status: OPEN
+  - id: wang2026:CLAIM5
+    statement_type: CLAIM
+    section: Sec. 5, Suppl.
+    paper_part: DISCUSSION
+    text: A single percentile parameter with automatic elbow detection produces suitable segmentations across microstructures with very different statistics, without case-by-case calibration.
+    scope: {sample_count: 3, crystal_structures: [FCC]}
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Supplement says it 'readily generalizes to any EBSD dataset' from n = 3."}
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: "PARTIAL"
+      rationale: "The procedure ran on three FCC Ni datasets; suitability rests on the elbow assumption and generality beyond n = 3 is not tested."
+      missing_evidence:
+        - "Sensitivity of the result to the early-stopping constants"
+        - "Tests on other crystal structures and instruments"
+
+  # ---------------- Sec. 4.3: heterogeneity ----------------
+  - id: wang2026:OBS11
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: KLVS and KAM maps show the same qualitative trends - high values at boundaries in RX, elevated values throughout W, and patches in AM.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 6}]
+    about: [ent:KLVS, ent:KAM]
+  - id: wang2026:OBS12
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: High-KAM artifacts from poorly indexed grains (RX) and a polishing scratch (W) are absent or weaker in KLVS maps.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 6}]
+    about: [ent:KLVS, ent:KAM]
+  - id: wang2026:OBS13
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: KLVS resolves intragranular substructure in large AM grains that is not visible in KAM.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 6b}]
+  - id: wang2026:OBS14
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: KLVS values span 0-120 degrees whereas KAM spans 0-8 degrees, so absolute values are not comparable.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 6 colour bars
+        values:
+          - {quantity: KLVS range max, value: 120, unit: deg}
+          - {quantity: KAM range max, value: 8, unit: deg}
+  - id: wang2026:OBS15
+    statement_type: OBSERVATION
+    section: Suppl.
+    paper_part: SUPPLEMENTARY
+    text: Distance-based KLVS maps are similar to angle-based KLVS maps.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. S3/10}]
+  - id: wang2026:OBS16
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: LVS maps show the same trends as GOS maps - low in RX, high in W, intermediate in AM.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 7a,b"}]
+    about: [ent:LVS, ent:GOS]
+  - id: wang2026:OBS17
+    statement_type: OBSERVATION
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: Area-weighted LVS and GOS distributions differ, most strongly for AM; for RX and W they show similar but shifted peaks.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 7c}]
+  - id: wang2026:CLAIM6
+    statement_type: CLAIM
+    section: Sec. 4.3, 6
+    paper_part: RESULTS
+    text: KLVS reproduces KAM trends with better contrast for real features and fewer artifacts, because it operates on the encoded pattern rather than on indexed orientations.
+    evidence:
+      - {evidence_kind: ARGUMENT, description: "Mechanism."}
+    about: [ent:KLVS, ent:KAM]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Contrast judged by eye; no contrast or SNR metric."}
+      - {concern_type: CAUSAL_OVERREACH, description: "Mechanism ('because it operates on the encoded pattern') inferred from visual comparison only."}
+    claim_modality: CAUSAL
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Trend agreement with KAM is visible; better contrast and fewer artifacts are judged by eye, and the mechanism is argued, not tested."
+      missing_evidence:
+        - "Contrast-to-noise metric for KLVS vs. KAM"
+        - "Controlled test with artificially perturbed patterns"
+      proof_obligations:
+        - text: "Show that KLVS reproduces KAM trends"
+          obligation_status: DISCHARGED
+          discharged_by: [wang2026:OBS11]
+        - text: "Quantify the contrast gain over KAM"
+          obligation_status: OPEN
+        - text: "Test that artifact robustness comes from operating on encoded patterns"
+          obligation_status: OPEN
+  - id: wang2026:CLAIM7
+    statement_type: CLAIM
+    section: Sec. 4.3, 6
+    paper_part: RESULTS
+    text: LVS is a high-dimensional analog of GOS that recovers qualitatively similar trends of grain-level heterogeneity.
+    about: [ent:LVS, ent:GOS]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "LVS is computed on latent domains, GOS on grains, so metric and segmentation differences are mixed."}
+      - {concern_type: OVERCLAIM, description: 'Conclusion attributes "better contrast" to the spreads; only shown (by eye) for KLVS.'}
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Qualitative trends match GOS, but the distributions differ and the comparison mixes metric and segmentation."
+      missing_evidence:
+        - "LVS computed on the conventional grains"
+  - id: wang2026:CLAIM8
+    statement_type: CLAIM
+    section: Sec. 4.3
+    paper_part: RESULTS
+    text: Angle and Euclidean distance in the latent space are consistent descriptors of local microstructural variation.
+    claim_modality: CORRELATIONAL
+    assessment:
+      validity: "YES"
+      rationale: "Fig. S3 shows similar maps for both metrics; the claim is modest."
+
+  # ---------------- Sec. 5: limitations ----------------
+  - id: wang2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Latent component map colours are dataset-dependent because PCA is fitted per map, unlike the universal IPF colour scheme.
+    limitation_kind: SCOPE
+  - id: wang2026:LIM2
+    statement_type: LIMITATION
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Crystal symmetry is encoded only implicitly in lattice genes; latent angles are not symmetry-reduced, so KLVS and LVS are systematically larger than KAM and GOS and do not match them quantitatively.
+    evidence: [{evidence_kind: ARGUMENT}]
+    limitation_kind: METHOD
+  - id: wang2026:LIM3
+    statement_type: LIMITATION
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Lattice genes also encode measurement conditions (detector geometry, pattern centre, background, noise), complicating comparisons across datasets.
+    evidence: [{evidence_kind: CITATION, references: ["36"]}]
+    limitation_kind: DATA
+  - id: wang2026:LIM4
+    statement_type: LIMITATION
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Where the interaction volume spans several lattices, e.g. at grain or twin boundaries, the lattice gene encodes a superposition, which is harder to interpret but makes the encoding sensitive to overlaps.
+    evidence: [{evidence_kind: CITATION, references: ["37", "38", "39", "15"]}]
+    claim_modality: CAUSAL
+    limitation_kind: INTERPRETATION
+
+  # ---------------- Sec. 5-6: advantages and outlook ----------------
+  - id: wang2026:CLAIM9
+    statement_type: CLAIM
+    section: Sec. 5, 6
+    paper_part: DISCUSSION
+    text: Lattice-genome analysis needs no pattern indexing and is therefore applicable to patterns that are hard to index, such as heavily deformed or multiphase regions.
+    evidence: [{evidence_kind: ARGUMENT}, {evidence_kind: CITATION, references: ["10"]}]
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Not demonstrated; all three maps are single-phase and indexable."}
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: "INCONCLUSIVE"
+      rationale: "Plausible from the method, but no hard-to-index or multiphase data is analysed."
+      missing_evidence:
+        - "Analysis of heavily deformed or multiphase regions where indexing fails"
+  - id: wang2026:CLAIM10
+    statement_type: CLAIM
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: One encoded lattice genome can serve many downstream tasks without reprocessing raw patterns.
+    evidence: [{evidence_kind: ARGUMENT}]
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: "INCONCLUSIVE"
+      rationale: "Argued from the design; no downstream task is demonstrated."
+  - id: wang2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Rotation-invariant or conditional, disentangling encoders could make symmetry explicit and separate physical quantities in the latent space.
+    evidence: [{evidence_kind: CITATION, references: ["40", "41", "42"]}]
+  - id: wang2026:OUT2
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: DISCUSSION
+    hedged: true
+    text: Training on large, diverse diffraction datasets can yield a unique, instrument-invariant encoding with a universal distance metric.
+    evidence: [{evidence_kind: NONE}]
+  - id: wang2026:OUT3
+    statement_type: OUTLOOK
+    section: Sec. 5, 6
+    paper_part: DISCUSSION
+    text: The lattice-genome analysis tools are encoder-agnostic and will remain applicable as encoder architectures evolve.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: wang2026:OUT4
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: Lattice genomes can be extended to chord-length and n-point statistics, multiphase materials, EDS coupling and machine-learning property prediction.
+    evidence: [{evidence_kind: CITATION, references: ["43-49"]}]
+  - id: wang2026:OUT5
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: DISCUSSION
+    hedged: true
+    text: The lattice genome may offer a practical realization of the Materials Genome Initiative vision for heterogeneous crystalline materials at the mesoscale.
+
+relations:
+  # motivation
+  - {id: wang2026:R3, subject: wang2026:BG2, predicate: MOTIVATES, object: wang2026:GAP1, asserted_by: AUTHORS}
+  - {id: wang2026:R4, subject: wang2026:BG3, predicate: MOTIVATES, object: wang2026:GAP1, asserted_by: AUTHORS}
+  - {id: wang2026:R5, subject: wang2026:BG4, predicate: MOTIVATES, object: wang2026:GAP1, asserted_by: AUTHORS}
+  - {id: wang2026:R6, subject: wang2026:GAP1, predicate: MOTIVATES, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R7, subject: wang2026:BG5, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R8, subject: wang2026:BG6, predicate: MOTIVATES, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R9, subject: wang2026:BG7, predicate: MOTIVATES, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R10, subject: wang2026:BG8, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R11, subject: wang2026:BG9, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS}
+  # concept
+  - {id: wang2026:R12, subject: wang2026:BG8, predicate: SUPPORTS, object: wang2026:CLAIM1a, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R13, subject: wang2026:BG8, predicate: SUPPORTS, object: wang2026:CLAIM1b, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: wang2026:R14, subject: wang2026:BG8, predicate: SUPPORTS, object: wang2026:CLAIM1c, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R15, subject: wang2026:BG8, predicate: SUPPORTS, object: wang2026:CLAIM1d, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R17, subject: wang2026:CLAIM1a, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R18, subject: wang2026:CLAIM1b, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: wang2026:R19, subject: wang2026:CLAIM1c, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R20, subject: wang2026:CLAIM1d, predicate: SUPPORTS, object: wang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R21, subject: wang2026:DEF1, predicate: DEPENDS_ON, object: wang2026:HYP1, asserted_by: AUTHORS}
+  - {id: wang2026:R22, subject: wang2026:DEF2, predicate: DEPENDS_ON, object: wang2026:DEF1, asserted_by: AUTHORS}
+  - {id: wang2026:R23, subject: wang2026:DEF2, predicate: SUPPORTS, object: wang2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: wang2026:R24, subject: wang2026:CLAIM2, predicate: ANSWERS, object: wang2026:GAP1, asserted_by: AUTHORS}
+  - {id: wang2026:R25, subject: wang2026:DEF2, predicate: MOTIVATES, object: wang2026:Q1, asserted_by: AUTHORS}
+  # methods
+  - {id: wang2026:R27, subject: wang2026:METH3, predicate: ANALOG_OF, object: ent:GrainSegmentation, asserted_by: AUTHORS, note: "object is an entity, not a statement"}
+  - {id: wang2026:R28, subject: wang2026:METH4, predicate: DEPENDS_ON, object: wang2026:ASM1, asserted_by: AUTHORS}
+  - {id: wang2026:R29, subject: wang2026:METH4, predicate: DEPENDS_ON, object: wang2026:ASM2, asserted_by: AUTHORS}
+  - {id: wang2026:R30, subject: wang2026:METH5, predicate: ANALOG_OF, object: ent:KAM, asserted_by: AUTHORS, note: "object is an entity, not a statement"}
+  - {id: wang2026:R31, subject: wang2026:METH6, predicate: ANALOG_OF, object: ent:GOS, asserted_by: AUTHORS, note: "object is an entity, not a statement"}
+  # visualization
+  - {id: wang2026:R33, subject: wang2026:OBS2, predicate: SUPPORTS, object: wang2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R34, subject: wang2026:OBS3, predicate: SUPPORTS, object: wang2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R35, subject: wang2026:OBS4, predicate: SUPPORTS, object: wang2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R36, subject: wang2026:OBS1, predicate: QUALIFIES, object: wang2026:CLAIM3, asserted_by: AUTHORS, note: "3-PC projection is lossy"}
+  - {id: wang2026:R37, subject: wang2026:OBS1, predicate: SUPPORTS, object: wang2026:CLAIM1a, asserted_by: ANNOTATOR, note: "Not used by the authors for compactness", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R38, subject: wang2026:OBS5, predicate: MOTIVATES, object: wang2026:METH3, asserted_by: AUTHORS}
+  - {id: wang2026:R39, subject: wang2026:CLAIM3, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
+  - {id: wang2026:R40, subject: wang2026:LIM1, predicate: QUALIFIES, object: wang2026:CLAIM3, asserted_by: AUTHORS}
+  # segmentation
+  - {id: wang2026:R41, subject: wang2026:OBS6, predicate: DEPENDS_ON, object: wang2026:METH4, asserted_by: AUTHORS}
+  - {id: wang2026:R42, subject: wang2026:OBS7, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R43, subject: wang2026:OBS8, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, note: "Read as higher sensitivity", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R44, subject: wang2026:OBS10, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R45, subject: wang2026:OBS9, predicate: UNDERCUTS, object: wang2026:CLAIM4, asserted_by: ANNOTATOR}
+  - {id: wang2026:R46, subject: wang2026:LIM4, predicate: ALTERNATIVE_EXPLANATION_FOR, object: wang2026:OBS8, asserted_by: AUTHORS, note: "Authors present overlap as a contributor to finer boundary networks"}
+  - {id: wang2026:R47, subject: wang2026:CLAIM4, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
+  - {id: wang2026:R48, subject: wang2026:OBS6, predicate: SUPPORTS, object: wang2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R49, subject: wang2026:ASM2, predicate: SUPPORTS, object: wang2026:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  # heterogeneity
+  - {id: wang2026:R50, subject: wang2026:OBS11, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R51, subject: wang2026:OBS12, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R52, subject: wang2026:OBS13, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2026:R53, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM6, asserted_by: ANNOTATOR, note: "The gene also encodes noise, which weakens the artifact-robustness mechanism"}
+  - {id: wang2026:R54, subject: wang2026:OBS16, predicate: SUPPORTS, object: wang2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2026:R55, subject: wang2026:OBS17, predicate: QUALIFIES, object: wang2026:CLAIM7, asserted_by: AUTHORS}
+  - {id: wang2026:R56, subject: wang2026:LIM2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: wang2026:OBS14, asserted_by: AUTHORS, note: "Authors use LIM2 to explain the scale difference"}
+  - {id: wang2026:R57, subject: wang2026:LIM2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: wang2026:OBS17, asserted_by: AUTHORS}
+  - {id: wang2026:R58, subject: wang2026:OBS15, predicate: SUPPORTS, object: wang2026:CLAIM8, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: wang2026:R59, subject: wang2026:CLAIM6, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
+  - {id: wang2026:R60, subject: wang2026:CLAIM7, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
+  # limitations against the concept (not linked in the paper)
+  - {id: wang2026:R61, subject: wang2026:LIM2, predicate: UNDERCUTS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR_BACKGROUND, note: "Symmetry-equivalent states need not be close in latent space"}
+  - {id: wang2026:R62, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR, note: "Distance reflects measurement as well as lattice"}
+  - {id: wang2026:R63, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM1d, asserted_by: ANNOTATOR}
+  - {id: wang2026:R64, subject: wang2026:METH1, predicate: SUPPORTS, object: wang2026:LIM3, asserted_by: ANNOTATOR, note: "A whole latent dimension tracked measurement geometry"}
+  # outlook
+  - {id: wang2026:R65, subject: wang2026:OUT1, predicate: ANSWERS, object: wang2026:LIM2, asserted_by: AUTHORS}
+  - {id: wang2026:R66, subject: wang2026:OUT2, predicate: ANSWERS, object: wang2026:LIM3, asserted_by: AUTHORS}
+  - {id: wang2026:R67, subject: wang2026:CLAIM2, predicate: SUPPORTS, object: wang2026:OUT5, asserted_by: AUTHORS}
+  - {id: wang2026:R68, subject: wang2026:CLAIM9, predicate: SUPPORTS, object: wang2026:OUT5, asserted_by: AUTHORS}
+  - {id: wang2026:R69, subject: wang2026:CLAIM10, predicate: SUPPORTS, object: wang2026:OUT5, asserted_by: AUTHORS}
+  - {id: wang2026:R70, subject: wang2026:OUT4, predicate: SUPPORTS, object: wang2026:OUT5, asserted_by: AUTHORS}
+  - {id: wang2026:R71, subject: wang2026:CLAIM4, predicate: DEPENDS_ON, object: wang2026:ASM3, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
+  - {id: wang2026:R72, subject: wang2026:CLAIM6, predicate: DEPENDS_ON, object: wang2026:ASM4, asserted_by: ANNOTATOR, uncertainty: LOW}
+  - {id: wang2026:R73, subject: wang2026:CLAIM7, predicate: DEPENDS_ON, object: wang2026:ASM4, asserted_by: ANNOTATOR, uncertainty: LOW}
+
+# Paper-level result. logic_score and score_method are filled in by scripts/render.py.
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Clear concept and well-described tools that reproduce conventional EBSD
+    trends on three FCC Ni-base maps. The central gene claim is argued rather
+    than shown, the distance criterion is contradicted by the paper's own
+    limitations, and "finer detail" and "better contrast" are judged by eye
+    without ground truth.
+  key_limitations:
+    - "Latent distance is not symmetry-reduced and also encodes measurement conditions (LIM2, LIM3), contradicting the distance-metric criterion (CLAIM1c)."
+    - "Validation by agreement with conventional EBSD cannot fail: disagreements are read as higher sensitivity (CLAIM4)."
+    - "Three maps, two alloys, one crystal structure, one encoder; generality claims exceed this scope (CLAIM5, CLAIM9)."
+    - "Threshold selection rests on an assumed WCSS elbow and ad hoc constants (ASM2, METH4)."
+  missing_evidence:
+    - "Quantitative test of latent distance against misorientation and dislocation density."
+    - "Reconstruction error and compression ratio."
+    - "Independent ground truth (HR-EBSD, ECCI, TEM or synthetic patterns) for extra domains and substructure."
+    - "Boundary precision/recall and a contrast-to-noise metric."
+    - "Data beyond FCC Ni-base alloys and a single detector; released code."

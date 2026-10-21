@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# LaTeX build files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# Papers and figures cropped from them are not ours to redistribute
+papers/
+*.pdf
+ideas/*/slides/figs/
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

@@ -1,0 +1,141 @@
+flowchart TD
+  BG2 --> GAP1
+  BG3 --> GAP1
+  BG4 --> GAP1
+  GAP1 --> HYP1
+  BG5 --> HYP1
+  BG6 --> HYP1
+  BG7 --> HYP1
+  BG8 --> HYP1
+  BG9 --> HYP1
+  BG8 --> CLAIM1a
+  BG8 --> CLAIM1b
+  BG8 --> CLAIM1c
+  BG8 --> CLAIM1d
+  CLAIM1a --> HYP1
+  CLAIM1b --> HYP1
+  CLAIM1c --> HYP1
+  CLAIM1d --> HYP1
+  DEF1 -.-> HYP1
+  DEF2 -.-> DEF1
+  DEF2 --> CLAIM2
+  CLAIM2 -->|answers| GAP1
+  DEF2 --> Q1
+  METH3 -.->|analog of| GrainSegmentation
+  METH4 -.-> ASM1
+  METH4 -.-> ASM2
+  METH5 -.->|analog of| KAM
+  METH6 -.->|analog of| GOS
+  OBS2 --> CLAIM3
+  OBS3 --> CLAIM3
+  OBS4 --> CLAIM3
+  OBS1 -.->|qualifies| CLAIM3
+  OBS1 --> CLAIM1a
+  OBS5 --> METH3
+  CLAIM3 -->|answers| Q1
+  LIM1 -.->|qualifies| CLAIM3
+  OBS6 -.-> METH4
+  OBS7 --> CLAIM4
+  OBS8 --> CLAIM4
+  OBS10 --> CLAIM4
+  OBS9 -.->|undercuts| CLAIM4
+  LIM4 -.->|alternative explanation for| OBS8
+  CLAIM4 -->|answers| Q1
+  OBS6 --> CLAIM5
+  ASM2 --> CLAIM5
+  OBS11 --> CLAIM6
+  OBS12 --> CLAIM6
+  OBS13 --> CLAIM6
+  LIM3 -.->|undercuts| CLAIM6
+  OBS16 --> CLAIM7
+  OBS17 -.->|qualifies| CLAIM7
+  LIM2 -.->|alternative explanation for| OBS14
+  LIM2 -.->|alternative explanation for| OBS17
+  OBS15 --> CLAIM8
+  CLAIM6 -->|answers| Q1
+  CLAIM7 -->|answers| Q1
+  LIM2 -.->|undercuts| CLAIM1c
+  LIM3 -.->|undercuts| CLAIM1c
+  LIM3 -.->|undercuts| CLAIM1d
+  METH1 --> LIM3
+  OUT1 -->|answers| LIM2
+  OUT2 -->|answers| LIM3
+  CLAIM2 --> OUT5
+  CLAIM9 --> OUT5
+  CLAIM10 --> OUT5
+  OUT4 --> OUT5
+  CLAIM4 -.-> ASM3
+  CLAIM6 -.-> ASM4
+  CLAIM7 -.-> ASM4
+  GOS(["GOS"]):::ext
+  GrainSegmentation(["GrainSegmentation"]):::ext
+  KAM(["KAM"]):::ext
+  ASM1["<b>ASM1</b><br/>Absolute latent-space thresholds do not transfer between microstructures, so …"]:::asm
+  ASM2["<b>ASM2</b><br/>The elbow of the within-cluster sum of squares vs. …"]:::asm
+  ASM3["<b>ASM3</b><br/>Grain maps from 5 degree misorientation thresholding are an …"]:::asm
+  ASM4["<b>ASM4</b><br/>KAM and GOS are accepted measures of local and …"]:::asm
+  BG2["<b>BG2</b><br/>A generalized materials gene should be a vector that …"]:::bg
+  BG3["<b>BG3</b><br/>Atomic pair distribution functions meet the gene criteria for …"]:::bg
+  BG4["<b>BG4</b><br/>In structural alloys, spatial heterogeneity of phases, orientations and …"]:::bg
+  BG5["<b>BG5</b><br/>EBSD maps Kikuchi patterns over large areas at the …"]:::bg
+  BG6["<b>BG6</b><br/>Conventional EBSD reduces Kikuchi patterns to individual lossy descriptors …"]:::bg
+  BG7["<b>BG7</b><br/>Prior PCA, matrix-factorization and deep-learning approaches to Kikuchi patterns …"]:::bg
+  BG8["<b>BG8</b><br/>A VAE trained on Kikuchi patterns compresses each pattern …"]:::bg
+  BG9["<b>BG9</b><br/>Spatial maps of VAE latent features of Kikuchi patterns …"]:::bg
+  CLAIM10["<b>CLAIM10 ?</b><br/>One encoded lattice genome can serve many downstream tasks …"]:::claim
+  CLAIM1a["<b>CLAIM1a (partial)</b><br/>The VAE latent vector of a Kikuchi pattern is …"]:::claim
+  CLAIM1b["<b>CLAIM1b ✓</b><br/>With a pretrained encoder, the latent vector is obtained …"]:::claim
+  CLAIM1c["<b>CLAIM1c ✗</b><br/>Distance between latent vectors of Kikuchi patterns reflects the …"]:::claim
+  CLAIM1d["<b>CLAIM1d ?</b><br/>Because the Kikuchi pattern can be reconstructed from it, …"]:::claim
+  CLAIM2["<b>CLAIM2 ?</b><br/>The lattice genome extends the materials genome concept to …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>PCA-based latent component maps are an analog of orientation …"]:::claim
+  CLAIM4["<b>CLAIM4 (partial)</b><br/>Segmentation by latent angle and distance thresholds produces domain …"]:::claim
+  CLAIM5["<b>CLAIM5 (partial)</b><br/>A single percentile parameter with automatic elbow detection produces …"]:::claim
+  CLAIM6["<b>CLAIM6 (partial)</b><br/>KLVS reproduces KAM trends with better contrast for real …"]:::claim
+  CLAIM7["<b>CLAIM7 (partial)</b><br/>LVS is a high-dimensional analog of GOS that recovers …"]:::claim
+  CLAIM8["<b>CLAIM8 ✓</b><br/>Angle and Euclidean distance in the latent space are …"]:::claim
+  CLAIM9["<b>CLAIM9 ?</b><br/>Lattice-genome analysis needs no pattern indexing and is therefore …"]:::claim
+  DEF1["<b>DEF1</b><br/>A lattice gene is the latent encoding z_i in …"]:::claim
+  DEF2["<b>DEF2</b><br/>A lattice genome is the spatially resolved collection of …"]:::claim
+  GAP1["<b>GAP1</b><br/>No notion of materials genes exists for spatially heterogeneous …"]:::bg
+  HYP1["<b>HYP1 (partial)</b><br/>VAE latent representations of Kikuchi patterns satisfy the criteria …"]:::claim
+  LIM1["<b>LIM1</b><br/>Latent component map colours are dataset-dependent because PCA is …"]:::lim
+  LIM2["<b>LIM2</b><br/>Crystal symmetry is encoded only implicitly in lattice genes; …"]:::lim
+  LIM3["<b>LIM3</b><br/>Lattice genes also encode measurement conditions (detector geometry, pattern …"]:::lim
+  LIM4["<b>LIM4</b><br/>Where the interaction volume spans several lattices, e.g. at …"]:::lim
+  METH1["<b>METH1</b><br/>Kikuchi patterns are encoded with the pretrained VAE encoder …"]:::meth
+  METH3["<b>METH3</b><br/>Neighbouring pixels are merged into one domain if both …"]:::meth
+  METH4["<b>METH4</b><br/>The percentile p is scanned from 95 to 60 …"]:::meth
+  METH5["<b>METH5</b><br/>Kernel latent vector spread (KLVS) of a pixel is …"]:::meth
+  METH6["<b>METH6</b><br/>Latent vector spread (LVS) of a domain is the …"]:::meth
+  OBS1["<b>OBS1</b><br/>In the three maps, the first three principal components …"]:::obs
+  OBS10["<b>OBS10</b><br/>Area distributions of latent domains and misorientation grains closely …"]:::obs
+  OBS11["<b>OBS11</b><br/>KLVS and KAM maps show the same qualitative trends …"]:::obs
+  OBS12["<b>OBS12</b><br/>High-KAM artifacts from poorly indexed grains (RX) and a …"]:::obs
+  OBS13["<b>OBS13</b><br/>KLVS resolves intragranular substructure in large AM grains that …"]:::obs
+  OBS14["<b>OBS14</b><br/>KLVS values span 0-120 degrees whereas KAM spans 0-8 …"]:::obs
+  OBS15["<b>OBS15</b><br/>Distance-based KLVS maps are similar to angle-based KLVS maps."]:::obs
+  OBS16["<b>OBS16</b><br/>LVS maps show the same trends as GOS maps …"]:::obs
+  OBS17["<b>OBS17</b><br/>Area-weighted LVS and GOS distributions differ, most strongly for …"]:::obs
+  OBS2["<b>OBS2</b><br/>Latent component maps capture the grain-scale heterogeneity seen in …"]:::obs
+  OBS3["<b>OBS3</b><br/>Latent component maps show features faint or absent in …"]:::obs
+  OBS4["<b>OBS4</b><br/>Pre-PCA per-dimension scaling reveals an annealing twin and intragranular …"]:::obs
+  OBS5["<b>OBS5</b><br/>In a 2D PCA projection, lattice genes form visible …"]:::obs
+  OBS6["<b>OBS6</b><br/>The early-stopping search selects percentile thresholds p76 (RX), p80 …"]:::obs
+  OBS7["<b>OBS7</b><br/>Latent domain boundaries largely coincide with grain boundaries from …"]:::obs
+  OBS8["<b>OBS8</b><br/>Latent segmentation yields more domains than misorientation segmentation yields …"]:::obs
+  OBS9["<b>OBS9</b><br/>Latent segmentation misses some grain boundaries - those of …"]:::obs
+  OUT1["<b>OUT1</b><br/>Rotation-invariant or conditional, disentangling encoders could make symmetry explicit …"]:::out
+  OUT2["<b>OUT2</b><br/>Training on large, diverse diffraction datasets can yield a …"]:::out
+  OUT4["<b>OUT4</b><br/>Lattice genomes can be extended to chord-length and n-point …"]:::out
+  OUT5["<b>OUT5</b><br/>The lattice genome may offer a practical realization of …"]:::out
+  Q1["<b>Q1</b><br/>Can the lattice genome support visualization, segmentation and heterogeneity …"]:::q
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2
