@@ -1,0 +1,249 @@
+flowchart TB
+
+  subgraph INTRO["READ ME FIRST"]
+    direction TB
+    P0["`**What the paper does**
+    Image-recognition AIs are usually trained
+    with a standard method called cross-entropy:
+    show a photo, reward the correct label.
+    This paper proposes SupCon. First the AI learns
+    to place photos of the same class close together
+    and different classes far apart. Then a simple
+    label-reading layer is added on top.
+    The authors claim it is more accurate,
+    more robust and easier to tune.`"]
+    HOW["`**How to read this chart**
+    Read each section from top to bottom.
+    Blue boxes on top = evidence from the paper.
+    Rounded boxes below = what the authors claim.
+    Arrow label = how well the evidence backs the claim.
+    Dotted arrow = the evidence goes AGAINST the claim.
+    Grey six-sided boxes at the bottom = unstated
+    assumptions the claim quietly relies on.`"]
+    GL["`**Key terms**
+    Cross-entropy (CE): the standard training method
+    SupCon: the new method proposed in this paper
+    Top-1 accuracy: % of photos where the first guess is right
+    ImageNet: about 1.3 million photos in 1000 classes
+    ResNet-50, ResNet-200: standard AI models, small and large
+    ImageNet-C: ImageNet photos damaged with blur, noise, fog
+    Corruption error (mCE): error on damaged photos, lower is better
+    Calibration error: gap between confidence and real accuracy
+    Training settings: hand-made choices like optimizer or learning rate
+    Temperature: a SupCon-only setting for how sharply classes separate
+    Gradient: the signal that tells the AI how to adjust itself
+    Hard example: a photo the AI currently finds confusing`"]
+    subgraph LEG["Colour key for claims"]
+      direction LR
+      K1("Supported")
+      K2("Partly supported")
+      K3("Weakly supported")
+      K4("Not supported or contradicted")
+      K5["Evidence"]
+      K6{{"Hidden assumption"}}
+    end
+    P0 ~~~ HOW ~~~ GL ~~~ LEG
+  end
+
+  subgraph T1["QUESTION 1: Is SupCon more accurate than the standard method?"]
+    E1["`**E1. Table 2**
+    ResNet-50, one run each. SupCon beats CE by
+    1.0 (CIFAR-10), 1.2 (CIFAR-100)
+    and 0.5 points (ImageNet)`"]
+    E2["`**E2. Table 3**
+    ImageNet vs the authors' own CE:
+    +1.1 points (ResNet-50), +0.5 (ResNet-200).
+    One run each, no error bars`"]
+    E19["`**E19. Fig. 7**
+    SupCon beats CE at every
+    augmentation strength tried
+    (judged from the caption only)`"]
+    E4["`**E4. Section 4.1**
+    CE with a 2x bigger batch (77.5%)
+    or 1400 epochs (77.0%) still
+    stays below SupCon (78.7%)`"]
+    E5["`**E5. Table 7**
+    CE trained in two stages
+    like SupCon does worse (73.7%)`"]
+    E20["`**E20. Several tables**
+    The same CE ResNet-50 baseline
+    is reported as 77.1, 77.6, 78.2
+    and 78.24% in different places`"]
+
+    C8("`**C8. Gain is not just bigger batches
+    or longer training**
+    Verdict: partly supported`")
+    C9("`**C9. Gain is not just
+    the two-stage recipe**
+    Verdict: partly supported`")
+    C7("`**C7. New record for ResNet-50: 78.7%**
+    Only 0.1 points above the
+    best published CE result
+    Verdict: weakly supported`")
+    C1("`**C1. MAIN CLAIM: More accurate than CE**
+    on every dataset and model size tested
+    Verdict: partly supported`")
+    C2("`**C2. MAIN CLAIM: Record 81.4% on ResNet-200**
+    0.8 points above published CE, but only 0.5
+    above CE trained with the same augmentation
+    Verdict: weakly supported`")
+
+    A1{{"`One run per setting is precise
+    enough to trust differences
+    of 0.5 to 1 point`"}}
+    A2{{"`CE got equally careful tuning
+    and equal training effort`"}}
+    A4{{"`Settings were not chosen by
+    looking at the same test scores
+    that are reported`"}}
+    GAP["`**BIGGEST GAP IN THE PAPER**
+    The gains are 0.5 to 1.1 points,
+    each from a single run.
+    The paper's own CE baseline shifts
+    by 1.1 points between tables.
+    So part of the gain may be noise,
+    though its consistent direction helps.`"]
+
+    E1 ~~~ E4
+    E2 ~~~ E5
+    E19 ~~~ E20
+  end
+
+  subgraph T2["QUESTION 2: Does it cope better with damaged photos?"]
+    E6["`**E6. Fig. 3 (table)**
+    On ImageNet-C, corruption error drops
+    by 1.4 (ResNet-50) and 1.8 points (ResNet-200)`"]
+    E7["`**E7. Table 6**
+    SupCon's accuracy lead grows with damage:
+    0.6 to 1.5 points (ResNet-50),
+    0.6 to 2.6 points (ResNet-200)`"]
+    E8["`**E8. Table 6**
+    SupCon's calibration error rises with damage
+    (0.024 to 0.100), while CE ResNet-200
+    barely rises (0.045 to 0.052)`"]
+    E5b["`**E5. Table 7 (robustness columns)**
+    Two-stage CE has a better relative
+    corruption error (92.9 vs 94.6)`"]
+    C11("`**C11. Confidence stays honest
+    under damage, unlike CE**
+    The paper's own table shows the opposite
+    Verdict: contradicted`")
+    C3("`**C3. MAIN CLAIM: More robust to damaged photos**
+    Holds for accuracy, mixed for the relative measure
+    Verdict: partly supported`")
+    A5{{"`Lower error on damaged photos is not
+    just a side effect of higher accuracy
+    on clean photos`"}}
+  end
+
+  subgraph T3["QUESTION 3: Is it less fussy about training settings?"]
+    E9["`**E9. Fig. 4a**
+    Changing augmentation, optimizer
+    or learning rate moves SupCon's
+    accuracy visibly less than CE's
+    (runs per box not reported)`"]
+    E11["`**E11. Tables 8 and 9**
+    Within SupCon alone, changing
+    optimizer or augmentation moves
+    accuracy by 2.6 to 3.2 points`"]
+    E12["`**E12. Fig. 4d, Supplement 10**
+    The SupCon-only temperature
+    setting changes accuracy
+    by nearly 3%`"]
+    C4("`**C4. MAIN CLAIM: Less sensitive to training settings**
+    True only for the settings varied in Fig. 4a
+    Verdict: partly supported`")
+    A3{{"`The settings varied in Fig. 4a
+    are the ones that matter in practice`"}}
+  end
+
+  subgraph T4["QUESTION 4: Why does it work? (design and theory)"]
+    E13["`**E13. Table 1**
+    Loss version L-out: 78.7%
+    Version L-in: 67.4%
+    An 11.3-point gap, one run each`"]
+    E14["`**E14. Section 3.2.2**
+    Math argument: one loss is an
+    upper bound of the other, plus a
+    gradient argument for a special case`"]
+    E15["`**E15. Supplement 7**
+    Derivation: hard examples
+    produce larger gradients,
+    under stated conditions`"]
+    E16["`**E16. Table 5**
+    More same-class photos per anchor
+    raises accuracy from 69.3% (one)
+    to 78.5% (no limit)`"]
+    C15("`**C15. Theory explains why it is better**
+    An upper bound does not imply
+    a better training target
+    Verdict: weakly supported`")
+    C10("`**C10. More same-class photos
+    per anchor = better**
+    Verdict: partly supported`")
+    C5("`**C5. MAIN CLAIM: The chosen loss version
+    is much better than the obvious alternative**
+    Verdict: supported`")
+    C6("`**C6. MAIN CLAIM: Automatically
+    focuses on hard examples**
+    Shown by math, not measured in training
+    Verdict: partly supported`")
+  end
+
+  INTRO ~~~ T1 ~~~ T2 ~~~ T3 ~~~ T4
+
+  E1 -->|moderate support| C1
+  E2 -->|moderate support| C1
+  E19 -->|moderate support| C1
+  E4 -->|moderate support| C8
+  E5 -->|moderate support| C9
+  C8 -->|moderate support| C1
+  C9 -->|moderate support| C1
+  E2 -->|weak support| C7
+  C7 -->|weak support| C2
+  E2 -->|weak support| C2
+  C1 -.-|relies on| A1
+  C1 -.-|relies on| A2
+  C2 -.-|relies on| A1
+  C2 -.-|relies on| A4
+  E20 -.->|goes against| A1
+  A1 -.- GAP
+
+  E6 -->|moderate support| C3
+  E7 -->|moderate support| C3
+  E8 -.->|goes against| C11
+  C11 -->|no real support| C3
+  E5b -.->|goes against| C3
+  C3 -.-|relies on| A5
+
+  E9 -->|moderate support| C4
+  C4 -.-|relies on| A3
+  E11 -.->|goes against| A3
+  E12 -.->|goes against| A3
+
+  E13 -->|strong support| C5
+  E14 -->|weak support| C15
+  C15 -->|weak support| C5
+  E15 -->|moderate support| C6
+  E16 -->|moderate support| C10
+  C10 -->|weak support| C6
+
+  classDef supported fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partial fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef unsupported fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef evidence fill:#e3f2fd,stroke:#1565c0,color:#000
+  classDef assumption fill:#eeeeee,stroke:#616161,stroke-dasharray:4,color:#000
+  classDef info fill:#ffffff,stroke:#9e9e9e,color:#000
+  classDef gap fill:#ffebee,stroke:#c62828,stroke-width:3px,color:#000
+  classDef main stroke-width:3px
+
+  class C5,K1 supported
+  class C1,C3,C4,C6,C8,C9,C10,K2 partial
+  class C2,C7,C15,K3 weak
+  class C11,K4 unsupported
+  class E1,E2,E4,E5,E5b,E6,E7,E8,E9,E11,E12,E13,E14,E15,E16,E19,E20,K5 evidence
+  class A1,A2,A3,A4,A5,K6 assumption
+  class P0,HOW,GL info
+  class GAP gap
+  class C1,C2,C3,C4,C5,C6 main

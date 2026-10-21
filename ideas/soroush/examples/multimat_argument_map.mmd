@@ -1,0 +1,221 @@
+flowchart BT
+
+  subgraph INTRO["READ ME FIRST"]
+    direction TB
+    P0["`**What the paper does**
+    MultiMat trains one AI on four views of each crystal:
+    1. its atomic structure
+    2. its electron energy spectrum (DOS)
+    3. its 3D electron cloud (charge density)
+    4. a computer-written text description
+    Idea: if the AI learns that all four views describe
+    the same material, it should understand materials better.`"]
+    HOW["`**How to read this chart**
+    Boxes at the bottom = evidence found in the paper.
+    Rounded boxes above = what the authors claim.
+    Arrow label = how well the evidence backs the claim.
+    Dotted arrow = the evidence goes AGAINST the claim.
+    Grey six-sided box = an unstated assumption
+    the claim quietly depends on.`"]
+    GL["`**Key terms**
+    DOS: how many electron energy levels exist at each energy
+    Charge density: where the electrons sit in 3D space
+    Error (MAE): average gap between prediction and truth, lower is better
+    CGCNN, PotNet: earlier AI models for crystals
+    Pre-training: learning general patterns on lots of data first
+    UMAP: squeezes many numbers into a 2D picture`"]
+    subgraph LEG["Colour key for claims"]
+      direction LR
+      K1("Supported")
+      K2("Partly supported")
+      K3("Weakly supported")
+      K4("Not supported or contradicted")
+      K5["Evidence"]
+      K6{{"Hidden assumption"}}
+    end
+  end
+
+  subgraph T1["QUESTION 1: Does it predict material properties better?"]
+    E1["`**E1. Table 1**
+    Older AI (CGCNN) vs newer AI (PotNet):
+    PotNet has 3 to 13% lower error`"]
+    E2["`**E2. Table 1**
+    Training with one extra view
+    (spectrum or electron cloud)
+    lowers error by 3 to 12% vs PotNet`"]
+    E3["`**E3. Table 1**
+    A cheap, computer-written text description
+    helps just as much as the costly spectrum`"]
+    E4["`**E4. Table 1**
+    Using 3 or 4 views instead of 2:
+    extra gain is about the size
+    of run-to-run noise`"]
+    E5["`**E5. Methods**
+    Each test repeated 3 times on one data split.
+    Not stated: were the test materials
+    already seen during pre-training?`"]
+    E13["`**E13. Reference 30**
+    An earlier paper reports
+    PotNet as the best model`"]
+
+    C6("`**C6. Up to ~10% lower error than PotNet**
+    Verdict: partly supported`")
+    C7("`**C7. Gain as big as 5 years of progress**
+    (from CGCNN to PotNet)
+    Verdict: partly supported`")
+    C8("`**C8. More views in training = better**
+    Verdict: weakly supported`")
+    C9("`**C9. Would improve any AI model**
+    Only one model was tried
+    Verdict: not supported`")
+    C10("`**C10. Works well with small datasets**
+    Never tested with different data sizes
+    Verdict: weakly supported`")
+    C18("`**C18. PotNet was the best model**
+    Taken from an earlier paper
+    Verdict: partly supported`")
+    C1("`**C1. MAIN CLAIM: Best accuracy to date**
+    MultiMat predicts material properties
+    better than existing methods
+    Verdict: partly supported`")
+
+    A1{{"`Beating one model on the authors'
+    own test = best in the whole field`"}}
+    A2{{"`The gain comes from the extra information,
+    not simply from extra training on crystals`"}}
+    A3{{"`Test materials were not already
+    seen during pre-training`"}}
+    GAP["`**BIGGEST GAP IN THE PAPER**
+    No test of pre-training on crystal structures alone.
+    So we cannot tell if the gain comes from using
+    several views, or just from extra training.`"]
+  end
+
+  subgraph T2["QUESTION 2: Can it find materials with a wanted behaviour?"]
+    E8["`**E8. Fig. 3A**
+    Given a spectrum, the AI picks out its own
+    crystal among ~15,000 candidates
+    (exact success rate not given in text)`"]
+    E9["`**E9. Fig. 3B**
+    Spectrum mismatch shrinks as more suggestions
+    are allowed, but the best one is chosen by
+    checking each suggestion's TRUE spectrum`"]
+    E10["`**E10. Fig. 3C**
+    Two hand-picked examples
+    that match well`"]
+
+    C13("`**C13. The four views line up well**
+    inside the AI
+    Verdict: partly supported`")
+    C14("`**C14. Checking ~5 suggestions is enough**
+    Verdict: weakly supported`")
+    C15("`**C15. Will also work on bigger databases**
+    A prediction, never tested
+    Verdict: not supported`")
+    C2("`**C2. MAIN CLAIM: Finds materials with a target spectrum**
+    by searching for similar points in the AI's internal map
+    Verdict: weakly supported`")
+    C3("`**C3. MAIN CLAIM: Finds new, stable materials**
+    Only already-known materials were searched,
+    and stability was never checked
+    Verdict: not supported`")
+
+    A4{{"`The true spectrum of each suggestion is known,
+    but in real discovery it would not be`"}}
+    A5{{"`Every material in the
+    database is stable`"}}
+  end
+
+  subgraph T3["QUESTION 3: Did the AI learn real physics?"]
+    E11["`**E11. Fig. 4**
+    2D map of the AI's internal features,
+    coloured by crystal type, formation energy,
+    and metal vs non-metal`"]
+    C16("`**C16. Similar materials sit together on the map**
+    A visual impression, no number given
+    Verdict: partly supported`")
+    C17("`**C17. Learned real physics, not noise**
+    Verdict: weakly supported`")
+    C4("`**C4. MAIN CLAIM: Features have physical meaning**
+    and may give new scientific insight
+    Verdict: weakly supported`")
+    A6{{"`Clusters show learned physics, not just
+    which chemical elements are present`"}}
+  end
+
+  subgraph T4["QUESTION 4: Does the training method itself work?"]
+    E12["`**E12. Equations 3 and 4**
+    Training formulas written out
+    for 3 and 4 views`"]
+    E7["`**E7. Data counts**
+    Of ~155,000 crystals, only ~78,000
+    have all views available`"]
+    E6["`**E6. Table S1**
+    Alternative all-at-once methods
+    vs the pair-by-pair methods`"]
+    C5("`**C5. MAIN CLAIM: Method extended from 2 to many views**
+    Verdict: supported`")
+    C11("`**C11. Pair-by-pair training can use incomplete data**
+    Verdict: partly supported`")
+    C12("`**C12. All-at-once methods are equally good**
+    Their band-gap error is 6 to 9% worse
+    Verdict: contradicted`")
+  end
+
+  E2 -->|moderate support| C6
+  E4 -->|moderate support| C6
+  E5 -->|weak support| C6
+  E1 -->|moderate support| C7
+  E13 -->|weak support| C18
+  C6 -->|moderate support| C1
+  C18 -->|moderate support| C1
+  E2 -->|weak support| C8
+  E4 -->|weak support| C8
+  E3 -.->|goes against| A2
+  C6 -->|no real support| C9
+  C6 -->|weak support| C10
+
+  E8 -->|moderate support| C13
+  E9 -->|weak support| C14
+  C13 -->|moderate support| C2
+  C14 -->|weak support| C2
+  E10 -->|weak support| C2
+  E9 ---|not related| C3
+
+  E11 -->|moderate support| C16
+  C16 -->|weak support| C17
+  C16 -->|weak support| C4
+  C17 -->|weak support| C4
+
+  E12 -->|strong support| C5
+  E7 -->|moderate support| C11
+  E6 -->|weak support| C11
+  E6 -.->|goes against| C12
+
+  A1 -.-|relies on| C1
+  A2 -.-|relies on| C8
+  A3 -.-|relies on| C6
+  A4 -.-|relies on| C14
+  A5 -.-|relies on| C3
+  A6 -.-|relies on| C16
+  GAP -.- A2
+
+  classDef supported fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partial fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef unsupported fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef evidence fill:#e3f2fd,stroke:#1565c0,color:#000
+  classDef assumption fill:#eeeeee,stroke:#616161,stroke-dasharray:4,color:#000
+  classDef info fill:#ffffff,stroke:#9e9e9e,color:#000
+  classDef gap fill:#ffebee,stroke:#c62828,stroke-width:3px,color:#000
+  classDef main stroke-width:3px
+
+  class C5,K1 supported
+  class C1,C6,C7,C11,C13,C16,C18,K2 partial
+  class C2,C4,C8,C10,C14,C17,K3 weak
+  class C3,C9,C12,C15,K4 unsupported
+  class E1,E2,E3,E4,E5,E6,E7,E8,E9,E10,E11,E12,E13,K5 evidence
+  class A1,A2,A3,A4,A5,A6,K6 assumption
+  class P0,HOW,GL info
+  class GAP gap
+  class C1,C2,C3,C4,C5 main
