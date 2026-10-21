@@ -3,8 +3,12 @@ compute the logic score, and write the three-part report (logic, limitations,
 missing evidence).
 
 Usage: python scripts/render.py examples/<paper>/<paper>.yaml examples/<paper>/generated/
-Also checks that every relation points to a known statement or entity.
+Also checks that every relation points to a known statement or entity, and
+recomputes every derived check that has a formula.
 """
+import ast
+import math
+import operator
 import sys
 from pathlib import Path
 
@@ -27,7 +31,7 @@ CLASSDEFS = """  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
 EDGE = {
     "SUPPORTS": "-->", "MOTIVATES": "-->", "ANSWERS": "-->", "DEPENDS_ON": "-.->",
     "UNDERCUTS": "-.->", "CONTRADICTS": "-.->", "QUALIFIES": "-.->",
-    "ALTERNATIVE_EXPLANATION_FOR": "-.->", "ANALOG_OF": "-.->",
+    "ALTERNATIVE_EXPLANATION_FOR": "-.->", "ANALOG_OF": "-.->", "CONDITIONALLY_SUPPORTS": "-.->",
 }
 SECTIONS = [
     ("Motivation", {"BACKGROUND", "GAP", "HYPOTHESIS"}),
@@ -45,6 +49,11 @@ MERMAID_MARK = {"YES": "✓", "PARTIAL": "(partial)", "INCONCLUSIVE": "?", "NO":
 SCORED_TYPES = {"CLAIM", "HYPOTHESIS"}
 SCORE_METHOD = ("mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, "
                 "INCONCLUSIVE=0.25, NO=0 (draft weighting)")
+# Draft weights by claim_role for the weighted score; statements without a role weigh 1.
+ROLE_WEIGHT = {"MAIN_CONCLUSION": 3.0, "COUNTER_CLAIM": 0.0}
+WEIGHTED_METHOD = ("as the logic score, but MAIN_CONCLUSION weighs 3, COUNTER_CLAIM 0 "
+                   "and every other claim or hypothesis 1 (draft weighting)")
+OBLIGATION_SCORE = {"DISCHARGED": 1.0, "PARTIALLY_DISCHARGED": 0.5, "OPEN": 0.0}
 
 
 def logic_score(chain):
@@ -54,6 +63,88 @@ def logic_score(chain):
     score = sum(VALIDITY_SCORE[v] for v in verdicts) / len(verdicts) if verdicts else None
     counts = {v: verdicts.count(v) for v in VALIDITY_SCORE}
     return score, counts, unassessed
+
+
+def weighted_logic_score(chain):
+    pairs = [(ROLE_WEIGHT.get(s.get("claim_role"), 1.0), VALIDITY_SCORE[s["assessment"]["validity"]])
+             for s in chain["statements"] if s["statement_type"] in SCORED_TYPES and s.get("assessment")]
+    total = sum(w for w, _ in pairs)
+    return sum(w * v for w, v in pairs) / total if total else None
+
+
+def obligation_coverage(chain):
+    status = [o["obligation_status"] for s in chain["statements"]
+              for o in (s.get("assessment") or {}).get("proof_obligations", [])]
+    return (sum(OBLIGATION_SCORE[x] for x in status) / len(status) if status else None), len(status)
+
+
+def fmt_score(x):
+    return "n/a" if x is None else f"{x:.2f}"
+
+
+# ---- derived checks: safe evaluation of arithmetic formulas over value symbols ----
+
+_OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, ast.Div: operator.truediv,
+        ast.Pow: operator.pow, ast.USub: operator.neg, ast.UAdd: operator.pos,
+        ast.Lt: operator.lt, ast.LtE: operator.le, ast.Gt: operator.gt, ast.GtE: operator.ge,
+        ast.Eq: operator.eq, ast.NotEq: operator.ne}
+_FUNCS = {"abs": abs, "min": min, "max": max, "sqrt": math.sqrt, "log": math.log, "exp": math.exp}
+
+
+def _eval(node, env):
+    if isinstance(node, ast.Expression):
+        return _eval(node.body, env)
+    if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
+        return node.value
+    if isinstance(node, ast.Name):
+        return env[node.id]
+    if isinstance(node, ast.BinOp):
+        return _OPS[type(node.op)](_eval(node.left, env), _eval(node.right, env))
+    if isinstance(node, ast.UnaryOp):
+        return _OPS[type(node.op)](_eval(node.operand, env))
+    if isinstance(node, ast.Compare):
+        left = _eval(node.left, env)
+        for op, comp in zip(node.ops, node.comparators):
+            right = _eval(comp, env)
+            if not _OPS[type(op)](left, right):
+                return False
+            left = right
+        return True
+    if isinstance(node, ast.BoolOp):
+        vals = [_eval(v, env) for v in node.values]
+        return all(vals) if isinstance(node.op, ast.And) else any(vals)
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) and node.func.id in _FUNCS:
+        return _FUNCS[node.func.id](*[_eval(a, env) for a in node.args])
+    raise ValueError(f"unsupported expression: {ast.dump(node)}")
+
+
+def _close(computed, reported):
+    """Equal up to the precision the reported number is given in (or 1 %)."""
+    decimals = len(repr(float(reported)).split(".")[1].rstrip("0")) if "." in repr(float(reported)) else 0
+    return abs(computed - reported) <= max(0.01 * abs(reported), 0.5 * 10 ** -decimals)
+
+
+def run_checks(chain):
+    """Recompute every derived check with a formula. Returns a list of (statement id, check, status, computed)."""
+    out = []
+    for s in chain["statements"]:
+        for e in s.get("evidence", []):
+            env = {v["symbol"]: v["value"] for v in e.get("values", []) if v.get("symbol")}
+            for c in e.get("derived_checks", []):
+                if not c.get("formula"):
+                    out.append((s["id"], c, "not machine-checkable", None))
+                    continue
+                try:
+                    got = _eval(ast.parse(c["formula"], mode="eval"), env)
+                except Exception as exc:  # unknown symbol, bad syntax
+                    out.append((s["id"], c, f"error: {exc}", None))
+                    continue
+                if isinstance(got, bool):
+                    ok = c.get("satisfied") is None or got == c["satisfied"]
+                else:
+                    ok = c.get("result") is None or _close(got, c["result"])
+                out.append((s["id"], c, "ok" if ok else "MISMATCH", got))
+    return out
 
 
 def label(x):
@@ -91,7 +182,30 @@ def check(chain):
             for x in o.get("discharged_by", []) if x not in known]
     for rid, x in bad:
         print(f"dangling reference in {rid}: {x}", file=sys.stderr)
-    return not bad
+    failed = [r for r in run_checks(chain) if r[2] not in {"ok", "not machine-checkable"}]
+    for sid, c, status, got in failed:
+        print(f"derived check in {sid} ({c['expression']}): {status}, computed {got}", file=sys.stderr)
+    return not bad and not failed
+
+
+def warrant_str(w):
+    bits = [label(x) for x in (w.get("warrant_basis"), w.get("support_strength")) if x]
+    if w.get("references"):
+        bits.append("refs " + ", ".join(w["references"]))
+    return w["rule"].strip() + (f" ({'; '.join(bits)})" if bits else "")
+
+
+def check_str(c, got=None, status=None):
+    s = c["expression"]
+    if c.get("result") is not None:
+        s += f" = {c['result']:g}" + (f" {c['unit']}" if c.get("unit") else "")
+    if c.get("satisfied") is not None:
+        s += " ✓ satisfied" if c["satisfied"] else " ✗ not satisfied"
+    if status == "ok":
+        s += " (recomputed)"
+    elif status:
+        s += f" ({status}" + (f", computed {got:g}" if isinstance(got, (int, float)) and not isinstance(got, bool) else "") + ")"
+    return s
 
 
 def markdown(chain):
@@ -105,8 +219,12 @@ def markdown(chain):
          f"Generated from the claim-chain YAML (schema {chain['schema_version']}); do not edit by hand.", ""]
     score, counts, _ = logic_score(chain)
     if score is not None:
-        L += [f"**Logic score: {score:.2f}** ({', '.join(f'{v} {k}' for k, v in counts.items())}). "
+        L += [f"**Logic score: {score:.2f}** ({', '.join(f'{v} {k}' for k, v in counts.items())}), "
+              f"weighted by claim role: {fmt_score(weighted_logic_score(chain))}. "
               f"Method: {SCORE_METHOD}.", ""]
+    checks = {}
+    for sid, c, status, got in run_checks(chain):
+        checks[id(c)] = (status, got)
     for title, types in SECTIONS:
         sts = [s for s in chain["statements"] if s["statement_type"] in types]
         if not sts:
@@ -114,10 +232,16 @@ def markdown(chain):
         L += [f"## {title}", ""]
         for s in sts:
             hedge = " *(hedged)*" if s.get("hedged") else ""
-            L.append(f"**{short(s['id'])}** `{s['statement_type']}` {s.get('section', '')}{hedge}  ")
+            tags = " ".join(f"`{label(s[k])}`" for k in ("claim_role", "author_certainty", "priority") if s.get(k))
+            L.append(f"**{short(s['id'])}** `{s['statement_type']}` {tags} {s.get('section', '')}{hedge}  ")
             L.append(f"{s['text']}  ")
-            if s["statement_type"] not in {"HYPOTHESIS", "QUESTION", "DEFINITION"}:
+            if s["statement_type"] not in {"HYPOTHESIS", "QUESTION", "DEFINITION"} or s.get("evidence"):
                 L.append(f"Evidence: {evidence_str(s.get('evidence'))}  ")
+            for e in s.get("evidence", []):
+                for c in e.get("derived_checks", []):
+                    L.append(f"Check: {check_str(c, *reversed(checks.get(id(c), (None, None))))}  ")
+            if s.get("warrant"):
+                L.append(f"Warrant: {warrant_str(s['warrant'])}  ")
             if s.get("claim_modality"):
                 L.append(f"Modality: {label(s['claim_modality'])}  ")
             if s.get("assumption_basis"):
@@ -138,6 +262,8 @@ def markdown(chain):
                                   for k in ("support_basis", "support_strength", "uncertainty") if r.get(k))
                 attrs = f" [{attrs}]" if attrs else ""
                 L.append(f"→ {label(r['predicate'])} **{short(r['object'])}**{attrs}{who}  ")
+                if r.get("warrant"):
+                    L.append(f"&nbsp;&nbsp;&nbsp;warrant: {warrant_str(r['warrant'])}  ")
             for c in s.get("concerns", []):
                 L.append(f"⚠ {label(c['concern_type'])}: {c['description']}  ")
             a = s.get("assessment")
@@ -147,7 +273,11 @@ def markdown(chain):
                     L.append(f"Missing: {m}  ")
                 for o in a.get("proof_obligations", []):
                     by = ", ".join(short(x) for x in o.get("discharged_by", []))
-                    L.append(f"Obligation ({label(o['obligation_status'])}): {o['text']}" + (f" ← {by}" if by else "") + "  ")
+                    pr = f", {label(o['priority'])}" if o.get("priority") else ""
+                    L.append(f"Obligation ({label(o['obligation_status'])}{pr}): {o['text']}" + (f" ← {by}" if by else "") + "  ")
+                    for d in o.get("requested_data", []):
+                        L.append(f"&nbsp;&nbsp;&nbsp;needs: {d['quantity']}" + (f" [{d['unit']}]" if d.get("unit") else "")
+                                 + (f" via {d['method']}" if d.get("method") else "") + "  ")
             L.append("")
     return "\n".join(L)
 
@@ -162,7 +292,9 @@ def mermaid(chain, include=None):
             continue
         lbl = r["predicate"].lower().replace("_", " ")
         arrow = EDGE[r["predicate"]]
-        if r["predicate"] in {"SUPPORTS", "MOTIVATES", "DEPENDS_ON"}:
+        if r["predicate"] == "SUPPORTS" and r.get("support_strength") == "STRONG":
+            L.append(f"  {node(a)} ==> {node(b)}")
+        elif r["predicate"] in {"SUPPORTS", "MOTIVATES", "DEPENDS_ON"}:
             L.append(f"  {node(a)} {arrow} {node(b)}")
         else:
             L.append(f"  {node(a)} {arrow}|{lbl}| {node(b)}")
@@ -189,20 +321,28 @@ def report(chain):
     L = [f"# claim-chain report: {pub['title']}", "",
          f"{', '.join(pub['authors'])} ({pub['year']}), {pub['id']}. Generated; do not edit by hand.", ""]
     L += ["## 1. Logic", ""]
+    coverage, n_obl = obligation_coverage(chain)
     if pa.get("overall_validity"):
         L.append(f"**Overall: {VALIDITY_MARK[pa['overall_validity']]} {pa['overall_validity']}** · "
-                 f"**Logic score: {score:.2f}**  ")
-    L.append(f"Score method: {SCORE_METHOD}.  ")
+                 f"**Logic score: {score:.2f}** · weighted: {fmt_score(weighted_logic_score(chain))} · "
+                 f"proof obligations discharged: {fmt_score(coverage)} (of {n_obl})  ")
+    L.append(f"Score method: {SCORE_METHOD}. Weighted: {WEIGHTED_METHOD}.  ")
     L.append(f"Verdicts: {', '.join(f'{v} {k}' for k, v in counts.items())}."
              + (f" Not yet assessed: {', '.join(short(u) for u in unassessed)}." if unassessed else ""))
     if pa.get("summary"):
         L += ["", pa["summary"]]
-    L += ["", "| Statement | Modality | Verdict | Rationale |", "|---|---|---|---|"]
+    L += ["", "| Statement | Role | Modality | Authors say | Verdict | Rationale |", "|---|---|---|---|---|---|"]
     for s in sts:
         a = s.get("assessment")
         if s["statement_type"] in SCORED_TYPES and a:
-            L.append(f"| **{short(s['id'])}** {s['text']} | {label(s.get('claim_modality', '-'))} | "
+            L.append(f"| **{short(s['id'])}** {s['text']} | {label(s.get('claim_role', '-'))} | "
+                     f"{label(s.get('claim_modality', '-'))} | {label(s.get('author_certainty', '-'))} | "
                      f"{VALIDITY_MARK[a['validity']]} {a['validity']} | {a['rationale']} |")
+    results = run_checks(chain)
+    if results:
+        L += ["", "**Recomputed checks:**", ""]
+        for sid, c, status, got in results:
+            L.append(f"- **{short(sid)}** {check_str(c, got, status)}")
     parts = {}
     for s in sts:
         parts.setdefault(s.get("paper_part", "UNSPECIFIED"), []).append(s)
@@ -225,6 +365,15 @@ def report(chain):
         if s["statement_type"] == "ASSUMPTION":
             L.append(f"- **{short(s['id'])}** ({label(s.get('assumption_basis', '-'))}): {s['text']} "
                      f"*Open question:* {s.get('open_question', '-')}")
+    weak = [(x, w) for x, w in
+            [(s["id"], s["warrant"]) for s in sts if s.get("warrant")]
+            + [(f"{r['subject']}→{short(r['object'])}", r["warrant"]) for r in chain["relations"] if r.get("warrant")]
+            if w.get("warrant_basis") in {"EMPIRICAL_CORRELATION", "UNSTATED", "AUTHOR_ARGUMENT"}
+            or w.get("support_strength") == "WEAK"]
+    if weak:
+        L += ["", "**Inference rules that are empirical, unstated, argued only by the authors, or weak:**", ""]
+        for x, w in weak:
+            L.append(f"- **{short(x)}**: {warrant_str(w)}")
     L += ["", "**Flagged by the annotator:**", ""]
     for s in sts:
         for c in s.get("concerns", []):
@@ -237,8 +386,17 @@ def report(chain):
         for o in (s.get("assessment") or {}).get("proof_obligations", []):
             if o["obligation_status"] != "DISCHARGED":
                 by = ", ".join(short(x) for x in o.get("discharged_by", []))
-                L.append(f"- **{short(s['id'])}** ({label(o['obligation_status'])}): {o['text']}"
-                         + (f" (partly: {by})" if by else ""))
+                pr = f", {label(o['priority'])}" if o.get("priority") else ""
+                need = "; ".join(d["quantity"] + (f" [{d['unit']}]" if d.get("unit") else "")
+                                 + (f" via {d['method']}" if d.get("method") else "") for d in o.get("requested_data", []))
+                L.append(f"- **{short(s['id'])}** ({label(o['obligation_status'])}{pr}): {o['text']}"
+                         + (f" (partly: {by})" if by else "") + (f" Needs: {need}." if need else ""))
+    questions = [s for s in sts if s["statement_type"] == "QUESTION" and s.get("priority")]
+    if questions:
+        L += ["", "**Open questions by priority:**", ""]
+        order = ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+        for s in sorted(questions, key=lambda s: order.index(s["priority"])):
+            L.append(f"- **{short(s['id'])}** ({label(s['priority'])}): {s['text']}")
     L += ["", "**Per statement:**", ""]
     for s in sts:
         for m in (s.get("assessment") or {}).get("missing_evidence", []):
@@ -260,8 +418,10 @@ def main():
     core = {s["id"] for s in chain["statements"] if s["statement_type"] in core_types}
     (out / f"{stem}_core.mmd").write_text(mermaid(chain, core))
     score, counts, _ = logic_score(chain)
-    print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd; references ok: {ok}; "
-          f"logic score: {score:.2f} {counts}")
+    coverage, n_obl = obligation_coverage(chain)
+    print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd; checks ok: {ok}; "
+          f"logic score: {fmt_score(score)} {counts}; weighted: {fmt_score(weighted_logic_score(chain))}; "
+          f"obligations discharged: {fmt_score(coverage)} of {n_obl}")
 
 
 if __name__ == "__main__":

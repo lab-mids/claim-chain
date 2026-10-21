@@ -1,0 +1,446 @@
+id: claimchain:chain/arXiv2610.28152
+schema_version: 0.4.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.28152
+  title: "Enhancement of Li and Na Storage in Janus HfSSe Monolayers by Co-Induced Electron-Deficient Chalcogen Sites: A First-Principles Study"
+  authors: [Md. Muktadir Hasan, Md. Mafizul Islam, Ahmed Zubair]
+  year: 2026
+  arxiv: "2610.28152"
+  url: https://arxiv.org/abs/2610.28152
+
+entities:
+  - {id: ent:HfSSe, label: Janus 1T HfSSe monolayer, entity_type: MATERIAL}
+  - {id: ent:CoHfSSe, label: "Co-doped HfSSe (1 Co per 3x3 supercell, Co on Hf site)", entity_type: MATERIAL}
+  - {id: ent:Li, label: lithium adatom, entity_type: MATERIAL}
+  - {id: ent:Na, label: sodium adatom, entity_type: MATERIAL}
+  - {id: ent:DFT, label: "DFT (Quantum ESPRESSO, PBE + D3, PAW)", entity_type: METHOD}
+  - {id: ent:Phonopy, label: finite-displacement phonons (PHONOPY), entity_type: METHOD}
+  - {id: ent:AIMD, label: ab initio molecular dynamics (300 K; 10 ps), entity_type: METHOD}
+  - {id: ent:CINEB, label: climbing-image nudged elastic band, entity_type: METHOD}
+  - {id: ent:Bader, label: Bader charge analysis, entity_type: METHOD}
+  - {id: ent:Eads, label: adsorption energy (vs isolated atom), entity_type: QUANTITY}
+  - {id: ent:Capacity, label: theoretical specific capacity, entity_type: QUANTITY}
+  - {id: ent:OCV, label: average open-circuit voltage, entity_type: QUANTITY}
+  - {id: ent:Barrier, label: migration barrier, entity_type: QUANTITY}
+  - {id: ent:Ef, label: Co substitution formation energy, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: hasan2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Graphite anodes have a theoretical capacity of 372 mAh/g and suffer from slow diffusion and Li plating at high rates, motivating alternative anodes for Li- and Na-ion batteries.
+    evidence: [{evidence_kind: CITATION, references: ["1-11"]}]
+  - id: hasan2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: 2D materials and Janus TMDs offer large surface area, short diffusion paths and two inequivalent surfaces; Janus MoSSe and WSSe were predicted to be good Li/Na anodes.
+    evidence: [{evidence_kind: CITATION, references: ["12-30"]}]
+  - id: hasan2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Doping, strain and defects tune adsorption, conductivity and diffusion in TMD anodes, and Li/Na storage on HfS2 improves with doping and strain.
+    evidence: [{evidence_kind: CITATION, references: ["20", "23", "34"]}]
+  - id: hasan2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The Li- and Na-ion anode behaviour of Janus HfSSe, pristine or doped, is underexplored.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:HfSSe]
+  - id: hasan2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 1, Abstract
+    paper_part: INTRODUCTION
+    text: Co substitution in Janus HfSSe creates electron-deficient chalcogen sites that strengthen Li/Na binding and raise storage capacity, making Co-doped HfSSe a promising Li- and Na-ion anode with low voltage and fast diffusion.
+    about: [ent:CoHfSSe, ent:Capacity]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Stronger single-atom binding, an extra adsorption layer and low barriers are computed; the electron-deficiency mechanism explains single-atom binding but not the multilayer capacity gain, the capacity criterion is lenient, and feasibility and stability of the doped host are weakly supported."
+      missing_evidence:
+        - "Layer-resolved (differential) adsorption energies against bulk metal"
+        - "Dynamical stability of Co-doped HfSSe and of fully loaded structures"
+        - "DFT+U and spin-polarized energetics for Co"
+      proof_obligations:
+        - text: "Show that Co strengthens Li/Na binding"
+          obligation_status: DISCHARGED
+          discharged_by: [hasan2026:OBS4]
+        - text: "Show that electron-deficient chalcogen sites cause the binding gain"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [hasan2026:OBS6, hasan2026:OBS3]
+        - text: "Show higher stable storage capacity"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [hasan2026:OBS8]
+        - text: "Show that Co-doped HfSSe is stable and synthesizable"
+          obligation_status: OPEN
+
+  # ---------------- Methods ----------------
+  - id: hasan2026:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: DFT calculations use Quantum ESPRESSO with PBE and Grimme D3, PAW pseudopotentials, 60/600 Ry cutoffs and a 16x16x1 k-mesh; adsorption, doping and diffusion use a 3x3x1 supercell with ~20 A vacuum per side.
+    about: [ent:DFT]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Whether total energies of Co-containing cells are spin-polarized is not stated for the adsorption, capacity and NEB calculations; no Hubbard U is used for Co 3d."}
+  - id: hasan2026:METH2
+    statement_type: METHOD
+    section: Sec. 2, 3.4
+    paper_part: METHODS
+    text: Li/Na layers are added on both sides until the average adsorption energy per atom becomes less favourable than the bulk-metal cohesive energy; capacity follows from the maximum number of adsorbed atoms, and OCV from convex-hull states.
+    evidence: [{evidence_kind: CITATION, references: ["17", "30", "47", "48"], locator: "Eq. 4-7"}]
+    about: [ent:Capacity, ent:OCV]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Using the average over all adsorbed atoms lets strongly bound first-layer atoms compensate outer layers that may individually be less stable than bulk metal (plating)."}
+  - id: hasan2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 3.4
+    paper_part: METHODS
+    text: Multilayer Li/Na adsorbed on a free-standing monolayer counts as reversible storage capacity, with each adsorbed atom transferring one electron.
+    evidence: [{evidence_kind: CITATION, references: ["17", "30"]}]
+    about: [ent:Capacity]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Do outer layers (3rd-4th) store charge as ions in the host or form metallic Li/Na films?"
+  - id: hasan2026:METH3
+    statement_type: METHOD
+    section: Sec. 3.1
+    paper_part: METHODS
+    text: Co is selected among Co, Cu, V, Mn and Fe dopants because it gives the most negative single-Li adsorption energy (-3.74 eV vs. -2.82 to -3.55 eV).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 3.1
+        values:
+          - {quantity: Li Eads, value: -3.7405, unit: eV, condition: Co}
+          - {quantity: Li Eads, value: -3.5490, unit: eV, condition: Fe}
+          - {quantity: Li Eads, value: -3.4867, unit: eV, condition: Cu}
+          - {quantity: Li Eads, value: -3.3680, unit: eV, condition: Mn}
+          - {quantity: Li Eads, value: -2.8165, unit: eV, condition: V}
+    about: [ent:CoHfSSe, ent:Eads]
+    note: "Selection by binding strength only; formation energies, Na binding and diffusion of the other dopants are not compared."
+
+  # ---------------- Structure and stability ----------------
+  - id: hasan2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: Pristine Janus HfSSe (P3m1) relaxes to a = 3.683 A with Hf-S 2.54 A and Hf-Se 2.68 A, and its phonon dispersion has no imaginary modes.
+    evidence:
+      - {evidence_kind: DATA_QUANTITATIVE, locator: "Sec. 3.1", values: [{quantity: lattice constant, value: 3.683, unit: A}]}
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2a"}
+    about: [ent:HfSSe, ent:Phonopy]
+  - id: hasan2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: The formation energy for substituting Co on a Hf site is +3.44 eV.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Eq. 1"
+        values:
+          - {quantity: Co substitution formation energy, value: 3.44, unit: eV}
+    about: [ent:Ef, ent:CoHfSSe]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Chemical potential references for Hf and Co are not specified."}
+  - id: hasan2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: Despite the positive formation energy, Co-doped HfSSe is experimentally feasible, as transition-metal doping has been realized in TiS2, MoS2, WS2 and WSe2.
+    evidence: [{evidence_kind: CITATION, references: ["23", "40-45"]}]
+    about: [ent:CoHfSSe]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Feasibility is argued by analogy to other hosts; 3.44 eV is large, and 11 % Co on Hf sites is far above typical dopant levels."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Only analogy is offered; no growth-condition-dependent formation energy or comparison with competing phases is given."
+      missing_evidence:
+        - "Formation energy vs. chemical potentials and competing Co sulfides/selenides"
+  - id: hasan2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: AIMD of Li-adsorbed Co-doped HfSSe at 300 K for 10 ps shows total energy and temperature fluctuating without drift.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3b,c"}]
+    about: [ent:AIMD, ent:CoHfSSe]
+  - id: hasan2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.1, 5
+    paper_part: RESULTS
+    text: Pristine HfSSe is dynamically stable and Li-adsorbed Co-doped HfSSe is thermally stable at 300 K, supporting their use as anodes.
+    about: [ent:HfSSe, ent:CoHfSSe]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Phonons are computed only for pristine HfSSe; the doped host, Na-adsorbed and fully loaded structures are not checked, and 10 ps AIMD is short."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Pristine dynamic stability is shown; stability of Co-doped HfSSe rests on one short AIMD run with a single Li adatom."
+      missing_evidence:
+        - "Phonons of Co-doped HfSSe"
+        - "Longer AIMD of fully lithiated/sodiated structures"
+
+  # ---------------- Electronic structure ----------------
+  - id: hasan2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Tables 1-2
+    paper_part: RESULTS
+    text: The most favourable adsorption energy changes from -2.6125 to -3.7405 eV for Li and from -1.9800 to -3.0529 eV for Na upon Co doping, with the Co top site the strongest on both surfaces.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Tables 1, 2"
+        values:
+          - {quantity: Li Eads min, value: -2.6125, unit: eV, condition: pristine}
+          - {quantity: Li Eads min, value: -3.7405, unit: eV, condition: Co-doped}
+          - {quantity: Na Eads min, value: -1.9800, unit: eV, condition: pristine}
+          - {quantity: Na Eads min, value: -3.0529, unit: eV, condition: Co-doped}
+    about: [ent:Eads, ent:Li, ent:Na]
+  - id: hasan2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3.2
+    paper_part: RESULTS
+    text: Pristine HfSSe has an indirect PBE gap of ~0.85 eV; with Co the band-edge separation stays ~0.86 eV, the Fermi level moves into the valence band, Co 3d states appear near the band edges and weak spin polarization appears.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4"}]
+    about: [ent:HfSSe, ent:CoHfSSe]
+  - id: hasan2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Table 3
+    paper_part: RESULTS
+    text: Li and Na transfer 0.88-0.89 e to the host in both systems; Co donates only ~0.58 e versus ~2.1 e per Hf, and Se bonded to Co carries -0.74 e versus -0.98 e for other Se.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 3, Fig. 6"
+        values:
+          - {quantity: Li charge transfer, value: 0.8899, unit: e, condition: pristine}
+          - {quantity: Li charge transfer, value: 0.8883, unit: e, condition: Co-doped}
+          - {quantity: Co Bader charge, value: 0.5749, unit: e}
+          - {quantity: Se bonded to Co, value: -0.7372, unit: e}
+    about: [ent:Bader]
+  - id: hasan2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3.3, Highlights
+    paper_part: RESULTS
+    text: The ~1.1 eV binding enhancement comes not from more charge transfer but from Co-induced empty chalcogen p states at the valence-band top, which accept the donated electron at lower energy than the Hf 5d conduction band, plus reduced electrostatic repulsion from the less positive Co.
+    about: [ent:CoHfSSe, ent:Eads]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No projected DOS after adsorption or orbital-resolved occupation change is shown to demonstrate that the donated electron fills the Co-induced holes; the repulsion contribution is not separated."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Bader charges, the Fermi-level shift and equal enhancement for Li and Na are consistent with the mechanism, but no calculation isolates it (e.g. compensated doping or hole counting)."
+      missing_evidence:
+        - "PDOS of Co-doped HfSSe with adsorbate showing hole filling"
+        - "Control with a charge-compensated dopant"
+  - id: hasan2026:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Fig. 5
+    paper_part: RESULTS
+    text: After first-layer Li or Na adsorption, bands cross the Fermi level and the DOS at E_F is finite for both pristine and Co-doped HfSSe.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 5"}]
+  - id: hasan2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.2, Abstract
+    paper_part: RESULTS
+    text: First-layer Li/Na adsorption makes the monolayers metallic, which improves charge transport and rate performance.
+    about: [ent:HfSSe, ent:CoHfSSe]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Metallicity is shown; improved transport and rate performance are inferred without conductivity calculations."
+
+  # ---------------- Capacity and voltage ----------------
+  - id: hasan2026:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Table 4
+    paper_part: RESULTS
+    text: Adsorption stays favourable (by the average criterion) up to 3 Li / 2 Na layers on pristine and 4 Li / 3 Na layers on Co-doped HfSSe, giving 555.43 to 776.19 mAh/g for Li and 370.29 to 582.14 mAh/g for Na.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 7, Fig. 8"}
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 4
+        values:
+          - {quantity: Li capacity, value: 555.43, unit: mAh/g, condition: pristine}
+          - {quantity: Li capacity, value: 776.19, unit: mAh/g, condition: Co-doped}
+          - {quantity: Na capacity, value: 370.29, unit: mAh/g, condition: pristine}
+          - {quantity: Na capacity, value: 582.14, unit: mAh/g, condition: Co-doped}
+    about: [ent:Capacity]
+  - id: hasan2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3.4, Highlights
+    paper_part: RESULTS
+    text: Co doping raises the Li and Na capacity of HfSSe through additional stable multilayer storage.
+    about: [ent:CoHfSSe, ent:Capacity]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "One Co per 9 Hf provides about one hole, but the extra layer holds 18 atoms; the electron-deficiency mechanism cannot explain the extra layer, and no mechanism for it is given."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Layer-resolved adsorption energies relative to bulk metal are not reported, so whether the 4th Li layer is truly stable is unclear."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The computed extra layer follows from the stated criterion; that criterion averages over all layers and favours hosts with a strongly bound first layer, so the capacity gain may partly be an artefact of the method."
+      missing_evidence:
+        - "Differential adsorption energy of the outermost layer vs. bulk-metal cohesive energy"
+        - "Charge analysis of outer layers (ionic vs. metallic)"
+  - id: hasan2026:OBS9
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Fig. 9
+    paper_part: RESULTS
+    text: The average OCV is ~0.62 V for Li on both pristine and Co-doped HfSSe, and ~0.29 V (pristine) and 0.30 V (Co-doped) for Na, with stepwise voltage profiles from convex-hull states.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 9"
+        values:
+          - {quantity: average OCV Li, value: 0.62, unit: V}
+          - {quantity: average OCV Na, value: 0.29, unit: V, condition: pristine}
+          - {quantity: average OCV Na, value: 0.30, unit: V, condition: Co-doped}
+    about: [ent:OCV]
+  - id: hasan2026:CLAIM6
+    statement_type: CLAIM
+    claim_role: QUANTITATIVE_SUPPORT
+    section: Sec. 3.4
+    paper_part: RESULTS
+    text: The low average OCVs (0.62 V Li, 0.30 V Na) are favourable for anode operation, keeping a high full-cell voltage while staying above zero to limit plating.
+    about: [ent:OCV]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Minimum voltages of the last steps are not stated; averages above zero do not exclude near-zero or negative final steps."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Average OCVs are in the anode range; the plating argument needs the voltage of the final loading step, which is not reported in the text."
+
+  # ---------------- Diffusion ----------------
+  - id: hasan2026:OBS10
+    statement_type: OBSERVATION
+    section: Sec. 3.5, Table 5
+    paper_part: RESULTS
+    text: CI-NEB minimum barriers are 0.2088 (pristine) and 0.2153 eV (Co-doped) for Li and 0.1173 and 0.1044 eV for Na, all on the Se-terminated surface along direct S-S paths; the Co-mediated Na path on the Se side has 0.4118 eV.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 5, Fig. 10"
+        values:
+          - {quantity: Li barrier min, value: 0.2088, unit: eV, condition: pristine}
+          - {quantity: Li barrier min, value: 0.2153, unit: eV, condition: Co-doped}
+          - {quantity: Na barrier min, value: 0.1173, unit: eV, condition: pristine}
+          - {quantity: Na barrier min, value: 0.1044, unit: eV, condition: Co-doped}
+    about: [ent:Barrier, ent:CINEB]
+  - id: hasan2026:CLAIM7
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.5, Abstract
+    paper_part: RESULTS
+    text: Co-doped HfSSe retains low Li migration barriers and slightly improves Na migration, indicating fast ion diffusion.
+    about: [ent:Barrier, ent:CoHfSSe]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The Co site binds Li/Na 0.16-0.6 eV more strongly than other sites; barriers are measured relative to the initial state of each path, so the escape barrier from a Co trap is not reported, and trapping could slow transport."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Low single-adatom barriers on paths away from Co are computed; the minimum barrier ignores trapping at the strongest (Co) sites, which governs long-range diffusion in the doped host."
+      missing_evidence:
+        - "Energy span of a full diffusion cycle including the Co site"
+        - "Barriers at finite Li/Na coverage"
+
+  # ---------------- Comparison and conclusion ----------------
+  - id: hasan2026:CLAIM8
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 4, Tables 6-7
+    paper_part: DISCUSSION
+    text: Co-doped HfSSe provides a balanced combination of high capacity, low voltage and fast ion migration, about twice the capacity of graphite and comparable to or better than other 2D anodes.
+    evidence: [{evidence_kind: CITATION, references: ["14", "24", "29", "30", "34", "49-60"]}]
+    about: [ent:CoHfSSe]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Compares computed multilayer monolayer capacities with literature values from different functionals and criteria, and with graphite's experimental bulk capacity."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Numbers are favourable within the table, but the comparison mixes methods and capacity definitions."
+  - id: hasan2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3.1
+    paper_part: DISCUSSION
+    text: Co substitution has a positive formation energy and requires energy input under equilibrium conditions.
+    limitation_kind: SCOPE
+  - id: hasan2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: CONCLUSION
+    text: Co-doped Janus HfSSe is a promising anode for Li-ion and Na-ion batteries and motivates experimental work.
+
+relations:
+  - {id: hasan2026:R1, subject: hasan2026:BG1, predicate: MOTIVATES, object: hasan2026:GAP1, asserted_by: AUTHORS}
+  - {id: hasan2026:R2, subject: hasan2026:BG2, predicate: MOTIVATES, object: hasan2026:GAP1, asserted_by: AUTHORS}
+  - {id: hasan2026:R3, subject: hasan2026:BG3, predicate: MOTIVATES, object: hasan2026:HYP1, asserted_by: AUTHORS}
+  - {id: hasan2026:R4, subject: hasan2026:GAP1, predicate: MOTIVATES, object: hasan2026:HYP1, asserted_by: AUTHORS}
+  # methods
+  - {id: hasan2026:R5, subject: hasan2026:METH2, predicate: DEPENDS_ON, object: hasan2026:ASM1, asserted_by: AUTHORS}
+  - {id: hasan2026:R6, subject: hasan2026:METH3, predicate: DEPENDS_ON, object: hasan2026:METH1, asserted_by: AUTHORS}
+  - {id: hasan2026:R7, subject: hasan2026:OBS8, predicate: DEPENDS_ON, object: hasan2026:METH2, asserted_by: AUTHORS}
+  # stability
+  - {id: hasan2026:R8, subject: hasan2026:OBS1, predicate: SUPPORTS, object: hasan2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: hasan2026:R9, subject: hasan2026:OBS3, predicate: SUPPORTS, object: hasan2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: hasan2026:R10, subject: hasan2026:OBS2, predicate: UNDERCUTS, object: hasan2026:CLAIM1, asserted_by: ANNOTATOR, note: "3.44 eV is a large formation energy"}
+  - {id: hasan2026:R11, subject: hasan2026:LIM1, predicate: QUALIFIES, object: hasan2026:HYP1, asserted_by: AUTHORS}
+  # binding mechanism
+  - {id: hasan2026:R12, subject: hasan2026:OBS4, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: hasan2026:R13, subject: hasan2026:OBS6, predicate: SUPPORTS, object: hasan2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R14, subject: hasan2026:OBS5, predicate: SUPPORTS, object: hasan2026:CLAIM3, asserted_by: AUTHORS, note: "Fermi level in valence band", support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R15, subject: hasan2026:OBS4, predicate: SUPPORTS, object: hasan2026:CLAIM3, asserted_by: AUTHORS, note: "Similar ~1.1 eV gain for Li and Na", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: hasan2026:R16, subject: hasan2026:METH1, predicate: QUALIFIES, object: hasan2026:CLAIM3, asserted_by: ANNOTATOR_BACKGROUND, note: "Co 3d states without +U are poorly localized in PBE"}
+  - {id: hasan2026:R17, subject: hasan2026:CLAIM3, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R18, subject: hasan2026:OBS7, predicate: SUPPORTS, object: hasan2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  # capacity
+  - {id: hasan2026:R19, subject: hasan2026:OBS8, predicate: SUPPORTS, object: hasan2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R20, subject: hasan2026:METH2, predicate: UNDERCUTS, object: hasan2026:CLAIM5, asserted_by: ANNOTATOR_BACKGROUND, note: "Average-energy criterion can admit outer layers less stable than bulk metal"}
+  - {id: hasan2026:R21, subject: hasan2026:CLAIM5, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R22, subject: hasan2026:CLAIM5, predicate: DEPENDS_ON, object: hasan2026:ASM1, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
+  - {id: hasan2026:R23, subject: hasan2026:OBS9, predicate: SUPPORTS, object: hasan2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R24, subject: hasan2026:CLAIM6, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  # diffusion
+  - {id: hasan2026:R25, subject: hasan2026:OBS10, predicate: SUPPORTS, object: hasan2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: hasan2026:R26, subject: hasan2026:OBS4, predicate: UNDERCUTS, object: hasan2026:CLAIM7, asserted_by: ANNOTATOR_BACKGROUND, note: "Deeper binding at Co sites implies trapping"}
+  - {id: hasan2026:R27, subject: hasan2026:CLAIM7, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  # comparison
+  - {id: hasan2026:R28, subject: hasan2026:CLAIM5, predicate: SUPPORTS, object: hasan2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: hasan2026:R29, subject: hasan2026:CLAIM7, predicate: SUPPORTS, object: hasan2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: hasan2026:R30, subject: hasan2026:CLAIM1, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, note: "Feasibility", support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: hasan2026:R31, subject: hasan2026:HYP1, predicate: ANSWERS, object: hasan2026:GAP1, asserted_by: AUTHORS}
+  - {id: hasan2026:R32, subject: hasan2026:CLAIM8, predicate: MOTIVATES, object: hasan2026:OUT1, asserted_by: AUTHORS}
+  - {id: hasan2026:R33, subject: hasan2026:CLAIM2, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: hasan2026:R34, subject: hasan2026:CLAIM4, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A standard DFT anode screening study with clearly reported adsorption
+    energies, Bader charges, capacities, voltages and NEB barriers. The
+    single-adatom binding enhancement by Co and its link to Co-induced holes
+    are reasonably supported. The headline capacity gain relies on an
+    average-energy multilayer criterion and is not explained by the proposed
+    electron-deficiency mechanism; the doped host has a large positive
+    formation energy and no phonon check; Co is treated without +U and spin
+    treatment is unclear; and Co sites act as unacknowledged traps for
+    diffusion.
+  key_limitations:
+    - "Capacity from average adsorption energy over all layers, without layer-resolved stability vs. bulk metal (METH2, CLAIM5)."
+    - "Electron-deficiency mechanism (about one hole per Co) cannot account for an extra 18-atom layer (CLAIM5 vs CLAIM3)."
+    - "Large positive Co formation energy (+3.44 eV) and no phonons for the doped host; feasibility argued by analogy (CLAIM1, CLAIM2)."
+    - "Diffusion barriers ignore trapping at the strongly binding Co sites (CLAIM7)."
+    - "PBE without +U for Co; spin treatment of energetics not stated (METH1)."
+  missing_evidence:
+    - "Differential adsorption energy and charge state of outermost layers."
+    - "Phonons and longer AIMD of Co-doped and fully loaded structures."
+    - "DFT+U / hybrid-functional check of the Co-induced states and binding."
+    - "Energy span for diffusion through the Co-doped surface; coverage-dependent barriers."
+    - "Formation energy vs. growth conditions and competing phases."

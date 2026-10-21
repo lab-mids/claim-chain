@@ -9,11 +9,11 @@ flowchart TD
   BG8 --> HYP1
   BG9 --> HYP1
   BG8 --> CLAIM1a
-  BG8 --> CLAIM1b
+  BG8 ==> CLAIM1b
   BG8 --> CLAIM1c
   BG8 --> CLAIM1d
   CLAIM1a --> HYP1
-  CLAIM1b --> HYP1
+  CLAIM1b ==> HYP1
   CLAIM1c --> HYP1
   CLAIM1d --> HYP1
   DEF1 -.-> HYP1
@@ -51,7 +51,7 @@ flowchart TD
   OBS17 -.->|qualifies| CLAIM7
   LIM2 -.->|alternative explanation for| OBS14
   LIM2 -.->|alternative explanation for| OBS17
-  OBS15 --> CLAIM8
+  OBS15 ==> CLAIM8
   CLAIM6 -->|answers| Q1
   CLAIM7 -->|answers| Q1
   LIM2 -.->|undercuts| CLAIM1c

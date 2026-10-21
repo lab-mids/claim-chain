@@ -1,0 +1,50 @@
+flowchart TD
+  C5 --> C1_1
+  A5_1 --> C5
+  A5_2 --> C5
+  C1_1 --> C1
+  C1_2 ==> C1
+  C1_3 ==> C1
+  C1_4 -.->|qualifies| C1
+  C1_4 --> H1
+  H1 -.->|conditionally supports| C1
+  H1 --> O1
+  C1 --> O2
+  C1_4 --> O3
+  C2 --> O4
+  C2_1 --> C2
+  C2_2 --> C2
+  C2_3 --> C2
+  C2_4 --> C2
+  C2_4 -.->|undercuts| C2
+  C3_1 --> C3
+  C3 --> C2
+  A5_1["<b>A5.1</b><br/>The hcp parent lattice is an appropriate constraint for …"]:::asm
+  A5_2["<b>A5.2</b><br/>OFDFT relative configurational energies are accurate enough to train …"]:::asm
+  C1["<b>C1 (partial)</b><br/>D0_19 Mg3Al is at least metastable."]:::claim
+  C1_1["<b>C1.1 ✓</b><br/>D0_19 Mg3Al is energetically competitive with alternative Mg3Al structures."]:::claim
+  C1_2["<b>C1.2 ✓</b><br/>D0_19 Mg3Al is dynamically stable (within the harmonic approximation)."]:::claim
+  C1_3["<b>C1.3 ✓</b><br/>D0_19 Mg3Al is mechanically stable."]:::claim
+  C1_4["<b>C1.4 ✓</b><br/>D0_19 Mg3Al is thermodynamically unstable against decomposition into Mg17Al12 …"]:::claim
+  C2["<b>C2 (partial)</b><br/>D0_19 Mg3Al is predicted to be more ductile than …"]:::claim
+  C2_1["<b>C2.1 ✓</b><br/>D0_19 Mg3Al has a substantially larger Pugh ratio B/G …"]:::claim
+  C2_2["<b>C2.2 ✓</b><br/>D0_19 Mg3Al has lower barriers for basal stacking-fault and …"]:::claim
+  C2_3["<b>C2.3 ✓</b><br/>D0_19 Mg3Al has a lower prismatic slip barrier and …"]:::claim
+  C2_4["<b>C2.4 ✓</b><br/>D0_19 Mg3Al has a low anti-phase boundary energy compared …"]:::claim
+  C3["<b>C3 ?</b><br/>The predicted enhanced ductility of D0_19 Mg3Al is partly …"]:::claim
+  C3_1["<b>C3.1 ?</b><br/>D0_19 Mg3Al is more metallic than L1_2 Mg3Al and …"]:::claim
+  C5["<b>C5 ✓</b><br/>An hcp-constrained structure search identifies D0_19 Mg3Al as a …"]:::claim
+  H1["<b>H1 ?</b><br/>A sufficiently large kinetic barrier may prevent D0_19 Mg3Al …"]:::claim
+  O1["<b>O1</b><br/>What is the transformation pathway and activation barrier between …"]:::q
+  O2["<b>O2</b><br/>Does D0_19 Mg3Al form experimentally as a metastable precipitate …"]:::q
+  O3["<b>O3</b><br/>Does D0_19-like chemical ordering occur as an intermediate during …"]:::q
+  O4["<b>O4</b><br/>Do the improved intrinsic ductility descriptors translate into better …"]:::q
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

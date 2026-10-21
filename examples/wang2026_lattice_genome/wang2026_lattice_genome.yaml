@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2606.09611v1
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude (draft for Markus Stricker), manual
 annotation_date: '2026-10-21'
 publication:
@@ -101,6 +101,7 @@ statements:
     scope: {materials: [ent:IN718, ent:Waspaloy], scope_note: Same data source as this paper.}
   - id: wang2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Sec. 1
     paper_part: INTRODUCTION
     text: VAE latent representations of Kikuchi patterns satisfy the criteria for a generalized materials gene, which extends the materials genome to heterogeneous crystalline materials, and they support standard microstructure analysis.
@@ -123,6 +124,7 @@ statements:
   # ---------------- Sec. 2: concept ----------------
   - id: wang2026:CLAIM1a
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 2
     paper_part: THEORY
     text: The VAE latent vector of a Kikuchi pattern is a compact, low-dimensional representation of the pattern.
@@ -139,6 +141,7 @@ statements:
         - "Intrinsic dimensionality vs. reconstruction error"
   - id: wang2026:CLAIM1b
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 2
     paper_part: THEORY
     text: With a pretrained encoder, the latent vector is obtained from a measured pattern by a single forward pass, so it is experimentally accessible.
@@ -150,6 +153,7 @@ statements:
       rationale: "True by construction: a pretrained encoder maps a measured pattern in one forward pass."
   - id: wang2026:CLAIM1c
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 2
     paper_part: THEORY
     text: Distance between latent vectors of Kikuchi patterns reflects the physical similarity of the probed lattice (crystallography, orientation, defects), and the continuous latent space avoids discontinuities of space-group classification.
@@ -173,6 +177,7 @@ statements:
           obligation_status: OPEN
   - id: wang2026:CLAIM1d
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 2
     paper_part: THEORY
     text: Because the Kikuchi pattern can be reconstructed from it, the latent vector encodes lattice parameter, orientation, strain and defect density, and maps near-uniquely to the local lattice state within reconstruction error.
@@ -205,6 +210,7 @@ statements:
       - {concern_type: UNTESTED_ASSERTION, description: "Statistical representativeness of the maps used is never assessed."}
   - id: wang2026:CLAIM2
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 2
     paper_part: THEORY
     text: The lattice genome extends the materials genome concept to heterogeneous crystalline materials at the mesoscale.
@@ -360,6 +366,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 4}]
   - id: wang2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 4.1, 6
     paper_part: RESULTS
     text: PCA-based latent component maps are an analog of orientation maps that reveal finer microstructural heterogeneity than IPF maps.
@@ -422,6 +429,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 5b, description: No statistical test.}]
   - id: wang2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 4.2, 6
     paper_part: RESULTS
     text: Segmentation by latent angle and distance thresholds produces domain maps consistent with misorientation grain maps while being more sensitive.
@@ -447,6 +455,7 @@ statements:
           obligation_status: OPEN
   - id: wang2026:CLAIM5
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 5, Suppl.
     paper_part: DISCUSSION
     text: A single percentile parameter with automatic elbow detection produces suitable segmentations across microstructures with very different statistics, without case-by-case calibration.
@@ -514,6 +523,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 7c}]
   - id: wang2026:CLAIM6
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 4.3, 6
     paper_part: RESULTS
     text: KLVS reproduces KAM trends with better contrast for real features and fewer artifacts, because it operates on the encoded pattern rather than on indexed orientations.
@@ -540,6 +550,7 @@ statements:
           obligation_status: OPEN
   - id: wang2026:CLAIM7
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3, 6
     paper_part: RESULTS
     text: LVS is a high-dimensional analog of GOS that recovers qualitatively similar trends of grain-level heterogeneity.
@@ -555,6 +566,7 @@ statements:
         - "LVS computed on the conventional grains"
   - id: wang2026:CLAIM8
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3
     paper_part: RESULTS
     text: Angle and Euclidean distance in the latent space are consistent descriptors of local microstructural variation.
@@ -596,6 +608,7 @@ statements:
   # ---------------- Sec. 5-6: advantages and outlook ----------------
   - id: wang2026:CLAIM9
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 5, 6
     paper_part: DISCUSSION
     text: Lattice-genome analysis needs no pattern indexing and is therefore applicable to patterns that are hard to index, such as heavily deformed or multiphase regions.
@@ -610,6 +623,7 @@ statements:
         - "Analysis of heavily deformed or multiphase regions where indexing fails"
   - id: wang2026:CLAIM10
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 5
     paper_part: DISCUSSION
     text: One encoded lattice genome can serve many downstream tasks without reprocessing raw patterns.

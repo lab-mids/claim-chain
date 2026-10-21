@@ -1,0 +1,411 @@
+id: claimchain:chain/arXiv2610.28629
+schema_version: 0.4.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.28629
+  title: "GBClaw: An agentic AI framework for atomistic grain boundary research and mechanistic discovery"
+  authors: [Yazhuo Liu, Kunqing Ding, Xiaoguo Gong, Zifeng Wang, Yichen Yang, Yifeng Che, Wen Chen, Josh Kacher, Olivier Pierron, Shigenobu Ogata, Ting Zhu]
+  year: 2026
+  arxiv: "2610.28629"
+  url: https://arxiv.org/abs/2610.28629
+
+entities:
+  - {id: ent:GBClaw, label: GBClaw agentic AI framework (LangChain/LangGraph; LLM orchestrator + 5 agents), entity_type: METHOD}
+  - {id: ent:LLM, label: large language models (GPT-5.6 Sol / Luna), entity_type: METHOD}
+  - {id: ent:Ni, label: FCC nickel bicrystals, entity_type: MATERIAL}
+  - {id: ent:ATGB, label: general asymmetric non-CSL <110> tilt grain boundary, entity_type: MATERIAL}
+  - {id: ent:ADP, label: Howells-Mishin angular-dependent Ni(-Cr) potential, entity_type: METHOD}
+  - {id: ent:LAMMPS, label: LAMMPS molecular statics, entity_type: METHOD}
+  - {id: ent:NEB, label: nudged elastic band, entity_type: METHOD}
+  - {id: ent:PGMD, label: primary GB misfit dislocation, entity_type: CONCEPT}
+  - {id: ent:SGMD, label: secondary GB misfit dislocation, entity_type: CONCEPT}
+  - {id: ent:Tau0, label: athermal shear strength without SGMDs, entity_type: QUANTITY}
+  - {id: ent:TauS, label: athermal shear strength with SGMD arrays, entity_type: QUANTITY}
+  - {id: ent:GBE, label: grain boundary energy, entity_type: QUANTITY}
+  - {id: ent:HITL, label: human-in-the-loop researcher guidance, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: liu2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Agentic AI systems combine LLMs with prompts, tools and middleware for multi-step workflows, but open-ended mechanistic investigations need domain expertise, for which integrating researchers into the loop is effective.
+    evidence: [{evidence_kind: CITATION, references: ["1-7"]}]
+    about: [ent:LLM, ent:HITL]
+  - id: liu2026:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: General grain boundaries dominate real polycrystals and control strength, ductility, creep and fracture, but their five geometric degrees of freedom and multiple metastable structures make them hard to model.
+    evidence: [{evidence_kind: CITATION, references: ["8-15"]}]
+    about: [ent:ATGB]
+  - id: liu2026:BG3
+    statement_type: BACKGROUND
+    section: Structural screening
+    paper_part: INTRODUCTION
+    text: Non-CSL asymmetric tilt GBs are incommensurate, accommodating mismatch elastically or through a hierarchy of misfit dislocations, and can deform by pure sliding or shear-coupled migration.
+    evidence: [{evidence_kind: CITATION, references: ["11", "14", "19", "21", "33", "34", "37", "38"]}]
+    about: [ent:PGMD, ent:SGMD]
+  - id: liu2026:GAP1
+    statement_type: GAP
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Agentic AI has not been extended to domain-intensive mechanistic investigations, and general incommensurate GBs remain understudied.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: liu2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: A human-in-the-loop agentic AI framework with an orchestrator, specialized agents, domain tools and hierarchical memory bridges high-throughput GB simulation screening with deep mechanistic understanding of complex interfaces.
+    about: [ent:GBClaw, ent:HITL]
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: PARTIAL
+      rationale: "The framework runs the screening, simulations and several analyses on 14 GBs, and the physics results are documented; the paper gives no comparison with a conventional workflow, no measure of the agent's contribution vs. the researcher's, and key mechanistic steps were researcher-initiated."
+      missing_evidence:
+        - "Comparison with a scripted (non-agentic) workflow: time, errors, researcher effort"
+        - "Log-based accounting of which decisions were made by agents vs. researchers"
+        - "Repeatability of agent runs (same objective, different runs)"
+      proof_obligations:
+        - text: "Show the framework executes the screening and simulation workflow"
+          obligation_status: DISCHARGED
+          discharged_by: [liu2026:OBS1, liu2026:OBS3]
+        - text: "Show that the agentic design adds value over a conventional workflow"
+          obligation_status: OPEN
+        - text: "Show that new mechanistic insight results"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [liu2026:CLAIM3, liu2026:CLAIM4]
+
+  # ---------------- Methods ----------------
+  - id: liu2026:METH1
+    statement_type: METHOD
+    section: Architecture, Methods
+    paper_part: METHODS
+    text: GBClaw uses LangChain/LangGraph with an orchestrator and planning, structure, LAMMPS, analysis and coding agents, routed to GPT-5.6 Sol or Luna, accessing LAMMPS, OVITO and ASE, with five-level file-based hierarchical memory, provenance checks and conversation compaction.
+    about: [ent:GBClaw, ent:LLM]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Agent outputs depend on proprietary LLM versions; repeated code generation can introduce run-to-run inconsistencies (acknowledged), and no repeat runs are reported."}
+  - id: liu2026:METH2
+    statement_type: METHOD
+    section: Structural screening, Table 1
+    paper_part: METHODS
+    text: The structure agent uses an LLM to select near-Sigma <110> asymmetric tilt GBs (Sigma < 50) with at least one {100}, {110} or {111} terminating plane, misorientation within 5 deg of the reference Sigma GB and Miller indices below 4.
+    about: [ent:ATGB, ent:LLM]
+  - id: liu2026:METH3
+    statement_type: METHOD
+    section: Methods
+    paper_part: METHODS
+    text: Compact periodic supercells containing an integer number of primary periods (excluding SGMDs, residual mismatch taken up by elastic strain) are relaxed by four cycles of conjugate-gradient minimization and cell relaxation after removing atoms closer than 0.3 a0, and sheared quasi-statically at 0 K by displacing a 3 A surface layer in increments of 2.5e-4.
+    about: [ent:LAMMPS, ent:Tau0]
+  - id: liu2026:ASM1
+    statement_type: ASSUMPTION
+    section: Results, Methods
+    paper_part: METHODS
+    text: The Howells-Mishin angular-dependent potential describes Ni GB structures and shear adequately, based on its reproduction of the experimental {111}/{331}(22 deg) interfacial motif.
+    evidence: [{evidence_kind: CITATION, references: ["35", "41"]}]
+    about: [ent:ADP]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Do shear strengths and deformation modes change with other Ni potentials or DFT?"
+  - id: liu2026:ASM2
+    statement_type: ASSUMPTION
+    section: Methods
+    paper_part: METHODS
+    text: A single 0 K relaxation from the constructed bicrystal (with overlap removal) yields a representative GB structure for each geometry.
+    evidence: [{evidence_kind: NONE}]
+    about: [ent:ATGB]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "How many of the 14 boundaries start from metastable structures, as found for {111}/{110}?"
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No GB structure search (translations, atom-density variation, annealing) is performed, although BG2 notes multiple metastable configurations per geometry."}
+
+  # ---------------- Screening and structure ----------------
+  - id: liu2026:OBS1
+    statement_type: OBSERVATION
+    section: GB sliding and shear strength, Table 1
+    paper_part: RESULTS
+    text: The LLM-based screening yielded 12 plane-pair GBs; the researcher added the 49 deg and 55 deg variants of {111}/{331} and {111}/{221} that the screening missed, giving 14 configurations.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table 1", values: [{quantity: GB configurations, value: 14}]}]
+    about: [ent:ATGB, ent:HITL]
+  - id: liu2026:OBS2
+    statement_type: OBSERVATION
+    section: GB sliding and shear strength, Fig. 3a-d
+    paper_part: RESULTS
+    text: Relaxation of the extended {111}/{331}(22 deg) GB produces closely spaced PGMDs (b = 1/2<110>{111}, lambda = 2.16 nm) and widely spaced SGMDs (Lambda = 15.73 nm).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3a,b"
+        values:
+          - {quantity: primary periodicity, value: 2.16, unit: nm}
+          - {quantity: secondary periodicity, value: 15.73, unit: nm}
+    about: [ent:PGMD, ent:SGMD]
+  - id: liu2026:OBS3
+    statement_type: OBSERVATION
+    section: GB sliding and shear strength, Fig. 3e
+    paper_part: RESULTS
+    text: Across the 14 GBs in two directions, athermal shear strengths without SGMDs range from 14 MPa ({111}/{100}) and 23 MPa ({111}/{110}) to 9.3 GPa, with 3.5 GPa for {100}/{110}; deformation modes include pure sliding, shear-coupled migration, dislocation emission and structural transformation, and reversing the direction often changes strength or mode.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3e"
+        values:
+          - {quantity: tau0 min, value: 14, unit: MPa, condition: "{111}/{100}"}
+          - {quantity: tau0, value: 23, unit: MPa, condition: "{111}/{110}"}
+          - {quantity: tau0, value: 3500, unit: MPa, condition: "{100}/{110}"}
+          - {quantity: tau0 max, value: 9300, unit: MPa}
+    about: [ent:Tau0]
+  - id: liu2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: GB sliding and shear strength
+    paper_part: RESULTS
+    text: Shear response of asymmetric incommensurate GBs is strongly direction-dependent, and static GB energy alone cannot predict it; the {100}/{110} GB is not a low-friction interface as previously proposed.
+    about: [ent:Tau0, ent:GBE]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The 'general trend' of higher energy toward lower strength is stated without correlation statistics, and the lowest-energy GB also has the lowest strength, contradicting the trend."}
+      - {concern_type: OVERGENERALIZATION, description: "Rejection of {100}/{110} as low-friction rests on one interatomic potential and a periodic compact model."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Direction dependence at equal GB energy logically shows energy is insufficient; the energy-strength trend is described inconsistently, and the {100}/{110} conclusion is model-specific."
+  - id: liu2026:LIM1
+    statement_type: LIMITATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: Compact periodic supercells restrict the distribution and long-range interaction of line defects and may suppress pathways active in extended GBs; strengths are athermal thresholds for the modelled configurations, and NEB ignores finite-temperature dynamics.
+    limitation_kind: METHOD
+
+  # ---------------- Sliding and SGMDs ----------------
+  - id: liu2026:OBS4
+    statement_type: OBSERVATION
+    section: Pure sliding, Fig. 4
+    paper_part: RESULTS
+    text: Four GBs ({111}/{100}, {111}/{331}(22 deg), {100}/{110}, {111}/{110}) slide purely in both directions, with nonuniform atomic shuffling that is distributed over columns in some GBs and localized to single columns in {100}/{110}.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4"}]
+  - id: liu2026:OBS5
+    statement_type: OBSERVATION
+    section: Pure sliding, Table 2
+    paper_part: RESULTS
+    text: For {111}/{331}(22 deg), each stress drop translates the grains by 1/8<112>{111} and four drops give 1/2<112>{111}, identified as the SGMD Burgers vector; Burgers vector assignments agree with an automated HRTEM-image procedure and with near-CSL dichromatic patterns.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4c, Table 2"}
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Suppl. Notes 2, 3; Figs. S4-S6"}
+    about: [ent:SGMD]
+  - id: liu2026:OBS6
+    statement_type: OBSERVATION
+    section: Pure sliding, Table 2
+    paper_part: RESULTS
+    text: With SGMD arrays, shear strengths change from 14 to 3.5e-4 MPa ({111}/{100}), 23 to 1.4e-2 MPa ({111}/{110}), 1,074 to 530 MPa ({111}/{331}(22 deg), direction 2), but increase from 3,498 to 3,870 MPa for {100}/{110}.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 2"
+        values:
+          - {quantity: tau0, value: 14, unit: MPa, condition: "{111}/{100}"}
+          - {quantity: tauS, value: 3.5e-4, unit: MPa, condition: "{111}/{100}"}
+          - {quantity: tau0, value: 1074, unit: MPa, condition: "{111}/{331}(22)"}
+          - {quantity: tauS, value: 530, unit: MPa, condition: "{111}/{331}(22)"}
+          - {quantity: tau0, value: 3498, unit: MPa, condition: "{100}/{110}"}
+          - {quantity: tauS, value: 3870, unit: MPa, condition: "{100}/{110}"}
+    about: [ent:Tau0, ent:TauS, ent:SGMD]
+  - id: liu2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Pure sliding, Discussion
+    paper_part: RESULTS
+    text: GB models with and without SGMDs predict substantially different shear strengths, showing that defect hierarchies govern sliding resistance and must be included in atomistic GB models, with SGMDs acting as mobile carriers of sliding.
+    about: [ent:SGMD, ent:TauS]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "For {100}/{110} the strength rises with SGMDs, so SGMDs do not uniformly lower resistance; this case is not discussed."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "With-SGMD models are periodic arrays chosen so Burgers vectors sum to a lattice repeat; spacing and arrangement differ from relaxed extended GBs."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Large differences in strength are shown for four GBs; the governing role is supported for three, contradicted in magnitude direction for one, and rests on periodic SGMD arrays rather than relaxed extended boundaries."
+      missing_evidence:
+        - "Shear of relaxed extended GBs with naturally formed SGMDs"
+        - "Explanation of the {100}/{110} increase"
+  - id: liu2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Pure sliding, Discussion
+    paper_part: RESULTS
+    text: The combined displacement-field, HRTEM-image and dichromatic analyses establish a general geometrical procedure to identify SGMDs and their Burgers vectors in experimental HRTEM images and atomistic simulations.
+    about: [ent:SGMD]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Agreement is shown on the four simulated pure-sliding GBs; no experimental HRTEM image is analysed in the main text."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Three methods agree on four simulated boundaries, which supports the procedure; 'general' and 'experimental' applicability are not demonstrated in the main text."
+
+  # ---------------- Anomaly ----------------
+  - id: liu2026:OBS7
+    statement_type: OBSERVATION
+    section: Pure sliding, Fig. 5
+    paper_part: RESULTS
+    text: The initial {111}/{110} shear shows an unusually high first stress followed by a drop; after unloading to zero strain a residual stress remains, the structure differs from the initial one, an NEB path between them has a barrier of ~20 meV/a0 and ends lower in energy, and reloading gives the normal response.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5a-d", values: [{quantity: NEB barrier, value: 20, unit: meV/a0}]}]
+    about: [ent:NEB]
+  - id: liu2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Pure sliding
+    paper_part: RESULTS
+    text: Researcher-guided follow-up calculations traced the anomalously high initial shear resistance of the {111}/{110} GB to a metastable local structure formed during bicrystal construction and relaxation, which reconstructs under loading.
+    about: [ent:HITL, ent:ATGB]
+    claim_modality: CAUSAL
+    assessment:
+      validity: "YES"
+      rationale: "Loading-unloading, structure comparison, NEB to a lower-energy state and normal reloading together support the explanation."
+  - id: liu2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Pure sliding (implied)
+    paper_part: RESULTS
+    text: The reported shear strengths of the other boundaries characterize their GB structures.
+    about: [ent:Tau0, ent:ATGB]
+    claim_modality: DESCRIPTIVE
+    note: "Annotator-formulated implicit claim underlying Fig. 3e and Table 2."
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "CLAIM4 shows the construction procedure can produce metastable structures with inflated strength; the same procedure was used for all 14 GBs without a structure search."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Only the anomaly that was noticed was checked; whether other boundaries also started from metastable states is not tested."
+      missing_evidence:
+        - "GB structure search (e.g. translations, atom-density variation, annealing) for all 14 boundaries"
+
+  # ---------------- Asymmetry ----------------
+  - id: liu2026:OBS8
+    statement_type: OBSERVATION
+    section: Shear asymmetry, Fig. 6
+    paper_part: RESULTS
+    text: The {111}/{331} 22 deg and 49 deg variants share lambda = 2.16 nm and b_s = 1/8<112>{111}; in direction 1 both slide, while in direction 2 the 49 deg variant undergoes shear-coupled migration by column transformation and two-layer shuffling.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6, Table S4, Fig. S8"}]
+  - id: liu2026:CLAIM6
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Shear asymmetry
+    paper_part: RESULTS
+    hedged: true
+    text: Different lattice registries, subsurface stacking and second-nearest-neighbour coordination of the two variants likely underlie their distinct shear pathways.
+    about: [ent:ATGB]
+    claim_modality: CAUSAL
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Dichromatic maps show different registries, but no calculation links the registry difference to mode selection."
+
+  # ---------------- Agentic AI claims ----------------
+  - id: liu2026:CLAIM7
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion
+    paper_part: CONCLUSION
+    text: Through dynamic replanning and iterative workflow refinement, GBClaw effectively connects systematic simulations with targeted mechanistic analysis and enabled the follow-up investigations, demonstrating that agentic AI with domain expertise bridges high-throughput screening and deep physical understanding.
+    about: [ent:GBClaw, ent:HITL]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "No metric of effectiveness (time, number of runs, error rate, researcher interventions) and no baseline workflow."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Key steps (adding variants, investigating the anomaly, validating Burgers vectors) were triggered by researchers; agent vs. researcher contributions are not separated."}
+      - {concern_type: UNTESTED_ASSERTION, description: "The physics outcomes could have been obtained with conventional scripted workflows; no counterfactual is given."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The framework executed the tasks, but whether the agentic architecture caused better or faster insight is not tested; the screening missed variants that the researcher had to add."
+      missing_evidence:
+        - "Benchmark against a scripted workflow"
+        - "Quantified log of agent decisions and researcher interventions"
+  - id: liu2026:CLAIM8
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Discussion
+    paper_part: CONCLUSION
+    text: GBClaw maintains full provenance across models, execution records and analytical outputs, and provides a generalizable framework for heterophase interfaces, van der Waals heterostructures and incommensurate contacts.
+    about: [ent:GBClaw]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Only homophase Ni tilt GBs are demonstrated."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Provenance design is described and code is released; generalization to other interface classes is not shown."
+  - id: liu2026:LIM2
+    statement_type: LIMITATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: Repeated code generation risks algorithmic inconsistencies across runs; successful execution does not guarantee physical correctness, and multi-layer verification and expert oversight remain indispensable; provenance checks do not establish physical correctness.
+    limitation_kind: METHOD
+  - id: liu2026:OUT1
+    statement_type: OUTLOOK
+    section: Discussion
+    paper_part: DISCUSSION
+    text: Agents for adaptive refinement of ML potentials and for experimental validation by atomic-resolution characterization are under development to close the loop between screening, simulation and experiment.
+
+relations:
+  - {id: liu2026:R1, subject: liu2026:BG1, predicate: MOTIVATES, object: liu2026:GAP1, asserted_by: AUTHORS}
+  - {id: liu2026:R2, subject: liu2026:BG2, predicate: MOTIVATES, object: liu2026:GAP1, asserted_by: AUTHORS}
+  - {id: liu2026:R3, subject: liu2026:GAP1, predicate: MOTIVATES, object: liu2026:HYP1, asserted_by: AUTHORS}
+  - {id: liu2026:R4, subject: liu2026:BG3, predicate: MOTIVATES, object: liu2026:HYP1, asserted_by: AUTHORS}
+  # methods
+  - {id: liu2026:R5, subject: liu2026:METH2, predicate: DEPENDS_ON, object: liu2026:METH1, asserted_by: AUTHORS}
+  - {id: liu2026:R6, subject: liu2026:METH3, predicate: DEPENDS_ON, object: liu2026:ASM1, asserted_by: AUTHORS}
+  - {id: liu2026:R7, subject: liu2026:METH3, predicate: DEPENDS_ON, object: liu2026:ASM2, asserted_by: ANNOTATOR}
+  - {id: liu2026:R8, subject: liu2026:OBS1, predicate: DEPENDS_ON, object: liu2026:METH2, asserted_by: AUTHORS}
+  - {id: liu2026:R9, subject: liu2026:OBS3, predicate: DEPENDS_ON, object: liu2026:METH3, asserted_by: AUTHORS}
+  # strength
+  - {id: liu2026:R10, subject: liu2026:OBS3, predicate: SUPPORTS, object: liu2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liu2026:R11, subject: liu2026:LIM1, predicate: QUALIFIES, object: liu2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: liu2026:R12, subject: liu2026:CLAIM1, predicate: DEPENDS_ON, object: liu2026:ASM1, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
+  # SGMD
+  - {id: liu2026:R13, subject: liu2026:OBS2, predicate: MOTIVATES, object: liu2026:METH3, asserted_by: AUTHORS, note: "Compact model isolates the PGMD region"}
+  - {id: liu2026:R14, subject: liu2026:OBS6, predicate: SUPPORTS, object: liu2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liu2026:R15, subject: liu2026:OBS6, predicate: UNDERCUTS, object: liu2026:CLAIM2, asserted_by: ANNOTATOR, note: "{100}/{110} strength rises with SGMDs"}
+  - {id: liu2026:R16, subject: liu2026:LIM1, predicate: QUALIFIES, object: liu2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: liu2026:R17, subject: liu2026:OBS5, predicate: SUPPORTS, object: liu2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liu2026:R18, subject: liu2026:OBS4, predicate: SUPPORTS, object: liu2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  # anomaly
+  - {id: liu2026:R19, subject: liu2026:OBS7, predicate: SUPPORTS, object: liu2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: liu2026:R20, subject: liu2026:CLAIM4, predicate: UNDERCUTS, object: liu2026:CLAIM5, asserted_by: ANNOTATOR, note: "Construction procedure can yield metastable structures"}
+  - {id: liu2026:R21, subject: liu2026:CLAIM5, predicate: DEPENDS_ON, object: liu2026:ASM2, asserted_by: ANNOTATOR}
+  - {id: liu2026:R22, subject: liu2026:CLAIM5, predicate: SUPPORTS, object: liu2026:CLAIM1, asserted_by: ANNOTATOR, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: liu2026:R23, subject: liu2026:CLAIM5, predicate: SUPPORTS, object: liu2026:CLAIM2, asserted_by: ANNOTATOR, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  # asymmetry
+  - {id: liu2026:R24, subject: liu2026:OBS8, predicate: SUPPORTS, object: liu2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: liu2026:R25, subject: liu2026:OBS8, predicate: SUPPORTS, object: liu2026:CLAIM1, asserted_by: AUTHORS, note: "Direction-dependent mode", support_basis: QUALITATIVE, support_strength: INTERMEDIATE}
+  # agentic claims
+  - {id: liu2026:R26, subject: liu2026:CLAIM4, predicate: SUPPORTS, object: liu2026:CLAIM7, asserted_by: AUTHORS, note: "Example of dynamic replanning", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: liu2026:R27, subject: liu2026:CLAIM3, predicate: SUPPORTS, object: liu2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: liu2026:R28, subject: liu2026:OBS1, predicate: UNDERCUTS, object: liu2026:CLAIM7, asserted_by: ANNOTATOR, note: "LLM screening missed variants the researcher added"}
+  - {id: liu2026:R29, subject: liu2026:LIM2, predicate: QUALIFIES, object: liu2026:CLAIM7, asserted_by: AUTHORS}
+  - {id: liu2026:R30, subject: liu2026:METH1, predicate: SUPPORTS, object: liu2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: liu2026:R31, subject: liu2026:LIM2, predicate: QUALIFIES, object: liu2026:CLAIM8, asserted_by: AUTHORS}
+  # thesis
+  - {id: liu2026:R32, subject: liu2026:CLAIM7, predicate: SUPPORTS, object: liu2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: liu2026:R33, subject: liu2026:CLAIM2, predicate: SUPPORTS, object: liu2026:HYP1, asserted_by: AUTHORS, note: "Mechanistic insight", support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liu2026:R34, subject: liu2026:CLAIM4, predicate: SUPPORTS, object: liu2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liu2026:R35, subject: liu2026:HYP1, predicate: ANSWERS, object: liu2026:GAP1, asserted_by: AUTHORS}
+  - {id: liu2026:R36, subject: liu2026:CLAIM8, predicate: MOTIVATES, object: liu2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The atomistic results are clearly documented: 14 incommensurate Ni tilt
+    GBs with widely varying, direction-dependent athermal shear strengths,
+    misfit-dislocation hierarchies whose inclusion changes strengths, and a
+    convincing explanation of one anomalous response as a metastable
+    starting structure. The headline claim about agentic AI is not tested:
+    there is no baseline workflow, no metric of the agents' contribution,
+    and the key steps were researcher-initiated. The metastability finding
+    also undercuts the other strengths, since no GB structure search was
+    performed for any boundary.
+  key_limitations:
+    - "No baseline or quantitative evaluation of the agentic framework; agent vs. researcher contributions not separated (CLAIM7)."
+    - "No GB structure search; the found metastability suggests other strengths may also reflect construction artefacts (ASM2, CLAIM5)."
+    - "SGMD effect is not uniform ({100}/{110} strengthens) and is based on periodic arrays (CLAIM2)."
+    - "Single interatomic potential, 0 K quasi-static, compact periodic cells (ASM1, LIM1)."
+    - "LLM-run reproducibility not reported (METH1, LIM2)."
+  missing_evidence:
+    - "Comparison with a scripted workflow and logs quantifying agent decisions."
+    - "Systematic GB structure search for all 14 boundaries."
+    - "Shear of extended GBs with naturally relaxed SGMDs."
+    - "Cross-check with a second potential or DFT for selected boundaries."
+    - "Repeat agent runs to test reproducibility."

@@ -8,7 +8,12 @@ description: >-
   ontologies. Each claim gets a validity verdict ("does the presented data
   support it?"), and the paper gets a logic score. Modelled loosely on the
   Micropublications ontology (Clark et al. 2014, doi:10.1186/2041-1480-5-28).
-version: 0.3.0
+  v0.4 adds, from Jan's Zhuang 2017 encoding: recomputable checks on
+  evidence values, explicit warrants (inference rules), claim roles, the
+  authors' own certainty, structured data requests in proof obligations,
+  and the reasons why references are cited. All v0.4 additions are
+  optional, so v0.3 files stay valid.
+version: 0.4.0
 license: CC-BY-4.0
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -21,6 +26,17 @@ prefixes:
   # Placeholder namespaces for RDF export (not registered). One prefix per encoded paper.
   ent: https://w3id.org/claim-chain/entity/
   wang2026: https://w3id.org/claim-chain/arXiv2606.09611v1/
+  zhuang2017: https://w3id.org/claim-chain/doi10.1088-1361-651X-aa7e0c/
+  agarwal2026: https://w3id.org/claim-chain/arXiv2610.26996/
+  benmoumen2026: https://w3id.org/claim-chain/arXiv2610.27240/
+  toncich2026: https://w3id.org/claim-chain/arXiv2610.27355/
+  delmont2026: https://w3id.org/claim-chain/arXiv2610.27460/
+  skolakova2026: https://w3id.org/claim-chain/arXiv2610.27825/
+  hasan2026: https://w3id.org/claim-chain/arXiv2610.28152/
+  boticaartalejo2026: https://w3id.org/claim-chain/arXiv2610.28232/
+  starkey2026: https://w3id.org/claim-chain/arXiv2610.28493/
+  yin2026: https://w3id.org/claim-chain/arXiv2610.28564/
+  liu2026: https://w3id.org/claim-chain/arXiv2610.28629/
 default_prefix: claimchain
 default_range: string
 imports:
@@ -38,6 +54,7 @@ classes:
       - annotation_date
       - schema_version
       - entities
+      - cited_works
       - statements
       - relations
       - paper_assessment
@@ -69,6 +86,10 @@ classes:
       - scope
       - about
       - claim_modality
+      - claim_role
+      - author_certainty
+      - warrant
+      - priority
       - assumption_basis
       - open_question
       - limitation_kind
@@ -85,9 +106,11 @@ classes:
       - references
       - description
       - values
+      - derived_checks
 
   QuantitativeValue:
     slots:
+      - symbol
       - quantity
       - value
       - unit
@@ -113,6 +136,7 @@ classes:
       - support_basis
       - support_strength
       - uncertainty
+      - warrant
       - note
 
   Assessment:
@@ -133,6 +157,8 @@ classes:
       - text
       - obligation_status
       - discharged_by
+      - priority
+      - requested_data
 
   PaperAssessment:
     description: >-
@@ -141,6 +167,8 @@ classes:
     slots:
       - overall_validity
       - logic_score
+      - weighted_logic_score
+      - obligation_coverage
       - score_method
       - summary
       - key_limitations
@@ -155,6 +183,50 @@ classes:
       - label
       - entity_type
       - description
+
+  DerivedCheck:
+    description: >-
+      A number or criterion computed from the evidence values, so that a
+      claim can be checked by recomputing instead of by reading. If `formula`
+      is given, scripts/render.py evaluates it from the `symbol`s of the
+      evidence values and compares the outcome with `result` or `satisfied`.
+    slots:
+      - expression
+      - formula
+      - result
+      - unit
+      - satisfied
+      - note
+
+  Warrant:
+    description: >-
+      The inference rule that licenses a step: why the evidence (or the
+      subject statement) implies the claim, e.g. "Born criteria satisfied
+      implies mechanical stability". A multi-step inference is encoded as
+      intermediate statements, each step with its own warrant.
+    slots:
+      - rule
+      - warrant_basis
+      - references
+      - support_strength
+
+  CitedWork:
+    description: >-
+      A reference of the paper and why the argument cites it. References are
+      not looked up; `cited_for` records what the reference is assumed to
+      provide.
+    slots:
+      - id
+      - number
+      - citation
+      - cited_for
+
+  RequestedData:
+    description: A measurement or calculation that would discharge a proof obligation.
+    slots:
+      - quantity
+      - unit
+      - method
 
   Concern:
     description: An annotator's (not the authors') remark on a logical weakness.
@@ -335,6 +407,75 @@ slots:
   uncertainty:
     range: Uncertainty
     description: Qualitative uncertainty of the link itself.
+  claim_role:
+    range: ClaimRole
+    description: Role of a claim or hypothesis in the paper's argument; used to weight the logic score.
+  author_certainty:
+    range: AuthorCertainty
+    description: >-
+      How certain the authors themselves present the statement. This is the
+      authors' stance; the annotator's verdict goes in `assessment`.
+  warrant:
+    range: Warrant
+    inlined: true
+    description: >-
+      On a Relation: why the subject supports the object. On a Statement: why
+      the statement's own evidence supports it.
+  priority:
+    range: Priority
+    description: How much the argument depends on an open question or obligation.
+  cited_works:
+    range: CitedWork
+    multivalued: true
+    inlined_as_list: true
+  number:
+    description: The reference's number or label in the paper's bibliography.
+  citation:
+    description: Short bibliographic string, e.g. "Mouhat & Coudert, PRB 90, 224104 (2014)".
+  cited_for:
+    multivalued: true
+    description: What the argument assumes the reference provides, e.g. "Born stability criteria".
+  derived_checks:
+    range: DerivedCheck
+    multivalued: true
+    inlined_as_list: true
+  symbol:
+    description: >-
+      Short identifier for the value, usable in DerivedCheck formulas (e.g.
+      C11, BG_Mg). Letters, digits and underscores; unique within one Evidence.
+    pattern: "^[A-Za-z_][A-Za-z0-9_]*$"
+  expression:
+    required: true
+    description: Human-readable form of the check, e.g. "2 C13^2 < C33 (C11 + C12)".
+  formula:
+    description: >-
+      Machine-evaluable arithmetic over the value symbols, Python syntax
+      (+ - * / ** abs min max, comparisons), e.g. "2*C13**2 < C33*(C11+C12)".
+  result:
+    range: float
+    description: Reported numeric outcome of the formula.
+  satisfied:
+    range: boolean
+    description: Reported outcome of a criterion (a formula with a comparison).
+  rule:
+    required: true
+  warrant_basis:
+    range: WarrantBasis
+  requested_data:
+    range: RequestedData
+    multivalued: true
+    inlined_as_list: true
+  method:
+  weighted_logic_score:
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+    description: Logic score weighted by claim_role; computed by scripts/render.py.
+  obligation_coverage:
+    range: float
+    minimum_value: 0
+    maximum_value: 1
+    description: Share of proof obligations discharged (PARTIALLY_DISCHARGED counts half).
 
 enums:
 
@@ -401,6 +542,10 @@ enums:
         description: The subject uses the object (e.g. a method uses a definition).
       ANALOG_OF:
         description: The subject is defined by analogy to the object.
+      CONDITIONALLY_SUPPORTS:
+        description: >-
+          Would support the object if the subject were shown; used for
+          untested hypotheses the argument leans on.
 
   AssertionSource:
     permissible_values:
@@ -518,6 +663,57 @@ enums:
       STRONG:
       INTERMEDIATE:
       WEAK:
+
+  ClaimRole:
+    permissible_values:
+      MAIN_CONCLUSION:
+        description: A conclusion the paper is about (abstract or conclusions level).
+      INTERMEDIATE:
+        description: A step on the way to a main conclusion.
+      QUANTITATIVE_SUPPORT:
+        description: A numerical result offered as support for another claim.
+      MECHANISTIC_INTERPRETATION:
+        description: An explanation of why a result occurs.
+      METHODOLOGICAL:
+        description: A claim about the method itself (it works, it finds X).
+      COUNTER_CLAIM:
+        description: >-
+          A claim in the paper that challenges one of its own conclusions.
+          Not counted in the logic score; it enters through relations.
+
+  AuthorCertainty:
+    permissible_values:
+      DEMONSTRATED:
+        description: Presented as shown by the paper's own data.
+      PREDICTED:
+        description: Presented as a prediction from calculation or modelling.
+      PROPOSED:
+        description: Presented as likely or suggested ("indicates", "suggests").
+      SPECULATIVE:
+        description: Presented as speculation ("may", "could").
+
+  WarrantBasis:
+    permissible_values:
+      CITATION:
+        description: The rule is established in cited work (assumed correct).
+      DEFINITION:
+        description: The rule follows from a definition or mathematics.
+      EMPIRICAL_CORRELATION:
+        description: The rule is an empirical rule of thumb (e.g. Pugh ratio and ductility).
+      DOMAIN_CONVENTION:
+        description: Accepted practice in the field, not cited.
+      AUTHOR_ARGUMENT:
+        description: The authors argue for the rule in the paper.
+      UNSTATED:
+        description: The paper uses the rule without saying so.
+
+  Priority:
+    permissible_values:
+      CRITICAL:
+        description: The main conclusion fails or stays open without it.
+      HIGH:
+      MEDIUM:
+      LOW:
 
   ObligationStatus:
     permissible_values:
