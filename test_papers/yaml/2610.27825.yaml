@@ -1,0 +1,469 @@
+id: claimchain:chain/arXiv2610.27825
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.27825
+  title: "Early-stage local melting during solid-state sintering of a Cu-Ni-Ti-Zr-Hf alloy: A combined thermodynamic and kinetic analysis"
+  authors: [Andrea Školáková, Hana Lesáková, František Lukáč, Markéta Jarošová, Jan Pinc]
+  year: 2026
+  arxiv: "2610.27825"
+  url: https://arxiv.org/abs/2610.27825
+
+entities:
+  - {id: ent:CCA, label: Cu15Ni35Ti25Zr12.5Hf12.5 (at.%) complex concentrated alloy, entity_type: MATERIAL}
+  - {id: ent:AsCast, label: induction-melted as-cast ingot, entity_type: PROCESSING_STATE}
+  - {id: ent:Powder, label: ultrasonically atomized powder (<63 um), entity_type: PROCESSING_STATE}
+  - {id: ent:SPS, label: spark plasma sintering (850-1100 C; 100 MPa; 500 C/min), entity_type: METHOD}
+  - {id: ent:SEMEDS, label: SEM-BSE with EDS mapping and point analysis, entity_type: TECHNIQUE}
+  - {id: ent:XRD, label: X-ray diffraction, entity_type: TECHNIQUE}
+  - {id: ent:Scheil, label: CALPHAD Scheil-Gulliver solidification simulation (TCHEA7), entity_type: METHOD}
+  - {id: ent:EqMap, label: 2D local equilibrium heat maps (composition vs temperature), entity_type: METHOD}
+  - {id: ent:LocalSolidus, label: local solidus temperature, entity_type: QUANTITY}
+  - {id: ent:CuContent, label: local Cu concentration, entity_type: QUANTITY}
+  - {id: ent:Hmix, label: mixing enthalpy, entity_type: QUANTITY}
+  - {id: ent:B2, label: B2 austenite / BCC_B2 phase, entity_type: MATERIAL}
+  - {id: ent:B19p, label: "B19' martensite", entity_type: MATERIAL}
+  - {id: ent:Cu51Hf14, label: "Cu51(Hf,Zr)14 phase", entity_type: MATERIAL}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: skolakova2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Cu-Ni-Ti-Zr-Hf complex concentrated alloys are shape memory alloys combining 3d and refractory elements, and casting them causes severe segregation and dendritic structures.
+    evidence: [{evidence_kind: CITATION, references: ["16", "17", "21", "22"]}]
+    about: [ent:CCA]
+  - id: skolakova2026:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Powder metallurgy with SPS gives ultrafine-grained, segregation-suppressed CCAs and is established for 3d and refractory CCAs.
+    evidence: [{evidence_kind: CITATION, references: ["18", "19", "21", "23-39"]}]
+    about: [ent:SPS]
+  - id: skolakova2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Shape memory CCAs have not been successfully made by powder metallurgy, partly because thermodynamic data for choosing processing parameters are lacking and equilibrium diagrams do not predict the risk of melting during consolidation.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: skolakova2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Localized melting of the atomized Cu15Ni35Ti25Zr12.5Hf12.5 powder during SPS at 1100 C, far below the equilibrium solidus of ~1260 C, is caused by microsegregation inherited from atomization and amplified by solid-state partitioning that creates Cu-rich regions with a depressed local solidus, not by macroscopic thermal gradients; combining retrospective Scheil analysis with local equilibrium maps predicts this risk.
+    about: [ent:CCA, ent:LocalSolidus, ent:Scheil, ent:EqMap]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Cu-rich regions and a calculated local solidus below 1100 C are shown, so the mechanism is consistent; but the powder is reported homogeneous, the inherited segregation is hypothetical, and pulsed-current overheating is explicitly not excluded."
+      missing_evidence:
+        - "SPS-equivalent heating without pulsed current (e.g. hot pressing) to exclude local overheating"
+        - "Direct evidence of Cu segregation in the as-atomized powder (e.g. APT, STEM-EDS on cross-sections)"
+        - "Calorimetry or in situ detection of the melting onset"
+      proof_obligations:
+        - text: "Show that melting occurs at 1100 C below the nominal solidus"
+          obligation_status: DISCHARGED
+          discharged_by: [skolakova2026:OBS6, skolakova2026:OBS7]
+        - text: "Show that Cu-rich regions exist and have a local solidus below 1100 C"
+          obligation_status: DISCHARGED
+          discharged_by: [skolakova2026:OBS5, skolakova2026:OBS10]
+        - text: "Show that the segregation is inherited from atomization"
+          obligation_status: OPEN
+        - text: "Exclude current-induced local overheating"
+          obligation_status: OPEN
+
+  # ---------------- Methods ----------------
+  - id: skolakova2026:METH1
+    statement_type: METHOD
+    section: Experimental methods
+    paper_part: METHODS
+    text: The alloy is induction-melted (<5 min, Al2O3 crucible, Ar), cast, ultrasonically atomized and sieved to <63 um (d50 = 50.9 um), then consolidated by SPS at 850-1100 C, 100 MPa and 500 C/min with tungsten foil against carbon uptake.
+    about: [ent:AsCast, ent:Powder, ent:SPS]
+  - id: skolakova2026:METH2
+    statement_type: METHOD
+    section: Experimental methods
+    paper_part: METHODS
+    text: Microstructure and composition are characterized by SEM-BSE, EBSD and standardless EDS (at least six regions per sample), phases by XRD, and thermodynamics by Thermo-Calc with the TCHEA7 database.
+    about: [ent:SEMEDS, ent:XRD, ent:Scheil]
+  - id: skolakova2026:DATA1
+    statement_type: DATA
+    section: Results
+    paper_part: RESULTS
+    text: Five SPS conditions are examined (850 C/5 min, 950 C/5, 10, 20 min, 1100 C/5 min), one compact each.
+    scope:
+      materials: [ent:CCA]
+      techniques: [ent:SEMEDS, ent:XRD]
+      sample_count: 5
+      scope_note: "Sample temperature vs. die temperature in SPS not discussed. Data on Zenodo."
+
+  # ---------------- As-cast and powder ----------------
+  - id: skolakova2026:OBS1
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: The as-cast alloy is dendritic with Ni and Hf in the dendrites and Cu, Ti and Zr in the interdendritic regions, and consists of B19' martensite and B2 austenite without detectable secondary phases.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1a, Fig. S1"}
+    about: [ent:AsCast, ent:B19p, ent:B2]
+  - id: skolakova2026:OBS2
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: The atomized powder shows no BSE chemical contrast; XRD finds martensite, austenite and an unidentified cubic phase; area EDS shows lower Cu and higher Ti than the as-cast alloy, while XRF gives an overall composition close to nominal.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1b, Fig. S2"}
+      - {evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1c, Table S1"}
+    about: [ent:Powder]
+  - id: skolakova2026:CLAIM1
+    statement_type: CLAIM
+    section: Results
+    paper_part: RESULTS
+    text: Atomization traps solutes so that the powder particles are a uniform supersaturated solid solution without phase separation.
+    about: [ent:Powder]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "XRD of the same powder shows three phases including an unidentified cubic phase, which contradicts a single uniform solid solution."}
+      - {concern_type: OVERCLAIM, description: "Absence of BSE contrast cannot exclude sub-micron segregation, which the paper itself later invokes."}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own XRD shows martensite, austenite and an unidentified cubic phase in the powder, and later sections rely on residual chemical fluctuations in the same powder."
+  - id: skolakova2026:CLAIM2
+    statement_type: CLAIM
+    section: Results
+    paper_part: RESULTS
+    hedged: true
+    text: Cu segregates to the outer shell of the powder particles during atomization because Cu has the lowest surface energy and melting point of the constituents; this nanoscale shell is invisible in BSE and can act as an ignition source for melting.
+    evidence: [{evidence_kind: CITATION, references: ["41", "42"]}]
+    about: [ent:Powder, ent:CuContent]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "The proposed shell is defined as undetectable by the techniques used, so the data cannot count against it."}
+      - {concern_type: UNTESTED_ASSERTION, description: "No surface-sensitive or high-resolution measurement of the powder is shown."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible from surface energies, but no measurement addresses it, and lower Cu in area EDS is attributed to it only by assumption."
+      missing_evidence:
+        - "STEM-EDS or atom probe across a powder particle surface"
+
+  # ---------------- SPS microstructures ----------------
+  - id: skolakova2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 2a-d
+    paper_part: RESULTS
+    text: No solid-state SPS condition fully consolidates the powder; at 850-950 C the original particles stay Cu-rich (point analyses 4.9-14.6 at.% Cu at 850 C) while necks and interparticle regions are Ti-rich (up to ~35 at.% Ti) and some consolidated regions are Hf-rich.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2a-d"
+        values:
+          - {quantity: Cu point range min, value: 4.9, unit: at.%, condition: "850 C, 5 min"}
+          - {quantity: Cu point range max, value: 14.6, unit: at.%, condition: "850 C, 5 min"}
+          - {quantity: Ti at interfaces, value: 35, unit: at.%, condition: "950 C, 10 min"}
+    about: [ent:SPS, ent:CuContent]
+  - id: skolakova2026:OBS4
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: No oxide films or oxygen are detected at particle interfaces.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: Fig. 2}]
+  - id: skolakova2026:OBS5
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: In samples sintered at 950 C, EDS finds regions with up to 41 at.% Cu.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2b-d"
+        values:
+          - {quantity: maximum local Cu, value: 41, unit: at.%, condition: "950 C SPS"}
+    about: [ent:CuContent]
+  - id: skolakova2026:CLAIM3
+    statement_type: CLAIM
+    section: Results
+    paper_part: RESULTS
+    text: The incomplete consolidation results from sluggish diffusion in the CCA, since high configurational entropy suppresses solid-state diffusion and no oxide films impede transport.
+    about: [ent:CCA]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "Elsewhere the paper relies on fast, defect-enhanced solid-state diffusion to explain Ti and Cu partitioning at the same temperatures."}
+      - {concern_type: UNTESTED_ASSERTION, description: "The sluggish-diffusion effect is assumed, not measured; diffusivities are taken from other (refractory) HEAs."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Excluding oxide films is supported, but the sluggish-diffusion cause is asserted and sits uneasily with the active partitioning invoked for the melting mechanism."
+  - id: skolakova2026:ASM1
+    statement_type: ASSUMPTION
+    section: Results
+    paper_part: RESULTS
+    text: Bulk diffusivities at 950 C of order 1e-15 to 1e-14 m^2/s, taken from tracer diffusion in HfTiZrNbTa and HfTiZrNbV, apply to this alloy, giving lattice diffusion lengths of 1-3.5 um in 20 min.
+    evidence: [{evidence_kind: CITATION, references: ["43-45"]}]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "How different are diffusivities in this Cu- and Ni-rich alloy from those in refractory HEAs?"
+  - id: skolakova2026:CLAIM4
+    statement_type: CLAIM
+    section: Results
+    paper_part: RESULTS
+    text: Because lattice diffusion lengths (1-3.5 um) are far smaller than the particle radius (~25 um), the compositional heterogeneity inside the particles is inherited from atomization and only reinforced near contacts by grain-boundary and pipe diffusion.
+    about: [ent:Powder, ent:CuContent]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The powder was reported as chemically homogeneous (OBS2), so an inherited intraparticle heterogeneity is not observed in the starting state."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The diffusion-length estimate is reasonable, but the inherited heterogeneity it implies is not observed in the powder."
+      missing_evidence:
+        - "Composition profiles across as-atomized particles"
+  - id: skolakova2026:CLAIM5
+    statement_type: CLAIM
+    section: Results, Discussion
+    paper_part: DISCUSSION
+    text: During SPS heating, Ti partitions into the interparticle network to reduce interfacial free energy, while Cu stays in particle interiors, so the Cu-rich regions (up to 41 at.%) reflect depletion of the surroundings and require no long-range Cu transport.
+    about: [ent:CuContent]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "At 850 C the particle cores are said to retain the nominal Cu level (~15 at.%); regions with 41 at.% Cu are far above nominal and cannot result from depletion of the surroundings alone."}
+      - {concern_type: UNTESTED_ASSERTION, description: "Interfacial-energy driving force is not quantified."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Ti enrichment of interparticle regions and Cu retention in cores are shown by EDS maps; the no-transport explanation does not account for 41 at.% Cu, and the driving force is asserted."
+      missing_evidence:
+        - "Mass balance of Cu across particle and neck regions"
+
+  # ---------------- Melting at 1100 C ----------------
+  - id: skolakova2026:OBS6
+    statement_type: OBSERVATION
+    section: Results, Fig. 2e
+    paper_part: RESULTS
+    text: After SPS at 1100 C the compact shows a dendritic microstructure resembling the as-cast state, with dendrites containing 21.1 at.% Hf and 15.0 at.% Cu and interdendritic regions with 37.9 at.% Ti.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2e"
+        values:
+          - {quantity: Hf in dendrites, value: 21.1, unit: at.%}
+          - {quantity: Cu in dendrites, value: 15.0, unit: at.%}
+          - {quantity: Ti interdendritic, value: 37.9, unit: at.%}
+    about: [ent:SPS]
+  - id: skolakova2026:OBS7
+    statement_type: OBSERVATION
+    section: Equilibrium conditions, Fig. 3
+    paper_part: RESULTS
+    text: The one-axis equilibrium diagram gives a liquidus of ~1640 C and a solidus of ~1260 C (range ~380 C), with a miscibility gap producing BCC_B2 and BCC_B2#2 phases.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3"
+        values:
+          - {quantity: equilibrium liquidus, value: 1640, unit: C}
+          - {quantity: equilibrium solidus, value: 1260, unit: C}
+    about: [ent:LocalSolidus]
+  - id: skolakova2026:OBS8
+    statement_type: OBSERVATION
+    section: Non-equilibrium conditions, Fig. 4
+    paper_part: RESULTS
+    text: The Scheil-Gulliver simulation shows BCC_B2 solidifying down to ~890 C, then a C11b-type phase, a near-eutectic plateau at ~860 C and terminal Cu51Hf14; the residual liquid reaches over 53 at.% Cu, and the equilibrium curve in the same plot ends near 1150 C.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4a,b"
+        values:
+          - {quantity: Scheil terminal temperature, value: 860, unit: C}
+          - {quantity: Cu in final liquid, value: 53, unit: at.%}
+          - {quantity: equilibrium solidus in Scheil plot, value: 1150, unit: C}
+    about: [ent:Scheil]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Two equilibrium solidus values (1260 C, Fig. 3; 1150 C, Fig. 4) from the same database are reconciled only by the presence or absence of BCC_B2#2."}
+  - id: skolakova2026:OBS9
+    statement_type: OBSERVATION
+    section: Non-equilibrium conditions
+    paper_part: RESULTS
+    text: The Scheil model predicts Zr partitioning into the dendrites, whereas EDS shows Zr enriched in interdendritic regions; the predicted minor phases (C11b, Cu51Hf14, HfNi, Cu10Hf7) are not detected by XRD.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1a, Fig. 4b, Fig. S1"}]
+  - id: skolakova2026:CLAIM6
+    statement_type: CLAIM
+    section: Non-equilibrium conditions
+    paper_part: DISCUSSION
+    text: The Scheil-Gulliver model explains the as-cast element distribution through partition coefficients and chemical affinities (k ordering Cu < Zr < Ti < Hf < Ni) rather than through elemental melting points; the Zr mismatch arises from steric strain the model underestimates.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:Scheil, ent:AsCast]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The Zr disagreement with the model is explained post hoc by steric strain, without calculation."}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The k ordering is taken from experiment, so placing Zr second contradicts the model's own prediction rather than following from it."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Cu, Ni, Ti and Hf partitioning agree with the simulation; Zr disagrees, and the predicted minor phases are not detected."
+  - id: skolakova2026:ASM2
+    statement_type: ASSUMPTION
+    section: Non-equilibrium conditions
+    paper_part: DISCUSSION
+    text: Although the atomized powder is homogeneous, the Scheil solidification path defines the thermodynamically preferred redistribution pathways along which the powder evolves during SPS heating.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:Scheil, ent:Powder]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Why should a solidification path (liquid-solid partitioning) govern solid-state redistribution in a supersaturated solid?"
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Central methodological premise of the 'retrospective Scheil' framework; not justified beyond argument."}
+  - id: skolakova2026:METH3
+    statement_type: METHOD
+    section: Temperature-Dependent Elemental Redistribution
+    paper_part: METHODS
+    text: 2D local equilibrium maps of liquid fraction are computed by Gibbs energy minimization (Redlich-Kister excess terms) for 900-1100 C and 0-40 mol% of each element, varying one element while keeping the others in nominal ratio.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 5a-e"}]
+    about: [ent:EqMap]
+  - id: skolakova2026:OBS10
+    statement_type: OBSERVATION
+    section: Temperature-Dependent Elemental Redistribution
+    paper_part: RESULTS
+    text: The maps give liquid at 1100 C for Cu > 25 mol%, Hf > 18 mol%, Ti in 0-17 or 30-40 mol%, low Ni and certain Zr ranges; for 35 mol% Cu the equilibrium liquid fraction at 1100 C is 0.6, and the measured 41 at.% Cu region from 950 C/10 min has a calculated local solidus of 1087 C.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5a-e, Sec. text"
+        values:
+          - {quantity: critical Cu for liquid, value: 25, unit: mol%, condition: 1100 C}
+          - {quantity: liquid fraction, value: 0.6, condition: "1100 C, 35 mol% Cu"}
+          - {quantity: local solidus, value: 1087, unit: C, condition: "41 Cu-27 Ni-12 Ti-12 Zr-8 Hf (at.%)"}
+    about: [ent:EqMap, ent:LocalSolidus, ent:CuContent]
+  - id: skolakova2026:OBS11
+    statement_type: OBSERVATION
+    section: Temperature-Dependent Elemental Redistribution
+    paper_part: RESULTS
+    text: Calorimetric data show a more exothermic Cu-Hf than Cu-Ti interaction at 1100 C (liquid-liquid mixing enthalpy minimum -19.2 vs -4.2 kJ/mol).
+    evidence:
+      - evidence_kind: CITATION
+        references: ["52"]
+        values:
+          - {quantity: Hmix liquid-liquid min, value: -19.2, unit: kJ/mol, condition: Cu-Hf}
+          - {quantity: Hmix liquid-liquid min, value: -4.2, unit: kJ/mol, condition: Cu-Ti}
+    about: [ent:Hmix]
+  - id: skolakova2026:CLAIM7
+    statement_type: CLAIM
+    section: Temperature-Dependent Elemental Redistribution, Conclusion
+    paper_part: DISCUSSION
+    text: Cu enrichment above ~25 at.% lowers the local solidus below 1100 C, mainly through the strongly negative Cu-Hf mixing enthalpy, so Cu-rich regions melt at 1100 C but not at 950 C; Ni and Zr act as a stable matrix.
+    about: [ent:CuContent, ent:LocalSolidus, ent:Hmix]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The Cu-Hf enthalpy is named as the dominant cause, yet the calculated 1087 C solidus is for a region with below-nominal Hf (7.7 at.%); the separate contributions are not computed."}
+    assessment:
+      validity: PARTIAL
+      rationale: "A measured Cu-rich composition has a calculated local solidus (1087 C) between 950 and 1100 C, which fits melting at 1100 C only; the Cu-Hf attribution is argued from binary enthalpies and not isolated in the multicomponent calculation."
+      missing_evidence:
+        - "Local-solidus calculation with Hf replaced or removed to isolate its role"
+        - "DSC on Cu-enriched model compositions"
+  - id: skolakova2026:CLAIM8
+    statement_type: CLAIM
+    section: Abstract, Discussion, Conclusion
+    paper_part: CONCLUSION
+    text: Premature melting is controlled by thermally activated solid-state partitioning rather than by macroscopic thermal gradients or conditions.
+    about: [ent:SPS]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Abstract says 'we demonstrate', while the text concedes current-induced overheating at particle contacts cannot be excluded."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No measurement of temperature distribution in the compact."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Two qualitative arguments favour solute-driven melting (spatial association with Cu-rich regions, agreement with maps), but no control experiment without pulsed current is performed."
+      missing_evidence:
+        - "Reference cycle with the same thermal history but no pulsed current"
+  - id: skolakova2026:LIM1
+    statement_type: LIMITATION
+    section: Non-equilibrium conditions
+    paper_part: DISCUSSION
+    text: Local overheating at particle contacts by the pulsed current cannot be excluded from post-processing characterization; distinguishing it requires a reference cycle without pulsed current, which was outside the scope.
+    limitation_kind: METHOD
+  - id: skolakova2026:CLAIM9
+    statement_type: CLAIM
+    section: Discussion, Conclusion
+    paper_part: CONCLUSION
+    text: Cu-Hf co-segregation after melting is a consequence of solidification of the Cu-rich liquid, not the cause of melting, and the last liquid approaches Cu51(Hf,Zr)14.
+    about: [ent:Cu51Hf14]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Cu and Hf are spatially separated below 950 C and co-located after 1100 C, consistent with the claimed sequence; the Cu51(Hf,Zr)14 phase is not verified."
+  - id: skolakova2026:LIM2
+    statement_type: LIMITATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: The presence of the Cu51(Hf,Zr)14 phase in the SPS material was not verified.
+    limitation_kind: DATA
+  - id: skolakova2026:CLAIM10
+    statement_type: CLAIM
+    section: Introduction, Abstract
+    paper_part: CONCLUSION
+    text: The combined retrospective Scheil plus local-equilibrium framework accounts for localized melting in rapidly solidified CCA and HEA powders that contain a low-melting element with strongly negative mixing enthalpy (e.g. Cu, Al, Mg systems), for SPS, HIP, hot pressing and binder jetting.
+    evidence: [{evidence_kind: ARGUMENT}]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "One alloy, one process; no prediction is made before an experiment, so the framework is not shown to be predictive."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Applied retrospectively to one alloy; no independent alloy or process is tested."
+
+relations:
+  - {id: skolakova2026:R1, subject: skolakova2026:BG1, predicate: MOTIVATES, object: skolakova2026:GAP1, asserted_by: AUTHORS}
+  - {id: skolakova2026:R2, subject: skolakova2026:BG2, predicate: MOTIVATES, object: skolakova2026:GAP1, asserted_by: AUTHORS}
+  - {id: skolakova2026:R3, subject: skolakova2026:GAP1, predicate: MOTIVATES, object: skolakova2026:HYP1, asserted_by: AUTHORS}
+  - {id: skolakova2026:R4, subject: skolakova2026:DATA1, predicate: DEPENDS_ON, object: skolakova2026:METH1, asserted_by: AUTHORS}
+  # powder
+  - {id: skolakova2026:R5, subject: skolakova2026:OBS2, predicate: SUPPORTS, object: skolakova2026:CLAIM1, asserted_by: AUTHORS, note: "No BSE contrast", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: skolakova2026:R6, subject: skolakova2026:OBS2, predicate: CONTRADICTS, object: skolakova2026:CLAIM1, asserted_by: ANNOTATOR, note: "Same powder shows three phases in XRD"}
+  - {id: skolakova2026:R7, subject: skolakova2026:OBS2, predicate: SUPPORTS, object: skolakova2026:CLAIM2, asserted_by: AUTHORS, note: "Lower Cu in area EDS", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  # SPS microstructure
+  - {id: skolakova2026:R8, subject: skolakova2026:OBS4, predicate: SUPPORTS, object: skolakova2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: skolakova2026:R9, subject: skolakova2026:CLAIM5, predicate: UNDERCUTS, object: skolakova2026:CLAIM3, asserted_by: ANNOTATOR, note: "Active solid-state partitioning at the same temperatures"}
+  - {id: skolakova2026:R10, subject: skolakova2026:ASM1, predicate: SUPPORTS, object: skolakova2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R11, subject: skolakova2026:OBS3, predicate: SUPPORTS, object: skolakova2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: skolakova2026:R12, subject: skolakova2026:CLAIM1, predicate: UNDERCUTS, object: skolakova2026:CLAIM4, asserted_by: ANNOTATOR, note: "Powder reported homogeneous"}
+  - {id: skolakova2026:R13, subject: skolakova2026:OBS3, predicate: SUPPORTS, object: skolakova2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R14, subject: skolakova2026:OBS5, predicate: SUPPORTS, object: skolakova2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R15, subject: skolakova2026:CLAIM5, predicate: DEPENDS_ON, object: skolakova2026:ASM2, asserted_by: AUTHORS}
+  # thermodynamics
+  - {id: skolakova2026:R16, subject: skolakova2026:OBS7, predicate: MOTIVATES, object: skolakova2026:HYP1, asserted_by: AUTHORS, note: "Melting at 1100 C contradicts the equilibrium solidus"}
+  - {id: skolakova2026:R17, subject: skolakova2026:OBS1, predicate: SUPPORTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R18, subject: skolakova2026:OBS8, predicate: SUPPORTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R19, subject: skolakova2026:OBS9, predicate: UNDERCUTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, note: "Zr and minor phases disagree with the model"}
+  - {id: skolakova2026:R20, subject: skolakova2026:METH3, predicate: DEPENDS_ON, object: skolakova2026:ASM2, asserted_by: ANNOTATOR}
+  - {id: skolakova2026:R21, subject: skolakova2026:OBS10, predicate: SUPPORTS, object: skolakova2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: MEDIUM}
+  - {id: skolakova2026:R22, subject: skolakova2026:OBS5, predicate: SUPPORTS, object: skolakova2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R23, subject: skolakova2026:OBS11, predicate: SUPPORTS, object: skolakova2026:CLAIM7, asserted_by: AUTHORS, note: "Cu-Hf attribution", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: skolakova2026:R24, subject: skolakova2026:OBS6, predicate: SUPPORTS, object: skolakova2026:CLAIM9, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R25, subject: skolakova2026:LIM2, predicate: QUALIFIES, object: skolakova2026:CLAIM9, asserted_by: AUTHORS}
+  # melting mechanism
+  - {id: skolakova2026:R26, subject: skolakova2026:CLAIM7, predicate: SUPPORTS, object: skolakova2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R27, subject: skolakova2026:LIM1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: skolakova2026:OBS6, asserted_by: AUTHORS, note: "Pulsed-current overheating at contacts"}
+  - {id: skolakova2026:R28, subject: skolakova2026:LIM1, predicate: UNDERCUTS, object: skolakova2026:CLAIM8, asserted_by: AUTHORS}
+  # thesis
+  - {id: skolakova2026:R29, subject: skolakova2026:CLAIM4, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: skolakova2026:R30, subject: skolakova2026:CLAIM5, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: skolakova2026:R31, subject: skolakova2026:CLAIM7, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: MEDIUM}
+  - {id: skolakova2026:R32, subject: skolakova2026:CLAIM8, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: HIGH}
+  - {id: skolakova2026:R33, subject: skolakova2026:CLAIM2, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, note: "Inherited segregation", support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: skolakova2026:R34, subject: skolakova2026:HYP1, predicate: ANSWERS, object: skolakova2026:GAP1, asserted_by: AUTHORS}
+  - {id: skolakova2026:R35, subject: skolakova2026:HYP1, predicate: SUPPORTS, object: skolakova2026:CLAIM10, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: skolakova2026:R36, subject: skolakova2026:DATA1, predicate: QUALIFIES, object: skolakova2026:CLAIM10, asserted_by: ANNOTATOR, note: "One alloy, one consolidation route"}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper documents melting during SPS at 1100 C, well below the
+    calculated equilibrium solidus, and shows with local equilibrium
+    calculations that measured Cu-rich compositions have a local solidus
+    between 950 and 1100 C, which makes solute-driven melting plausible.
+    The broader causal story is weaker: the powder is described as
+    homogeneous yet segregation is said to be inherited from atomization,
+    the retrospective Scheil premise is asserted, sluggish diffusion and
+    active partitioning are invoked side by side, and pulsed-current
+    overheating, which the authors concede cannot be excluded, is not
+    tested with a control.
+  key_limitations:
+    - "No control without pulsed current; thermal-origin alternative remains open despite 'we demonstrate' (CLAIM8, LIM1)."
+    - "Powder said to be a uniform solid solution while XRD shows three phases, and inherited segregation is never observed (CLAIM1, CLAIM2, CLAIM4)."
+    - "Retrospective Scheil path assumed to govern solid-state redistribution (ASM2)."
+    - "Sluggish diffusion invoked for poor consolidation alongside fast partitioning for melting (CLAIM3, CLAIM5)."
+    - "One compact per condition, one alloy; generalization to other systems and processes untested (DATA1, CLAIM10)."
+  missing_evidence:
+    - "SPS-equivalent heating without pulsed current."
+    - "High-resolution composition profiles of as-atomized particles."
+    - "DSC on the powder and on Cu-enriched model alloys."
+    - "Identification of terminal phases (Cu51(Hf,Zr)14) in the melted compact."
+    - "Calculations isolating the role of Hf in solidus depression."

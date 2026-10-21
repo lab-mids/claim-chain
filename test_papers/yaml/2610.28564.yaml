@@ -1,0 +1,395 @@
+id: claimchain:chain/arXiv2610.28564
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.28564
+  title: "Differentiable powder X-ray diffraction enables analysis of evolving structures"
+  authors: [Xiangyu Yin, Nina Andrejevic, Hemant Sharma, Ming Du, Aileen Luo, Michael Prince, Burak Guzelturk, Xiaoyi Zhang, Brian H. Toby, Mathew J. Cherukara]
+  year: 2026
+  arxiv: "2610.28564"
+  url: https://arxiv.org/abs/2610.28564
+
+entities:
+  - {id: ent:diffPXRD, label: diffPXRD differentiable PXRD engine (PyTorch), entity_type: METHOD}
+  - {id: ent:GSASII, label: GSAS-II, entity_type: METHOD}
+  - {id: ent:AD, label: automatic differentiation, entity_type: METHOD}
+  - {id: ent:JointRef, label: joint (parametric) refinement with a shared model, entity_type: METHOD}
+  - {id: ent:Framewise, label: framewise (pattern-by-pattern) refinement, entity_type: METHOD}
+  - {id: ent:PXRD, label: powder X-ray diffraction series (operando / in situ), entity_type: TECHNIQUE}
+  - {id: ent:NCA, label: nickel-cobalt-aluminium oxide cathode, entity_type: MATERIAL}
+  - {id: ent:Li2S, label: Li2S in a lithium-sulfur cell, entity_type: MATERIAL}
+  - {id: ent:Ca3Ti2O7, label: Ca3Ti2O7, entity_type: MATERIAL}
+  - {id: ent:CuCr2O4, label: CuCr2O4, entity_type: MATERIAL}
+  - {id: ent:Variability, label: repeat-to-repeat RMS standard deviation of refined parameters, entity_type: QUANTITY}
+  - {id: ent:Speedup, label: computational speed-up, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: yin2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Operando and in situ PXRD produce series of hundreds to thousands of patterns, which are usually refined one at a time, so weak signals give noisy structural trajectories.
+    evidence: [{evidence_kind: CITATION, references: ["1-4", "8"]}]
+    about: [ent:PXRD, ent:Framewise]
+  - id: yin2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Parametric refinement links parameters across a series through shared functions of the experimental conditions; in existing programs such as TOPAS, models and derivatives must be specified through user equations and computer algebra.
+    evidence: [{evidence_kind: CITATION, references: ["9", "10"]}]
+    about: [ent:JointRef]
+  - id: yin2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Differentiable diffraction has been used against simulated powder patterns and for electron diffraction, and GPUs or optimized CPU code have accelerated diffraction calculations.
+    evidence: [{evidence_kind: CITATION, references: ["11-14"]}]
+  - id: yin2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: No differentiable, hardware-accelerated forward model that includes instrumental and sample effects exists for refining measured PXRD series with easily changed shared models.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: yin2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Sec. 1, Abstract
+    paper_part: INTRODUCTION
+    text: A differentiable PyTorch PXRD engine with automatic derivatives and batched CPU/GPU evaluation reproduces established calculations, makes shared parametric models easy to change and fast to fit, and stabilizes structural trajectories from weak operando signals.
+    about: [ent:diffPXRD, ent:AD, ent:JointRef]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: "Agreement with GSAS-II on 1,800 cases and a measured refinement, finite-difference derivative checks, timing benchmarks and three applications with held-out tests support the stated scope; the authors limit the claims carefully."
+      proof_obligations:
+        - text: "Show agreement with an established code"
+          obligation_status: DISCHARGED
+          discharged_by: [yin2026:OBS1, yin2026:OBS2]
+        - text: "Show speed-up"
+          obligation_status: DISCHARGED
+          discharged_by: [yin2026:OBS3, yin2026:OBS5]
+        - text: "Show stabilization of weak-signal trajectories"
+          obligation_status: DISCHARGED
+          discharged_by: [yin2026:OBS4, yin2026:OBS7]
+
+  # ---------------- Methods ----------------
+  - id: yin2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1, 4.1
+    paper_part: METHODS
+    text: diffPXRD computes Bragg positions, structure factors, intensity corrections and pseudo-Voigt, TCH or FCJ-corrected peak profiles as PyTorch tensor operations; scale and background are solved by variable projection, and the shared model p_s = g_phi(x_s) is fitted to all profiles by L-BFGS with AD gradients.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eq. 1, 2; Fig. 1"}]
+    about: [ent:diffPXRD, ent:AD, ent:JointRef]
+  - id: yin2026:METH2
+    statement_type: METHOD
+    section: Sec. 4.4
+    paper_part: METHODS
+    text: Low-count data are simulated by binomial thinning of each angular bin to 10 % of the counts in twenty realizations, and variability is the RMS over the series of the repeat-to-repeat standard deviation of refined parameters.
+    about: [ent:Variability]
+  - id: yin2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 2.3, 3
+    paper_part: DISCUSSION
+    text: A shared model (smooth spline, kinetic shape or displacement basis) is a justified constraint on the structural trajectory; reduced variability reflects this assumption rather than a smaller measurement uncertainty and must be tested with held-out data.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:JointRef]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "When does the shared model exclude real behaviour (e.g. abrupt transitions), and does held-out testing detect it?"
+
+  # ---------------- Accuracy and performance ----------------
+  - id: yin2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2a
+    paper_part: RESULTS
+    text: For 200 ICSD structures (149 space groups) under nine instrument configurations, all 1,800 comparisons with GSAS-II pass predefined criteria for reflection lists, positions, intensities and profiles, with a worst-case NRMSE of 0.00040; AD derivatives agree with central finite differences.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2a, Suppl. Note 1"
+        values:
+          - {quantity: comparisons passing, value: 1800}
+          - {quantity: worst-case NRMSE, value: 0.00040, condition: Ho4RuBr5}
+    about: [ent:diffPXRD, ent:GSASII]
+  - id: yin2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2d
+    paper_part: RESULTS
+    text: In a 17-pattern CuCr2O4 temperature series, oxygen positions refined by diffPXRD and GSAS-II agree within 0.0016 A across the series, including the transition near 130 K, and Rwp values differ by at most 0.02 percentage points.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2d"
+        values:
+          - {quantity: max O position difference, value: 0.0016, unit: A}
+          - {quantity: max Rwp difference, value: 0.02, unit: percentage points}
+    about: [ent:CuCr2O4]
+  - id: yin2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2b,c
+    paper_part: RESULTS
+    text: Single complete patterns take similar median times on CPU and A100 GPU (0.058 vs 0.054 s); the GPU wins above ~500 peaks; with prebuilt reflection lists and 32 patterns per batch, the median GPU speed-up for loss plus gradient is 7.4.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2b,c"
+        values:
+          - {quantity: median complete-profile time, value: 0.0583, unit: s, condition: CPU}
+          - {quantity: median complete-profile time, value: 0.0535, unit: s, condition: A100}
+          - {quantity: GPU speed-up loss+gradient, value: 7.4, condition: batch 32}
+    about: [ent:Speedup]
+  - id: yin2026:CLAIM1
+    statement_type: CLAIM
+    section: Sec. 2.2, 3
+    paper_part: RESULTS
+    text: diffPXRD profiles and derivatives agree with GSAS-II and finite differences, supporting its use for refinement.
+    about: [ent:diffPXRD]
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "YES"
+      rationale: "Large, systematic benchmark plus a measured-data refinement comparison."
+
+  # ---------------- NCA ----------------
+  - id: yin2026:DATA1
+    statement_type: DATA
+    section: Sec. 2.3-2.5
+    paper_part: RESULTS
+    text: Three published series are re-analysed, 239 NCA cathode patterns (003 window), 131 Li-S patterns with Li2S reflections, and 346 Ca3Ti2O7 patterns between 313 and 1069 K.
+    evidence: [{evidence_kind: CITATION, references: ["1", "3", "19-21", "23"]}]
+    scope:
+      materials: [ent:NCA, ent:Li2S, ent:Ca3Ti2O7]
+      techniques: [ent:PXRD]
+      sample_count: 3
+  - id: yin2026:METH3
+    statement_type: METHOD
+    section: Sec. 2.3, 4.4
+    paper_part: METHODS
+    text: The NCA c-parameter is modelled by bounded cubic B-splines in capacity with separate charge and discharge branches; the number of coefficients (12 per branch) is chosen from {6, 8, 10, 12} as the smallest that matches framewise refinement on 191 training profiles, with 48 patterns held out.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eq. 3"}]
+    about: [ent:NCA, ent:JointRef]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Only 12, the largest value tested, met the criteria, so the spline may still be at the edge of underfitting; larger values were not explored."}
+  - id: yin2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 3b,c
+    paper_part: RESULTS
+    text: At original counts, joint and framewise c trajectories are similar; at 10 % counts the joint refinement lowers the RMS repeat-to-repeat standard deviation of c from 0.00340 to 0.00107 A (68.4 %) while keeping agreement with the original profiles.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3c, Suppl. Note 3"
+        values:
+          - {quantity: c variability, value: 0.00340, unit: A, condition: "framewise, 10 % counts"}
+          - {quantity: c variability, value: 0.00107, unit: A, condition: "joint, 10 % counts"}
+          - {quantity: variability reduction, value: 68.4, unit: "%"}
+    about: [ent:NCA, ent:Variability]
+  - id: yin2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 3d
+    paper_part: RESULTS
+    text: On four CPU threads the NCA analysis takes 59.33 s serial framewise, 8.22 s batched framewise and 7.85 s joint; on the A100 the joint fit takes 25.98 s.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3d"
+        values:
+          - {quantity: analysis time, value: 59.33, unit: s, condition: "serial framewise, CPU"}
+          - {quantity: analysis time, value: 8.22, unit: s, condition: "batched framewise, CPU"}
+          - {quantity: analysis time, value: 7.85, unit: s, condition: "joint, CPU"}
+          - {quantity: analysis time, value: 25.98, unit: s, condition: "joint, A100"}
+    about: [ent:Speedup]
+  - id: yin2026:CLAIM2
+    statement_type: CLAIM
+    section: Abstract, Sec. 2.3
+    paper_part: RESULTS
+    text: Batched fitting is more than seven times faster than serial fitting, and the timing benefit comes from batching rather than from parameter sharing.
+    about: [ent:Speedup]
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "YES"
+      rationale: "59.33 / 8.22 s gives 7.2x on CPU, and batched framewise is as fast as joint fitting; the GPU result is reported honestly as slower for this small workload."
+  - id: yin2026:CLAIM3
+    statement_type: CLAIM
+    section: Abstract, Sec. 2.3
+    paper_part: RESULTS
+    text: A shared lattice model reduces lattice-parameter variability in the operando cathode series by 68.4 % at 10 % photon counts, by letting several patterns constrain each coefficient.
+    about: [ent:NCA, ent:JointRef, ent:Variability]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Bias of the joint trajectory relative to the full-count reference is shown graphically but not summarized as a number next to the variability reduction."}
+    assessment:
+      validity: "YES"
+      rationale: "Directly measured over twenty paired realizations; the authors state that the reduction reflects the smoothness assumption and test it on held-out patterns."
+  - id: yin2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.3, 3
+    paper_part: DISCUSSION
+    text: The lower variability reflects the smoothness the shared curve imposes rather than a smaller measurement uncertainty; a stronger constraint can increase prediction error if it excludes real behaviour, so smoother trajectories are not sufficient evidence of a better model.
+    limitation_kind: INTERPRETATION
+
+  # ---------------- Li2S ----------------
+  - id: yin2026:METH4
+    statement_type: METHOD
+    section: Sec. 2.4, 4.5
+    paper_part: METHODS
+    text: A four-parameter kinetic shape (onset-power-law precipitation, JMAK-type dissolution) with cycle-wise amplitudes is fitted to the Li2S 200 reflection in cycles 1-4, then held fixed to predict cycles 5-8, and evaluated on the unfitted 111 reflection against published integrated areas.
+    evidence: [{evidence_kind: CITATION, references: ["22", "32"], locator: "Eq. 4"}]
+    about: [ent:Li2S, ent:JointRef]
+  - id: yin2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 4b
+    paper_part: RESULTS
+    text: At original counts, both shared models reproduce the repeated rise and decay of the published 111 areas in evaluation cycles, but framewise amplitudes follow the published areas most closely.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4b"}]
+    about: [ent:Li2S]
+  - id: yin2026:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 4c
+    paper_part: RESULTS
+    text: At 10 % counts, the kinetic and spline trajectories correlate better with the published areas than framewise fits (median Pearson 0.90 vs 0.83), with similar scaled RMS differences (0.36 vs 0.34), about half the variability, and a modest increase in unfitted 111 profile loss.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4c, Suppl. Note 3"
+        values:
+          - {quantity: median Pearson correlation, value: 0.90, condition: "shared models, 10 % counts"}
+          - {quantity: median Pearson correlation, value: 0.83, condition: "framewise, 10 % counts"}
+          - {quantity: scaled RMS difference, value: 0.36, condition: kinetic}
+          - {quantity: scaled RMS difference, value: 0.34, condition: framewise}
+    about: [ent:Li2S, ent:Variability]
+  - id: yin2026:CLAIM4
+    statement_type: CLAIM
+    section: Abstract, Sec. 2.4
+    paper_part: RESULTS
+    text: Shared models describe the precipitation and dissolution of crystalline Li2S, transferring to later cycles and an unfitted reflection, trading lower agreement at full counts for reduced variability at low counts, without identifying a unique microscopic mechanism.
+    about: [ent:Li2S, ent:JointRef]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: "Held-out cycles and reflection are predicted, and the trade-off and limits are stated explicitly; the reference (published areas) is itself an analysis result, not ground truth."
+
+  # ---------------- Ca3Ti2O7 ----------------
+  - id: yin2026:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 2.5, 4.6
+    paper_part: METHODS
+    text: The atomic motions of Ca3Ti2O7 are restricted to the three leading SVD displacement vectors derived from neutron refinements of a separate sample, with isotropic displacement parameters and occupancies held fixed.
+    evidence: [{evidence_kind: CITATION, references: ["24"]}]
+    about: [ent:Ca3Ti2O7]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Are motions outside the neutron-derived basis present in this X-ray sample?"
+  - id: yin2026:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 2.5, Fig. 5c
+    paper_part: RESULTS
+    text: The RMS displacement of the 48 atomic positions from Acaa decreases from 0.290 to 0.228 A on heating and recovers on cooling; framewise refinement and five of six additional joint starts reproduce the path, while one start ends in a worse minimum.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5c, Suppl. Note 4"
+        values:
+          - {quantity: RMS displacement from Acaa, value: 0.290, unit: A, condition: 314 K}
+          - {quantity: RMS displacement from Acaa, value: 0.228, unit: A, condition: 1069 K}
+    about: [ent:Ca3Ti2O7]
+  - id: yin2026:OBS9
+    statement_type: OBSERVATION
+    section: Sec. 2.5, Fig. 5d
+    paper_part: RESULTS
+    text: Fitted to 42 temperatures, the model predicts 213/117 intensity ratios that follow the measured ratios at 301 unfitted temperatures on both branches; the collective displacement and tilt trend are more reproducible than the detailed rotation trajectory.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5d, Suppl. Note 4"}]
+    about: [ent:Ca3Ti2O7]
+  - id: yin2026:CLAIM5
+    statement_type: CLAIM
+    section: Abstract, Sec. 2.5
+    paper_part: RESULTS
+    text: Shared models reconstruct collective atomic displacements in Ca3Ti2O7 during heating and cooling from PXRD intensities, approaching but not reaching the Acaa structure.
+    about: [ent:Ca3Ti2O7, ent:JointRef]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Held-out validation uses a single intensity ratio that the authors note is non-monotonic in the displacement, so agreement does not by itself confirm the structure."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The collective displacement amplitude is reproducible across starts and predicts unfitted ratios; it is reconstructed only within an externally imposed three-vector basis, and the rotation component is less robust."
+      missing_evidence:
+        - "Held-out tests on further reflection intensities"
+        - "Comparison with a less constrained basis"
+
+  # ---------------- Discussion ----------------
+  - id: yin2026:CLAIM6
+    statement_type: CLAIM
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: Automatic differentiation makes parametric refinement more flexible, because a shared model can be changed without writing new derivative code, and the engine can be combined with other differentiable reaction or transport models.
+    about: [ent:AD, ent:JointRef]
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: "YES"
+      rationale: "True by construction and demonstrated with three different shared-model types on the same engine."
+  - id: yin2026:LIM2
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The engine supports only constant-wavelength X-ray diffraction with symmetric pseudo-Voigt, TCH and FCJ profiles; reflection identities and space group are fixed during differentiation, so first-order transitions with phase coexistence need explicit second phases.
+    limitation_kind: SCOPE
+  - id: yin2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: Numerically integrated reaction or transport models, or sequential rate-law models, could supply parameters to the same engine, which becomes important as fourth-generation synchrotrons increase data rates.
+    evidence: [{evidence_kind: CITATION, references: ["25"]}]
+
+relations:
+  - {id: yin2026:R1, subject: yin2026:BG1, predicate: MOTIVATES, object: yin2026:GAP1, asserted_by: AUTHORS}
+  - {id: yin2026:R2, subject: yin2026:BG2, predicate: MOTIVATES, object: yin2026:GAP1, asserted_by: AUTHORS}
+  - {id: yin2026:R3, subject: yin2026:BG3, predicate: MOTIVATES, object: yin2026:GAP1, asserted_by: AUTHORS}
+  - {id: yin2026:R4, subject: yin2026:GAP1, predicate: MOTIVATES, object: yin2026:HYP1, asserted_by: AUTHORS}
+  # accuracy
+  - {id: yin2026:R5, subject: yin2026:OBS1, predicate: SUPPORTS, object: yin2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R6, subject: yin2026:OBS2, predicate: SUPPORTS, object: yin2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R7, subject: yin2026:CLAIM1, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R8, subject: yin2026:METH1, predicate: SUPPORTS, object: yin2026:CLAIM6, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  # speed
+  - {id: yin2026:R9, subject: yin2026:OBS5, predicate: SUPPORTS, object: yin2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R10, subject: yin2026:OBS3, predicate: SUPPORTS, object: yin2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: yin2026:R11, subject: yin2026:CLAIM2, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  # NCA
+  - {id: yin2026:R12, subject: yin2026:OBS4, predicate: SUPPORTS, object: yin2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R13, subject: yin2026:OBS4, predicate: DEPENDS_ON, object: yin2026:METH2, asserted_by: AUTHORS}
+  - {id: yin2026:R14, subject: yin2026:OBS4, predicate: DEPENDS_ON, object: yin2026:METH3, asserted_by: AUTHORS}
+  - {id: yin2026:R15, subject: yin2026:LIM1, predicate: QUALIFIES, object: yin2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: yin2026:R16, subject: yin2026:CLAIM3, predicate: DEPENDS_ON, object: yin2026:ASM1, asserted_by: AUTHORS}
+  - {id: yin2026:R17, subject: yin2026:CLAIM3, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  # Li2S
+  - {id: yin2026:R18, subject: yin2026:OBS6, predicate: SUPPORTS, object: yin2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yin2026:R19, subject: yin2026:OBS7, predicate: SUPPORTS, object: yin2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yin2026:R20, subject: yin2026:OBS7, predicate: DEPENDS_ON, object: yin2026:METH4, asserted_by: AUTHORS}
+  - {id: yin2026:R21, subject: yin2026:CLAIM4, predicate: DEPENDS_ON, object: yin2026:ASM1, asserted_by: AUTHORS}
+  - {id: yin2026:R22, subject: yin2026:CLAIM4, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  # Ca3Ti2O7
+  - {id: yin2026:R23, subject: yin2026:OBS8, predicate: SUPPORTS, object: yin2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yin2026:R24, subject: yin2026:OBS9, predicate: SUPPORTS, object: yin2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yin2026:R25, subject: yin2026:CLAIM5, predicate: DEPENDS_ON, object: yin2026:ASM2, asserted_by: AUTHORS}
+  - {id: yin2026:R26, subject: yin2026:CLAIM5, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yin2026:R27, subject: yin2026:LIM2, predicate: QUALIFIES, object: yin2026:CLAIM5, asserted_by: AUTHORS, note: "Refinement stops below the first-order transition"}
+  # discussion
+  - {id: yin2026:R28, subject: yin2026:CLAIM6, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: yin2026:R29, subject: yin2026:HYP1, predicate: ANSWERS, object: yin2026:GAP1, asserted_by: AUTHORS}
+  - {id: yin2026:R30, subject: yin2026:LIM2, predicate: QUALIFIES, object: yin2026:HYP1, asserted_by: AUTHORS}
+  - {id: yin2026:R31, subject: yin2026:CLAIM6, predicate: MOTIVATES, object: yin2026:OUT1, asserted_by: AUTHORS}
+  - {id: yin2026:R32, subject: yin2026:DATA1, predicate: SUPPORTS, object: yin2026:HYP1, asserted_by: ANNOTATOR, note: "Three distinct published series", support_basis: QUALITATIVE, support_strength: INTERMEDIATE}
+
+paper_assessment:
+  overall_validity: "YES"
+  summary: >-
+    A carefully argued method paper. Numerical agreement with GSAS-II is
+    benchmarked broadly, speed claims are measured and qualified by
+    workload, and each application is tested on held-out patterns, cycles,
+    reflections or temperatures. The authors explicitly separate stability
+    from accuracy and state what each shared model assumes. Residual
+    weaknesses are minor: the spline order sits at the edge of the tested
+    range, the Ca3Ti2O7 reconstruction is confined to an external
+    displacement basis and validated on one non-monotonic intensity ratio,
+    and reference trajectories for Li2S are themselves analysis products.
+  key_limitations:
+    - "Shared-model results depend on the imposed smoothness or basis; variability reduction is not reduced uncertainty (ASM1, LIM1)."
+    - "Ca3Ti2O7 motions limited to a neutron-derived three-vector basis from another sample (ASM2, CLAIM5)."
+    - "Spline coefficient number chosen at the upper end of the tested range (METH3)."
+    - "Constant-wavelength X-ray only; fixed reflection list and space group (LIM2)."
+  missing_evidence:
+    - "Bias of joint trajectories relative to full-count references, reported numerically."
+    - "Held-out validation of Ca3Ti2O7 on further reflection intensities."
+    - "Spline orders beyond 12 coefficients to confirm convergence."

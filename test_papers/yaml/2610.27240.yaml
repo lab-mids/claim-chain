@@ -1,0 +1,477 @@
+id: claimchain:chain/arXiv2610.27240
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.27240
+  title: "Nanoscale chemical engineering of Ti3C2Tx MXene multilayers through in situ electron beam irradiation in a TEM"
+  authors: [Ayoub Benmoumen, Marie-Laure David, Noé Condé, Eric Gautron, Sophie Morisset, Stéphane Célérier, Anupma Thakur, Babak Anasori, Vincent Mauchamp, Philippe Moreau]
+  year: 2026
+  arxiv: "2610.27240"
+  url: https://arxiv.org/abs/2610.27240
+
+entities:
+  - {id: ent:Ti3C2Tx, label: Ti3C2Tx MXene multilayer, entity_type: MATERIAL}
+  - {id: ent:Ti3CNTx, label: Ti3CyNzTx carbonitride MXene, entity_type: MATERIAL}
+  - {id: ent:Ti3AlC2, label: Ti3AlC2 MAX phase precursor, entity_type: MATERIAL}
+  - {id: ent:Nimpurity, label: nitrogen impurity (~1-2 at%), entity_type: MATERIAL}
+  - {id: ent:STEM, label: aberration-corrected scanning transmission electron microscopy, entity_type: TECHNIQUE}
+  - {id: ent:ADF, label: annular dark-field imaging, entity_type: TECHNIQUE}
+  - {id: ent:EELS, label: electron energy-loss spectroscopy (spectrum imaging), entity_type: TECHNIQUE}
+  - {id: ent:FourDSTEM, label: 4D-STEM nanodiffraction, entity_type: TECHNIQUE}
+  - {id: ent:XPS, label: X-ray photoelectron spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:JEMS, label: Bloch-wave diffraction simulation (JEMS), entity_type: METHOD}
+  - {id: ent:HDSI, label: high-dose spectrum-image irradiation, entity_type: METHOD}
+  - {id: ent:Dose, label: electron dose, entity_type: QUANTITY}
+  - {id: ent:ClTi, label: Cl/Ti ratio, entity_type: QUANTITY}
+  - {id: ent:CTi, label: C/Ti ratio, entity_type: QUANTITY}
+  - {id: ent:NTi, label: N/Ti ratio, entity_type: QUANTITY}
+  - {id: ent:SputterXS, label: calculated sputtering cross section, entity_type: QUANTITY}
+  - {id: ent:RIS, label: radiation-induced segregation, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: benmoumen2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The focused probe of a (S)TEM can remove, rearrange or deposit matter with sub-nanometre precision while imaging in real time, as shown for graphene, hBN, TMDs and nanowires.
+    evidence: [{evidence_kind: CITATION, references: ["10-21"]}]
+  - id: benmoumen2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: MXenes (Mn+1XnTx) are 2D carbides, nitrides and carbonitrides etched from MAX phases, whose core, surface terminations and intercalants each control their properties.
+    evidence: [{evidence_kind: CITATION, references: ["22-45"]}]
+    about: [ent:Ti3C2Tx]
+  - id: benmoumen2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: AIMD simulations give sputtering thresholds for the surface groups of Ti3C2Tx, and experiments have shown beam-induced redistribution of atoms, TiC growth, nanopores and rippling in Ti3C2Tx.
+    evidence: [{evidence_kind: CITATION, references: ["20", "46-49"]}]
+    about: [ent:Ti3C2Tx, ent:SputterXS]
+  - id: benmoumen2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Electron-beam modification of MXenes has been structural; selective, local chemical design of MXene composition with the beam has not been established.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: benmoumen2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Sec. 1, Abstract
+    paper_part: INTRODUCTION
+    text: Tuning the STEM beam energy and dose selectively modifies the M, X and T components of Ti3C2Tx multilayers and can create laterally patterned carbide/carbonitride nanodomains not accessible by conventional synthesis.
+    about: [ent:Ti3C2Tx, ent:Ti3CNTx, ent:STEM]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Dose- and energy-dependent Cl and C depletion and N enrichment are shown by EELS on one flake per energy; selectivity is supported, but the carbonitride identification rests on indirect spectral similarity and the source of N is unresolved."
+      missing_evidence:
+        - "Repeat irradiations on several flakes of equal thickness at both energies"
+        - "Atomic-resolution imaging or EELS of N site occupancy"
+        - "N mass balance excluding external N sources"
+      proof_obligations:
+        - text: "Show selective removal of terminations without core loss"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [benmoumen2026:OBS3, benmoumen2026:OBS5]
+        - text: "Show energy-dependent preferential C removal"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [benmoumen2026:OBS5]
+        - text: "Show that N-rich domains are carbonitride MXene"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [benmoumen2026:OBS7, benmoumen2026:OBS8, benmoumen2026:OBS9, benmoumen2026:OBS10]
+
+  # ---------------- Methods ----------------
+  - id: benmoumen2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1
+    paper_part: METHODS
+    text: Ti3C2Tx is made by LiF/HCl (MILD) etching of Ti3AlC2 and drop-cast on lacey carbon grids; a Ti3CyNzTx (y ~ z ~ 1) reference is made by HCl/HF etching of Ti3AlCyNz.
+    evidence: [{evidence_kind: CITATION, references: ["50"]}]
+    about: [ent:Ti3C2Tx, ent:Ti3CNTx, ent:Ti3AlC2]
+  - id: benmoumen2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3, Table 1
+    paper_part: METHODS
+    text: Regions of about 25 x 25 nm^2 are irradiated at ~96 K by high-dose spectrum-image irradiation (up to 1.5 nA, 35 s/px, 5 nm pixels) at 80 and 300 keV with doses d1-d5 between 6.1e7 and 1.22e9 e/A^2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 1
+        values:
+          - {quantity: dose d1, value: 6.12e+7, unit: e/A^2, condition: 300 keV}
+          - {quantity: dose d5, value: 4.15e+8, unit: e/A^2, condition: 300 keV}
+          - {quantity: dose d1, value: 2.03e+8, unit: e/A^2, condition: 80 keV}
+          - {quantity: dose d4, value: 1.22e+9, unit: e/A^2, condition: 80 keV}
+    about: [ent:HDSI, ent:Dose]
+  - id: benmoumen2026:METH3
+    statement_type: METHOD
+    section: Sec. 2.2, 2.3
+    paper_part: METHODS
+    text: Composition is measured by low-dose EELS spectrum imaging after irradiation; one set of fit parameters, tuned on the pristine sample, is applied to all spectra, and X/Ti ratios are normalized to the pristine value.
+    about: [ent:EELS, ent:ClTi, ent:CTi, ent:NTi]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Analysis dose is ~1.2e5 e/A^2 in Sec. 2.2 but ~7e5 e/A^2 in Sec. 3."}
+  - id: benmoumen2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 2.2
+    paper_part: METHODS
+    text: The low-dose analysis conditions do not alter the composition of the irradiated or pristine regions.
+    evidence: [{evidence_kind: CITATION, references: ["46", "51"]}]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Does repeated analysis of the same area cause measurable N or Cl changes?"
+  - id: benmoumen2026:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 2.3
+    paper_part: METHODS
+    text: The error on each elemental quantification is a typical 10 %, giving about 20 % on X/Ti ratios.
+    evidence: [{evidence_kind: NONE, description: "Assumed, not measured from repeat spectra."}]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "What is the actual scatter between repeat measurements and between flakes?"
+  - id: benmoumen2026:DATA1
+    statement_type: DATA
+    section: Sec. 3
+    paper_part: RESULTS
+    text: The dose series is done on one 55 nm thick stack (~50 layers) at 300 keV and one 11 nm thick stack at 80 keV.
+    scope:
+      materials: [ent:Ti3C2Tx]
+      techniques: [ent:STEM, ent:ADF, ent:EELS]
+      sample_count: 2
+      scope_note: "Energy and stack thickness change together; N accumulation is said to be reproducible but the number of repeats is not given."
+  - id: benmoumen2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3
+    paper_part: RESULTS
+    text: The pristine flakes show a ring SAED pattern of Ti3C2Tx without oxidation and contain about 1-2 at% N impurity traced to the MAX precursor.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1b,c"}
+      - {evidence_kind: DATA_QUANTITATIVE, locator: SI 1, description: XPS and CHNS/O analysis.}
+    about: [ent:Nimpurity, ent:XPS]
+
+  # ---------------- Structural evolution ----------------
+  - id: benmoumen2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 2
+    paper_part: RESULTS
+    text: ADF contrast in the irradiated regions drops with increasing dose; at 300 keV the drop is sharp between d3 (1.11e8) and d4 (2.22e8 e/A^2), at 80 keV it is gradual, and redeposited material thickens the edges.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2a-d"}]
+    about: [ent:ADF, ent:Dose]
+  - id: benmoumen2026:CLAIM1
+    statement_type: CLAIM
+    section: Sec. 3
+    paper_part: RESULTS
+    hedged: true
+    text: At 300 keV a dose threshold between 1.11e8 and 2.22e8 e/A^2 exists above which accumulated defects weaken the layers and accelerate sputtering, and nanopore shape differs between energies because Ti is sputtered only above ~270 keV.
+    evidence: [{evidence_kind: CITATION, references: ["20", "46"]}]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "300 keV and 80 keV stacks differ five-fold in thickness (55 vs 11 nm), so energy and thickness effects are not separated."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The abrupt ADF change between d3 and d4 is shown, but the threshold is bracketed by only two doses on one stack, and the defect-weakening mechanism is inferred by analogy to the literature."
+      missing_evidence:
+        - "Finer dose steps around the threshold and repeat stacks"
+        - "Equal-thickness stacks at both energies"
+
+  # ---------------- Terminations ----------------
+  - id: benmoumen2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 3c
+    paper_part: RESULTS
+    text: The normalized Cl/Ti ratio drops sharply between d3 and d4 at 300 keV to about 13 % of its initial value at d5, while at 80 keV it decreases gradually to about 52 % at d4 despite a three times higher dose.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3a-c"
+        values:
+          - {quantity: normalized Cl/Ti, value: 0.13, condition: "300 keV, d5"}
+          - {quantity: normalized Cl/Ti, value: 0.52, condition: "80 keV, d4"}
+    about: [ent:ClTi]
+  - id: benmoumen2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3, SI 2
+    paper_part: RESULTS
+    text: The F K-edge decreases after d4 and d5 at 300 keV, while the O K-edge intensity and fine structure stay unchanged at both energies, although calculated cross sections predict O sputtering.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "SI 2, SI 3"}]
+  - id: benmoumen2026:CLAIM2
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: RESULTS
+    text: Surface terminations, in particular Cl and F, are removed preferentially relative to Ti, with a removal rate that increases strongly with electron energy.
+    about: [ent:ClTi, ent:Ti3C2Tx]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Energy dependence is drawn from two stacks of different thickness."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Cl depletion relative to Ti is clear and beyond the assumed 20 % error; F is only qualitative, and the energy dependence is confounded by thickness and rests on one stack per energy."
+      missing_evidence:
+        - "Quantified F/Ti ratios"
+        - "Energy comparison on stacks of equal thickness"
+  - id: benmoumen2026:CLAIM3
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: RESULTS
+    text: At 300 keV there is an irradiation window in which Cl terminations are removed selectively without substantially altering the composition of the Ti3C2 core, a route toward unterminated Ti3C2 surfaces.
+    about: [ent:ClTi, ent:CTi]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The core C/Ti ratio is preserved, but at the same doses Ti and whole layers are sputtered (ADF dip), so the framework is thinned rather than preserved."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Cl/Ti falls while C/Ti stays within ~15 %, supporting compositional selectivity; layer loss at the same doses and O retention mean an unterminated surface is not shown."
+      missing_evidence:
+        - "Evidence of a bare surface (O and F also removed) and of remaining layer count"
+  - id: benmoumen2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 3
+    paper_part: DISCUSSION
+    hedged: true
+    text: Electron irradiation of Cl-terminated MXenes from molten-salt synthesis may produce bare MXene surfaces for CO2 capture or work-function control.
+    evidence: [{evidence_kind: CITATION, references: ["59-64"]}]
+
+  # ---------------- Core ----------------
+  - id: benmoumen2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 3f
+    paper_part: RESULTS
+    text: The C K-edge fine structure shows no amorphization; the normalized C/Ti ratio falls by about 15 % at d5 (300 keV) and by about 58 % at d4 (80 keV).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3d-f"
+        values:
+          - {quantity: C/Ti decrease, value: 15, unit: "%", condition: "300 keV, d5"}
+          - {quantity: C/Ti decrease, value: 58, unit: "%", condition: "80 keV, d4"}
+    about: [ent:CTi]
+  - id: benmoumen2026:CLAIM4
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: RESULTS
+    text: Carbon is removed preferentially relative to Ti at 80 keV but not at 300 keV, in agreement with calculated sputtering cross sections (Ti stable at 80 keV, C cross section near its maximum).
+    evidence: [{evidence_kind: CITATION, references: ["46"], locator: SI 3}]
+    about: [ent:CTi, ent:SputterXS]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The same cross-section model predicts O loss at both energies, which is not observed (OBS4); agreement with theory is claimed selectively."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The 58 % vs. 15 % C/Ti drop is consistent with the calculated trends; O stability shows the cross-section model does not predict everything, and the comparison is confounded by thickness."
+      missing_evidence:
+        - "Explanation or test of O retention (e.g. dry vs. hydrated samples)"
+
+  # ---------------- Nitrogen ----------------
+  - id: benmoumen2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 4
+    paper_part: RESULTS
+    text: The absolute N K-edge signal increases strongly inside the irradiated regions; the N/Ti ratio rises about three-fold at 300 keV (above d3) and about ten-fold at 80 keV.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4a-j"}
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Fig. 4k
+        values:
+          - {quantity: N/Ti increase factor, value: 3, condition: 300 keV}
+          - {quantity: N/Ti increase factor, value: 10, condition: 80 keV}
+    about: [ent:NTi, ent:Nimpurity]
+    hedged: false
+    note: "Authors state N accumulation was observed in all experiments and is very reproducible; the number of experiments is not given."
+  - id: benmoumen2026:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 5a,b
+    paper_part: RESULTS
+    text: C/Ti and N/Ti are anti-correlated with dose; (C+N)/Ti approaches 0.66 at 300 keV and rises from 0.66 to about 0.9 at 80 keV.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5a,b"
+        values:
+          - {quantity: (C+N)/Ti, value: 0.66, condition: "300 keV, high dose; ideal Ti3X2"}
+          - {quantity: (C+N)/Ti, value: 0.9, condition: "80 keV, d4"}
+    about: [ent:CTi, ent:NTi]
+  - id: benmoumen2026:CLAIM5
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: RESULTS
+    text: Electron irradiation drives migration and accumulation of the initially dilute N impurity into the irradiated regions, where N replaces sputtered C in octahedral sites and also occupies vacated surface sites, forming N-rich Ti3CyNzTx nanodomains.
+    evidence: [{evidence_kind: CITATION, references: ["65"], description: "DFT predicts N can occupy termination sites."}]
+    about: [ent:Nimpurity, ent:Ti3CNTx]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Site occupancy (octahedral vs. surface) is inferred from stoichiometry ratios with ~20 % assumed error, not observed."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No mass balance: a ten-fold N increase in a 25 x 25 nm area of an 11 nm stack requires N from a large surrounding volume, which is not checked for depletion."}
+    assessment:
+      validity: PARTIAL
+      rationale: "N enrichment and C/N anti-correlation are clearly shown; that N comes from the flake's own impurity and sits on C sites is inferred, and an external N source is not excluded."
+      missing_evidence:
+        - "N depletion map of the surrounding area (mass balance)"
+        - "Control irradiation of a N-free MXene to exclude N from the column or ice"
+        - "Atomic-resolution HAADF/EELS of N sites"
+      proof_obligations:
+        - text: "Show N enrichment in irradiated regions"
+          obligation_status: DISCHARGED
+          discharged_by: [benmoumen2026:OBS6]
+        - text: "Show that the N comes from the flake's own impurity"
+          obligation_status: OPEN
+        - text: "Show that N substitutes C in the lattice"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [benmoumen2026:OBS7, benmoumen2026:OBS8]
+  - id: benmoumen2026:METH4
+    statement_type: METHOD
+    section: Sec. 3
+    paper_part: RESULTS
+    text: A Ti3CyNzTx reference is irradiated in a different microscope (JEOL 2200FS) at 200 keV, room temperature and undetermined dose, and its C and N K-edges are compared with the N-rich regions.
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Reference irradiation differs in energy, temperature, illumination and dose from the carbide experiments."}
+  - id: benmoumen2026:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 5c,d
+    paper_part: RESULTS
+    text: After irradiation, the C K-edge of Ti3C2Tx N-rich regions and of irradiated Ti3CyNzTx both broaden and become very similar in shape, and their N K-edge fine structures closely match.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 5c,d"}]
+  - id: benmoumen2026:OBS9
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 6
+    paper_part: RESULTS
+    text: 4D-STEM diffraction of an irradiated 33 nm flake (2.1e8 e/A^2, 300 keV) keeps the 110-type reflections, loses the 100-type reflections, and shows no extra spots of a second phase.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6a,b"}]
+    about: [ent:FourDSTEM]
+  - id: benmoumen2026:OBS10
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 6c,d
+    paper_part: RESULTS
+    text: Bloch-wave simulations show the 100/110 intensity ratio decreasing strongly as the stack thins from 27 nm to a few layers.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6c,d"}]
+    about: [ent:JEMS]
+  - id: benmoumen2026:CLAIM6
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: RESULTS
+    text: The N-rich regions retain a crystal structure close to that of pristine Ti3C2Tx, so they are N-rich MXene-like domains with a local environment comparable to disordered Ti3CyNzTx.
+    about: [ent:Ti3CNTx]
+    claim_modality: DESCRIPTIVE
+    hedged: true
+    concerns:
+      - {concern_type: OVERCLAIM, description: "'Confirmed by 4D-STEM' while the 100 reflections vanish for reasons the authors say need further investigation."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Diffraction is on a 33 nm flake at 300 keV, where N enrichment is only three-fold; the strongly N-rich 80 keV domains are not examined by diffraction."}
+    assessment:
+      validity: PARTIAL
+      rationale: "No second-phase reflections and similar ELNES support an MXene-like structure, but broadening by disorder may make many structures look alike, the 100 reflections disappear unexplained, and the 80 keV domains are not tested."
+      missing_evidence:
+        - "Diffraction or atomic-resolution imaging of the 80 keV N-rich domains"
+        - "Thickness of the irradiated diffraction region to test the thinning explanation"
+  - id: benmoumen2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The disappearance of the 100-type reflections may come from thinning, Ti in termination layers, nanoripples or disorientation; further work is needed to decide.
+    limitation_kind: INTERPRETATION
+  - id: benmoumen2026:LIM2
+    statement_type: LIMITATION
+    section: Sec. 3, 4
+    paper_part: DISCUSSION
+    text: Why N is retained and clustered rather than sputtered is not clear; field-driven migration of ionized N or radiation-induced segregation toward vacancies are proposed, though thermal activation is unlikely at ~96 K.
+    evidence: [{evidence_kind: CITATION, references: ["68-73"]}]
+    about: [ent:RIS]
+    limitation_kind: INTERPRETATION
+  - id: benmoumen2026:LIM3
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: O content is stable under irradiation although O sputtering is predicted, possibly due to recombination of displaced O or external O from interlayer water.
+    limitation_kind: INCONSISTENCY
+
+  # ---------------- Conclusion ----------------
+  - id: benmoumen2026:CLAIM7
+    statement_type: CLAIM
+    section: Sec. 3, 4
+    paper_part: CONCLUSION
+    text: Composition modifications obtained on 25 x 25 nm^2 squares can easily be reproduced on larger areas or other shapes, giving laterally patterned carbide/carbonitride MXene architectures with nanometre control.
+    evidence: [{evidence_kind: ARGUMENT, description: "Precise beam control in modern microscopes."}]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Only square regions of one size are shown."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible given beam control, but no other shape, size or array of domains is demonstrated."
+      missing_evidence:
+        - "Patterned arrays or non-square domains with composition maps"
+  - id: benmoumen2026:OUT2
+    statement_type: OUTLOOK
+    section: Sec. 4
+    paper_part: CONCLUSION
+    hedged: true
+    text: The beam-driven chemical engineering strategy should apply to other MXenes and other low-dimensional materials, with thresholds depending on composition and thickness.
+    evidence: [{evidence_kind: ARGUMENT}]
+
+relations:
+  # motivation
+  - {id: benmoumen2026:R1, subject: benmoumen2026:BG1, predicate: MOTIVATES, object: benmoumen2026:GAP1, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R2, subject: benmoumen2026:BG2, predicate: MOTIVATES, object: benmoumen2026:GAP1, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R3, subject: benmoumen2026:BG3, predicate: MOTIVATES, object: benmoumen2026:HYP1, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R4, subject: benmoumen2026:GAP1, predicate: MOTIVATES, object: benmoumen2026:HYP1, asserted_by: AUTHORS}
+  # methods
+  - {id: benmoumen2026:R5, subject: benmoumen2026:METH3, predicate: DEPENDS_ON, object: benmoumen2026:ASM1, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R6, subject: benmoumen2026:METH3, predicate: DEPENDS_ON, object: benmoumen2026:ASM2, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R7, subject: benmoumen2026:DATA1, predicate: DEPENDS_ON, object: benmoumen2026:METH2, asserted_by: AUTHORS}
+  # structure
+  - {id: benmoumen2026:R8, subject: benmoumen2026:OBS2, predicate: SUPPORTS, object: benmoumen2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R9, subject: benmoumen2026:BG3, predicate: SUPPORTS, object: benmoumen2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R10, subject: benmoumen2026:DATA1, predicate: QUALIFIES, object: benmoumen2026:CLAIM1, asserted_by: ANNOTATOR, note: "One stack per energy, with different thickness"}
+  # terminations
+  - {id: benmoumen2026:R11, subject: benmoumen2026:OBS3, predicate: SUPPORTS, object: benmoumen2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: benmoumen2026:R12, subject: benmoumen2026:OBS4, predicate: SUPPORTS, object: benmoumen2026:CLAIM2, asserted_by: AUTHORS, note: "F decrease", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R13, subject: benmoumen2026:DATA1, predicate: QUALIFIES, object: benmoumen2026:CLAIM2, asserted_by: ANNOTATOR, note: "Energy dependence confounded with stack thickness"}
+  - {id: benmoumen2026:R14, subject: benmoumen2026:OBS3, predicate: SUPPORTS, object: benmoumen2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R15, subject: benmoumen2026:OBS5, predicate: SUPPORTS, object: benmoumen2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R16, subject: benmoumen2026:OBS2, predicate: UNDERCUTS, object: benmoumen2026:CLAIM3, asserted_by: ANNOTATOR, note: "Layers and Ti are sputtered at the same doses"}
+  - {id: benmoumen2026:R17, subject: benmoumen2026:LIM3, predicate: QUALIFIES, object: benmoumen2026:CLAIM3, asserted_by: ANNOTATOR, note: "O terminations remain, so the surface is not bare"}
+  - {id: benmoumen2026:R18, subject: benmoumen2026:CLAIM3, predicate: MOTIVATES, object: benmoumen2026:OUT1, asserted_by: AUTHORS}
+  # core
+  - {id: benmoumen2026:R19, subject: benmoumen2026:OBS5, predicate: SUPPORTS, object: benmoumen2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R20, subject: benmoumen2026:OBS4, predicate: UNDERCUTS, object: benmoumen2026:CLAIM4, asserted_by: ANNOTATOR, note: "Predicted O sputtering not observed"}
+  # nitrogen
+  - {id: benmoumen2026:R21, subject: benmoumen2026:OBS6, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: benmoumen2026:R22, subject: benmoumen2026:OBS7, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R23, subject: benmoumen2026:OBS1, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, note: "Initial N impurity as source", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: benmoumen2026:R24, subject: benmoumen2026:OBS8, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R25, subject: benmoumen2026:LIM2, predicate: QUALIFIES, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R26, subject: benmoumen2026:LIM2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: benmoumen2026:OBS6, asserted_by: ANNOTATOR_BACKGROUND, note: "The authors' own beam-contamination analogy implies N could also come from residual gas or adsorbates rather than the flake"}
+  # structure of N-rich domains
+  - {id: benmoumen2026:R27, subject: benmoumen2026:OBS8, predicate: DEPENDS_ON, object: benmoumen2026:METH4, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R28, subject: benmoumen2026:OBS8, predicate: SUPPORTS, object: benmoumen2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R29, subject: benmoumen2026:OBS9, predicate: SUPPORTS, object: benmoumen2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R30, subject: benmoumen2026:OBS10, predicate: ALTERNATIVE_EXPLANATION_FOR, object: benmoumen2026:OBS9, asserted_by: AUTHORS, note: "Thinning explains the vanishing 100 reflections"}
+  - {id: benmoumen2026:R31, subject: benmoumen2026:LIM1, predicate: QUALIFIES, object: benmoumen2026:CLAIM6, asserted_by: AUTHORS}
+  # thesis
+  - {id: benmoumen2026:R32, subject: benmoumen2026:CLAIM2, predicate: SUPPORTS, object: benmoumen2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R33, subject: benmoumen2026:CLAIM4, predicate: SUPPORTS, object: benmoumen2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R34, subject: benmoumen2026:CLAIM5, predicate: SUPPORTS, object: benmoumen2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R35, subject: benmoumen2026:CLAIM6, predicate: SUPPORTS, object: benmoumen2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R36, subject: benmoumen2026:CLAIM7, predicate: SUPPORTS, object: benmoumen2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: benmoumen2026:R37, subject: benmoumen2026:HYP1, predicate: ANSWERS, object: benmoumen2026:GAP1, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R38, subject: benmoumen2026:HYP1, predicate: MOTIVATES, object: benmoumen2026:OUT2, asserted_by: AUTHORS}
+  - {id: benmoumen2026:R39, subject: benmoumen2026:CLAIM2, predicate: DEPENDS_ON, object: benmoumen2026:ASM2, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
+  - {id: benmoumen2026:R40, subject: benmoumen2026:CLAIM5, predicate: DEPENDS_ON, object: benmoumen2026:ASM2, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Carefully executed in situ STEM-EELS experiments show dose- and
+    energy-dependent depletion of Cl and C and a striking, reproducible
+    enrichment of N in irradiated Ti3C2Tx regions. The quantitative
+    observations are solid within the assumed errors, but each energy is
+    tested on a single stack of different thickness, the identification of
+    the N-rich regions as carbonitride MXene rests on spectral similarity to
+    a reference irradiated under different conditions, and the origin of the
+    nitrogen is not established by a mass balance or a control.
+  key_limitations:
+    - "One stack per energy with five-fold different thickness confounds energy and thickness effects (DATA1, CLAIM1, CLAIM2)."
+    - "N source and site occupancy are inferred, not measured; an external N source is not excluded (CLAIM5, LIM2)."
+    - "Carbonitride structure is supported only by ELNES similarity and absence of extra reflections, with unexplained loss of 100 reflections (CLAIM6, LIM1)."
+    - "Agreement with sputtering theory is claimed for C and Cl, while the predicted O loss is not observed (CLAIM4, LIM3)."
+    - "Quantification errors are assumed (20 %), not measured (ASM2)."
+  missing_evidence:
+    - "Repeat dose series on several flakes of matched thickness at both energies."
+    - "N mass balance around irradiated regions and a N-free control sample."
+    - "Atomic-resolution imaging/EELS of N site occupancy."
+    - "Diffraction on the strongly N-enriched 80 keV domains."
+    - "Demonstration of patterned arrays or other shapes."

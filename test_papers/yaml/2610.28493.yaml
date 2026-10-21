@@ -1,0 +1,428 @@
+id: claimchain:chain/arXiv2610.28493
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.28493
+  title: "Multiscale Modeling of Zr Corrosion: Predicting Microstructures of Oxide Films"
+  authors: [K. Starkey, L. Kahle, M. Christensen, V. Eyert, A. El-Azab, C. B. Geller, A. P. Shivprasad, E. Wimmer]
+  year: 2026
+  arxiv: "2610.28493"
+  url: https://arxiv.org/abs/2610.28493
+
+entities:
+  - {id: ent:aZr, label: alpha-Zr (hcp) substrate, entity_type: MATERIAL}
+  - {id: ent:hZrO, label: hexagonal ZrO, entity_type: MATERIAL}
+  - {id: ent:mZrO2, label: monoclinic ZrO2, entity_type: MATERIAL}
+  - {id: ent:tZrO2, label: tetragonal ZrO2, entity_type: MATERIAL}
+  - {id: ent:DFT, label: "DFT (VASP, PBE, PAW)", entity_type: METHOD}
+  - {id: ent:SNAP, label: quadratic SNAP machine-learned potential, entity_type: METHOD}
+  - {id: ent:KMC, label: kinetic Monte Carlo with DFT-NEB barriers, entity_type: METHOD}
+  - {id: ent:PF, label: grand-potential multiphase phase field model (MedeA PhaseField), entity_type: METHOD}
+  - {id: ent:CNT, label: classical heterogeneous nucleation with effective nuclei, entity_type: METHOD}
+  - {id: ent:C2, label: cluster pair correlation function C2, entity_type: METHOD}
+  - {id: ent:Dox, label: oxygen diffusivity, entity_type: QUANTITY}
+  - {id: ent:GBE, label: grain and interphase boundary energy, entity_type: QUANTITY}
+  - {id: ent:Eigen, label: transformation eigenstrain, entity_type: QUANTITY}
+  - {id: ent:Columnar, label: columnar oxide grain morphology, entity_type: CONCEPT}
+  - {id: ent:Undulation, label: undulating metal/oxide interface, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: starkey2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Aqueous corrosion and hydrogen pickup limit the lifetime of Zr-alloy LWR cladding, and empirical corrosion models predict oxide thickness without accounting for the evolving oxide microstructure.
+    evidence: [{evidence_kind: CITATION, references: ["1-12"]}]
+  - id: starkey2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Previous phase field models treated the oxide as a homogeneous monolithic phase with averaged elastic properties and do not resolve grain microstructure.
+    evidence: [{evidence_kind: CITATION, references: ["12-16"]}]
+    about: [ent:PF]
+  - id: starkey2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Pretransition oxide films on Zr alloys are mostly m-ZrO2 with t-ZrO2 and clusters of small h-ZrO grains near the interface, are columnar with equiaxed grains near an undulating ('cauliflower') metal/oxide interface, and contain intergranular pores and cracks.
+    evidence: [{evidence_kind: CITATION, references: ["17-20"]}]
+    about: [ent:hZrO, ent:mZrO2, ent:Columnar, ent:Undulation]
+  - id: starkey2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: No predictive, first-principles-informed model resolves the grain-scale microstructure and anisotropic stresses of growing Zr oxide films.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: starkey2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: A phase field model parameterized from DFT, a DFT-trained ML potential and kinetic Monte Carlo reproduces the columnar pretransition oxide microstructure and grain statistics of oxidized Zr and reveals that a dynamically stabilized h-ZrO layer acts as an O diffusion barrier and that interface undulations create crack-prone tensile regions.
+    about: [ent:PF, ent:hZrO, ent:Columnar]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "Columnar m-ZrO2 above equiaxed h-ZrO and undulations are reproduced and compared by C2 functions with one micrograph; grain size distributions of the simulations, oxidation kinetics and cracking are not computed, and several model inputs are ad hoc."
+      missing_evidence:
+        - "Simulated grain size and aspect-ratio statistics compared with the experimental 53.6 nm / 2.8"
+        - "Oxide thickness vs. time from the simulations"
+        - "Validation on more than one micrograph"
+      proof_obligations:
+        - text: "Show that the simulated microstructure quantitatively matches experiment"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [starkey2026:OBS7, starkey2026:OBS8]
+        - text: "Show that h-ZrO controls O transport and kinetics"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [starkey2026:OBS3]
+        - text: "Show that interface undulations lead to cracking"
+          obligation_status: OPEN
+
+  # ---------------- Methods ----------------
+  - id: starkey2026:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: DFT (VASP, PBE, 500-520 eV) gives structures and elastic constants; a quadratic SNAP potential trained on Zr-O polymorphs, defects, surfaces and interfaces (energy RMSE 0.018 eV/atom) gives free energies vs O content and boundary energies; DFT-NEB barriers in kinetic Monte Carlo give O diffusivities.
+    about: [ent:DFT, ent:SNAP, ent:KMC]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Training set is 4,006 structures in one paragraph and 3,604 in the next; stress RMSE of 0.026 bar looks like a unit error."}
+  - id: starkey2026:METH2
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: The phase field model couples Allen-Cahn grain evolution with O chemical potential diffusion (bulk plus interface-width-independent grain boundary transport), Khachaturyan elasticity with phase eigenstrains, and stochastic heterogeneous nucleation using effective nuclei of user-defined size.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eq. 1-19"}]
+    about: [ent:PF, ent:CNT]
+  - id: starkey2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 2
+    paper_part: METHODS
+    text: Oxide phases are fully incoherent with Zr and m-ZrO2 grains fully coherent with each other; the h-ZrO eigenstrain is taken as half the monoclinic eigenstrain because h-ZrO has half the oxygen content.
+    about: [ent:Eigen, ent:hZrO]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "How do microstructure and h-ZrO stability change with a physically derived h-ZrO/m-ZrO2 orientation relationship?"
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Halving the eigenstrain by O content has no physical basis; the Appendix alternative changes h-ZrO grain size and stacking noticeably."}
+  - id: starkey2026:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 3
+    paper_part: METHODS
+    text: Nucleation rates computed for m-ZrO2 apply to t-ZrO2; nucleation barriers use isotropic eigenstrains; effective nucleation rates are taken at chosen interface concentrations (0.5, 0.55, 0.6) for 10 nm effective nuclei.
+    about: [ent:CNT]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Do the chosen interface concentrations and effective-nucleus size control the predicted grain size?"
+  - id: starkey2026:ASM3
+    statement_type: ASSUMPTION
+    section: Sec. 3
+    paper_part: METHODS
+    text: Simulations are 2D at 600 K with constant O chemical potential at the surface, without plasticity, creep, cracking, hydrogen, alloying, irradiation or water chemistry.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Would 3D, plasticity or a realistic water/oxide boundary condition change the morphology?"
+
+  # ---------------- Property results ----------------
+  - id: starkey2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3, Table 3-1, Fig. 3-1
+    paper_part: RESULTS
+    text: Computed lattice parameters agree with experiment within ~1-2 %, and MLP energies show three oxidation stages, O dissolution in alpha-Zr up to ~ZrO0.33, then h-ZrO up to ZrO, then ZrO2.
+    evidence:
+      - {evidence_kind: DATA_QUANTITATIVE, locator: "Table 3-1"}
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3-1"}
+    about: [ent:aZr, ent:hZrO, ent:mZrO2]
+  - id: starkey2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Tables 3-2, 3-3
+    paper_part: RESULTS
+    text: h-ZrO has the highest computed bulk and shear moduli (196 and 114 GPa); average boundary energies from random polycrystals range from 0.50 J/m^2 (Zr/Zr) to 2.28 J/m^2 (m-ZrO2/m-ZrO2).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Tables 3-2, 3-3"
+        values:
+          - {quantity: bulk modulus, value: 196, unit: GPa, condition: h-ZrO}
+          - {quantity: GB energy, value: 2.28, unit: J/m^2, condition: m-ZrO2/m-ZrO2}
+          - {quantity: GB energy, value: 1.64, unit: J/m^2, condition: h-ZrO/m-ZrO2}
+    about: [ent:GBE]
+  - id: starkey2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Table 3-4, Fig. 3-3
+    paper_part: RESULTS
+    text: kMC gives O diffusion barriers of 242.6 (h-ZrO), 227.5 (m-ZrO2), 188.5 (alpha-Zr) and 157.1 kJ/mol (t-ZrO2), so bulk h-ZrO and m-ZrO2 are the slowest; computed values agree with measured O diffusion in alpha-Zr and m-ZrO2 within experimental scatter.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 3-4, Fig. 3-3"
+        values:
+          - {quantity: O diffusion barrier, value: 242.6, unit: kJ/mol, condition: h-ZrO}
+          - {quantity: O diffusion barrier, value: 227.5, unit: kJ/mol, condition: m-ZrO2}
+          - {quantity: O diffusion barrier, value: 188.5, unit: kJ/mol, condition: alpha-Zr}
+          - {quantity: O diffusion barrier, value: 157.1, unit: kJ/mol, condition: t-ZrO2}
+    about: [ent:Dox, ent:KMC]
+  - id: starkey2026:CLAIM1
+    statement_type: CLAIM
+    section: Sec. 3
+    paper_part: RESULTS
+    text: Because bulk h-ZrO and m-ZrO2 are nearly impermeable to O, grain boundary diffusion plays the dominant role in pretransition aqueous corrosion of Zr.
+    about: [ent:Dox]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "The bulk diffusivities strongly support it by comparison with m-ZrO2 grain boundary data; the computed model uses one grain boundary mobility whose source and value are not stated in the text."
+      missing_evidence:
+        - "Computed or tabulated grain boundary O mobilities used in the phase field model"
+  - id: starkey2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. 3-4 to 3-6
+    paper_part: RESULTS
+    text: CNT gives effective nucleation rates of ~3e2 (nm^3 day)^-1 for m-ZrO2 at the Zr/m-ZrO2 interface (at c = 0.5), similar values at the h-ZrO/m-ZrO2 interface, and up to 1.6e4 (nm^3 day)^-1 for h-ZrO at the metal/oxide interface; critical radii are ~0.2-0.25 nm.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 3-4, 3-5, 3-6"
+        values:
+          - {quantity: effective nucleation rate m-ZrO2, value: 300, unit: (nm^3 day)^-1, condition: "Zr/m-ZrO2, c = 0.5"}
+          - {quantity: effective nucleation rate h-ZrO peak, value: 1.6e+4, unit: (nm^3 day)^-1, condition: "c = 0.45"}
+          - {quantity: critical radius peak, value: 0.25, unit: nm}
+    about: [ent:CNT]
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Critical radii of 0.2-0.25 nm are below one unit cell, outside the range where classical nucleation theory is meaningful."}
+  - id: starkey2026:OBS5
+    statement_type: OBSERVATION
+    section: Appendix, Figs. 6-2, 6-3
+    paper_part: SUPPLEMENTARY
+    text: Under +/-10 % changes in surface energy, diffusivity and lattice mismatch, the effective nucleation rate changes little with surface energy and eigenstrain and scales linearly with diffusivity.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 6-2, 6-3"}]
+  - id: starkey2026:CLAIM2
+    statement_type: CLAIM
+    section: Appendix
+    paper_part: SUPPLEMENTARY
+    text: Qualitative predictions of oxide microstructure evolution are insensitive to the model parameters within physically reasonable bounds.
+    about: [ent:PF]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Only the nucleation rate is tested, with +/-10 % variations, smaller than typical DFT boundary-energy uncertainty; microstructures are not re-simulated, and the eigenstrain sensitivity test (Appendix) does change the microstructure."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Robustness of the nucleation rate to small changes is shown; robustness of the microstructure is not, and the one microstructure-level test changes h-ZrO grain size and stacking."
+
+  # ---------------- Phase field results ----------------
+  - id: starkey2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. 3-8, 3-9
+    paper_part: RESULTS
+    text: After 25 simulated days at 600 K, m-ZrO2 grains are predominantly columnar with overall compressive stress, tensile yy-stress at grain boundaries and shear at variant boundaries; adding h-ZrO and t-ZrO2 gives an intermediate h-ZrO layer, a more refined structure, equiaxed m-ZrO2 near an undulating h-ZrO/m-ZrO2 interface, and a small t-ZrO2 fraction.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 3-8, 3-9"}]
+    about: [ent:Columnar, ent:Undulation, ent:hZrO]
+  - id: starkey2026:DATA1
+    statement_type: DATA
+    section: Sec. 3
+    paper_part: RESULTS
+    text: Validation uses one published micrograph (from ref. 47; ~6750 x 2000 nm for m-ZrO2, ~4250 x 550 nm near the interface for h-ZrO), segmented by colour quantization.
+    evidence: [{evidence_kind: CITATION, references: ["47"]}]
+    scope:
+      sample_count: 1
+      scope_note: "Alloy, exposure conditions and imaging technique of the micrograph are not given in the text; simulation domains are 250 x 500 nm."
+  - id: starkey2026:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. 3-10 to 3-13
+    paper_part: RESULTS
+    text: In the micrograph, m-ZrO2 grains (>20 nm) have a size-distribution shoulder near 50 nm, mean ellipse axes 53.6 x 18.5 nm, aspect ratio 2.8 and orientation 85.95 deg, with a ~4 deg tilt.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 3-11, 3-12, 3-13"
+        values:
+          - {quantity: major axis, value: 53.6, unit: nm, condition: experiment}
+          - {quantity: minor axis, value: 18.5, unit: nm, condition: experiment}
+          - {quantity: aspect ratio, value: 2.8, condition: experiment}
+          - {quantity: orientation, value: 85.95, unit: deg, condition: experiment}
+    about: [ent:mZrO2]
+  - id: starkey2026:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. 3-14 to 3-18
+    paper_part: RESULTS
+    text: C2 functions of simulation and experiment (experiment rotated 4.05 deg) differ with RMS 0.098 for m-ZrO2 in the two-phase simulation, 0.19 for m-ZrO2 in the four-phase simulation and 0.18 for h-ZrO; the four-phase simulation gives lower aspect ratios than the two-phase one, and the observed tilt is not reproduced.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 3-15, 3-17, 3-18"
+        values:
+          - {quantity: C2 RMS difference, value: 0.098, condition: "m-ZrO2, two-phase"}
+          - {quantity: C2 RMS difference, value: 0.19, condition: "m-ZrO2, four-phase"}
+          - {quantity: C2 RMS difference, value: 0.18, condition: h-ZrO}
+    about: [ent:C2]
+  - id: starkey2026:CLAIM3
+    statement_type: CLAIM
+    section: Abstract, Sec. 3, 5
+    paper_part: RESULTS
+    text: The simulations reproduce the columnar corrosion film microstructure and grain size distribution of oxidized Zr, and the C2 agreement confirms the predictive capability of the approach.
+    about: [ent:Columnar, ent:C2]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: OVERCLAIM, description: "No simulated grain size distribution or ellipse statistics are reported, although the abstract says the grain size distribution is reproduced."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No reference RMS (e.g. for an equiaxed or random microstructure) shows that 0.098 discriminates between models; the best RMS comes from the two-phase simulation without h-ZrO."}
+      - {concern_type: OVERCLAIM, description: "'Predictive' is claimed from a post hoc comparison with one image; the model contains chosen parameters (ASM1, ASM2)."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Columnar morphology is reproduced and C2 functions look similar; grain size distribution matching is not shown, the agreement metric lacks a baseline, and the more complete four-phase model fits worse."
+      missing_evidence:
+        - "Simulated grain size distribution and aspect ratio"
+        - "C2 RMS for a null model and for several micrographs"
+  - id: starkey2026:CLAIM4
+    statement_type: CLAIM
+    section: Abstract, Sec. 4, 5
+    paper_part: DISCUSSION
+    text: An equiaxed h-ZrO layer adjacent to the metal/oxide interface is dynamically stabilized by continuous heterogeneous grain nucleation and grain boundary diffusion, and it is the structural feature from which the columnar m-ZrO2 film emerges.
+    about: [ent:hZrO, ent:CNT]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The two-phase simulation without h-ZrO already gives columnar grains with better C2 agreement, so columnarity does not require h-ZrO."}
+    assessment:
+      validity: PARTIAL
+      rationale: "The four-phase simulation shows a persistent h-ZrO layer fed by nucleation; that columnarity emerges from it is contradicted by the two-phase run, and the h-ZrO behaviour depends on the ad hoc eigenstrain."
+  - id: starkey2026:CLAIM5
+    statement_type: CLAIM
+    section: Abstract, Sec. 5
+    paper_part: CONCLUSION
+    hedged: true
+    text: The h-ZrO layer is a significant O diffusion barrier; a continuous undefected h-ZrO layer would essentially stop corrosion, and the partial, defected layer may depress pretransition kinetics from parabolic to cubic.
+    about: [ent:hZrO, ent:Dox]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No oxide thickness vs. time is reported from the simulations, and no simulation with a continuous h-ZrO layer is shown; the kinetic claim is inferred from diffusivities."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The barrier property follows from the computed bulk diffusivity, but the effect on growth kinetics (sub-parabolic, cubic) is not computed."
+      missing_evidence:
+        - "Simulated oxide thickness vs. time with and without h-ZrO"
+  - id: starkey2026:CLAIM6
+    statement_type: CLAIM
+    section: Sec. 3, 4, Abstract
+    paper_part: DISCUSSION
+    text: The undulating metal/oxide interface produces regions of tensile stress despite overall compressive oxide stress, capable of nucleating vertical and lateral cracks, and the model identifies this as the most likely mechanism of cracking.
+    about: [ent:Undulation]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The model contains no fracture criterion and no plasticity (stresses are an upper bound), so it cannot identify the most likely cracking mechanism."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Localized tensile stresses at undulations and boundaries are computed; their capacity to nucleate cracks and the link to lateral crack spacing are argued, not modelled."
+      missing_evidence:
+        - "Fracture criterion or phase-field fracture coupled to the stress field"
+  - id: starkey2026:CLAIM7
+    statement_type: CLAIM
+    section: Sec. 5
+    paper_part: CONCLUSION
+    text: The framework uses as inputs only thermodynamic, transport and elastic properties that were measured or rigorously computed from first principles and atomistics.
+    about: [ent:PF]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Eigenstrains of h-ZrO, the effective nucleus size, the chosen interface concentrations and the transfer of m-ZrO2 nucleation rates to t-ZrO2 are author choices."}
+    assessment:
+      validity: "NO"
+      rationale: "The paper itself states several inputs that are chosen rather than computed (ASM1, ASM2)."
+  - id: starkey2026:CLAIM8
+    statement_type: CLAIM
+    section: Sec. 4
+    paper_part: DISCUSSION
+    text: The columnar morphology will persist in 3D because O transport remains rate-limiting regardless of dimensionality, while extra strain variants will increase interface undulation.
+    evidence: [{evidence_kind: ARGUMENT}]
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible argument; no 3D simulation is performed."
+  - id: starkey2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The ~4 deg tilt of experimental grains is not reproduced, possibly from macroscopic stress gradients, substrate texture or orientation relationships that the model lacks.
+    limitation_kind: SCOPE
+  - id: starkey2026:LIM2
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The h-ZrO statistics rest on few grains; the RMS of 0.18 should be interpreted cautiously and more fields of view are needed.
+    limitation_kind: DATA
+  - id: starkey2026:LIM3
+    statement_type: LIMITATION
+    section: Sec. 3, 4
+    paper_part: DISCUSSION
+    text: Boundary energies are averages over misorientation and inclination, nucleation uses isotropic eigenstrains, simulations are 2D, and no plasticity, creep or cracking is included.
+    limitation_kind: METHOD
+  - id: starkey2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: CONCLUSION
+    hedged: true
+    text: Soluble alloying additions that stabilize h-ZrO might further reduce aqueous corrosion rates and delay rate transition, also under irradiation.
+    evidence: [{evidence_kind: NONE}]
+
+relations:
+  - {id: starkey2026:R1, subject: starkey2026:BG1, predicate: MOTIVATES, object: starkey2026:GAP1, asserted_by: AUTHORS}
+  - {id: starkey2026:R2, subject: starkey2026:BG2, predicate: MOTIVATES, object: starkey2026:GAP1, asserted_by: AUTHORS}
+  - {id: starkey2026:R3, subject: starkey2026:GAP1, predicate: MOTIVATES, object: starkey2026:HYP1, asserted_by: AUTHORS}
+  - {id: starkey2026:R4, subject: starkey2026:BG3, predicate: MOTIVATES, object: starkey2026:HYP1, asserted_by: AUTHORS, note: "Features the model should reproduce"}
+  # methods
+  - {id: starkey2026:R5, subject: starkey2026:METH2, predicate: DEPENDS_ON, object: starkey2026:METH1, asserted_by: AUTHORS}
+  - {id: starkey2026:R6, subject: starkey2026:METH2, predicate: DEPENDS_ON, object: starkey2026:ASM1, asserted_by: AUTHORS}
+  - {id: starkey2026:R7, subject: starkey2026:METH2, predicate: DEPENDS_ON, object: starkey2026:ASM2, asserted_by: AUTHORS}
+  - {id: starkey2026:R8, subject: starkey2026:OBS6, predicate: DEPENDS_ON, object: starkey2026:ASM3, asserted_by: AUTHORS}
+  - {id: starkey2026:R9, subject: starkey2026:OBS4, predicate: DEPENDS_ON, object: starkey2026:OBS2, asserted_by: AUTHORS, note: "Boundary energies enter the nucleation barriers"}
+  # diffusion
+  - {id: starkey2026:R10, subject: starkey2026:OBS3, predicate: SUPPORTS, object: starkey2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: starkey2026:R11, subject: starkey2026:OBS3, predicate: SUPPORTS, object: starkey2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R12, subject: starkey2026:CLAIM1, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  # sensitivity
+  - {id: starkey2026:R13, subject: starkey2026:OBS5, predicate: SUPPORTS, object: starkey2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: starkey2026:R14, subject: starkey2026:ASM1, predicate: UNDERCUTS, object: starkey2026:CLAIM2, asserted_by: ANNOTATOR, note: "Appendix: alternative h-ZrO eigenstrain changes the microstructure"}
+  # microstructure
+  - {id: starkey2026:R15, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R16, subject: starkey2026:OBS8, predicate: SUPPORTS, object: starkey2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R17, subject: starkey2026:OBS7, predicate: SUPPORTS, object: starkey2026:CLAIM3, asserted_by: AUTHORS, note: "Experimental reference statistics", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: starkey2026:R18, subject: starkey2026:DATA1, predicate: QUALIFIES, object: starkey2026:CLAIM3, asserted_by: ANNOTATOR, note: "One micrograph"}
+  - {id: starkey2026:R19, subject: starkey2026:LIM1, predicate: QUALIFIES, object: starkey2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: starkey2026:R20, subject: starkey2026:LIM2, predicate: QUALIFIES, object: starkey2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: starkey2026:R21, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R22, subject: starkey2026:OBS4, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, note: "High h-ZrO nucleation rate", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R23, subject: starkey2026:OBS8, predicate: UNDERCUTS, object: starkey2026:CLAIM4, asserted_by: ANNOTATOR, note: "Two-phase run without h-ZrO is columnar and fits better"}
+  - {id: starkey2026:R24, subject: starkey2026:CLAIM4, predicate: DEPENDS_ON, object: starkey2026:ASM1, asserted_by: ANNOTATOR, uncertainty: HIGH}
+  # stress
+  - {id: starkey2026:R25, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R26, subject: starkey2026:LIM3, predicate: QUALIFIES, object: starkey2026:CLAIM6, asserted_by: AUTHORS, note: "No plasticity: stresses are upper bounds"}
+  - {id: starkey2026:R27, subject: starkey2026:BG3, predicate: SUPPORTS, object: starkey2026:CLAIM6, asserted_by: AUTHORS, note: "Observed cracks", support_basis: LOGICAL, support_strength: WEAK}
+  # inputs
+  - {id: starkey2026:R28, subject: starkey2026:ASM1, predicate: CONTRADICTS, object: starkey2026:CLAIM7, asserted_by: ANNOTATOR}
+  - {id: starkey2026:R29, subject: starkey2026:ASM2, predicate: CONTRADICTS, object: starkey2026:CLAIM7, asserted_by: ANNOTATOR}
+  - {id: starkey2026:R30, subject: starkey2026:OBS1, predicate: SUPPORTS, object: starkey2026:CLAIM7, asserted_by: AUTHORS, note: "Computed properties agree with experiment", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE}
+  # thesis
+  - {id: starkey2026:R31, subject: starkey2026:CLAIM3, predicate: SUPPORTS, object: starkey2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R32, subject: starkey2026:CLAIM4, predicate: SUPPORTS, object: starkey2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R33, subject: starkey2026:CLAIM5, predicate: SUPPORTS, object: starkey2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: starkey2026:R34, subject: starkey2026:CLAIM6, predicate: SUPPORTS, object: starkey2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: starkey2026:R35, subject: starkey2026:HYP1, predicate: ANSWERS, object: starkey2026:GAP1, asserted_by: AUTHORS}
+  - {id: starkey2026:R36, subject: starkey2026:LIM3, predicate: QUALIFIES, object: starkey2026:CLAIM8, asserted_by: AUTHORS}
+  - {id: starkey2026:R37, subject: starkey2026:CLAIM5, predicate: MOTIVATES, object: starkey2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A substantial multiscale workflow with well-documented first-principles
+    and atomistic inputs (structures, elastic constants, boundary energies,
+    O diffusivities) feeding a multiphase phase field model that produces
+    columnar m-ZrO2 above an h-ZrO interlayer and an undulating interface.
+    Validation is visual and C2-based against a single micrograph without a
+    null model, the claimed grain size distribution match is not shown,
+    kinetic and cracking implications are argued rather than computed,
+    several model inputs are author choices despite the 'only computed
+    inputs' claim, and the simpler model without h-ZrO fits the experiment
+    best.
+  key_limitations:
+    - "Validation against one micrograph, with no simulated grain statistics and no baseline for the C2 RMS (CLAIM3, DATA1)."
+    - "Ad hoc h-ZrO eigenstrain and chosen nucleation parameters; sensitivity tested only on nucleation rates (ASM1, ASM2, CLAIM2, CLAIM7)."
+    - "Sub-parabolic/cubic kinetics and cracking are not computed (CLAIM5, CLAIM6)."
+    - "Columnar morphology appears without h-ZrO and fits better, undercutting its claimed role (CLAIM4)."
+    - "2D, no plasticity or fracture, constant surface O potential (ASM3, LIM3)."
+  missing_evidence:
+    - "Simulated grain size and aspect-ratio distributions vs. experiment."
+    - "Oxide thickness vs. time with and without the h-ZrO layer."
+    - "Microstructure-level sensitivity analysis over realistic parameter uncertainties."
+    - "Comparison with several micrographs and a null-model C2 baseline."
+    - "Coupled fracture model or 3D simulation."

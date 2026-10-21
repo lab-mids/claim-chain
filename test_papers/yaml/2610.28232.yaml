@@ -1,0 +1,377 @@
+id: claimchain:chain/arXiv2610.28232
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.28232
+  title: "High-throughput Down-selection of Fusion Candidate Materials"
+  authors: [Elena Botica-Artalejo, Josh Randolph, Kevin B. Woller, Gregory Wallace, Michael P. Short]
+  year: 2026
+  arxiv: "2610.28232"
+  url: https://arxiv.org/abs/2610.28232
+
+entities:
+  - {id: ent:CuCrTa, label: Cu-Cr-Ta combinatorial thick film (Cu 81-93; Cr 4-10; Ta 2-11 at.%), entity_type: MATERIAL}
+  - {id: ent:Spot11, label: Cu-4.8Cr-2.2Ta (at.%) candidate, entity_type: MATERIAL}
+  - {id: ent:Cr2Ta, label: Cr2Ta C15 Laves phase, entity_type: MATERIAL}
+  - {id: ent:PVD, label: co-sputtering physical vapour deposition, entity_type: METHOD}
+  - {id: ent:I3TGS, label: in situ ion irradiation transient grating spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:EDS, label: SEM-EDS composition mapping, entity_type: TECHNIQUE}
+  - {id: ent:FourPoint, label: four-point probe sheet resistance, entity_type: TECHNIQUE}
+  - {id: ent:SRIM, label: SRIM damage simulation, entity_type: METHOD}
+  - {id: ent:CALPHAD, label: CALPHAD (Thermo-Calc TCHEA7/8), entity_type: METHOD}
+  - {id: ent:SAWdrop, label: relative SAW frequency drop at saturation, entity_type: QUANTITY}
+  - {id: ent:Alpha, label: thermal diffusivity, entity_type: QUANTITY}
+  - {id: ent:Rho, label: electrical resistivity, entity_type: QUANTITY}
+  - {id: ent:WDR, label: waste disposal rating, entity_type: QUANTITY}
+  - {id: ent:RelRank, label: relative ranking instead of absolute properties, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: boticaartalejo2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Fusion components face high heat flux, neutron damage and thermomechanical stress, and conventional one-alloy-at-a-time irradiation qualification takes weeks to months per alloy.
+    evidence: [{evidence_kind: CITATION, references: ["1-3"]}]
+  - id: boticaartalejo2026:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Combinatorial thin- and thick-film libraries enable high-throughput screening, but film microstructures, stresses and grain sizes differ from bulk and complicate extrapolation of absolute properties.
+    evidence: [{evidence_kind: CITATION, references: ["4-18"]}]
+  - id: boticaartalejo2026:BG3
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Nuclear materials data are scarce (e.g. 27 parameters controlling void swelling across ~370 experiments), too few for AI/ML models.
+    evidence: [{evidence_kind: CITATION, references: ["21"]}]
+  - id: boticaartalejo2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Irradiation qualification of fusion materials is too slow to explore composition spaces at the pace needed for fusion deployment.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: boticaartalejo2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 1, 4.1, 4.2
+    paper_part: INTRODUCTION
+    text: Early-stage screening should use relative rather than absolute properties, and thick films can replace bulk samples provided changing the microstructure of all candidates uniformly does not alter their relative ranking.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:RelRank]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does film microstructure (grain size, phases, stress) vary with composition across the wafer, which would change the relative ranking?"
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The paper itself states the ranking invariance must be proven, but no film-vs-bulk or microstructure-vs-composition check is reported."}
+  - id: boticaartalejo2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Sec. 1, Abstract
+    paper_part: INTRODUCTION
+    text: Combining combinatorial PVD synthesis, in situ ion irradiation TGS and multi-property high-throughput characterization accelerates down-selection of fusion RF antenna alloys in the Cu-Cr-Ta system by more than 100x and identifies the best composition.
+    about: [ent:CuCrTa, ent:I3TGS]
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: PARTIAL
+      rationale: "The workflow is executed on one wafer in ~20 h and yields a ranked list; the speed-up compares with an unmeasured baseline, and whether the selected composition is actually best is not validated, as the radiation proxy differences are small and of unknown uncertainty."
+      missing_evidence:
+        - "Bulk or TEM validation of the ranking for a few spots"
+        - "Measurement uncertainty of the SAW drop per spot"
+      proof_obligations:
+        - text: "Show the workflow screens many compositions quickly"
+          obligation_status: DISCHARGED
+          discharged_by: [boticaartalejo2026:OBS2, boticaartalejo2026:OBS3]
+        - text: "Show the SAW drop ranks radiation resistance correctly"
+          obligation_status: OPEN
+        - text: "Show film-based ranking transfers to bulk"
+          obligation_status: OPEN
+
+  # ---------------- Methods ----------------
+  - id: boticaartalejo2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1, Table 1
+    paper_part: METHODS
+    text: A Cu-Cr-Ta composition-gradient thick film is co-sputtered at room temperature from three targets onto a Ti adhesion layer on a Si wafer (150 min, 5.9e-4 Torr Ar).
+    about: [ent:PVD, ent:CuCrTa]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Substrates are 1-inch Si wafers in Sec. 2.1 but the wafer is 4-inch in Fig. 1b and Sec. 2.3/4.2."}
+  - id: boticaartalejo2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3
+    paper_part: METHODS
+    text: Each spot is irradiated with 6.6 MeV Cu3+ ions (9.4e15 ions/m^2 s, ~2 um range by SRIM) while TGS records SAW frequency and thermal diffusivity in situ; a five-axis vacuum stage moves the wafer between spots without venting.
+    about: [ent:I3TGS, ent:SRIM]
+  - id: boticaartalejo2026:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 1, 3.2
+    paper_part: METHODS
+    text: The relative SAW frequency drop at defect saturation measures the retained point-defect population and is a proxy for primary radiation damage resistance and later void swelling.
+    evidence: [{evidence_kind: CITATION, references: ["24"]}]
+    about: [ent:SAWdrop]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Does a smaller early SAW drop in a Cu-rich film predict lower swelling at fusion-relevant doses and temperatures?"
+    note: "Correlation is cited from the authors' own prior work."
+  - id: boticaartalejo2026:METH3
+    statement_type: METHOD
+    section: Sec. 2.4, 3.3
+    paper_part: METHODS
+    text: Resistivity is computed from four-point-probe sheet resistance at 1 cm spacing using a thickness linearly interpolated between 5.3 um (centre) and 3.8 um (edge), taken from earlier depositions under the same conditions.
+    about: [ent:FourPoint, ent:Rho]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Film thickness on this wafer is not measured; thickness error propagates directly into resistivity ranking."}
+  - id: boticaartalejo2026:METH4
+    statement_type: METHOD
+    section: Sec. 3.4
+    paper_part: METHODS
+    text: Waste disposal rating is computed with the activation limits of Fetter et al. for a Li-cooled blanket at 20 MW y/m^2; WDR < 1 counts as low-level waste.
+    evidence: [{evidence_kind: CITATION, references: ["36-40"]}]
+    about: [ent:WDR]
+  - id: boticaartalejo2026:METH5
+    statement_type: METHOD
+    section: Sec. 4.3, Table 2
+    paper_part: METHODS
+    text: Spots with WDR < 1 and Cr/Ta = 2 +/- 0.5 are kept and ranked by the equal-weight sum of deviations from the best value in Cr/Ta, SAW drop, pre-irradiation thermal diffusivity and resistivity.
+    about: [ent:RelRank]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Equal weights are described as avoiding arbitrary weighting, but equal weighting is itself arbitrary; normalization of the differences is not described."}
+  - id: boticaartalejo2026:ASM3
+    statement_type: ASSUMPTION
+    section: Sec. 3.1, 4.3
+    paper_part: METHODS
+    text: Compositions with Cr/Ta near 2 form Cr2Ta C15 Laves precipitates that strengthen the Cu matrix while keeping conductivity, as in GRCop-84.
+    evidence: [{evidence_kind: CITATION, references: ["34", "35"]}]
+    about: [ent:Cr2Ta]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Do the room-temperature-deposited films contain Cr2Ta at all, or a supersaturated solid solution?"
+  - id: boticaartalejo2026:ASM4
+    statement_type: ASSUMPTION
+    section: Sec. 4.1
+    paper_part: DISCUSSION
+    text: For RF antennas at 1e6-1e10 Hz, omega*tau << 1 in the Drude model, so DC resistivity is a first-order estimate of RF conductivity for ranking.
+    evidence: [{evidence_kind: CITATION, references: ["44", "45"]}]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Does surface roughness or skin-depth sampling change the ranking at GHz frequencies?"
+
+  # ---------------- Results ----------------
+  - id: boticaartalejo2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Fig. 2
+    paper_part: RESULTS
+    text: EDS maps (three area scans per spot) show Cu 81-93, Cr 4-10 and Ta 2-11 at.% across the wafer, with a region where Cr/Ta approaches 2.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2"}]
+    about: [ent:EDS, ent:CuCrTa]
+  - id: boticaartalejo2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Fig. 3a,b
+    paper_part: RESULTS
+    text: SAW frequency drop and thermal diffusivity are mapped across the wafer; spots 63 and 64 are excluded because of contamination from a compressed-gas duster.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3a,b"}]
+    about: [ent:SAWdrop, ent:Alpha]
+  - id: boticaartalejo2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 4.2, 5, Abstract
+    paper_part: RESULTS
+    text: The campaign screens 76 compositions (78 spots including two excluded) in about 20 h of in situ irradiation.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 4.2, 5"
+        values:
+          - {quantity: compositions screened, value: 76}
+          - {quantity: campaign duration, value: 20, unit: h}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Abstract and highlights say 78 compositions, the discussion and conclusion say 76."}
+  - id: boticaartalejo2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.3, 3.4, Fig. 3c,d
+    paper_part: RESULTS
+    text: Resistivity and WDR are mapped; part of the wafer is low-level waste and the Cu-Cr-Ta WDR values are ~1e3 lower than for GRCop Cu-Cr-Nb alloys.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3c,d"}]
+    about: [ent:Rho, ent:WDR]
+  - id: boticaartalejo2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 4.3, Table 2
+    paper_part: RESULTS
+    text: Among the ten filtered spots, SAW drops range only from 0.39 to 0.47 %, and spot 11 (Cu-4.8Cr-2.2Ta) ranks first with a cumulative deviation of 0.30, mainly from low resistivity and Cr/Ta close to 2, while its SAW drop (0.46 %) is among the largest.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 2"
+        values:
+          - {quantity: SAW drop, value: 0.46, unit: "%", condition: spot 11}
+          - {quantity: SAW drop, value: 0.39, unit: "%", condition: "spots 29, 30 (best)"}
+          - {quantity: resistivity, value: 2.05e-5, unit: Ohm cm, condition: spot 11}
+          - {quantity: cumulative ranking, value: 0.30, condition: spot 11}
+    about: [ent:Spot11, ent:SAWdrop]
+    note: "No uncertainties are given for any property."
+  - id: boticaartalejo2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3.5, 4.3, Fig. S2
+    paper_part: RESULTS
+    text: CALPHAD (TCHEA8) predicts that the selected alloy has stable solid phases at ~700 C, with FCC Cu melting at ~1084 C while Cr2Ta remains.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. S2"}]
+    about: [ent:CALPHAD, ent:Spot11]
+
+  # ---------------- Claims ----------------
+  - id: boticaartalejo2026:CLAIM1
+    statement_type: CLAIM
+    section: Abstract, Sec. 4.2, 5, Highlights
+    paper_part: CONCLUSION
+    text: The integrated workflow speeds up irradiation screening by more than 100x, from months to hours.
+    about: [ent:I3TGS]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The conventional baseline ('months') is not quantified for the same information; deposition, EDS, resistivity and analysis times are not included in the 20 h."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Conventional campaigns measure swelling and microstructure; the workflow measures a proxy, so equal information is not obtained."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Screening 76 spots in 20 h of beam time is shown; the >100x factor compares with an assumed baseline that yields different, more direct information."
+  - id: boticaartalejo2026:CLAIM2
+    statement_type: CLAIM
+    section: Sec. 3.2, 4.2
+    paper_part: RESULTS
+    text: The SAW frequency drop map gives a spatially resolved map of primary radiation damage resistance across the composition space, reflecting intrinsic composition-dependent defect accumulation.
+    about: [ent:SAWdrop, ent:CuCrTa]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Grain size is said to exceed the cascade size (~5 nm), but no grain size is measured; beam heating, Cu implantation and the film/Ti/Si stack could also shift SAW frequency."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No repeat measurements or noise level; differences of 0.02-0.08 % between spots may be within noise."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The map is measured, but its meaning as radiation resistance rests on a cited proxy and on unmeasured film microstructure, and the small differences have no stated uncertainty."
+      missing_evidence:
+        - "Repeatability of the SAW drop on one composition"
+        - "Grain size / phase map of the film (XRD, EBSD)"
+        - "TEM or swelling measurement on a few spots to calibrate the proxy"
+  - id: boticaartalejo2026:CLAIM3
+    statement_type: CLAIM
+    section: Sec. 4.1, 4.2
+    paper_part: DISCUSSION
+    text: Because all compositions are deposited and characterized under identical conditions, relative trends in transport and radiation response reflect intrinsic composition effects and are reliable for comparative down-selection.
+    about: [ent:RelRank]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Identical process parameters do not give identical microstructure across a composition gradient; thickness also varies from 5.3 to 3.8 um across the wafer."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Asserted from process uniformity; the condition the paper itself sets (ranking invariance under microstructure change) is not tested."
+      missing_evidence:
+        - "Microstructure characterization across the gradient"
+        - "Bulk samples of a few compositions to check ranking"
+  - id: boticaartalejo2026:CLAIM4
+    statement_type: CLAIM
+    section: Sec. 4.3, 5
+    paper_part: DISCUSSION
+    text: Cu-4.8Cr-2.2Ta (spot 11) is the most promising Cu-Cr-Ta composition for fusion RF antennas, with an optimal balance of radiation resistance, thermal transport, electrical conductivity and phase selection.
+    about: [ent:Spot11]
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Spot 11 has one of the largest SAW drops among filtered spots; its rank comes mainly from resistivity and Cr/Ta, so 'optimal radiation resistance' is not supported."}
+      - {concern_type: AD_HOC_PARAMETER, description: "Ranking depends on unexplained equal weights and normalization."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Spot 11 ranks first under the stated equal-weight scheme; the ranking has no uncertainty, depends on weights, and is not driven by radiation resistance."
+      missing_evidence:
+        - "Sensitivity of the ranking to weights and measurement noise"
+  - id: boticaartalejo2026:CLAIM5
+    statement_type: CLAIM
+    section: Sec. 4.3, 5
+    paper_part: DISCUSSION
+    text: CALPHAD predicts the selected alloy stays stable up to ~1084 C, satisfying RF antenna operating conditions (~700 C).
+    about: [ent:Spot11, ent:CALPHAD]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Thermo-Calc 2024b with TCHEA7/8 in Sec. 2.5, 2025b with TCHEA8 in Sec. 3.5."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Equilibrium phase stability is computed with a high-entropy-alloy database not tailored to Cu-Ta; precipitate coarsening and irradiation stability are not addressed."
+  - id: boticaartalejo2026:CLAIM6
+    statement_type: CLAIM
+    section: Sec. 4.1
+    paper_part: DISCUSSION
+    text: DC four-point-probe resistivity is a valid first-order basis for ranking RF conductivity of the films.
+    about: [ent:Rho]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: "The Drude argument holds for omega*tau << 1; skin-depth and surface effects at RF are acknowledged only in passing."
+  - id: boticaartalejo2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 4.1, 4.2
+    paper_part: DISCUSSION
+    text: Transport values from PVD thick films are affected by fine grains, defects and residual stress and are lower than in bulk; a gap remains between film results and bulk engineering performance.
+    limitation_kind: SCOPE
+  - id: boticaartalejo2026:LIM2
+    statement_type: LIMITATION
+    section: Sec. 3.4
+    paper_part: DISCUSSION
+    text: WDR limits for fusion waste are evolving and will need re-evaluation as regulations and reactor scenarios mature.
+    limitation_kind: METHOD
+  - id: boticaartalejo2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 4.4
+    paper_part: DISCUSSION
+    text: High-throughput relative data generation can make nuclear materials science data-rich enough for AI ('Nuclear Materials for AI'), with up to 1e6x throughput gains at the unit process.
+    evidence: [{evidence_kind: CITATION, references: ["22", "24"]}]
+
+relations:
+  - {id: boticaartalejo2026:R1, subject: boticaartalejo2026:BG1, predicate: MOTIVATES, object: boticaartalejo2026:GAP1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R2, subject: boticaartalejo2026:BG3, predicate: MOTIVATES, object: boticaartalejo2026:GAP1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R3, subject: boticaartalejo2026:GAP1, predicate: MOTIVATES, object: boticaartalejo2026:HYP1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R4, subject: boticaartalejo2026:BG2, predicate: MOTIVATES, object: boticaartalejo2026:ASM1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R5, subject: boticaartalejo2026:HYP1, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM1, asserted_by: AUTHORS}
+  # measurement
+  - {id: boticaartalejo2026:R6, subject: boticaartalejo2026:OBS2, predicate: DEPENDS_ON, object: boticaartalejo2026:METH2, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R7, subject: boticaartalejo2026:OBS4, predicate: DEPENDS_ON, object: boticaartalejo2026:METH3, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R8, subject: boticaartalejo2026:OBS4, predicate: DEPENDS_ON, object: boticaartalejo2026:METH4, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R9, subject: boticaartalejo2026:OBS1, predicate: DEPENDS_ON, object: boticaartalejo2026:METH1, asserted_by: AUTHORS}
+  # speed-up
+  - {id: boticaartalejo2026:R10, subject: boticaartalejo2026:OBS3, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: boticaartalejo2026:R11, subject: boticaartalejo2026:BG1, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM1, asserted_by: AUTHORS, note: "Baseline of months per alloy", support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  # radiation proxy
+  - {id: boticaartalejo2026:R12, subject: boticaartalejo2026:OBS2, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: boticaartalejo2026:R13, subject: boticaartalejo2026:CLAIM2, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM2, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R14, subject: boticaartalejo2026:CLAIM3, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R15, subject: boticaartalejo2026:LIM1, predicate: QUALIFIES, object: boticaartalejo2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R16, subject: boticaartalejo2026:METH3, predicate: UNDERCUTS, object: boticaartalejo2026:CLAIM3, asserted_by: ANNOTATOR, note: "Thickness varies across the wafer and is interpolated, not measured"}
+  # ranking
+  - {id: boticaartalejo2026:R17, subject: boticaartalejo2026:OBS5, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: HIGH}
+  - {id: boticaartalejo2026:R18, subject: boticaartalejo2026:CLAIM4, predicate: DEPENDS_ON, object: boticaartalejo2026:METH5, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R19, subject: boticaartalejo2026:CLAIM4, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM3, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R20, subject: boticaartalejo2026:OBS5, predicate: UNDERCUTS, object: boticaartalejo2026:CLAIM4, asserted_by: ANNOTATOR, note: "Spot 11's SAW drop is among the largest of the filtered spots"}
+  - {id: boticaartalejo2026:R21, subject: boticaartalejo2026:CLAIM2, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: boticaartalejo2026:R22, subject: boticaartalejo2026:CLAIM6, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: boticaartalejo2026:R23, subject: boticaartalejo2026:ASM4, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM6, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: boticaartalejo2026:R24, subject: boticaartalejo2026:OBS4, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, note: "WDR filter", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: boticaartalejo2026:R25, subject: boticaartalejo2026:LIM2, predicate: QUALIFIES, object: boticaartalejo2026:OBS4, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R26, subject: boticaartalejo2026:OBS6, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: boticaartalejo2026:R27, subject: boticaartalejo2026:CLAIM5, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  # thesis
+  - {id: boticaartalejo2026:R28, subject: boticaartalejo2026:CLAIM1, predicate: SUPPORTS, object: boticaartalejo2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: boticaartalejo2026:R29, subject: boticaartalejo2026:CLAIM4, predicate: SUPPORTS, object: boticaartalejo2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: boticaartalejo2026:R30, subject: boticaartalejo2026:CLAIM3, predicate: SUPPORTS, object: boticaartalejo2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: boticaartalejo2026:R31, subject: boticaartalejo2026:HYP1, predicate: ANSWERS, object: boticaartalejo2026:GAP1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R32, subject: boticaartalejo2026:CLAIM1, predicate: MOTIVATES, object: boticaartalejo2026:OUT1, asserted_by: AUTHORS}
+  - {id: boticaartalejo2026:R33, subject: boticaartalejo2026:BG3, predicate: MOTIVATES, object: boticaartalejo2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A clear demonstration of a combinatorial, in situ irradiation screening
+    workflow that maps composition, SAW drop, thermal diffusivity,
+    resistivity and activation over one Cu-Cr-Ta wafer in about 20 h of beam
+    time. The logic of down-selection is weaker than the workflow: the SAW
+    drop is a cited proxy without uncertainties and with very small spread,
+    the film-to-bulk ranking invariance that the paper itself names as a
+    precondition is never tested, the equal-weight ranking is ad hoc, and
+    the chosen composition is not the best in radiation response.
+  key_limitations:
+    - "Relative-ranking validity of thick films is assumed, not tested (ASM1, CLAIM3)."
+    - "SAW-drop proxy for radiation resistance has no reported uncertainty; differences between spots are 0.02-0.08 % (CLAIM2, OBS5)."
+    - "Ranking uses arbitrary equal weights; the winner is driven by resistivity, not radiation response (METH5, CLAIM4)."
+    - "Speed-up compares with an unquantified baseline producing different information (CLAIM1)."
+    - "Inconsistent counts (76 vs 78), wafer size (1 vs 4 inch) and Thermo-Calc versions (OBS3, METH1, CLAIM5)."
+  missing_evidence:
+    - "Repeat measurements and noise level of the SAW drop."
+    - "Microstructure/phase map across the wafer (XRD, EBSD, grain size)."
+    - "Bulk or TEM validation for a few ranked compositions."
+    - "Ranking sensitivity to weights and measurement error."
+    - "Measured film thickness at each spot."

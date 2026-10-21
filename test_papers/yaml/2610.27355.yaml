@@ -1,0 +1,395 @@
+id: claimchain:chain/arXiv2610.27355
+schema_version: 0.3.0
+annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
+annotation_date: '2026-10-21'
+publication:
+  id: arxiv:2610.27355
+  title: "Reaction-induced Localized Annealing for On-chip Materials Discovery"
+  authors: [Nensi Toncich, Nerea Abando, Henning Galinski, Frans Spaepen, Ralph Spolenak]
+  year: 2026
+  arxiv: "2610.27355"
+  url: https://arxiv.org/abs/2610.27355
+
+entities:
+  - {id: ent:RILOCA, label: reaction-induced localized on-chip annealing (RI-LOCA) platform, entity_type: METHOD}
+  - {id: ent:NiAlRML, label: Ni/Al reactive multilayer, entity_type: MATERIAL}
+  - {id: ent:WNRu, label: WN/Ru diffusion barrier, entity_type: MATERIAL}
+  - {id: ent:Au, label: 200 nm sputtered Au film, entity_type: MATERIAL}
+  - {id: ent:ZrO2, label: 100 nm reactively sputtered ZrO2 film, entity_type: MATERIAL}
+  - {id: ent:tZrO2, label: tetragonal ZrO2, entity_type: MATERIAL}
+  - {id: ent:EBSD, label: electron backscatter diffraction, entity_type: TECHNIQUE}
+  - {id: ent:STEMEDX, label: STEM with EDX mapping, entity_type: TECHNIQUE}
+  - {id: ent:Raman, label: Raman spectroscopy, entity_type: TECHNIQUE}
+  - {id: ent:SAED, label: selected-area electron diffraction, entity_type: TECHNIQUE}
+  - {id: ent:HeatingRate, label: heating and quenching rate, entity_type: QUANTITY}
+  - {id: ent:Tmax, label: maximum surface temperature, entity_type: QUANTITY}
+  - {id: ent:Martensitic, label: martensitic tetragonal-to-monoclinic transformation, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: toncich2026:BG1
+    statement_type: BACKGROUND
+    section: Intro
+    paper_part: INTRODUCTION
+    text: High net heat flux densities create steep thermal gradients that can trap non-equilibrium states such as glasses.
+    evidence: [{evidence_kind: CITATION, references: ["1", "2"]}]
+  - id: toncich2026:BG2
+    statement_type: BACKGROUND
+    section: Intro
+    paper_part: INTRODUCTION
+    text: Rapid thermal, flash lamp, flash Joule, laser and electron-beam processes reach heating rates of 10 to 1e6 C/s, but beam methods need high-loss materials and Joule heating needs a suitable resistance.
+    evidence: [{evidence_kind: CITATION, references: ["9-12"]}]
+  - id: toncich2026:GAP1
+    statement_type: GAP
+    section: Intro
+    paper_part: INTRODUCTION
+    text: Existing high-rate heating methods depend on the processed material's optical or electrical properties, so no universal, material-independent heat-delivery platform exists.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: toncich2026:BG3
+    statement_type: BACKGROUND
+    section: Intro
+    paper_part: INTRODUCTION
+    text: On-chip heaters have low thermal mass and steep heating and quenching rates, and a propagating thermal front can be engineered through the device architecture.
+    evidence: [{evidence_kind: CITATION, references: ["13-15"]}]
+  - id: toncich2026:HYP1
+    statement_type: HYPOTHESIS
+    section: Intro, Abstract
+    paper_part: INTRODUCTION
+    text: A buried, patterned Ni/Al reactive multilayer separated from the target by a WN/Ru barrier provides material-independent, localized on-chip annealing up to ~1400 C with heating and quenching rates near 1e6 C/s, enabling non-equilibrium processing for materials discovery.
+    about: [ent:RILOCA, ent:NiAlRML, ent:WNRu]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: "Temperature and front velocity are measured, chemical isolation is shown for Au, and two materials are processed; material independence and materials discovery are not demonstrated beyond these two cases."
+      missing_evidence:
+        - "Processing of further material classes (semiconductors, dielectrics with different reactivity)"
+        - "A screened thin-film library"
+      proof_obligations:
+        - text: "Show peak temperature and heating/quenching rates of the platform"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [toncich2026:OBS1]
+        - text: "Show chemical isolation between heat source and processed material"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [toncich2026:OBS3]
+        - text: "Show material independence"
+          obligation_status: OPEN
+        - text: "Show use for materials discovery or screening"
+          obligation_status: OPEN
+
+  # ---------------- Platform ----------------
+  - id: toncich2026:METH1
+    statement_type: METHOD
+    section: On-chip heat platform design
+    paper_part: METHODS
+    text: The RI-LOCA stack consists of a Ni/Al reactive multilayer heat source, a WN/Ru bilayer barrier and the target film on top; the RML is patterned with a shadow mask and ignited electrically at its edge.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1C,E"}]
+    about: [ent:RILOCA, ent:NiAlRML, ent:WNRu]
+  - id: toncich2026:ASM1
+    statement_type: ASSUMPTION
+    section: On-chip heat platform design
+    paper_part: METHODS
+    text: WN is a thermally stable barrier against metal intermixing, and Ru's high vacancy formation and migration energies suppress bulk diffusion on the millisecond scale of RI-LOCA.
+    evidence: [{evidence_kind: CITATION, references: ["16-20"]}]
+    about: [ent:WNRu]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Does the barrier remain inert toward oxide films that can exchange oxygen with WN or Ru?"
+  - id: toncich2026:OBS1
+    statement_type: OBSERVATION
+    section: On-chip heat platform design
+    paper_part: RESULTS
+    text: The chosen configuration reaches a maximum surface temperature of 1377 +/- 54 C and a front velocity of 12 +/- 0.4 m/s; heating and cooling rates are 3.3e6 and 6.4e5 C/s; peak temperature and velocity depend on WN thickness.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1D"
+        values:
+          - {quantity: maximum surface temperature, value: 1377, unit: C}
+          - {quantity: reaction front velocity, value: 12, unit: m/s}
+      - evidence_kind: CITATION
+        references: ["21"]
+        values:
+          - {quantity: heating rate, value: 3.3e+6, unit: C/s}
+          - {quantity: cooling rate, value: 6.4e+5, unit: C/s}
+    about: [ent:Tmax, ent:HeatingRate]
+    note: "Heating and cooling rates are taken from the authors' earlier work, not measured here."
+  - id: toncich2026:CLAIM1
+    statement_type: CLAIM
+    section: On-chip heat platform design
+    paper_part: RESULTS
+    text: Patterning the reactive multilayer confines heating to predefined regions with limited heat transfer to the surroundings, down to features of 250 nm.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1E, SI"}]
+    about: [ent:RILOCA]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Lateral heat spread outside the patterned region is not measured; the 250 nm feature size is only in the SI."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Millimetre-scale patterned devices are shown; confinement of the thermal pulse and the sub-micrometre limit are not quantified in the main text."
+      missing_evidence:
+        - "Temperature or microstructure profile across the edge of a patterned region"
+  - id: toncich2026:CLAIM2
+    statement_type: CLAIM
+    section: On-chip heat platform design
+    paper_part: RESULTS
+    text: The heat release and propagation of the Ni/Al multilayer can be tuned by bilayer period and composition, giving different heating and cooling profiles without changing the processed material.
+    evidence: [{evidence_kind: CITATION, references: ["21", "22"]}]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: "Tunability via WN thickness is shown in Fig. 1D; tuning via period and composition is cited from prior work, not shown here."
+
+  # ---------------- Gap healing ----------------
+  - id: toncich2026:METH2
+    statement_type: METHOD
+    section: Capillary-driven healing
+    paper_part: METHODS
+    text: Gaps up to 1 um wide are milled by FIB through a 200 nm Au film on the RI-LOCA stack, and the stack is ignited.
+    about: [ent:Au]
+  - id: toncich2026:OBS2
+    statement_type: OBSERVATION
+    section: Capillary-driven healing
+    paper_part: RESULTS
+    text: After RI-LOCA processing, the Au film has melted and the gap has closed.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2B,C(i)"}]
+    about: [ent:Au]
+  - id: toncich2026:OBS3
+    statement_type: OBSERVATION
+    section: Capillary-driven healing
+    paper_part: RESULTS
+    text: The WN/Ru barrier is preserved beneath the healed region, and STEM-EDX shows no detectable intermixing between Au and the elements of the heat source.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2C(ii)"}]
+    about: [ent:WNRu, ent:STEMEDX]
+  - id: toncich2026:CLAIM3
+    statement_type: CLAIM
+    section: Capillary-driven healing, Abstract
+    paper_part: RESULTS
+    text: Gap healing is frozen in a transient state because the melt lifetime is only tens of microseconds, so RI-LOCA allows transient states of capillary-driven hole collapse to be observed.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: SI, description: "Melt lifetime inferred from the re-solidified height profile with lubrication theory."}]
+    about: [ent:Au]
+    claim_modality: CAUSAL
+    assessment:
+      validity: PARTIAL
+      rationale: "The healed profile is shown and an SI analysis gives a melt lifetime; the inference depends on assumed surface energy and viscosity of the melt, and the main text gives no numbers."
+      missing_evidence:
+        - "Main-text comparison of measured profile with the capillary-levelling model and its parameters"
+
+  # ---------------- Re-solidification ----------------
+  - id: toncich2026:OBS4
+    statement_type: OBSERVATION
+    section: Rapid resolidification
+    paper_part: RESULTS
+    text: The as-deposited Au film is fine-grained and equiaxed with (111) out-of-plane texture (mean grain area 4e-3 um^2, aspect ratio 1.9).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3B"
+        values:
+          - {quantity: mean projected grain area, value: 0.004, unit: um^2, condition: as-deposited}
+          - {quantity: mean aspect ratio, value: 1.9, condition: as-deposited}
+    about: [ent:Au, ent:EBSD]
+  - id: toncich2026:OBS5
+    statement_type: OBSERVATION
+    section: Rapid resolidification
+    paper_part: RESULTS
+    text: After RI-LOCA the Au film alternates between elongated grains aligned with the front (31 um^2, aspect ratio 7.1, near-001 along the elongation) and larger equiaxed grains that keep the (111) texture (15 um^2, aspect ratio 2.0).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3B"
+        values:
+          - {quantity: mean projected grain area, value: 31, unit: um^2, condition: elongated regions}
+          - {quantity: mean aspect ratio, value: 7.1, condition: elongated regions}
+          - {quantity: mean projected grain area, value: 15, unit: um^2, condition: equiaxed regions}
+          - {quantity: mean aspect ratio, value: 2.0, condition: equiaxed regions}
+    about: [ent:Au, ent:EBSD]
+  - id: toncich2026:CLAIM4
+    statement_type: CLAIM
+    section: Rapid resolidification
+    paper_part: RESULTS
+    hedged: true
+    text: The stop-and-go microstructure arises because a pulsating reaction front alternates the Au film between complete melting with directional <100> re-solidification and partial melting with regrowth seeded by residual crystalline cores.
+    evidence: [{evidence_kind: CITATION, references: ["26-32"]}]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Front pulsation is not measured (e.g. by high-speed imaging), and residual cores are not observed."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The microstructure is documented, but the proposed mechanism (pulsating front, partial melting) is offered as possible and not tested."
+      missing_evidence:
+        - "High-speed imaging or thermometry of the front showing pulsation with the same period as the grain bands"
+  - id: toncich2026:CLAIM5
+    statement_type: CLAIM
+    section: Abstract, Concluding remarks
+    paper_part: CONCLUSION
+    text: RI-LOCA produces ultra-high aspect ratio microstructures during rapid solidification, illustrating its ultra-fast heating and quenching.
+    about: [ent:Au, ent:HeatingRate]
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: "Aspect ratios of ~7 are measured; whether this counts as ultra-high is a matter of wording, and the link to the specific quench rate is not established."
+
+  # ---------------- Zirconia ----------------
+  - id: toncich2026:BG4
+    statement_type: BACKGROUND
+    section: Kinetic phase stabilization
+    paper_part: RESULTS
+    text: ZrO2 is monoclinic at room temperature and tetragonal between 1175 and 2370 C; in bulk the tetragonal phase is retained only by doping, and pure tetragonal ZrO2 has been stabilized only in particles below about 30 nm, with no consensus on the mechanism.
+    evidence: [{evidence_kind: CITATION, references: ["33-35"]}]
+    about: [ent:ZrO2, ent:tZrO2]
+  - id: toncich2026:OBS6
+    statement_type: OBSERVATION
+    section: Kinetic phase stabilization
+    paper_part: RESULTS
+    text: As-deposited ZrO2 films are nanocrystalline (grains 3-7 nm) and indexed as monoclinic by SAED and Raman; EDX and RBS indicate high purity and stoichiometry.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4B,D; SI (RBS)"}]
+    about: [ent:ZrO2, ent:Raman, ent:SAED]
+    scope:
+      materials: [ent:ZrO2]
+      scope_note: "Purity and stoichiometry are reported for the as-deposited film only."
+  - id: toncich2026:OBS7
+    statement_type: OBSERVATION
+    section: Kinetic phase stabilization
+    paper_part: RESULTS
+    text: After one RI-LOCA cycle, the Raman spectrum and SAED pattern of the ZrO2 film match tetragonal ZrO2, and the film still sits on an intact WN/Ru barrier.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4C,E"}]
+    about: [ent:tZrO2, ent:Raman, ent:SAED]
+  - id: toncich2026:CLAIM6
+    statement_type: CLAIM
+    section: Kinetic phase stabilization, Abstract
+    paper_part: RESULTS
+    text: RI-LOCA stabilizes dopant-free tetragonal ZrO2 at room temperature in 100 nm films.
+    about: [ent:tZrO2, ent:RILOCA]
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "'Dopant-free' after processing is not checked: stoichiometry is measured only before processing, and oxygen vacancies (a known tetragonal stabilizer) could form against the metallic Ru/WN barrier."}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Grain size after processing and the tetragonal phase fraction are not reported; Raman cannot easily distinguish tetragonal from cubic."}
+    assessment:
+      validity: PARTIAL
+      rationale: "Raman and SAED both indicate a tetragonal structure after processing; the dopant-free (stoichiometric) state after processing and the phase fraction are not shown."
+      missing_evidence:
+        - "Post-processing O/Zr stoichiometry (RBS, EELS) and grain size"
+        - "Quantitative phase fraction (XRD Rietveld) and stability over time"
+  - id: toncich2026:CLAIM7
+    statement_type: CLAIM
+    section: Abstract, Fig. 4A
+    paper_part: ABSTRACT
+    text: The ultra-fast heating and quenching rates of RI-LOCA are what retain the tetragonal phase, by preventing the back-transformation that conventional processing allows during cooling.
+    about: [ent:tZrO2, ent:HeatingRate]
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The results section itself states that the martensitic transformation runs at the speed of sound, far faster than the RI-LOCA quench, so the quench rate alone cannot explain the retention (LIM1)."}
+      - {concern_type: CAUSAL_OVERREACH, description: "No comparison with a slower anneal of the same film to the same temperature."}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Retained nanocrystalline grain size (stabilizing below ~30 nm, BG4), substrate constraint and possible O vacancies are alternative causes."}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own argument excludes suppression of a displacive transformation by the quench rate, and no slow-anneal control or grain-size data separate rate from size or stoichiometry effects."
+      missing_evidence:
+        - "Conventional anneal of the same film to ~1400 C with slow cooling"
+        - "Post-processing grain size and stoichiometry"
+  - id: toncich2026:LIM1
+    statement_type: LIMITATION
+    section: Kinetic phase stabilization
+    paper_part: DISCUSSION
+    text: Ex situ measurements cannot resolve the atomic pathway during the transient, so it remains open whether retention reflects nucleation, accommodation, defect- or interface-mediated processes; time-resolved probes would be needed.
+    limitation_kind: INTERPRETATION
+  - id: toncich2026:ASM2
+    statement_type: ASSUMPTION
+    section: Kinetic phase stabilization
+    paper_part: DISCUSSION
+    text: The classical tetragonal-to-monoclinic transformation in ZrO2 is displacive and propagates at about the speed of sound.
+    evidence: [{evidence_kind: CITATION, references: ["33", "36"]}]
+    about: [ent:Martensitic]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Is the transformation nucleation-limited in 3-7 nm grained supported films, so that size rather than rate governs retention?"
+
+  # ---------------- Data and conclusion ----------------
+  - id: toncich2026:DATA1
+    statement_type: DATA
+    section: Throughout
+    paper_part: RESULTS
+    text: Two model systems are processed, a 200 nm Au film (gap healing and re-solidification) and a 100 nm ZrO2 film; the number of devices or repeats per experiment is not stated.
+    scope:
+      materials: [ent:Au, ent:ZrO2]
+      techniques: [ent:EBSD, ent:STEMEDX, ent:Raman, ent:SAED]
+      scope_note: "One stack configuration; no statistics across devices."
+  - id: toncich2026:CLAIM8
+    statement_type: CLAIM
+    section: Abstract, Concluding remarks
+    paper_part: CONCLUSION
+    text: RI-LOCA is a material-independent approach applicable to different surface-supported materials for rapid screening on and off equilibrium.
+    evidence: [{evidence_kind: ARGUMENT}]
+    about: [ent:RILOCA]
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Two materials (one metal, one oxide) on one barrier; no screening of a library is shown."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Decoupling heat source from target is plausible by design, but tested on two materials only, and screening is not demonstrated."
+      missing_evidence:
+        - "Further materials, including ones reactive toward W, N or Ru"
+        - "A combinatorial library processed and characterized"
+  - id: toncich2026:OUT1
+    statement_type: OUTLOOK
+    section: Concluding remarks
+    paper_part: CONCLUSION
+    text: Combined with high-throughput synthesis and AI-driven discovery, RI-LOCA could map metastable phases, texture states and broken-symmetry phenomena in complex oxides, 2D systems and chiral architectures.
+
+relations:
+  - {id: toncich2026:R1, subject: toncich2026:BG1, predicate: MOTIVATES, object: toncich2026:GAP1, asserted_by: AUTHORS}
+  - {id: toncich2026:R2, subject: toncich2026:BG2, predicate: MOTIVATES, object: toncich2026:GAP1, asserted_by: AUTHORS}
+  - {id: toncich2026:R3, subject: toncich2026:GAP1, predicate: MOTIVATES, object: toncich2026:HYP1, asserted_by: AUTHORS}
+  - {id: toncich2026:R4, subject: toncich2026:BG3, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS}
+  - {id: toncich2026:R5, subject: toncich2026:METH1, predicate: DEPENDS_ON, object: toncich2026:ASM1, asserted_by: AUTHORS}
+  # platform
+  - {id: toncich2026:R6, subject: toncich2026:OBS1, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: toncich2026:R7, subject: toncich2026:OBS1, predicate: SUPPORTS, object: toncich2026:CLAIM2, asserted_by: AUTHORS, note: "WN thickness dependence", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: toncich2026:R8, subject: toncich2026:METH1, predicate: SUPPORTS, object: toncich2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  # gap healing
+  - {id: toncich2026:R9, subject: toncich2026:OBS2, predicate: SUPPORTS, object: toncich2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R10, subject: toncich2026:OBS3, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, note: "Chemical isolation", support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R11, subject: toncich2026:ASM1, predicate: SUPPORTS, object: toncich2026:OBS3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: toncich2026:R12, subject: toncich2026:OBS2, predicate: DEPENDS_ON, object: toncich2026:METH2, asserted_by: AUTHORS}
+  # resolidification
+  - {id: toncich2026:R13, subject: toncich2026:OBS5, predicate: SUPPORTS, object: toncich2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R14, subject: toncich2026:OBS4, predicate: SUPPORTS, object: toncich2026:CLAIM4, asserted_by: AUTHORS, note: "Preserved (111) texture read as seeded regrowth", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R15, subject: toncich2026:OBS5, predicate: SUPPORTS, object: toncich2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  # zirconia
+  - {id: toncich2026:R16, subject: toncich2026:BG4, predicate: MOTIVATES, object: toncich2026:CLAIM6, asserted_by: AUTHORS}
+  - {id: toncich2026:R17, subject: toncich2026:OBS6, predicate: SUPPORTS, object: toncich2026:CLAIM6, asserted_by: AUTHORS, note: "Starting state monoclinic and stoichiometric", support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R18, subject: toncich2026:OBS7, predicate: SUPPORTS, object: toncich2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R19, subject: toncich2026:OBS7, predicate: SUPPORTS, object: toncich2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R20, subject: toncich2026:ASM2, predicate: CONTRADICTS, object: toncich2026:CLAIM7, asserted_by: AUTHORS, note: "Authors state the transformation is far faster than the quench"}
+  - {id: toncich2026:R21, subject: toncich2026:BG4, predicate: ALTERNATIVE_EXPLANATION_FOR, object: toncich2026:OBS7, asserted_by: ANNOTATOR, note: "Grains of 3-7 nm lie below the ~30 nm size where pure t-ZrO2 is stabilized"}
+  - {id: toncich2026:R22, subject: toncich2026:LIM1, predicate: QUALIFIES, object: toncich2026:CLAIM7, asserted_by: AUTHORS}
+  - {id: toncich2026:R23, subject: toncich2026:CLAIM6, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R24, subject: toncich2026:CLAIM5, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: toncich2026:R25, subject: toncich2026:CLAIM3, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  # generalization
+  - {id: toncich2026:R26, subject: toncich2026:CLAIM6, predicate: SUPPORTS, object: toncich2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R27, subject: toncich2026:CLAIM5, predicate: SUPPORTS, object: toncich2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R28, subject: toncich2026:DATA1, predicate: QUALIFIES, object: toncich2026:CLAIM8, asserted_by: ANNOTATOR, note: "Two materials, one stack"}
+  - {id: toncich2026:R29, subject: toncich2026:CLAIM8, predicate: SUPPORTS, object: toncich2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: toncich2026:R30, subject: toncich2026:HYP1, predicate: ANSWERS, object: toncich2026:GAP1, asserted_by: AUTHORS}
+  - {id: toncich2026:R31, subject: toncich2026:CLAIM8, predicate: MOTIVATES, object: toncich2026:OUT1, asserted_by: AUTHORS}
+  - {id: toncich2026:R32, subject: toncich2026:CLAIM6, predicate: DEPENDS_ON, object: toncich2026:ASM1, asserted_by: ANNOTATOR, uncertainty: MEDIUM, note: "Dopant-free requires an inert barrier toward the oxide"}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A well-engineered on-chip heating platform with measured peak temperature
+    and front velocity, demonstrated on Au (gap healing, directional
+    re-solidification without intermixing) and ZrO2 (tetragonal phase after
+    processing). The demonstrations are single cases, the re-solidification
+    mechanism is proposed but untested, and the headline attribution of
+    tetragonal ZrO2 retention to fast quenching is undercut by the paper's own
+    argument that the transformation is faster than the quench; grain size
+    and stoichiometry after processing are not reported.
+  key_limitations:
+    - "Kinetic stabilization of t-ZrO2 is contradicted by the paper's own reasoning; no slow-anneal control (CLAIM7, ASM2)."
+    - "Dopant-free state and grain size after processing not measured; nanosize stabilization is an alternative (CLAIM6, BG4)."
+    - "Material independence and materials discovery are claimed from two materials and no library (CLAIM8)."
+    - "Heating and cooling rates are cited from prior work; lateral confinement not quantified (OBS1, CLAIM1)."
+    - "Stop-and-go microstructure mechanism is speculative (CLAIM4)."
+  missing_evidence:
+    - "Conventional slow anneal of the same ZrO2 film as control."
+    - "Post-processing ZrO2 stoichiometry, grain size and phase fraction."
+    - "Time-resolved thermometry or imaging of front pulsation."
+    - "Repeat devices with statistics; processing of further material classes and a combinatorial library."
