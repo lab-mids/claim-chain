@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.26996
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -69,6 +69,7 @@ statements:
     about: [ent:GeTeSe, ent:Yttrium]
   - id: agarwal2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Sec. 1, Abstract
     paper_part: INTRODUCTION
     text: Yttrium incorporation tailors the dielectric relaxation and ac conduction of Te(1-x)(GeSe0.5)Yx glasses, whose conduction is governed by correlated barrier hopping, making them promising phase-change memory materials.
@@ -161,6 +162,7 @@ statements:
     about: [ent:eps1, ent:eps2]
   - id: agarwal2026:CLAIM1
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.1, 4.2
     paper_part: RESULTS
     text: The dielectric dispersion in 1 Hz - 1 MHz is dominated by dipolar and space-charge polarization, with loss from carriers hopping between D+ and D- defect states.
@@ -235,6 +237,7 @@ statements:
       - {concern_type: INTERNAL_INCONSISTENCY, description: "Several eV is implausible for a relaxation whose tau drops ~10x between 302 and 342 K (that corresponds to ~0.6 eV); units or values appear wrong."}
   - id: agarwal2026:CLAIM2
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3, 5
     paper_part: RESULTS
     text: The TGSY glasses show non-Debye, thermally activated dielectric relaxation with a distribution of relaxation times arising from structural disorder.
@@ -248,6 +251,7 @@ statements:
         - "Corrected epsilon_s / epsilon_inf and activation-energy values"
   - id: agarwal2026:CLAIM3
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3, 5
     paper_part: RESULTS
     text: Y incorporation enhances electrical homogeneity, so the impedance response changes from separate bulk and grain-boundary/interface contributions (x = 0.05) to bulk-dominated (x = 0.15).
@@ -295,6 +299,7 @@ statements:
     about: [ent:sigmaAC]
   - id: agarwal2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Sec. 4.3.1, 4.3.2, 5
     paper_part: RESULTS
     text: The ac conduction in TGSY glasses is governed by correlated barrier hopping between D+ and D- localized defect states.
@@ -336,6 +341,7 @@ statements:
     scope: {sample_count: 3}
   - id: agarwal2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 4.3.3, 5
     paper_part: RESULTS
     text: Yttrium increases the density of localized states in the mobility gap, which reduces the hopping barrier and thereby raises epsilon_1, epsilon_2 and sigma_ac.
@@ -353,6 +359,7 @@ statements:
         - "Independent probe of localized states (optical Urbach tail, PDS, XPS)"
   - id: agarwal2026:CLAIM6
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Sec. 4.3.4, 4.3.5, 5
     paper_part: RESULTS
     text: The electrical response is governed predominantly by intrinsic bulk relaxation of localized carriers rather than by electrode polarization.
@@ -387,6 +394,7 @@ statements:
       - {concern_type: INTERNAL_INCONSISTENCY, description: "P is a linear function of eps_r, which increases monotonically with Y (OBS8), so x = 0.15 rather than x = 0.10 should have the highest P."}
   - id: agarwal2026:CLAIM7
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3.6, 5
     paper_part: RESULTS
     text: The x = 0.10 alloy shows the most pronounced relaxation and polarization, an optimum balance between structural disorder and charge transport.
@@ -400,6 +408,7 @@ statements:
       rationale: "Polarization is computed from eps_r, which the paper reports to increase monotonically with Y; an optimum at x = 0.10 contradicts the paper's own data."
   - id: agarwal2026:CLAIM8
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 5, Abstract
     paper_part: CONCLUSION
     text: The dielectric behaviour is consistent with the Giuntini dispersion model, and the barrier heights and frequency exponents confirm CBH conduction.
@@ -412,6 +421,7 @@ statements:
       rationale: "epsilon_2 follows a power law, as in the Giuntini model, but the derived barrier heights do not support CBH quantitatively."
   - id: agarwal2026:CLAIM9
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 5, Applicability
     paper_part: CONCLUSION
     text: Y-modified Ge-Te-Se glasses are promising candidates for phase-change memory, with Se and Y expected to improve amorphous-phase stability and crystallization control.

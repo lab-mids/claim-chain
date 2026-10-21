@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.27240
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -60,6 +60,7 @@ statements:
     evidence: [{evidence_kind: ARGUMENT}]
   - id: benmoumen2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Sec. 1, Abstract
     paper_part: INTRODUCTION
     text: Tuning the STEM beam energy and dose selectively modifies the M, X and T components of Ti3C2Tx multilayers and can create laterally patterned carbide/carbonitride nanodomains not accessible by conventional synthesis.
@@ -159,6 +160,7 @@ statements:
     about: [ent:ADF, ent:Dose]
   - id: benmoumen2026:CLAIM1
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 3
     paper_part: RESULTS
     hedged: true
@@ -195,6 +197,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "SI 2, SI 3"}]
   - id: benmoumen2026:CLAIM2
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 3, 4
     paper_part: RESULTS
     text: Surface terminations, in particular Cl and F, are removed preferentially relative to Ti, with a removal rate that increases strongly with electron energy.
@@ -210,6 +213,7 @@ statements:
         - "Energy comparison on stacks of equal thickness"
   - id: benmoumen2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 3, 4
     paper_part: RESULTS
     text: At 300 keV there is an irradiation window in which Cl terminations are removed selectively without substantially altering the composition of the Ti3C2 core, a route toward unterminated Ti3C2 surfaces.
@@ -245,6 +249,7 @@ statements:
     about: [ent:CTi]
   - id: benmoumen2026:CLAIM4
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 3, 4
     paper_part: RESULTS
     text: Carbon is removed preferentially relative to Ti at 80 keV but not at 300 keV, in agreement with calculated sputtering cross sections (Ti stable at 80 keV, C cross section near its maximum).
@@ -289,6 +294,7 @@ statements:
     about: [ent:CTi, ent:NTi]
   - id: benmoumen2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 3, 4
     paper_part: RESULTS
     text: Electron irradiation drives migration and accumulation of the initially dilute N impurity into the irradiated regions, where N replaces sputtered C in octahedral sites and also occupies vacated surface sites, forming N-rich Ti3CyNzTx nanodomains.
@@ -343,6 +349,7 @@ statements:
     about: [ent:JEMS]
   - id: benmoumen2026:CLAIM6
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 3, 4
     paper_part: RESULTS
     text: The N-rich regions retain a crystal structure close to that of pristine Ti3C2Tx, so they are N-rich MXene-like domains with a local environment comparable to disordered Ti3CyNzTx.
@@ -382,6 +389,7 @@ statements:
   # ---------------- Conclusion ----------------
   - id: benmoumen2026:CLAIM7
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 3, 4
     paper_part: CONCLUSION
     text: Composition modifications obtained on 25 x 25 nm^2 squares can easily be reproduced on larger areas or other shapes, giving laterally patterned carbide/carbonitride MXene architectures with nanometre control.

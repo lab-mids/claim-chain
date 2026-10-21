@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.28629
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -57,6 +57,7 @@ statements:
     evidence: [{evidence_kind: ARGUMENT}]
   - id: liu2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Introduction
     paper_part: INTRODUCTION
     text: A human-in-the-loop agentic AI framework with an orchestrator, specialized agents, domain tools and hierarchical memory bridges high-throughput GB simulation screening with deep mechanistic understanding of complex interfaces.
@@ -157,6 +158,7 @@ statements:
     about: [ent:Tau0]
   - id: liu2026:CLAIM1
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: GB sliding and shear strength
     paper_part: RESULTS
     text: Shear response of asymmetric incommensurate GBs is strongly direction-dependent, and static GB energy alone cannot predict it; the {100}/{110} GB is not a low-friction interface as previously proposed.
@@ -209,6 +211,7 @@ statements:
     about: [ent:Tau0, ent:TauS, ent:SGMD]
   - id: liu2026:CLAIM2
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Pure sliding, Discussion
     paper_part: RESULTS
     text: GB models with and without SGMDs predict substantially different shear strengths, showing that defect hierarchies govern sliding resistance and must be included in atomistic GB models, with SGMDs acting as mobile carriers of sliding.
@@ -225,6 +228,7 @@ statements:
         - "Explanation of the {100}/{110} increase"
   - id: liu2026:CLAIM3
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Pure sliding, Discussion
     paper_part: RESULTS
     text: The combined displacement-field, HRTEM-image and dichromatic analyses establish a general geometrical procedure to identify SGMDs and their Burgers vectors in experimental HRTEM images and atomistic simulations.
@@ -246,6 +250,7 @@ statements:
     about: [ent:NEB]
   - id: liu2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Pure sliding
     paper_part: RESULTS
     text: Researcher-guided follow-up calculations traced the anomalously high initial shear resistance of the {111}/{110} GB to a metastable local structure formed during bicrystal construction and relaxation, which reconstructs under loading.
@@ -256,6 +261,7 @@ statements:
       rationale: "Loading-unloading, structure comparison, NEB to a lower-energy state and normal reloading together support the explanation."
   - id: liu2026:CLAIM5
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Pure sliding (implied)
     paper_part: RESULTS
     text: The reported shear strengths of the other boundaries characterize their GB structures.
@@ -279,6 +285,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6, Table S4, Fig. S8"}]
   - id: liu2026:CLAIM6
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Shear asymmetry
     paper_part: RESULTS
     hedged: true
@@ -292,6 +299,7 @@ statements:
   # ---------------- Agentic AI claims ----------------
   - id: liu2026:CLAIM7
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Discussion
     paper_part: CONCLUSION
     text: Through dynamic replanning and iterative workflow refinement, GBClaw effectively connects systematic simulations with targeted mechanistic analysis and enabled the follow-up investigations, demonstrating that agentic AI with domain expertise bridges high-throughput screening and deep physical understanding.
@@ -309,6 +317,7 @@ statements:
         - "Quantified log of agent decisions and researcher interventions"
   - id: liu2026:CLAIM8
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Discussion
     paper_part: CONCLUSION
     text: GBClaw maintains full provenance across models, execution records and analytical outputs, and provides a generalizable framework for heterophase interfaces, van der Waals heterostructures and incommensurate contacts.

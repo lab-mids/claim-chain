@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.28493
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -58,6 +58,7 @@ statements:
     evidence: [{evidence_kind: ARGUMENT}]
   - id: starkey2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Sec. 1
     paper_part: INTRODUCTION
     text: A phase field model parameterized from DFT, a DFT-trained ML potential and kinetic Monte Carlo reproduces the columnar pretransition oxide microstructure and grain statistics of oxidized Zr and reveals that a dynamically stabilized h-ZrO layer acts as an O diffusion barrier and that interface undulations create crack-prone tensile regions.
@@ -161,6 +162,7 @@ statements:
     about: [ent:Dox, ent:KMC]
   - id: starkey2026:CLAIM1
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Sec. 3
     paper_part: RESULTS
     text: Because bulk h-ZrO and m-ZrO2 are nearly impermeable to O, grain boundary diffusion plays the dominant role in pretransition aqueous corrosion of Zr.
@@ -194,6 +196,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 6-2, 6-3"}]
   - id: starkey2026:CLAIM2
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Appendix
     paper_part: SUPPLEMENTARY
     text: Qualitative predictions of oxide microstructure evolution are insensitive to the model parameters within physically reasonable bounds.
@@ -251,6 +254,7 @@ statements:
     about: [ent:C2]
   - id: starkey2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Sec. 3, 5
     paper_part: RESULTS
     text: The simulations reproduce the columnar corrosion film microstructure and grain size distribution of oxidized Zr, and the C2 agreement confirms the predictive capability of the approach.
@@ -268,6 +272,7 @@ statements:
         - "C2 RMS for a null model and for several micrographs"
   - id: starkey2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Sec. 4, 5
     paper_part: DISCUSSION
     text: An equiaxed h-ZrO layer adjacent to the metal/oxide interface is dynamically stabilized by continuous heterogeneous grain nucleation and grain boundary diffusion, and it is the structural feature from which the columnar m-ZrO2 film emerges.
@@ -280,6 +285,7 @@ statements:
       rationale: "The four-phase simulation shows a persistent h-ZrO layer fed by nucleation; that columnarity emerges from it is contradicted by the two-phase run, and the h-ZrO behaviour depends on the ad hoc eigenstrain."
   - id: starkey2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Abstract, Sec. 5
     paper_part: CONCLUSION
     hedged: true
@@ -295,6 +301,7 @@ statements:
         - "Simulated oxide thickness vs. time with and without h-ZrO"
   - id: starkey2026:CLAIM6
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 3, 4, Abstract
     paper_part: DISCUSSION
     text: The undulating metal/oxide interface produces regions of tensile stress despite overall compressive oxide stress, capable of nucleating vertical and lateral cracks, and the model identifies this as the most likely mechanism of cracking.
@@ -309,6 +316,7 @@ statements:
         - "Fracture criterion or phase-field fracture coupled to the stress field"
   - id: starkey2026:CLAIM7
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 5
     paper_part: CONCLUSION
     text: The framework uses as inputs only thermodynamic, transport and elastic properties that were measured or rigorously computed from first principles and atomistics.
@@ -321,6 +329,7 @@ statements:
       rationale: "The paper itself states several inputs that are chosen rather than computed (ASM1, ASM2)."
   - id: starkey2026:CLAIM8
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4
     paper_part: DISCUSSION
     text: The columnar morphology will persist in 3D because O transport remains rate-limiting regardless of dimensionality, while extra strain variants will increase interface undulation.

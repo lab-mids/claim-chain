@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.27355
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -54,6 +54,7 @@ statements:
     evidence: [{evidence_kind: CITATION, references: ["13-15"]}]
   - id: toncich2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Intro, Abstract
     paper_part: INTRODUCTION
     text: A buried, patterned Ni/Al reactive multilayer separated from the target by a WN/Ru barrier provides material-independent, localized on-chip annealing up to ~1400 C with heating and quenching rates near 1e6 C/s, enabling non-equilibrium processing for materials discovery.
@@ -114,6 +115,7 @@ statements:
     note: "Heating and cooling rates are taken from the authors' earlier work, not measured here."
   - id: toncich2026:CLAIM1
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: On-chip heat platform design
     paper_part: RESULTS
     text: Patterning the reactive multilayer confines heating to predefined regions with limited heat transfer to the surroundings, down to features of 250 nm.
@@ -129,6 +131,7 @@ statements:
         - "Temperature or microstructure profile across the edge of a patterned region"
   - id: toncich2026:CLAIM2
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: On-chip heat platform design
     paper_part: RESULTS
     text: The heat release and propagation of the Ni/Al multilayer can be tuned by bilayer period and composition, giving different heating and cooling profiles without changing the processed material.
@@ -161,6 +164,7 @@ statements:
     about: [ent:WNRu, ent:STEMEDX]
   - id: toncich2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Capillary-driven healing, Abstract
     paper_part: RESULTS
     text: Gap healing is frozen in a transient state because the melt lifetime is only tens of microseconds, so RI-LOCA allows transient states of capillary-driven hole collapse to be observed.
@@ -202,6 +206,7 @@ statements:
     about: [ent:Au, ent:EBSD]
   - id: toncich2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Rapid resolidification
     paper_part: RESULTS
     hedged: true
@@ -217,6 +222,7 @@ statements:
         - "High-speed imaging or thermometry of the front showing pulsation with the same period as the grain bands"
   - id: toncich2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Concluding remarks
     paper_part: CONCLUSION
     text: RI-LOCA produces ultra-high aspect ratio microstructures during rapid solidification, illustrating its ultra-fast heating and quenching.
@@ -253,6 +259,7 @@ statements:
     about: [ent:tZrO2, ent:Raman, ent:SAED]
   - id: toncich2026:CLAIM6
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Kinetic phase stabilization, Abstract
     paper_part: RESULTS
     text: RI-LOCA stabilizes dopant-free tetragonal ZrO2 at room temperature in 100 nm films.
@@ -269,6 +276,7 @@ statements:
         - "Quantitative phase fraction (XRD Rietveld) and stability over time"
   - id: toncich2026:CLAIM7
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Abstract, Fig. 4A
     paper_part: ABSTRACT
     text: The ultra-fast heating and quenching rates of RI-LOCA are what retain the tetragonal phase, by preventing the back-transformation that conventional processing allows during cooling.
@@ -312,6 +320,7 @@ statements:
       scope_note: "One stack configuration; no statistics across devices."
   - id: toncich2026:CLAIM8
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Concluding remarks
     paper_part: CONCLUSION
     text: RI-LOCA is a material-independent approach applicable to different surface-supported materials for rapid screening on and off equilibrium.

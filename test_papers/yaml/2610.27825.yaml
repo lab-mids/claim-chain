@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.27825
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -51,6 +51,7 @@ statements:
     evidence: [{evidence_kind: ARGUMENT}]
   - id: skolakova2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Introduction, Abstract
     paper_part: INTRODUCTION
     text: Localized melting of the atomized Cu15Ni35Ti25Zr12.5Hf12.5 powder during SPS at 1100 C, far below the equilibrium solidus of ~1260 C, is caused by microsegregation inherited from atomization and amplified by solid-state partitioning that creates Cu-rich regions with a depressed local solidus, not by macroscopic thermal gradients; combining retrospective Scheil analysis with local equilibrium maps predicts this risk.
@@ -119,6 +120,7 @@ statements:
     about: [ent:Powder]
   - id: skolakova2026:CLAIM1
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Results
     paper_part: RESULTS
     text: Atomization traps solutes so that the powder particles are a uniform supersaturated solid solution without phase separation.
@@ -132,6 +134,7 @@ statements:
       rationale: "The paper's own XRD shows martensite, austenite and an unidentified cubic phase in the powder, and later sections rely on residual chemical fluctuations in the same powder."
   - id: skolakova2026:CLAIM2
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Results
     paper_part: RESULTS
     hedged: true
@@ -181,6 +184,7 @@ statements:
     about: [ent:CuContent]
   - id: skolakova2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Results
     paper_part: RESULTS
     text: The incomplete consolidation results from sluggish diffusion in the CCA, since high configurational entropy suppresses solid-state diffusion and no oxide films impede transport.
@@ -202,6 +206,7 @@ statements:
     open_question: "How different are diffusivities in this Cu- and Ni-rich alloy from those in refractory HEAs?"
   - id: skolakova2026:CLAIM4
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Results
     paper_part: RESULTS
     text: Because lattice diffusion lengths (1-3.5 um) are far smaller than the particle radius (~25 um), the compositional heterogeneity inside the particles is inherited from atomization and only reinforced near contacts by grain-boundary and pipe diffusion.
@@ -216,6 +221,7 @@ statements:
         - "Composition profiles across as-atomized particles"
   - id: skolakova2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Results, Discussion
     paper_part: DISCUSSION
     text: During SPS heating, Ti partitions into the interparticle network to reduce interfacial free energy, while Cu stays in particle interiors, so the Cu-rich regions (up to 41 at.%) reflect depletion of the surroundings and require no long-range Cu transport.
@@ -279,6 +285,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1a, Fig. 4b, Fig. S1"}]
   - id: skolakova2026:CLAIM6
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Non-equilibrium conditions
     paper_part: DISCUSSION
     text: The Scheil-Gulliver model explains the as-cast element distribution through partition coefficients and chemical affinities (k ordering Cu < Zr < Ti < Hf < Ni) rather than through elemental melting points; the Zr mismatch arises from steric strain the model underestimates.
@@ -336,6 +343,7 @@ statements:
     about: [ent:Hmix]
   - id: skolakova2026:CLAIM7
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Temperature-Dependent Elemental Redistribution, Conclusion
     paper_part: DISCUSSION
     text: Cu enrichment above ~25 at.% lowers the local solidus below 1100 C, mainly through the strongly negative Cu-Hf mixing enthalpy, so Cu-rich regions melt at 1100 C but not at 950 C; Ni and Zr act as a stable matrix.
@@ -351,6 +359,7 @@ statements:
         - "DSC on Cu-enriched model compositions"
   - id: skolakova2026:CLAIM8
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Discussion, Conclusion
     paper_part: CONCLUSION
     text: Premature melting is controlled by thermally activated solid-state partitioning rather than by macroscopic thermal gradients or conditions.
@@ -372,6 +381,7 @@ statements:
     limitation_kind: METHOD
   - id: skolakova2026:CLAIM9
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Discussion, Conclusion
     paper_part: CONCLUSION
     text: Cu-Hf co-segregation after melting is a consequence of solidification of the Cu-rich liquid, not the cause of melting, and the last liquid approaches Cu51(Hf,Zr)14.
@@ -388,6 +398,7 @@ statements:
     limitation_kind: DATA
   - id: skolakova2026:CLAIM10
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Introduction, Abstract
     paper_part: CONCLUSION
     text: The combined retrospective Scheil plus local-equilibrium framework accounts for localized melting in rapidly solidified CCA and HEA powders that contain a low-melting element with strongly negative mixing enthalpy (e.g. Cu, Al, Mg systems), for SPS, HIP, hot pressing and binder jetting.

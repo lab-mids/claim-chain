@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.27460
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -57,6 +57,7 @@ statements:
     evidence: [{evidence_kind: ARGUMENT}]
   - id: delmont2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Intro, Abstract
     paper_part: INTRODUCTION
     text: Low-temperature seeded gas source MBE with temperature ramping produces nanocrystalline, near-stoichiometric c-BAs films on GaAs(100) with preferential crystallographic alignment and a chemically sharp interface.
@@ -128,6 +129,7 @@ statements:
     about: [ent:BAsRatio, ent:XPS]
   - id: delmont2026:CLAIM1
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Results, Abstract
     paper_part: RESULTS
     text: The optimal growth window for near-stoichiometric c-BAs is 250-400 C, above which severe arsenic loss drives the film toward boron subarsenide.
@@ -157,6 +159,7 @@ statements:
     about: [ent:XPS]
   - id: delmont2026:CLAIM2
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Results
     paper_part: RESULTS
     text: The absence of Ga in XPS confirms that the c-BAs film forms a continuous and coherent layer over the GaAs substrate.
@@ -184,6 +187,7 @@ statements:
     about: [ent:AFM, ent:RHEED]
   - id: delmont2026:CLAIM3
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Results, Abstract
     paper_part: RESULTS
     text: c-BAs grows on GaAs(100) in a Volmer-Weber 3D island mode, favoured by the ~15.5 % lattice mismatch.
@@ -224,6 +228,7 @@ statements:
     about: [ent:GIXRD]
   - id: delmont2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Results, Abstract
     paper_part: RESULTS
     text: The film is highly oriented in plane and preferentially aligned with the GaAs substrate rather than randomly polycrystalline.
@@ -238,6 +243,7 @@ statements:
         - "Full pole figure or reciprocal-space map with several reflections"
   - id: delmont2026:CLAIM5
     statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
     section: Results
     paper_part: RESULTS
     text: Islands nucleate in a single tilted, low-misfit orientation rather than cube-on-cube, and strain relaxation during island growth causes the ~18 deg tilt, misorientation and faceting.
@@ -269,6 +275,7 @@ statements:
     about: [ent:TEM]
   - id: delmont2026:CLAIM6
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Results, Title
     paper_part: RESULTS
     text: The c-BAs film is nanocrystalline.
@@ -295,6 +302,7 @@ statements:
     evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. S5"}]
   - id: delmont2026:CLAIM7
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Results, Abstract
     paper_part: RESULTS
     text: The c-BAs/GaAs interface is chemically sharp with no Ga interdiffusion into the film.

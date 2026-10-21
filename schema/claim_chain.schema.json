@@ -17,6 +17,15 @@
                         "null"
                     ]
                 },
+                "cited_works": {
+                    "items": {
+                        "$ref": "#/$defs/CitedWork"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "entities": {
                     "items": {
                         "$ref": "#/$defs/Entity"
@@ -130,6 +139,55 @@
             "title": "AssumptionBasis",
             "type": "string"
         },
+        "AuthorCertainty": {
+            "description": "",
+            "enum": [
+                "DEMONSTRATED",
+                "PREDICTED",
+                "PROPOSED",
+                "SPECULATIVE"
+            ],
+            "title": "AuthorCertainty",
+            "type": "string"
+        },
+        "CitedWork": {
+            "additionalProperties": false,
+            "description": "A reference of the paper and why the argument cites it. References are not looked up; `cited_for` records what the reference is assumed to provide.",
+            "properties": {
+                "citation": {
+                    "description": "Short bibliographic string, e.g. \"Mouhat & Coudert, PRB 90, 224104 (2014)\".",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "cited_for": {
+                    "description": "What the argument assumes the reference provides, e.g. \"Born stability criteria\".",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "id": {
+                    "type": "string"
+                },
+                "number": {
+                    "description": "The reference's number or label in the paper's bibliography.",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "id"
+            ],
+            "title": "CitedWork",
+            "type": "object"
+        },
         "ClaimModality": {
             "description": "",
             "enum": [
@@ -141,6 +199,19 @@
                 "CONCEPTUAL"
             ],
             "title": "ClaimModality",
+            "type": "string"
+        },
+        "ClaimRole": {
+            "description": "",
+            "enum": [
+                "MAIN_CONCLUSION",
+                "INTERMEDIATE",
+                "QUANTITATIVE_SUPPORT",
+                "MECHANISTIC_INTERPRETATION",
+                "METHODOLOGICAL",
+                "COUNTER_CLAIM"
+            ],
+            "title": "ClaimRole",
             "type": "string"
         },
         "Concern": {
@@ -181,6 +252,54 @@
             ],
             "title": "ConcernType",
             "type": "string"
+        },
+        "DerivedCheck": {
+            "additionalProperties": false,
+            "description": "A number or criterion computed from the evidence values, so that a claim can be checked by recomputing instead of by reading. If `formula` is given, scripts/render.py evaluates it from the `symbol`s of the evidence values and compares the outcome with `result` or `satisfied`.",
+            "properties": {
+                "expression": {
+                    "description": "Human-readable form of the check, e.g. \"2 C13^2 < C33 (C11 + C12)\".",
+                    "type": "string"
+                },
+                "formula": {
+                    "description": "Machine-evaluable arithmetic over the value symbols, Python syntax (+ - * / ** abs min max, comparisons), e.g. \"2*C13**2 < C33*(C11+C12)\".",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "result": {
+                    "description": "Reported numeric outcome of the formula.",
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
+                "satisfied": {
+                    "description": "Reported outcome of a criterion (a formula with a comparison).",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
+                "unit": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "expression"
+            ],
+            "title": "DerivedCheck",
+            "type": "object"
         },
         "Entity": {
             "additionalProperties": false,
@@ -234,6 +353,15 @@
             "additionalProperties": false,
             "description": "What the paper offers in support of a statement.",
             "properties": {
+                "derived_checks": {
+                    "items": {
+                        "$ref": "#/$defs/DerivedCheck"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
                 "description": {
                     "type": [
                         "string",
@@ -342,6 +470,15 @@
                         "null"
                     ]
                 },
+                "obligation_coverage": {
+                    "description": "Share of proof obligations discharged (PARTIALLY_DISCHARGED counts half).",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
+                        "null"
+                    ]
+                },
                 "overall_validity": {
                     "anyOf": [
                         {
@@ -361,6 +498,15 @@
                 "summary": {
                     "type": [
                         "string",
+                        "null"
+                    ]
+                },
+                "weighted_logic_score": {
+                    "description": "Logic score weighted by claim_role; computed by scripts/render.py.",
+                    "maximum": 1,
+                    "minimum": 0,
+                    "type": [
+                        "number",
                         "null"
                     ]
                 }
@@ -383,6 +529,17 @@
             "title": "PaperPart",
             "type": "string"
         },
+        "Priority": {
+            "description": "",
+            "enum": [
+                "CRITICAL",
+                "HIGH",
+                "MEDIUM",
+                "LOW"
+            ],
+            "title": "Priority",
+            "type": "string"
+        },
         "ProofObligation": {
             "additionalProperties": false,
             "description": "Something that has to be shown for a claim to hold (reviewer's view). Open obligations are what a reviewer would ask for.",
@@ -399,6 +556,26 @@
                 },
                 "obligation_status": {
                     "$ref": "#/$defs/ObligationStatus"
+                },
+                "priority": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Priority"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How much the argument depends on an open question or obligation."
+                },
+                "requested_data": {
+                    "items": {
+                        "$ref": "#/$defs/RequestedData"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
                 },
                 "text": {
                     "type": "string"
@@ -478,6 +655,14 @@
                 "quantity": {
                     "type": "string"
                 },
+                "symbol": {
+                    "description": "Short identifier for the value, usable in DerivedCheck formulas (e.g. C11, BG_Mg). Letters, digits and underscores; unique within one Evidence.",
+                    "pattern": "^[A-Za-z_][A-Za-z0-9_]*$",
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
                 "unit": {
                     "type": [
                         "string",
@@ -554,6 +739,17 @@
                         }
                     ],
                     "description": "Qualitative uncertainty of the link itself."
+                },
+                "warrant": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Warrant"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "On a Relation: why the subject supports the object. On a Statement: why the statement's own evidence supports it."
                 }
             },
             "required": [
@@ -577,10 +773,37 @@
                 "MOTIVATES",
                 "ANSWERS",
                 "DEPENDS_ON",
-                "ANALOG_OF"
+                "ANALOG_OF",
+                "CONDITIONALLY_SUPPORTS"
             ],
             "title": "RelationType",
             "type": "string"
+        },
+        "RequestedData": {
+            "additionalProperties": false,
+            "description": "A measurement or calculation that would discharge a proof obligation.",
+            "properties": {
+                "method": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "quantity": {
+                    "type": "string"
+                },
+                "unit": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                }
+            },
+            "required": [
+                "quantity"
+            ],
+            "title": "RequestedData",
+            "type": "object"
         },
         "Scope": {
             "additionalProperties": false,
@@ -666,6 +889,17 @@
                     ],
                     "description": "For ASSUMPTION statements, where the premise comes from."
                 },
+                "author_certainty": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/AuthorCertainty"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How certain the authors themselves present the statement. This is the authors' stance; the annotator's verdict goes in `assessment`."
+                },
                 "claim_modality": {
                     "anyOf": [
                         {
@@ -676,6 +910,17 @@
                         }
                     ],
                     "description": "What kind of statement a claim or observation makes, e.g. correlational vs. causal."
+                },
+                "claim_role": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/ClaimRole"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Role of a claim or hypothesis in the paper's argument; used to weight the logic score."
                 },
                 "concerns": {
                     "items": {
@@ -739,6 +984,17 @@
                     ],
                     "description": "Part of the paper the statement comes from; lets extraction run part by part."
                 },
+                "priority": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Priority"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How much the argument depends on an open question or obligation."
+                },
                 "scope": {
                     "anyOf": [
                         {
@@ -761,6 +1017,17 @@
                 },
                 "text": {
                     "type": "string"
+                },
+                "warrant": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Warrant"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "On a Relation: why the subject supports the object. On a Statement: why the statement's own evidence supports it."
                 }
             },
             "required": [
@@ -830,6 +1097,64 @@
             ],
             "title": "Validity",
             "type": "string"
+        },
+        "Warrant": {
+            "additionalProperties": false,
+            "description": "The inference rule that licenses a step: why the evidence (or the subject statement) implies the claim, e.g. \"Born criteria satisfied implies mechanical stability\". A multi-step inference is encoded as intermediate statements, each step with its own warrant.",
+            "properties": {
+                "references": {
+                    "description": "Reference numbers or DOIs cited as evidence.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": [
+                        "array",
+                        "null"
+                    ]
+                },
+                "rule": {
+                    "type": "string"
+                },
+                "support_strength": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/SupportStrength"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How strongly the subject supports the object."
+                },
+                "warrant_basis": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/WarrantBasis"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                }
+            },
+            "required": [
+                "rule"
+            ],
+            "title": "Warrant",
+            "type": "object"
+        },
+        "WarrantBasis": {
+            "description": "",
+            "enum": [
+                "CITATION",
+                "DEFINITION",
+                "EMPIRICAL_CORRELATION",
+                "DOMAIN_CONVENTION",
+                "AUTHOR_ARGUMENT",
+                "UNSTATED"
+            ],
+            "title": "WarrantBasis",
+            "type": "string"
         }
     },
     "$id": "https://w3id.org/claim-chain/schema",
@@ -848,6 +1173,15 @@
         "annotator": {
             "type": [
                 "string",
+                "null"
+            ]
+        },
+        "cited_works": {
+            "items": {
+                "$ref": "#/$defs/CitedWork"
+            },
+            "type": [
+                "array",
                 "null"
             ]
         },
@@ -907,6 +1241,6 @@
     ],
     "title": "claim_chain",
     "type": "object",
-    "version": "0.3.0"
+    "version": "0.4.0"
 }
 

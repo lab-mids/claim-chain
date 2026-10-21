@@ -1,5 +1,5 @@
 id: claimchain:chain/arXiv2610.28232
-schema_version: 0.3.0
+schema_version: 0.4.0
 annotator: Claude Opus 5.5 (draft for Jan Janssen), from PDF
 annotation_date: '2026-10-21'
 publication:
@@ -66,6 +66,7 @@ statements:
       - {concern_type: UNTESTED_ASSERTION, description: "The paper itself states the ranking invariance must be proven, but no film-vs-bulk or microstructure-vs-composition check is reported."}
   - id: boticaartalejo2026:HYP1
     statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
     section: Sec. 1, Abstract
     paper_part: INTRODUCTION
     text: Combining combinatorial PVD synthesis, in situ ion irradiation TGS and multi-property high-throughput characterization accelerates down-selection of fusion RF antenna alloys in the Cu-Cr-Ta system by more than 100x and identifies the best composition.
@@ -213,6 +214,7 @@ statements:
   # ---------------- Claims ----------------
   - id: boticaartalejo2026:CLAIM1
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Abstract, Sec. 4.2, 5, Highlights
     paper_part: CONCLUSION
     text: The integrated workflow speeds up irradiation screening by more than 100x, from months to hours.
@@ -226,6 +228,7 @@ statements:
       rationale: "Screening 76 spots in 20 h of beam time is shown; the >100x factor compares with an assumed baseline that yields different, more direct information."
   - id: boticaartalejo2026:CLAIM2
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 3.2, 4.2
     paper_part: RESULTS
     text: The SAW frequency drop map gives a spatially resolved map of primary radiation damage resistance across the composition space, reflecting intrinsic composition-dependent defect accumulation.
@@ -243,6 +246,7 @@ statements:
         - "TEM or swelling measurement on a few spots to calibrate the proxy"
   - id: boticaartalejo2026:CLAIM3
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 4.1, 4.2
     paper_part: DISCUSSION
     text: Because all compositions are deposited and characterized under identical conditions, relative trends in transport and radiation response reflect intrinsic composition effects and are reliable for comparative down-selection.
@@ -258,6 +262,7 @@ statements:
         - "Bulk samples of a few compositions to check ranking"
   - id: boticaartalejo2026:CLAIM4
     statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
     section: Sec. 4.3, 5
     paper_part: DISCUSSION
     text: Cu-4.8Cr-2.2Ta (spot 11) is the most promising Cu-Cr-Ta composition for fusion RF antennas, with an optimal balance of radiation resistance, thermal transport, electrical conductivity and phase selection.
@@ -273,6 +278,7 @@ statements:
         - "Sensitivity of the ranking to weights and measurement noise"
   - id: boticaartalejo2026:CLAIM5
     statement_type: CLAIM
+    claim_role: INTERMEDIATE
     section: Sec. 4.3, 5
     paper_part: DISCUSSION
     text: CALPHAD predicts the selected alloy stays stable up to ~1084 C, satisfying RF antenna operating conditions (~700 C).
@@ -285,6 +291,7 @@ statements:
       rationale: "Equilibrium phase stability is computed with a high-entropy-alloy database not tailored to Cu-Ta; precipitate coarsening and irradiation stability are not addressed."
   - id: boticaartalejo2026:CLAIM6
     statement_type: CLAIM
+    claim_role: METHODOLOGICAL
     section: Sec. 4.1
     paper_part: DISCUSSION
     text: DC four-point-probe resistivity is a valid first-order basis for ranking RF conductivity of the films.
