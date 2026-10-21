@@ -97,6 +97,16 @@
             "additionalProperties": false,
             "description": "Verdict on one claim or hypothesis: does the data presented in the paper support it?",
             "properties": {
+                "criteria": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Criteria"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "missing_evidence": {
                     "description": "Data or analysis that would be needed to support the statement.",
                     "items": {
@@ -251,6 +261,97 @@
                 "CAUSAL_OVERREACH"
             ],
             "title": "ConcernType",
+            "type": "string"
+        },
+        "Criteria": {
+            "additionalProperties": false,
+            "description": "Draft rubric (v0.5 proposal): six questions answered separately for one claim. Each answer is MET, PARTLY, NOT_MET or NOT_APPLICABLE. render.py derives a graded score (mean of MET=1, PARTLY=0.5, NOT_MET=0 over the applicable criteria) and a suggested verdict, and reports where the suggested verdict differs from `validity`.",
+            "properties": {
+                "alternatives_excluded": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Obvious alternative explanations or confounders are excluded by a control or an argument. NOT_APPLICABLE for purely descriptive claims."
+                },
+                "consistent": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Nothing in the paper's own data or statements contradicts the claim."
+                },
+                "criteria_note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "grounded": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The claim rests on data, a derivation or citations that the paper presents, not on assertion alone."
+                },
+                "inference_sound": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The step from evidence to claim uses an established rule or one argued in the paper; empirical rules of thumb or unstated rules give PARTLY or NOT_MET."
+                },
+                "quantified": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Quantitative or comparative claims come with numbers, uncertainties or sample counts that make the difference meaningful. NOT_APPLICABLE for qualitative claims."
+                },
+                "scope_matches": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The evidence covers the claim as worded (materials, conditions, number of samples, generality, \"optimal\", \"any\")."
+                }
+            },
+            "title": "Criteria",
+            "type": "object"
+        },
+        "CriterionValue": {
+            "description": "",
+            "enum": [
+                "MET",
+                "PARTLY",
+                "NOT_MET",
+                "NOT_APPLICABLE"
+            ],
+            "title": "CriterionValue",
             "type": "string"
         },
         "DerivedCheck": {

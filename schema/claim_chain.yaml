@@ -146,8 +146,25 @@ classes:
     slots:
       - validity
       - rationale
+      - criteria
       - missing_evidence
       - proof_obligations
+
+  Criteria:
+    description: >-
+      Draft rubric (v0.5 proposal): six questions answered separately for one
+      claim. Each answer is MET, PARTLY, NOT_MET or NOT_APPLICABLE. render.py
+      derives a graded score (mean of MET=1, PARTLY=0.5, NOT_MET=0 over the
+      applicable criteria) and a suggested verdict, and reports where the
+      suggested verdict differs from `validity`.
+    slots:
+      - grounded
+      - scope_matches
+      - inference_sound
+      - alternatives_excluded
+      - quantified
+      - consistent
+      - criteria_note
 
   ProofObligation:
     description: >-
@@ -407,6 +424,28 @@ slots:
   uncertainty:
     range: Uncertainty
     description: Qualitative uncertainty of the link itself.
+  criteria:
+    range: Criteria
+    inlined: true
+  grounded:
+    range: CriterionValue
+    description: The claim rests on data, a derivation or citations that the paper presents, not on assertion alone.
+  scope_matches:
+    range: CriterionValue
+    description: The evidence covers the claim as worded (materials, conditions, number of samples, generality, "optimal", "any").
+  inference_sound:
+    range: CriterionValue
+    description: The step from evidence to claim uses an established rule or one argued in the paper; empirical rules of thumb or unstated rules give PARTLY or NOT_MET.
+  alternatives_excluded:
+    range: CriterionValue
+    description: Obvious alternative explanations or confounders are excluded by a control or an argument. NOT_APPLICABLE for purely descriptive claims.
+  quantified:
+    range: CriterionValue
+    description: Quantitative or comparative claims come with numbers, uncertainties or sample counts that make the difference meaningful. NOT_APPLICABLE for qualitative claims.
+  consistent:
+    range: CriterionValue
+    description: Nothing in the paper's own data or statements contradicts the claim.
+  criteria_note:
   claim_role:
     range: ClaimRole
     description: Role of a claim or hypothesis in the paper's argument; used to weight the logic score.
@@ -714,6 +753,13 @@ enums:
       HIGH:
       MEDIUM:
       LOW:
+
+  CriterionValue:
+    permissible_values:
+      MET:
+      PARTLY:
+      NOT_MET:
+      NOT_APPLICABLE:
 
   ObligationStatus:
     permissible_values:

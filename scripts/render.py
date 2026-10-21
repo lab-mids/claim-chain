@@ -72,6 +72,42 @@ def weighted_logic_score(chain):
     return sum(w * v for w, v in pairs) / total if total else None
 
 
+CRITERIA = ["grounded", "scope_matches", "inference_sound", "alternatives_excluded", "quantified", "consistent"]
+CRITERION_SCORE = {"MET": 1.0, "PARTLY": 0.5, "NOT_MET": 0.0}
+
+
+def criteria_score(crit):
+    """Graded score of one claim from its rubric, and the verdict the rubric suggests."""
+    vals = {k: crit.get(k) for k in CRITERIA if crit.get(k) and crit.get(k) != "NOT_APPLICABLE"}
+    if not vals:
+        return None, None
+    score = sum(CRITERION_SCORE[v] for v in vals.values()) / len(vals)
+    if vals.get("consistent") == "NOT_MET":
+        verdict = "NO"
+    elif vals.get("grounded") == "NOT_MET":
+        verdict = "INCONCLUSIVE"
+    elif all(v == "MET" for v in vals.values()):
+        verdict = "YES"
+    else:
+        verdict = "PARTIAL"
+    return score, verdict
+
+
+def graded_score(chain):
+    """Role-weighted mean of the rubric scores; None unless every assessed claim has criteria."""
+    pairs = []
+    for s in chain["statements"]:
+        a = s.get("assessment")
+        if s["statement_type"] not in SCORED_TYPES or not a:
+            continue
+        score, _ = criteria_score(a.get("criteria") or {})
+        if score is None:
+            return None
+        pairs.append((ROLE_WEIGHT.get(s.get("claim_role"), 1.0), score))
+    total = sum(w for w, _ in pairs)
+    return sum(w * v for w, v in pairs) / total if total else None
+
+
 def obligation_coverage(chain):
     status = [o["obligation_status"] for s in chain["statements"]
               for o in (s.get("assessment") or {}).get("proof_obligations", [])]
@@ -88,7 +124,10 @@ _OPS = {ast.Add: operator.add, ast.Sub: operator.sub, ast.Mult: operator.mul, as
         ast.Pow: operator.pow, ast.USub: operator.neg, ast.UAdd: operator.pos,
         ast.Lt: operator.lt, ast.LtE: operator.le, ast.Gt: operator.gt, ast.GtE: operator.ge,
         ast.Eq: operator.eq, ast.NotEq: operator.ne}
-_FUNCS = {"abs": abs, "min": min, "max": max, "sqrt": math.sqrt, "log": math.log, "exp": math.exp}
+_FUNCS = {"abs": abs, "min": min, "max": max, "sqrt": math.sqrt, "log": math.log, "log10": math.log10,
+          "exp": math.exp, "sin": math.sin, "cos": math.cos, "tan": math.tan, "asin": math.asin,
+          "acos": math.acos, "atan": math.atan, "degrees": math.degrees, "radians": math.radians}
+_CONSTS = {"pi": math.pi, "k_B": 8.617333262e-5}  # k_B in eV/K
 
 
 def _eval(node, env):
@@ -97,7 +136,7 @@ def _eval(node, env):
     if isinstance(node, ast.Constant) and isinstance(node.value, (int, float)):
         return node.value
     if isinstance(node, ast.Name):
-        return env[node.id]
+        return env[node.id] if node.id in env else _CONSTS[node.id]
     if isinstance(node, ast.BinOp):
         return _OPS[type(node.op)](_eval(node.left, env), _eval(node.right, env))
     if isinstance(node, ast.UnaryOp):
@@ -331,13 +370,25 @@ def report(chain):
              + (f" Not yet assessed: {', '.join(short(u) for u in unassessed)}." if unassessed else ""))
     if pa.get("summary"):
         L += ["", pa["summary"]]
-    L += ["", "| Statement | Role | Modality | Authors say | Verdict | Rationale |", "|---|---|---|---|---|---|"]
+    g = graded_score(chain)
+    if g is not None:
+        L.append(f"**Graded score (criteria rubric, draft): {g:.2f}**  ")
+    L += ["", "| Statement | Role | Modality | Authors say | Verdict | Rubric | Rationale |", "|---|---|---|---|---|---|---|"]
+    abbrev = {"MET": "✓", "PARTLY": "◐", "NOT_MET": "✗", "NOT_APPLICABLE": "–"}
     for s in sts:
         a = s.get("assessment")
         if s["statement_type"] in SCORED_TYPES and a:
+            crit = a.get("criteria") or {}
+            cs, cv = criteria_score(crit)
+            rub = ("".join(abbrev.get(crit.get(k), "·") for k in CRITERIA) + f" {cs:.2f}"
+                   + (f" (suggests {cv})" if cv != a["validity"] else "")) if cs is not None else "-"
             L.append(f"| **{short(s['id'])}** {s['text']} | {label(s.get('claim_role', '-'))} | "
                      f"{label(s.get('claim_modality', '-'))} | {label(s.get('author_certainty', '-'))} | "
-                     f"{VALIDITY_MARK[a['validity']]} {a['validity']} | {a['rationale']} |")
+                     f"{VALIDITY_MARK[a['validity']]} {a['validity']} | {rub} | {a['rationale']} |")
+    if any((s.get("assessment") or {}).get("criteria") for s in sts):
+        L.append("")
+        L.append("Rubric order: grounded, scope matches, inference sound, alternatives excluded, quantified, "
+                 "consistent (✓ met, ◐ partly, ✗ not met, – not applicable).")
     results = run_checks(chain)
     if results:
         L += ["", "**Recomputed checks:**", ""]
@@ -421,7 +472,8 @@ def main():
     coverage, n_obl = obligation_coverage(chain)
     print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd; checks ok: {ok}; "
           f"logic score: {fmt_score(score)} {counts}; weighted: {fmt_score(weighted_logic_score(chain))}; "
-          f"obligations discharged: {fmt_score(coverage)} of {n_obl}")
+          f"obligations discharged: {fmt_score(coverage)} of {n_obl}"
+          + (f"; graded: {graded_score(chain):.2f}" if graded_score(chain) is not None else ""))
 
 
 if __name__ == "__main__":
