@@ -91,6 +91,33 @@ gen-json-schema schema/claim_chain.yaml > schema/claim_chain.schema.json
 # optional diagram: npx @mermaid-js/mermaid-cli -i $E/generated/wang2026_lattice_genome_core.mmd -o $E/generated/wang2026_lattice_genome_core.png
 ```
 
+## Automated conversion: the `claimchain` command
+
+The Python package in `src/claimchain/` converts a PDF into a claim-chain YAML with Claude. Claude reads the PDF, figures included. The package checks the returned YAML against `schema/claim_chain.yaml` and against the reference rules (unique ids, no dangling references, every claim assessed). Any problems are sent back to Claude for up to two rounds of correction.
+
+```bash
+pip install .                      # or: pip install -e ".[test]" for development
+export ANTHROPIC_API_KEY=...       # any Anthropic SDK credential source works
+
+claimchain paper.pdf               # writes paper.yaml next to the PDF
+claimchain paper.pdf -o out.yaml --effort xhigh --max-repairs 3
+claimchain --help
+```
+
+Exit status: 0 = valid YAML written; 1 = YAML written but it still fails validation (the problems are printed); 2 = error (refusal, API error, unreadable input). The default model is `claude-opus-5-5`, with adaptive thinking at effort `high`. Server-side refusal fallback is on by default; pass `--no-fallback` on Amazon Bedrock, Vertex AI or Microsoft Foundry.
+
+From Python, e.g. inside a backend:
+
+```python
+from claimchain import convert_pdf
+
+result = convert_pdf("paper.pdf")         # anthropic.Anthropic() client by default
+result.valid, result.issues, result.usage # validation outcome, token counts
+open("paper.yaml", "w").write(result.yaml_text)
+```
+
+The prompt (`src/claimchain/prompts/`) contains the annotation instructions and the review checklist from the `annotating-claim-chains` skill. The installed package ships with the schema and the Wang example. For the RDF export, add the paper's prefix to `schema/claim_chain.yaml`, as you would for a hand-encoded paper. Run the offline tests with `pytest`. GitHub Actions (`.github/workflows/tests.yml`) runs them on Python 3.10–3.13 for every push to `main` and every pull request. They use a fake client, so CI needs no API key.
+
 ## Example
 
 `examples/wang2026_lattice_genome/` holds one paper encoded by hand: Wang et al. 2026, "Lattice genome", arXiv:2606.09611. It has 64 statements and 68 relations, and its logic score is 0.46. It illustrates the format only; the tool is meant for any paper. The paper's PDF is not included.
@@ -100,7 +127,8 @@ gen-json-schema schema/claim_chain.yaml > schema/claim_chain.schema.json
 - [x] Schema v0.2 with verdicts and logic score; one hand-encoded example.
 - [x] Schema v0.3: team approaches added (paper parts, support strength, proof obligations).
 - [ ] Each team member refines their `ideas/` folder.
-- [ ] LLM extraction: paper → YAML instance validated against the schema.
+- [x] LLM extraction: paper → YAML instance validated against the schema (`claimchain` command, first version).
+- [ ] Evaluate the `claimchain` output against hand-checked chains (e.g. the ten test papers).
 - [ ] Agree on the scoring (weighting, central vs. peripheral claims, propagation of uncertainty).
 - [ ] Decide whether claims backed only by argument count against internal logic.
 - [ ] Test set: e.g. retracted papers (expected to be inconclusive or invalid) vs. well-regarded ones.
