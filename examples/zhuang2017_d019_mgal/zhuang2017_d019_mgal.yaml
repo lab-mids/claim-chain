@@ -1,0 +1,1137 @@
+schema_version: "0.3"
+
+# ============================================================
+# PAPER METADATA
+# ============================================================
+
+paper:
+  id: zhuang2017
+  title: >
+    Prediction and characterization of an Mg-Al intermetallic compound
+    with potentially improved ductility via orbital-free and
+    Kohn-Sham density functional theory
+  authors:
+    - Houlong L. Zhuang
+    - Mohan Chen
+    - Emily A. Carter
+  journal: "Modelling and Simulation in Materials Science and Engineering"
+  volume: 25
+  article: "075002"
+  year: 2017
+  doi: "10.1088/1361-651X/aa7e0c"
+
+
+# ============================================================
+# EXTERNAL REFERENCES RELEVANT TO THE ARGUMENT GRAPH
+# ============================================================
+
+references:
+
+  - id: R46
+    paper_reference: 46
+    authors:
+      - G. Grimvall
+      - B. Magyari-Köpe
+      - V. Ozoliņš
+      - K. A. Persson
+    year: 2012
+    title: "Lattice instabilities in metallic elements"
+    journal: "Reviews of Modern Physics"
+    volume: 84
+    pages: "945-986"
+    roles:
+      - dynamical_stability_background
+
+  - id: R47
+    paper_reference: 47
+    authors:
+      - F. Mouhat
+      - F.-X. Coudert
+    year: 2014
+    title: >
+      Necessary and sufficient elastic stability conditions
+      in various crystal systems
+    journal: "Physical Review B"
+    volume: 90
+    article: "224104"
+    roles:
+      - establishes_Born_stability_criteria
+
+  - id: R48
+    paper_reference: 48
+    authors:
+      - S. F. Pugh
+    year: 1954
+    title: >
+      XCII. Relations between the elastic moduli and the
+      plastic properties of polycrystalline pure metals
+    journal: "Philosophical Magazine"
+    volume: 45
+    pages: "823-843"
+    roles:
+      - establishes_Pugh_ductility_relation
+
+  - id: R49
+    paper_reference: 49
+    authors:
+      - L. J. Slutsky
+      - C. W. Garland
+    year: 1957
+    title: "Elastic constants of magnesium from 4.2 K to 300 K"
+    journal: "Physical Review"
+    volume: 107
+    pages: "972-976"
+    roles:
+      - experimental_Mg_elastic_reference
+      - validates_calculated_Mg_baseline
+
+  - id: R50
+    paper_reference: 50
+    authors:
+      - M. Muzyk
+      - Z. Pakiela
+      - K. J. Kurzydlowski
+    year: 2012
+    title: >
+      Generalized stacking fault energy in magnesium alloys:
+      density functional theory calculations
+    journal: "Scripta Materialia"
+    volume: 66
+    pages: "219-222"
+    roles:
+      - validates_Mg_GSFE
+
+  - id: R51
+    paper_reference: 51
+    roles:
+      - validates_Mg_GSFE
+    note: >
+      Previous first-principles Mg stacking/twinning-fault
+      calculation cited by the paper.
+
+  - id: R52
+    paper_reference: 52
+    authors:
+      - T. H. Courtney
+    year: 2005
+    title: "Mechanical Behavior of Materials"
+    publisher: "Waveland"
+    type: book
+    roles:
+      - APB_dislocation_theory
+
+  - id: R53
+    paper_reference: 53
+    authors:
+      - O. I. Gorbatov
+      - I. L. Lomaev
+      - Y. N. Gornostyrev
+      - A. V. Ruban
+      - D. Furrer
+      - V. Venkatesh
+      - D. L. Novikov
+      - S. F. Burlatsky
+    year: 2016
+    title: >
+      Effect of composition on antiphase boundary energy
+      in Ni3Al based alloys: Ab initio calculations
+    journal: "Physical Review B"
+    volume: 93
+    article: "224106"
+    roles:
+      - Ni3Al_APB_reference
+
+  - id: R54
+    paper_reference: 54
+    authors:
+      - T. Kruml
+      - E. Conforto
+      - B. Lo Piccolo
+      - D. Caillard
+      - J. L. Martin
+    year: 2002
+    title: >
+      From dislocation cores to strength and work-hardening:
+      a study of binary Ni3Al
+    journal: "Acta Materialia"
+    volume: 50
+    page: "5091"
+    roles:
+      - experimental_Ni3Al_APB_context
+
+  - id: R55
+    paper_reference: 55
+    authors:
+      - C. N. R. Rao
+    year: 1996
+    title: "Virtues of marginally metallic oxides"
+    journal: "Chemical Communications"
+    pages: "2217-2222"
+    roles:
+      - supports_DOS_metallicity_relation
+
+
+# ============================================================
+# CLAIM C1: D0_19 Mg3Al IS METASTABLE
+# ============================================================
+
+claims:
+
+  - id: C1
+    statement: "D0_19 Mg3Al is at least metastable."
+    type: main_conclusion
+
+    paper_statement:
+      paraphrase: >
+        The authors conclude that D0_19 Mg3Al satisfies
+        mechanical and dynamical stability criteria,
+        indicating that it is at least metastable.
+      source:
+        section: "4. Conclusions"
+        page: 15
+
+    supported_by:
+      - C1.1
+      - C1.2
+      - C1.3
+
+    challenged_by:
+      - C1.4
+
+    depends_on_hypotheses:
+      - H1
+
+    epistemic_status:
+      author_certainty: predicted
+      reviewer_assessment: moderate
+      reason: >
+        Local mechanical and dynamical stability are directly
+        demonstrated. Thermodynamic stability against decomposition
+        is not present, so experimentally relevant metastability
+        additionally requires kinetic stabilization.
+
+
+  # ----------------------------------------------------------
+  # C1.1 Energetic competitiveness
+  # ----------------------------------------------------------
+
+  - id: C1.1
+    statement: >
+      D0_19 Mg3Al is energetically competitive with alternative
+      Mg3Al structures.
+    type: intermediate_claim
+
+    evidence:
+
+      - id: E1.1a
+        origin: internal
+        type: calculated_data
+        method: OFDFT_WT
+        quantity: formation_energy
+        unit: "meV/atom"
+
+        data:
+          D0_19: -23.9
+          L1_2: -31.4
+          D0_3: 16.2
+
+        derived:
+          D0_19_minus_L1_2: 7.5
+
+        observation: >
+          WT-OFDFT favors L1_2 over D0_19 by 7.5 meV/atom.
+
+      - id: E1.1b
+        origin: internal
+        type: calculated_data
+        method: KSDFT_PBE
+        quantity: formation_energy
+        unit: "meV/atom"
+
+        data:
+          D0_19: 3.9
+          L1_2: 5.4
+          D0_3: 43.0
+
+        derived:
+          D0_19_minus_L1_2: -1.5
+
+        observation: >
+          KSDFT-PBE favors D0_19 over L1_2 by 1.5 meV/atom.
+
+      - id: E1.1c
+        origin: internal
+        type: calculated_data
+        method: OFDFT_WGC
+        quantity: formation_energy
+        unit: "meV/atom"
+
+        data:
+          D0_19: 2.8
+          L1_2: 0.9
+          D0_3: 22.7
+
+        derived:
+          D0_19_minus_L1_2: 1.9
+
+        observation: >
+          WGC-OFDFT favors L1_2 over D0_19 by 1.9 meV/atom.
+
+    inference:
+      rule: >
+        Similar formation energies indicate that D0_19 and L1_2
+        are energetically competing structures.
+      strength: moderate
+
+    limitations:
+      - >
+        The energetic ordering of D0_19 and L1_2 changes with
+        electronic-structure method.
+      - >
+        Energy differences of only a few meV/atom should not be
+        interpreted as a robust phase ordering.
+
+    supports:
+      - C1
+
+
+  # ----------------------------------------------------------
+  # C1.2 Dynamical stability
+  # ----------------------------------------------------------
+
+  - id: C1.2
+    statement: "D0_19 Mg3Al is dynamically stable."
+    type: intermediate_claim
+
+    evidence:
+
+      - id: E1.2
+        origin: internal
+        type: figure
+        method: KSDFT_phonons
+
+        source:
+          figure: "Figure 3"
+          section: "3. Results and discussion"
+
+        quantity: phonon_frequency
+
+        data:
+          imaginary_modes_observed: 0
+
+        observation: >
+          No imaginary phonon modes are reported for D0_19 Mg3Al.
+
+    inference:
+      rule: >
+        Absence of imaginary harmonic phonon modes indicates
+        dynamical stability with respect to the sampled perturbations.
+
+      external_support:
+        - reference: R46
+          relation: provides_background
+
+      strength: strong
+      scope: harmonic_dynamical_stability
+
+    supports:
+      - C1
+
+
+  # ----------------------------------------------------------
+  # C1.3 Mechanical stability
+  # ----------------------------------------------------------
+
+  - id: C1.3
+    statement: "D0_19 Mg3Al is mechanically stable."
+    type: intermediate_claim
+
+    evidence:
+
+      - id: E1.3
+        origin: internal
+        type: table
+        method: KSDFT
+
+        source:
+          table: 1
+
+        data:
+          lattice_parameters_A:
+            a: 6.19
+            c: 5.04
+
+          elastic_constants_GPa:
+            C11: 73
+            C12: 33
+            C13: 30
+            C33: 73
+            C44: 13
+
+          elastic_moduli_GPa:
+            bulk_modulus: 45
+            shear_modulus: 17
+            young_modulus: 45
+
+        derived:
+
+          born_criterion_1:
+            expression: "C11 > |C12|"
+            lhs: 73
+            rhs: 33
+            satisfied: true
+
+          born_criterion_2:
+            expression: "2*C13^2 < C33*(C11+C12)"
+            lhs_GPa2: 1800
+            rhs_GPa2: 7738
+            satisfied: true
+
+          born_criterion_3:
+            expression: "C44 > 0"
+            value_GPa: 13
+            satisfied: true
+
+    inference:
+      rule: >
+        Satisfaction of the appropriate Born elastic stability
+        criteria implies mechanical stability against infinitesimal
+        homogeneous strain.
+
+      external_support:
+        - reference: R47
+          relation: establishes_inference_rule
+
+      strength: strong
+
+    supports:
+      - C1
+
+
+  # ----------------------------------------------------------
+  # C1.4 Thermodynamic counter-evidence
+  # ----------------------------------------------------------
+
+  - id: C1.4
+    statement: >
+      D0_19 Mg3Al is thermodynamically unstable against
+      decomposition into Mg17Al12 and hcp Mg.
+    type: counter_claim
+
+    evidence:
+
+      - id: E1.4
+        origin: internal
+        type: calculated_reaction
+        method: KSDFT_QHA
+
+        reaction:
+          expression: "12 Mg3Al -> Mg17Al12 + 19 Mg"
+
+        data:
+          temperature_K: 298
+
+          reaction_energy_meV_per_atom:
+            D0_19: -17.9
+            L1_2: -18.7
+
+        observation: >
+          The decomposition reaction is exoergic for both
+          Mg3Al structures.
+
+    inference:
+      rule: >
+        Negative reaction free energy means that the decomposition
+        products are thermodynamically favored.
+      strength: strong
+
+    challenges:
+      - C1
+
+    motivates:
+      - H1
+
+
+# ============================================================
+# H1: KINETIC STABILIZATION
+# ============================================================
+
+hypotheses:
+
+  - id: H1
+    statement: >
+      A sufficiently large kinetic barrier may prevent D0_19 Mg3Al
+      from transforming into Mg17Al12 + Mg.
+    type: mechanistic_hypothesis
+
+    paper_statement:
+      paraphrase: >
+        The authors speculate that the transformation barrier may
+        be large because the crystal structure of Mg17Al12 differs
+        substantially from D0_19 and L1_2 Mg3Al.
+
+    basis:
+      origin: internal
+      type: qualitative_structural_argument
+
+    quantitative_evidence: null
+
+    epistemic_status:
+      author_certainty: speculation
+      evidence_strength: weak
+      validation_status: unvalidated
+
+    missing_evidence:
+
+      - id: O1
+        type: open_proof_obligation
+        statement: >
+          Determine the transformation pathway and activation
+          barrier from D0_19 Mg3Al toward Mg17Al12 + Mg.
+
+        desired_data:
+          - transformation_pathway
+          - activation_energy
+          - activation_free_energy
+
+        desired_units:
+          activation_energy: "eV"
+          activation_free_energy: "eV"
+
+    supports_if_validated:
+      - C1
+
+
+# ============================================================
+# CLAIM C4: THERMAL ORDERING
+# ============================================================
+
+claims_continued:
+
+  - id: C4
+    statement: >
+      D0_19 Mg3Al remains chemically ordered to a higher
+      temperature than L1_2 Mg3Al.
+    type: intermediate_claim
+
+    evidence:
+
+      - id: E4
+        origin: internal
+        type: figure
+        method: cluster_expansion_monte_carlo
+
+        source:
+          figure: 5
+
+        quantities:
+          - total_energy_vs_temperature
+          - heat_capacity_vs_temperature
+
+        data:
+          order_disorder_temperature_K:
+            D0_19: 460
+            L1_2: 320
+
+        derived:
+          transition_temperature_difference_K: 140
+
+        observation: >
+          D0_19 shows an order-disorder transition around
+          460 K, compared with approximately 320 K for L1_2.
+
+    inference:
+      rule: >
+        The abrupt energy change and associated heat-capacity
+        response are interpreted as an order-disorder transition.
+      strength: moderate
+
+    limitations:
+      - >
+        Transition temperatures are obtained from a cluster
+        expansion trained on OFDFT energies.
+      - >
+        Quantitative transition temperatures therefore inherit
+        errors in the underlying OFDFT energetic landscape.
+
+
+# ============================================================
+# CLAIM C2: ENHANCED DUCTILITY
+# ============================================================
+
+  - id: C2
+    statement: >
+      D0_19 Mg3Al is predicted to be more ductile than hcp Mg.
+    type: main_conclusion
+
+    paper_statement:
+      paraphrase: >
+        The authors predict the ductility ordering
+        D0_19 Mg3Al > L1_2 Mg3Al > Mg.
+
+    supported_by:
+      - C2.1
+      - C2.2
+      - C2.3
+      - C2.4
+
+    mechanistic_support:
+      - C3
+
+    epistemic_status:
+      author_certainty: predicted
+      reviewer_assessment: moderate
+      reason: >
+        Several calculated mechanical descriptors point in the
+        same direction, but macroscopic ductility is not calculated
+        or measured directly.
+
+
+  # ----------------------------------------------------------
+  # C2.1 Pugh ratio
+  # ----------------------------------------------------------
+
+  - id: C2.1
+    statement: >
+      D0_19 Mg3Al has a substantially larger Pugh ratio
+      than hcp Mg.
+    type: quantitative_support
+
+    evidence:
+
+      - id: E2.1a
+        origin: internal
+        type: calculated_data
+
+        source:
+          table: 1
+
+        quantity: B_over_G
+
+        data:
+          D0_19_Mg3Al: 2.65
+          L1_2_Mg3Al: 1.96
+          hcp_Mg: 1.76
+
+        derived:
+          D0_19_vs_Mg:
+            absolute_difference: 0.89
+            relative_difference_percent: 50.6
+
+          L1_2_vs_Mg:
+            absolute_difference: 0.20
+            relative_difference_percent: 11.4
+
+        observation: >
+          D0_19 Mg3Al has a Pugh ratio approximately 51%
+          larger than calculated hcp Mg.
+
+      - id: E2.1b
+        origin: external
+        type: experimental_validation
+
+        reference: R49
+
+        data:
+          material: hcp_Mg
+          experimental_B_over_G: 1.93
+          calculated_B_over_G_this_paper: 1.76
+
+        derived:
+          calculated_vs_experiment_percent: -8.8
+
+        observation: >
+          The calculated Mg Pugh ratio is reasonably close to
+          that derived from experimental elastic constants.
+
+        role: validates_Mg_reference_calculation
+
+    inference:
+      rule: >
+        Larger B/G is empirically associated with greater ductility.
+
+      type: empirical_correlation
+
+      external_support:
+        - reference: R48
+          relation: establishes_inference_rule
+
+      strength: moderate
+
+    supports:
+      - C2
+
+
+  # ----------------------------------------------------------
+  # C2.2 Basal generalized stacking-fault energies
+  # ----------------------------------------------------------
+
+  - id: C2.2
+    statement: >
+      D0_19 Mg3Al has lower barriers for basal stacking-fault
+      and twinning processes than hcp Mg.
+    type: quantitative_support
+
+    evidence:
+
+      - id: E2.2a
+        origin: internal
+        type: figure_and_table
+
+        source:
+          figure: 6
+          table: 2
+
+        quantity: generalized_stacking_fault_energy
+        unit: "mJ/m^2"
+
+        data:
+
+          D0_19_Mg3Al:
+            gamma_USF: 84
+            gamma_SF: 29
+            gamma_UT: 107
+            gamma_TE: 27
+
+          hcp_Mg:
+            gamma_USF: 93
+            gamma_SF: 35
+            gamma_UT: 113
+            gamma_TE: 46
+
+        derived:
+
+          D0_19_vs_Mg_percent:
+            gamma_USF: -9.7
+            gamma_SF: -17.1
+            gamma_UT: -5.3
+            gamma_TE: -41.3
+
+        observation: >
+          All four reported characteristic fault energies are
+          lower for D0_19 Mg3Al than for hcp Mg.
+
+      - id: E2.2b
+        origin: external
+        type: computational_validation
+
+        references:
+          - R50
+          - R51
+
+        statement: >
+          Previous KSDFT calculations provide Mg stacking-fault
+          energies consistent with the Mg reference values
+          calculated in this paper.
+
+        role: validates_Mg_GSFE_baseline
+
+    inference:
+      rule: >
+        Lower unstable stacking and twinning fault energies
+        imply lower energetic barriers for the corresponding
+        deformation mechanisms.
+
+      strength: moderate
+
+    supports:
+      - C2
+
+
+  # ----------------------------------------------------------
+  # C2.3 Prismatic slip and anisotropy
+  # ----------------------------------------------------------
+
+  - id: C2.3
+    statement: >
+      D0_19 Mg3Al has a lower prismatic slip barrier and
+      lower slip anisotropy than hcp Mg.
+    type: quantitative_support
+
+    evidence:
+
+      - id: E2.3
+        origin: internal
+        type: figure
+
+        source:
+          figure: "Figure 6c"
+
+        data:
+          prismatic_barrier_mJ_per_m2:
+            D0_19_Mg3Al: 162
+            hcp_Mg: 203
+
+          anisotropy_ratio:
+            D0_19_Mg3Al: 1.93
+            hcp_Mg: 2.18
+
+        derived:
+          prismatic_barrier_reduction_percent: 20.2
+          anisotropy_reduction_percent: 11.5
+
+        observation: >
+          D0_19 reduces the calculated prismatic slip barrier
+          by approximately 20% and the reported anisotropy
+          ratio by approximately 12%.
+
+    inference:
+      rule: >
+        Lower slip anisotropy is interpreted as favorable for
+        ductility because deformation is less strongly restricted
+        to a single slip system.
+      strength: moderate
+
+    supports:
+      - C2
+
+
+  # ----------------------------------------------------------
+  # C2.4 Anti-phase boundaries
+  # ----------------------------------------------------------
+
+  - id: C2.4
+    statement: >
+      D0_19 Mg3Al has a relatively low anti-phase-boundary
+      energy compared with a conventional ordered intermetallic.
+    type: quantitative_support
+
+    evidence:
+
+      - id: E2.4a
+        origin: internal
+        type: calculated_data
+        quantity: APB_energy
+        unit: "mJ/m^2"
+
+        data:
+          D0_19_Mg3Al: 27
+          L1_2_Mg3Al: 14
+          L1_2_Ni3Al_reference: 196
+
+        derived:
+          D0_19_vs_Ni3Al:
+            ratio: 0.138
+            reduction_percent: 86.2
+
+        observation: >
+          The D0_19 Mg3Al APB energy is approximately 86%
+          lower than the calculated Ni3Al reference value.
+
+      - id: E2.4b
+        origin: external
+        type: literature_validation
+
+        references:
+          - R53
+          - R54
+
+        statement: >
+          Previous theoretical and experimental Ni3Al results
+          are reported to be consistent with the 196 mJ/m^2
+          reference calculation.
+
+        role: validates_Ni3Al_reference
+
+    inference:
+      rule: >
+        Low APB energies imply less additional resistance to
+        partial-dislocation motion through an ordered phase.
+
+      external_support:
+        - reference: R52
+          relation: establishes_APB_dislocation_relation
+
+      strength: moderate
+
+    supports:
+      - C2
+
+
+# ============================================================
+# CLAIM C3: ELECTRONIC EXPLANATION FOR DUCTILITY
+# ============================================================
+
+  - id: C3
+    statement: >
+      The authors attribute the predicted enhanced ductility
+      of D0_19 Mg3Al partly to enhanced metallicity.
+    type: mechanistic_interpretation
+
+    evidence:
+
+      - id: E3
+        origin: internal
+        type: figure
+
+        source:
+          figure: 7
+
+        quantity: DOS_at_Fermi_level
+        unit: "states/eV/cell"
+
+        data:
+          D0_19_Mg3Al: 3.98
+          L1_2_Mg3Al: 3.09
+          hcp_Mg: 2.88
+
+        derived:
+
+          D0_19_vs_Mg:
+            absolute_difference: 1.10
+            relative_difference_percent: 38.2
+
+          D0_19_vs_L1_2:
+            absolute_difference: 0.89
+            relative_difference_percent: 28.8
+
+        observation: >
+          D0_19 Mg3Al has the largest calculated DOS at
+          the Fermi level.
+
+    inference:
+
+      chain:
+
+        - step: 1
+          from: "higher DOS(E_F)"
+          to: "greater metallicity"
+
+          external_support:
+            - reference: R55
+              relation: supports_inference
+
+          strength: moderate
+
+        - step: 2
+          from: "greater metallicity"
+          to: "greater ductility"
+
+          external_support: []
+
+          strength: weak
+
+      overall_strength: weak
+
+      caveat: >
+        The calculated DOS difference is direct evidence.
+        The connection from DOS(E_F) through metallicity to
+        macroscopic ductility is interpretive and is less
+        strongly established than the mechanical descriptors.
+
+    supports:
+      - C2
+
+
+# ============================================================
+# STRUCTURE DISCOVERY / METHODOLOGICAL ARGUMENT
+# ============================================================
+
+  - id: C5
+    statement: >
+      An hcp-constrained structure search identifies D0_19 Mg3Al
+      as a promising low-energy Mg-rich ordering.
+    type: methodological_conclusion
+
+    evidence:
+
+      - id: E5.1
+        origin: internal
+        type: computational_screening
+
+        method:
+          electronic_structure: OFDFT
+          surrogate_model: cluster_expansion
+
+        data:
+          explicitly_calculated_structures: 101
+          cluster_expansion_clusters: 55
+          predicted_configurations: 5675
+
+        source:
+          figure: 1
+
+        observation: >
+          The OFDFT-trained cluster expansion places Mg3Al among
+          the low-energy structures on the hcp-constrained
+          configurational landscape.
+
+    assumptions:
+      - id: A5.1
+        statement: >
+          The hcp parent lattice is an appropriate structural
+          constraint for identifying Mg-rich precipitate structures.
+
+      - id: A5.2
+        statement: >
+          OFDFT relative configurational energies are sufficiently
+          accurate to train the cluster expansion for structure
+          screening.
+
+    limitations:
+      - >
+        The search cannot discover structures requiring a
+        reconstructive transformation away from the hcp parent
+        lattice.
+      - >
+        KSDFT and OFDFT disagree on small relative energy
+        differences between D0_19 and L1_2.
+      - >
+        Therefore this branch is stronger as a structure-discovery
+        mechanism than as quantitative thermodynamic evidence.
+
+    motivates:
+      - C1.1
+      - C1.2
+      - C1.3
+
+
+# ============================================================
+# OPEN PROOF OBLIGATIONS
+# ============================================================
+
+open_questions:
+
+  - id: O1
+    statement: >
+      What is the transformation pathway and activation barrier
+      between D0_19-like Mg3Al and Mg17Al12 + Mg?
+    motivated_by:
+      - C1.4
+      - H1
+    importance: critical
+    reason: >
+      This determines whether the predicted local stability can
+      translate into a physically relevant metastable lifetime.
+
+  - id: O2
+    statement: >
+      Does D0_19 Mg3Al actually form experimentally as a
+      metastable precipitate or local chemical-ordering motif?
+    motivated_by:
+      - C1
+      - C5
+    desired_evidence:
+      - diffraction
+      - microscopy
+      - local_structure_analysis
+
+  - id: O3
+    statement: >
+      Does D0_19-like chemical ordering occur as an intermediate
+      during formation of Mg17Al12?
+    motivated_by:
+      - C1
+      - C1.4
+      - H1
+    desired_evidence:
+      - atomistic_transformation_simulation
+      - finite_temperature_MD_MC
+      - local_environment_analysis
+
+  - id: O4
+    statement: >
+      Does the predicted improvement in intrinsic ductility
+      descriptors translate into improved mechanical behavior
+      of an Mg matrix containing Mg3Al precipitates?
+    motivated_by:
+      - C2
+    desired_evidence:
+      - explicit_dislocation_precipitate_interaction
+      - fracture_simulation
+      - mechanical_testing
+
+
+# ============================================================
+# GRAPH RELATIONS
+# ============================================================
+
+relations:
+
+  - source: C1.1
+    target: C1
+    relation: supports
+
+  - source: C1.2
+    target: C1
+    relation: supports
+
+  - source: C1.3
+    target: C1
+    relation: supports
+
+  - source: C1.4
+    target: C1
+    relation: challenges
+
+  - source: C1.4
+    target: H1
+    relation: motivates
+
+  - source: H1
+    target: C1
+    relation: conditionally_supports
+
+  - source: O1
+    target: H1
+    relation: required_to_validate
+
+  - source: C2.1
+    target: C2
+    relation: supports
+
+  - source: C2.2
+    target: C2
+    relation: supports
+
+  - source: C2.3
+    target: C2
+    relation: supports
+
+  - source: C2.4
+    target: C2
+    relation: supports
+
+  - source: C3
+    target: C2
+    relation: mechanistically_supports
+
+  - source: C5
+    target: C1.1
+    relation: motivates_validation
+
+  - source: R47
+    target: C1.3
+    relation: establishes_inference_rule
+
+  - source: R48
+    target: C2.1
+    relation: establishes_inference_rule
+
+  - source: R49
+    target: C2.1
+    relation: validates_baseline
+
+  - source: R50
+    target: C2.2
+    relation: validates_baseline
+
+  - source: R51
+    target: C2.2
+    relation: validates_baseline
+
+  - source: R52
+    target: C2.4
+    relation: establishes_inference_rule
+
+  - source: R53
+    target: C2.4
+    relation: validates_reference
+
+  - source: R54
+    target: C2.4
+    relation: validates_reference
+
+  - source: R55
+    target: C3
+    relation: supports_inference
