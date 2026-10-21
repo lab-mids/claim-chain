@@ -103,6 +103,8 @@ for f in test_papers/yaml/*.yaml; do python scripts/render.py $f /tmp/out/; done
 # optional diagram: npx @mermaid-js/mermaid-cli -i $E/generated/wang2026_lattice_genome_core.mmd -o $E/generated/wang2026_lattice_genome_core.png
 ```
 
+`render.py` exits with `checks ok: False` and prints the offending item if a relation points to an unknown id or a derived check does not recompute.
+
 ## Automated conversion: the `claimchain` command
 
 The Python package in `src/claimchain/` converts a PDF into a claim-chain YAML with Claude. Claude reads the PDF, figures included. The package checks the returned YAML against `schema/claim_chain.yaml` and against the reference rules (unique ids, no dangling references, every claim assessed). Any problems are sent back to Claude for up to two rounds of correction.
@@ -128,9 +130,7 @@ result.valid, result.issues, result.usage # validation outcome, token counts
 open("paper.yaml", "w").write(result.yaml_text)
 ```
 
-The prompt (`src/claimchain/prompts/`) contains the annotation instructions and the review checklist from the `annotating-claim-chains` skill. The installed package ships with the schema and the Wang example. For the RDF export, add the paper's prefix to `schema/claim_chain.yaml`, as you would for a hand-encoded paper. Run the offline tests with `pytest`. GitHub Actions (`.github/workflows/tests.yml`) runs them on Python 3.10–3.13 for every push to `main` and every pull request. They use a fake client, so CI needs no API key.
-
-## Example
+The prompt (`src/claimchain/prompts/`) contains the annotation instructions and the review checklist from the `annotating-claim-chains` skill. The installed package ships with the schema and two reference examples: Wang (style) and Zhuang (v0.4 features). The command does not compute scores or run the derived checks; run `scripts/render.py` on its output for that. For the RDF export, add the paper's prefix to `schema/claim_chain.yaml`, as you would for a hand-encoded paper. Run the offline tests with `pytest`. GitHub Actions (`.github/workflows/tests.yml`) runs them on Python 3.10–3.13 for every push to `main` and every pull request. They use a fake client, so CI needs no API key.
 
 ## Examples
 
@@ -154,7 +154,7 @@ The examples illustrate the format only; the tool is meant for any paper. No PDF
 - [x] Annotation skill (`.claude/skills/annotating-claim-chains/`), updated for v0.4.
 - [x] LLM extraction: paper → YAML instance validated against the schema (`claimchain` command, first version).
 - [ ] Evaluate the `claimchain` output against hand-checked chains (e.g. the ten test papers).
-- [ ] Agree on the scoring (weighting, central vs. peripheral claims, propagation of uncertainty).
+- [ ] Agree on the scoring. Weighting by claim role hardly separates the test papers (most main conclusions are PARTIAL too), so the verdict scale may need more levels or a link to obligation coverage.
 - [ ] Decide whether claims backed only by argument count against internal logic.
 - [ ] Test set: e.g. retracted papers (expected to be inconclusive or invalid) vs. well-regarded ones.
 - [ ] Check reliability: agreement between several annotators or LLM runs on the same paper.

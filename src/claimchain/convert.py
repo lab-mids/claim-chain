@@ -37,13 +37,16 @@ class ConversionResult:
 
 
 def system_prompt() -> list[dict]:
-    """Instructions, checklist, schema and reference example. Identical for every paper, so it is cached."""
+    """Instructions, checklist, schema and reference examples. Identical for every paper, so it is cached."""
     text = "\n\n".join([
         read_prompt("instructions.md"),
         read_prompt("review-checklist.md"),
         "# LinkML schema (claim_chain.yaml)\n\n```yaml\n" + schema_path().read_text(encoding="utf-8") + "```",
-        "# Reference example of a complete, validated chain\n\n```yaml\n"
+        "# Reference example of a complete, validated chain (style)\n\n```yaml\n"
         + data_path("example.yaml").read_text(encoding="utf-8") + "```",
+        "# Reference example of the v0.4 features (warrants, derived checks, claim roles, "
+        "author certainty, prioritized obligations, cited works)\n\n```yaml\n"
+        + data_path("example_v04.yaml").read_text(encoding="utf-8") + "```",
     ])
     return [{"type": "text", "text": text, "cache_control": {"type": "ephemeral"}}]
 

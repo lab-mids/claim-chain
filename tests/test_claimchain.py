@@ -150,3 +150,9 @@ def test_cli_exit_1_when_still_invalid(pdf, tmp_path, monkeypatch):
     out = tmp_path / "out.yaml"
     assert cli.main([str(pdf), "-o", str(out), "--max-repairs", "0", "-q"]) == 1
     assert out.is_file()
+
+
+def test_system_prompt_covers_v04():
+    text = convert_mod.system_prompt()[0]["text"]
+    assert "derived_checks" in text and "claim_role" in text
+    assert validate_chain(yaml.safe_load(data_path("example_v04.yaml").read_text(encoding="utf-8"))) == []

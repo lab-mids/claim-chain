@@ -11,7 +11,7 @@ from claimchain.resources import schema_path
 SCORED_TYPES = {"CLAIM", "HYPOTHESIS"}
 TOP_LEVEL_ORDER = [
     "id", "schema_version", "annotator", "annotation_date", "publication",
-    "entities", "statements", "relations", "paper_assessment",
+    "entities", "cited_works", "statements", "relations", "paper_assessment",
 ]
 
 
