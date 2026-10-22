@@ -635,17 +635,21 @@ enums:
     permissible_values:
       SUPPORTS:
         meaning: mp:supports
+        description: Gives evidence or a reason that makes the object more credible.
       UNDERCUTS:
         meaning: mp:challenges
         description: Weakens the object without directly contradicting it.
       CONTRADICTS:
         meaning: mp:challenges
+        description: Cannot hold together with the object within the same scope.
       QUALIFIES:
         description: Restricts the scope or strength of the object.
       ALTERNATIVE_EXPLANATION_FOR:
         description: Offers another cause for an observation or claim.
       MOTIVATES:
+        description: Gives the reason to pose or investigate the object.
       ANSWERS:
+        description: Answers the question posed by the object, fully or in part.
       DEPENDS_ON:
         description: The subject uses the object (e.g. a method uses a definition).
       ANALOG_OF:
