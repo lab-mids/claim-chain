@@ -1,0 +1,1385 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Peer review with SciLogic &#8212; SciLogic</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=55c26ed414f5f8a31ebb" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=3c74b3bc" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=9c3e77be" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.11b39860a7a0cbfd473a3ad8a317855267ff0bd372690045ca344a6b62be495e.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="_static/scripts/fontawesome.js?digest=55c26ed414f5f8a31ebb"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb" />
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=fab101a9"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=b8b12719"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.12.1/dist/mermaid.esm.min.mjs";
+
+
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '01-peer-review';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Finding research opportunities" href="02-research-opportunities.html" />
+    <link rel="prev" title="Getting started" href="00-getting-started.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="_static/searchtools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">SciLogic</p>
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    SciLogic
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="00-getting-started.html">Getting started</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Peer review with SciLogic</a></li>
+<li class="toctree-l1"><a class="reference internal" href="02-research-opportunities.html">Finding research opportunities</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/lab-mids/claim-chain" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/lab-mids/claim-chain/issues/new?title=Issue%20on%20page%20%2F01-peer-review.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/01-peer-review.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button pst-navbar-icon"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm pst-navbar-icon" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Peer review with SciLogic</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-encoding-at-a-glance">The encoding at a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-claim-c1-metastability">Main claim C1: metastability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-numbers-behind-the-claims">The numbers behind the claims</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-claim-c2-ductility">Main claim C2: ductility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-obligations-what-would-make-the-claims-hold">Proof obligations: what would make the claims hold?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-encoding-to-review-report">From encoding to review report</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-gives-a-reviewer">What this gives a reviewer</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="peer-review-with-scilogic">
+<h1>Peer review with SciLogic<a class="headerlink" href="#peer-review-with-scilogic" title="Link to this heading">#</a></h1>
+<p>Before judging a paper, a reviewer has to reconstruct its argument: what the main conclusions are, what each one rests on, and where the chain is thin. A SciLogic encoding writes that reconstruction down, so it can be inspected, recomputed and questioned.</p>
+<p>This example uses the encoding of <strong>Zhuang, Chen and Carter (2017)</strong>, who predict a D0<sub>19</sub>-ordered Mg<sub>3</sub>Al intermetallic compound with orbital-free and Kohn-Sham density functional theory and characterize its stability and ductility (<a class="reference external" href="https://doi.org/10.1088/1361-651X/aa7e0c">doi:10.1088/1361-651X/aa7e0c</a>). The encoding is stored in the repository, so nothing here calls an LLM.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span>
+
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">"../scripts"</span><span class="p">)</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">render</span>
+
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">"../examples/zhuang2017_d019_mgal/zhuang2017_d019_mgal_claimchain.yaml"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+    <span class="n">chain</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+<span class="n">statements</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]:</span> <span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">]}</span>
+<span class="n">S</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">short_id</span><span class="p">:</span> <span class="n">statements</span><span class="p">[</span><span class="s2">"zhuang2017:"</span> <span class="o">+</span> <span class="n">short_id</span><span class="p">]</span>  <span class="c1"># look up a statement by its short id</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">show</span><span class="p">(</span><span class="n">sid</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Print a statement with its verdict, and every link into and out of it."""</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"assessment"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2"> [</span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'statement_type'</span><span class="p">]</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'claim_role'</span><span class="p">,</span><span class="w"> </span><span class="s1">'-'</span><span class="p">)</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">s</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">a</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  verdict: </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="s1">'validity'</span><span class="p">]</span><span class="si">}</span><span class="s2">. </span><span class="si">{</span><span class="n">a</span><span class="p">[</span><span class="s1">'rationale'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"relations"</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"subject"</span><span class="p">],</span> <span class="n">r</span><span class="p">[</span><span class="s2">"object"</span><span class="p">]):</span>
+            <span class="n">strength</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">", </span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'support_strength'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span> <span class="k">if</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"support_strength"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'subject'</span><span class="p">])</span><span class="si">}</span><span class="s2"> --</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'predicate'</span><span class="p">]</span><span class="si">}</span><span class="s2">--&gt; </span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'object'</span><span class="p">])</span><span class="si">}</span><span class="s2">"</span>
+                  <span class="sa">f</span><span class="s2">"  (</span><span class="si">{</span><span class="n">r</span><span class="p">[</span><span class="s1">'asserted_by'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}{</span><span class="n">strength</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="the-encoding-at-a-glance">
+<h2>The encoding at a glance<a class="headerlink" href="#the-encoding-at-a-glance" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">types</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"statement_type"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">])</span>
+<span class="n">score</span><span class="p">,</span> <span class="n">verdicts</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">render</span><span class="o">.</span><span class="n">logic_score</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+<span class="n">checks</span> <span class="o">=</span> <span class="n">render</span><span class="o">.</span><span class="n">run_checks</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+<span class="n">obligations</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">(</span><span class="n">po</span><span class="p">[</span><span class="s2">"obligation_status"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">]</span>
+                      <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"assessment"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"proof_obligations"</span><span class="p">,</span> <span class="p">[]))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Statements: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chain</span><span class="p">[</span><span class="s1">'statements'</span><span class="p">])</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">types</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Relations:  </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">chain</span><span class="p">[</span><span class="s1">'relations'</span><span class="p">])</span><span class="si">}</span><span class="s2">, asserted by </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'asserted_by'</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">chain</span><span class="p">[</span><span class="s1">'relations'</span><span class="p">]))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Verdicts:   </span><span class="si">{</span><span class="nb">dict</span><span class="p">((</span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">verdicts</span><span class="o">.</span><span class="n">items</span><span class="p">()</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="si">}</span><span class="s2">  -&gt; logic score </span><span class="si">{</span><span class="n">score</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Checks:     </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">checks</span><span class="p">)</span><span class="si">}</span><span class="s2"> derived checks, </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">Counter</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">checks</span><span class="p">))</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Proof obligations: </span><span class="si">{</span><span class="nb">dict</span><span class="p">(</span><span class="n">obligations</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Statements: 21 {'ASSUMPTION': 2, 'CLAIM': 14, 'HYPOTHESIS': 1, 'QUESTION': 4}
+Relations:  20, asserted by {'AUTHORS': 13, 'ANNOTATOR': 7}
+Verdicts:   {'YES': 9, 'PARTIAL': 3, 'INCONCLUSIVE': 3}  -&gt; logic score 0.75
+Checks:     22 derived checks, {'ok': 22}
+Proof obligations: {'OPEN': 4, 'DISCHARGED': 4}
+</pre></div>
+</div>
+</div>
+</div>
+<p>The one-page summary chart shows what the paper sets out to show, its main conclusions, and the verdict on each, in plain words.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"```</span><span class="se">{{</span><span class="s2">mermaid</span><span class="se">}}\n</span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">summary_mermaid</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span><span class="si">}</span><span class="s2">```"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<pre  class="mermaid">
+        flowchart TB
+  P[&quot;`**The paper sets out to show**
+A sufficiently large kinetic barrier may prevent D0 19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure.`&quot;]:::idea
+  C0(&quot;`**C1**
+D0 19 Mg3Al is at least metastable.`&quot;):::claim
+  V0[&quot;`**Partly true**
+Local mechanical and dynamical stability are shown, and the structure is energetically competitive.`&quot;]:::partly
+  P --&gt; C0
+  C0 --&gt; V0
+  V0 --&gt; BL
+  C1(&quot;`**C2**
+D0 19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the …`&quot;):::claim
+  V1[&quot;`**Partly true**
+Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0 19 &gt; …`&quot;]:::partly
+  P --&gt; C1
+  C1 --&gt; V1
+  V1 --&gt; BL
+  BL[&quot;`**Bottom line**
+Overall: Partly true. The computational core is sound and checkable: local dynamical and mechanical stability and the favourable ductility descriptors versus hcp Mg follow from the paper's own numbers, and every reported derived value recomputes.`&quot;]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000
+    </pre></div>
+</div>
+</section>
+<section id="main-claim-c1-metastability">
+<h2>Main claim C1: metastability<a class="headerlink" href="#main-claim-c1-metastability" title="Link to this heading">#</a></h2>
+<p>The paper’s first main conclusion is that D0<sub>19</sub> Mg<sub>3</sub>Al is <em>at least metastable</em>. The encoding splits this into what is actually computed: energetic competitiveness (C1.1), dynamical stability (C1.2) and mechanical stability (C1.3), together with the paper’s own counter-claim C1.4, that the phase is thermodynamically unstable against decomposition.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="s2">"C1"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C1 [CLAIM, MAIN_CONCLUSION] D0_19 Mg3Al is at least metastable.
+  verdict: PARTIAL. Local mechanical and dynamical stability are shown, and the structure is energetically competitive. The paper's own C1.4 shows it is not thermodynamically stable, so metastability in a practical sense rests on the untested kinetic barrier H1.
+  C1.1 --SUPPORTS--&gt; C1  (authors, intermediate)
+  C1.2 --SUPPORTS--&gt; C1  (authors, strong)
+  C1.3 --SUPPORTS--&gt; C1  (authors, strong)
+  C1.4 --QUALIFIES--&gt; C1  (authors)
+  H1 --CONDITIONALLY_SUPPORTS--&gt; C1  (authors, weak)
+  C1 --MOTIVATES--&gt; O2  (annotator)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep</span> <span class="o">=</span> <span class="p">{</span><span class="n">s</span><span class="p">[</span><span class="s2">"id"</span><span class="p">]</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">]</span> <span class="k">if</span> <span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"C1"</span><span class="p">,</span> <span class="s2">"H1"</span><span class="p">))}</span>
+<span class="n">Markdown</span><span class="p">(</span><span class="sa">f</span><span class="s2">"```</span><span class="se">{{</span><span class="s2">mermaid</span><span class="se">}}\n</span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">mermaid</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span><span class="w"> </span><span class="n">include</span><span class="o">=</span><span class="n">keep</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">```"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<pre  class="mermaid">
+        flowchart TD
+  C1_1 --&gt; C1
+  C1_2 ==&gt; C1
+  C1_3 ==&gt; C1
+  C1_4 -.-&gt;|qualifies| C1
+  C1_4 --&gt; H1
+  H1 -.-&gt;|conditionally supports| C1
+  C1[&quot;&lt;b&gt;C1 (partial)&lt;/b&gt;&lt;br/&gt;D0_19 Mg3Al is at least metastable.&quot;]:::claim
+  C1_1[&quot;&lt;b&gt;C1.1 ✓&lt;/b&gt;&lt;br/&gt;D0_19 Mg3Al is energetically competitive with alternative Mg3Al structures.&quot;]:::claim
+  C1_2[&quot;&lt;b&gt;C1.2 ✓&lt;/b&gt;&lt;br/&gt;D0_19 Mg3Al is dynamically stable (within the harmonic approximation).&quot;]:::claim
+  C1_3[&quot;&lt;b&gt;C1.3 ✓&lt;/b&gt;&lt;br/&gt;D0_19 Mg3Al is mechanically stable.&quot;]:::claim
+  C1_4[&quot;&lt;b&gt;C1.4 ✓&lt;/b&gt;&lt;br/&gt;D0_19 Mg3Al is thermodynamically unstable against decomposition into Mg17Al12 …&quot;]:::claim
+  H1[&quot;&lt;b&gt;H1 ?&lt;/b&gt;&lt;br/&gt;A sufficiently large kinetic barrier may prevent D0_19 Mg3Al …&quot;]:::claim
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2
+    </pre></div>
+</div>
+<p>C1.4 <em>qualifies</em> C1 rather than contradicting it: an unstable phase can still persist, but only if something stops it from decomposing. The paper offers that something only as a hypothesis, H1, a large kinetic barrier, and never computes it. H1 is therefore INCONCLUSIVE, and because C1 leans on it, C1 is PARTIAL.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="s2">"H1"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>H1 [HYPOTHESIS, INTERMEDIATE] A sufficiently large kinetic barrier may prevent D0_19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure.
+  verdict: INCONCLUSIVE. Plausible, but the paper gives no transformation path or barrier, so its own data do not decide it.
+  C1.4 --MOTIVATES--&gt; H1  (authors)
+  H1 --CONDITIONALLY_SUPPORTS--&gt; C1  (authors, weak)
+  H1 --MOTIVATES--&gt; O1  (annotator)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="the-numbers-behind-the-claims">
+<h2>The numbers behind the claims<a class="headerlink" href="#the-numbers-behind-the-claims" title="Link to this heading">#</a></h2>
+<p>Wherever the paper reports numbers, the encoding records them together with the criterion applied to them. <code class="docutils literal notranslate"><span class="pre">render.run_checks</span></code> recomputes all of these checks. For mechanical stability (C1.3), the Born criteria are evaluated from the paper’s elastic constants:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fmt</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.4g</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">check</span><span class="p">,</span> <span class="n">status</span><span class="p">,</span> <span class="n">computed</span> <span class="ow">in</span> <span class="n">checks</span><span class="p">:</span>
+    <span class="n">expected</span> <span class="o">=</span> <span class="n">check</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"result"</span><span class="p">,</span> <span class="n">check</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"satisfied"</span><span class="p">))</span>
+    <span class="n">rows</span><span class="o">.</span><span class="n">append</span><span class="p">({</span><span class="s2">"statement"</span><span class="p">:</span> <span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">sid</span><span class="p">),</span> <span class="s2">"check"</span><span class="p">:</span> <span class="n">check</span><span class="p">[</span><span class="s2">"expression"</span><span class="p">],</span>
+                 <span class="s2">"paper"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">expected</span><span class="p">),</span> <span class="s2">"recomputed"</span><span class="p">:</span> <span class="n">fmt</span><span class="p">(</span><span class="n">computed</span><span class="p">),</span> <span class="s2">"status"</span><span class="p">:</span> <span class="n">status</span><span class="p">})</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
+<span class="n">table</span><span class="p">[</span><span class="n">table</span><span class="o">.</span><span class="n">statement</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">"C1.3"</span><span class="p">,</span> <span class="s2">"C2.1"</span><span class="p">])]</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_0af7f">
+  <thead>
+    <tr>
+      <th id="T_0af7f_level0_col0" class="col_heading level0 col0" >statement</th>
+      <th id="T_0af7f_level0_col1" class="col_heading level0 col1" >check</th>
+      <th id="T_0af7f_level0_col2" class="col_heading level0 col2" >paper</th>
+      <th id="T_0af7f_level0_col3" class="col_heading level0 col3" >recomputed</th>
+      <th id="T_0af7f_level0_col4" class="col_heading level0 col4" >status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_0af7f_row0_col0" class="data row0 col0" >C1.3</td>
+      <td id="T_0af7f_row0_col1" class="data row0 col1" >Born criterion 1: C11 > |C12|</td>
+      <td id="T_0af7f_row0_col2" class="data row0 col2" >True</td>
+      <td id="T_0af7f_row0_col3" class="data row0 col3" >True</td>
+      <td id="T_0af7f_row0_col4" class="data row0 col4" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_0af7f_row1_col0" class="data row1 col0" >C1.3</td>
+      <td id="T_0af7f_row1_col1" class="data row1 col1" >Born criterion 2: 2 C13^2 < C33 (C11 + C12)</td>
+      <td id="T_0af7f_row1_col2" class="data row1 col2" >True</td>
+      <td id="T_0af7f_row1_col3" class="data row1 col3" >True</td>
+      <td id="T_0af7f_row1_col4" class="data row1 col4" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_0af7f_row2_col0" class="data row2 col0" >C1.3</td>
+      <td id="T_0af7f_row2_col1" class="data row2 col1" >Born criterion 3: C44 > 0</td>
+      <td id="T_0af7f_row2_col2" class="data row2 col2" >True</td>
+      <td id="T_0af7f_row2_col3" class="data row2 col3" >True</td>
+      <td id="T_0af7f_row2_col4" class="data row2 col4" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_0af7f_row3_col0" class="data row3 col0" >C2.1</td>
+      <td id="T_0af7f_row3_col1" class="data row3 col1" >B/G increase of D0_19 over Mg</td>
+      <td id="T_0af7f_row3_col2" class="data row3 col2" >50.6</td>
+      <td id="T_0af7f_row3_col3" class="data row3 col3" >50.57</td>
+      <td id="T_0af7f_row3_col4" class="data row3 col4" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_0af7f_row4_col0" class="data row4 col0" >C2.1</td>
+      <td id="T_0af7f_row4_col1" class="data row4 col1" >B/G increase of L1_2 over Mg</td>
+      <td id="T_0af7f_row4_col2" class="data row4 col2" >11.4</td>
+      <td id="T_0af7f_row4_col3" class="data row4 col3" >11.36</td>
+      <td id="T_0af7f_row4_col4" class="data row4 col4" >ok</td>
+    </tr>
+    <tr>
+      <td id="T_0af7f_row5_col0" class="data row5 col0" >C2.1</td>
+      <td id="T_0af7f_row5_col1" class="data row5 col1" >calculated vs experimental B/G of Mg</td>
+      <td id="T_0af7f_row5_col2" class="data row5 col2" >-8.8</td>
+      <td id="T_0af7f_row5_col3" class="data row5 col3" >-8.808</td>
+      <td id="T_0af7f_row5_col4" class="data row5 col4" >ok</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">status</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">'ok'</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="si">}</span><span class="s2"> of </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">table</span><span class="p">)</span><span class="si">}</span><span class="s2"> derived checks reproduce from the recorded values."</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>22 of 22 derived checks reproduce from the recorded values.
+</pre></div>
+</div>
+</div>
+</div>
+<p>That every check recomputes shows that the recorded calculations are internally consistent. It does not validate the transcription of the values, the applicability of the criteria, or the conclusions drawn from them; those are still the reviewer’s call.</p>
+</section>
+<section id="main-claim-c2-ductility">
+<h2>Main claim C2: ductility<a class="headerlink" href="#main-claim-c2-ductility" title="Link to this heading">#</a></h2>
+<p>The second main conclusion rests on four separate descriptors (C2.1 to C2.4), each with its own <strong>warrant</strong>, the inference rule that turns the number into evidence for ductility.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">show</span><span class="p">(</span><span class="s2">"C2"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">sid</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"C2.1"</span><span class="p">,</span> <span class="s2">"C2.2"</span><span class="p">,</span> <span class="s2">"C2.3"</span><span class="p">,</span> <span class="s2">"C2.4"</span><span class="p">]:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">S</span><span class="p">(</span><span class="n">sid</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant"</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">next</span><span class="p">((</span><span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant"</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"relations"</span><span class="p">]</span>
+                                         <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">"subject"</span><span class="p">]</span> <span class="o">==</span> <span class="n">S</span><span class="p">(</span><span class="n">sid</span><span class="p">)[</span><span class="s2">"id"</span><span class="p">]</span> <span class="ow">and</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant"</span><span class="p">)),</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">w</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">sid</span><span class="si">}</span><span class="s2"> warrant (</span><span class="si">{</span><span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'warrant_basis'</span><span class="p">,</span><span class="w"> </span><span class="s1">'?'</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="s1">'rule'</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C2 [CLAIM, MAIN_CONCLUSION] D0_19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the ordering D0_19 Mg3Al &gt; L1_2 Mg3Al &gt; Mg).
+  verdict: PARTIAL. Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0_19 &gt; L1_2 part of the ordering is contradicted by the APB energies.
+  C2 --MOTIVATES--&gt; O4  (annotator)
+  C2.1 --SUPPORTS--&gt; C2  (authors, intermediate)
+  C2.2 --SUPPORTS--&gt; C2  (authors, intermediate)
+  C2.3 --SUPPORTS--&gt; C2  (authors, intermediate)
+  C2.4 --SUPPORTS--&gt; C2  (authors, intermediate)
+  C2.4 --UNDERCUTS--&gt; C2  (annotator)
+  C3 --SUPPORTS--&gt; C2  (authors, weak)
+
+C2.1 warrant (empirical_correlation): A larger B/G is empirically associated with greater ductility (Pugh criterion).
+C2.2 warrant (domain_convention): Lower unstable stacking and twinning fault energies mean lower energy barriers for the corresponding deformation mechanisms.
+C2.3 warrant (author_argument): Lower slip anisotropy favours ductility because deformation is less confined to one slip system.
+C2.4 warrant (citation): Low APB energies mean less extra resistance to partial-dislocation motion through an ordered phase.
+</pre></div>
+</div>
+</div>
+</div>
+<p>Two things stand out to a reviewer:</p>
+<ul class="simple">
+<li><p>The Pugh criterion behind C2.1 has the basis <em>empirical correlation</em>: a rule of thumb, not a law.</p></li>
+<li><p>C2.4 both <strong>supports</strong> and <strong>undercuts</strong> C2. C2 bundles two comparisons, D0<sub>19</sub> Mg<sub>3</sub>Al against hcp Mg and D0<sub>19</sub> against L1<sub>2</sub> Mg<sub>3</sub>Al; the anti-phase boundary energies help the first and hurt the second. The encoding exposes a compound claim that should be split.</p></li>
+</ul>
+</section>
+<section id="proof-obligations-what-would-make-the-claims-hold">
+<h2>Proof obligations: what would make the claims hold?<a class="headerlink" href="#proof-obligations-what-would-make-the-claims-hold" title="Link to this heading">#</a></h2>
+<p>Every assessed claim lists what would have to be shown, and which statements discharge each obligation. The open ones, with the data that would discharge them, are a ready-made list of requests to the authors.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">po</span> <span class="ow">in</span> <span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"assessment"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"proof_obligations"</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="k">if</span> <span class="n">po</span><span class="p">[</span><span class="s2">"obligation_status"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"DISCHARGED"</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"[</span><span class="si">{</span><span class="n">po</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'priority'</span><span class="p">,</span><span class="w"> </span><span class="s1">'-'</span><span class="p">)</span><span class="si">}</span><span class="s2">] </span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s1">'id'</span><span class="p">])</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">po</span><span class="p">[</span><span class="s1">'text'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">po</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"requested_data"</span><span class="p">,</span> <span class="p">[]):</span>
+            <span class="n">how</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">'method'</span><span class="p">]</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">d</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"method"</span><span class="p">)</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"      needs: </span><span class="si">{</span><span class="n">d</span><span class="p">[</span><span class="s1">'quantity'</span><span class="p">]</span><span class="si">}{</span><span class="n">how</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[CRITICAL] H1: Show that the barrier from D0_19 Mg3Al toward Mg17Al12 + Mg is large enough for a useful lifetime.
+      needs: transformation pathway (e.g. NEB or atomistic transformation simulation)
+      needs: activation energy
+      needs: activation free energy
+[CRITICAL] C1: Show it persists against decomposition into Mg17Al12 + Mg
+[HIGH] C3.1: Compare DOS(E_F) per atom (or per equal cell)
+      needs: DOS(E_F) per atom
+[HIGH] C2: Show the descriptors translate into actual ductility
+      needs: dislocation-precipitate interaction (atomistic simulation)
+      needs: tensile elongation or fracture toughness (mechanical testing)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="from-encoding-to-review-report">
+<h2>From encoding to review report<a class="headerlink" href="#from-encoding-to-review-report" title="Link to this heading">#</a></h2>
+<p>Everything a reviewer needs to raise is now in the encoding. A few lines collect the candidate issues: the open obligations above, the annotator’s concerns, warrants that rest on an empirical correlation or are unstated, and claims whose verdict the support links do not back up.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">issues</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"statements"</span><span class="p">]:</span>
+    <span class="n">sid</span> <span class="o">=</span> <span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="s2">"id"</span><span class="p">])</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"concerns"</span><span class="p">,</span> <span class="p">[]):</span>
+        <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sid</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="s2">"concern_type"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">"_"</span><span class="p">,</span> <span class="s2">" "</span><span class="p">),</span> <span class="n">c</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]))</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant_basis"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"EMPIRICAL_CORRELATION"</span><span class="p">,</span> <span class="s2">"UNSTATED"</span><span class="p">}:</span>
+        <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">sid</span><span class="p">,</span> <span class="s2">"warrant"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="s1">'warrant_basis'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="s1">'rule'</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"relations"</span><span class="p">]:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant"</span><span class="p">)</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">w</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warrant_basis"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"EMPIRICAL_CORRELATION"</span><span class="p">,</span> <span class="s2">"UNSTATED"</span><span class="p">}:</span>
+        <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"subject"</span><span class="p">]),</span> <span class="s2">"warrant"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="s1">'warrant_basis'</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">w</span><span class="p">[</span><span class="s1">'rule'</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">r</span><span class="p">[</span><span class="s2">"predicate"</span><span class="p">]</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"UNDERCUTS"</span><span class="p">,</span> <span class="s2">"CONTRADICTS"</span><span class="p">}:</span>
+        <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s2">"object"</span><span class="p">]),</span> <span class="n">r</span><span class="p">[</span><span class="s2">"predicate"</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                       <span class="sa">f</span><span class="s2">"by </span><span class="si">{</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="s1">'subject'</span><span class="p">])</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">r</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'note'</span><span class="p">,</span><span class="w"> </span><span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">disagreements</span> <span class="o">=</span> <span class="n">render</span><span class="o">.</span><span class="n">derived_score</span><span class="p">(</span><span class="n">chain</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">sid</span><span class="p">,</span> <span class="n">annotator</span><span class="p">,</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">disagreements</span><span class="p">:</span>
+    <span class="n">issues</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">render</span><span class="o">.</span><span class="n">short</span><span class="p">(</span><span class="n">sid</span><span class="p">),</span> <span class="s2">"verdict check"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"annotator says </span><span class="si">{</span><span class="n">annotator</span><span class="si">}</span><span class="s2">, the support links give </span><span class="si">{</span><span class="n">rule</span><span class="si">}</span><span class="s2">"</span><span class="p">))</span>
+
+<span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s2">"display.max_colwidth"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">issues</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">"statement"</span><span class="p">,</span> <span class="s2">"issue"</span><span class="p">,</span> <span class="s2">"detail"</span><span class="p">])</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">"index"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><style type="text/css">
+</style>
+<table id="T_9a475">
+  <thead>
+    <tr>
+      <th id="T_9a475_level0_col0" class="col_heading level0 col0" >statement</th>
+      <th id="T_9a475_level0_col1" class="col_heading level0 col1" >issue</th>
+      <th id="T_9a475_level0_col2" class="col_heading level0 col2" >detail</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="T_9a475_row0_col0" class="data row0 col0" >C5</td>
+      <td id="T_9a475_row0_col1" class="data row0 col1" >overgeneralization</td>
+      <td id="T_9a475_row0_col2" class="data row0 col2" >The search is a structure-discovery tool; it is weaker as quantitative thermodynamic evidence, since KSDFT and OFDFT disagree on small energy differences (Jan).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row1_col0" class="data row1 col0" >C1.1</td>
+      <td id="T_9a475_row1_col1" class="data row1 col1" >confounded comparison</td>
+      <td id="T_9a475_row1_col2" class="data row1 col2" >The D0_19 vs L1_2 ordering changes sign with the electronic-structure method; differences of a few meV/atom are not a robust phase ordering (Jan).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row2_col0" class="data row2 col0" >C4</td>
+      <td id="T_9a475_row2_col1" class="data row2 col1" >missing quantification</td>
+      <td id="T_9a475_row2_col2" class="data row2 col2" >The transition temperatures come from a cluster expansion trained on OFDFT energies and inherit its errors; no uncertainty is given (Jan).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row3_col0" class="data row3 col0" >C2.4</td>
+      <td id="T_9a475_row3_col1" class="data row3 col1" >unaddressed counterevidence</td>
+      <td id="T_9a475_row3_col2" class="data row3 col2" >The D0_19 APB energy is about twice that of L1_2 Mg3Al, which runs against the paper's ordering D0_19 > L1_2 in ductility. Jan's encoding does not record whether the paper discusses this.</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row4_col0" class="data row4 col0" >C3.1</td>
+      <td id="T_9a475_row4_col1" class="data row4 col1" >missing quantification</td>
+      <td id="T_9a475_row4_col2" class="data row4 col2" >The values are per cell. The primitive cells differ (8 atoms for D0_19, 4 for L1_2, 2 for hcp Mg), so unless the paper used equal cells the comparison must be normalised per atom, which would reverse it (D0_19 0.50, L1_2 0.77, Mg 1.44 states/eV/atom). Needs checking against the paper.</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row5_col0" class="data row5 col0" >C3</td>
+      <td id="T_9a475_row5_col1" class="data row5 col1" >causal overreach</td>
+      <td id="T_9a475_row5_col2" class="data row5 col2" >The step from metallicity to macroscopic ductility is interpretive and less established than the mechanical descriptors (Jan).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row6_col0" class="data row6 col0" >C2</td>
+      <td id="T_9a475_row6_col1" class="data row6 col1" >overclaim</td>
+      <td id="T_9a475_row6_col2" class="data row6 col2" >Ductility is inferred from intrinsic descriptors (B/G, fault energies, APB energy); macroscopic ductility is neither calculated nor measured.</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row7_col0" class="data row7 col0" >C2.1</td>
+      <td id="T_9a475_row7_col1" class="data row7 col1" >warrant</td>
+      <td id="T_9a475_row7_col2" class="data row7 col2" >empirical_correlation: A larger B/G is empirically associated with greater ductility (Pugh criterion).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row8_col0" class="data row8 col0" >C2</td>
+      <td id="T_9a475_row8_col1" class="data row8 col1" >undercuts</td>
+      <td id="T_9a475_row8_col2" class="data row8 col2" >by C2.4: For the D0_19 > L1_2 part of the ordering only (APB 27 vs 14 mJ/m^2).</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row9_col0" class="data row9 col0" >C5</td>
+      <td id="T_9a475_row9_col1" class="data row9 col1" >verdict check</td>
+      <td id="T_9a475_row9_col2" class="data row9 col2" >annotator says YES, the support links give PARTIAL</td>
+    </tr>
+    <tr>
+      <td id="T_9a475_row10_col0" class="data row10 col0" >C3</td>
+      <td id="T_9a475_row10_col1" class="data row10 col1" >verdict check</td>
+      <td id="T_9a475_row10_col2" class="data row10 col2" >annotator says INCONCLUSIVE, the support links give WEAK</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p>The paper assessment sums it up:</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pa</span> <span class="o">=</span> <span class="n">chain</span><span class="p">[</span><span class="s2">"paper_assessment"</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Overall: </span><span class="si">{</span><span class="n">pa</span><span class="p">[</span><span class="s1">'overall_validity'</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">pa</span><span class="p">[</span><span class="s2">"summary"</span><span class="p">])</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">Missing evidence:"</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">pa</span><span class="p">[</span><span class="s2">"missing_evidence"</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  - </span><span class="si">{</span><span class="n">m</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Overall: PARTIAL
+
+The computational core is sound and checkable: local dynamical and mechanical stability and the favourable ductility descriptors versus hcp Mg follow from the paper's own numbers, and every reported derived value recomputes. Both main conclusions go one step further than the data. Metastability needs a kinetic barrier that is only speculated (H1), and ductility is inferred from proxies, with the D0_19 &gt; L1_2 ordering undercut by the APB energies. The electronic explanation (C3) depends on a DOS comparison that may not be normalised.
+
+Missing evidence:
+  - Transformation path and barrier toward Mg17Al12 + Mg
+  - Dislocation-level or mechanical-test evidence of ductility
+  - Per-atom DOS(E_F)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="what-this-gives-a-reviewer">
+<h2>What this gives a reviewer<a class="headerlink" href="#what-this-gives-a-reviewer" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>The argument, explicit.</strong> Each main conclusion is broken into what is computed, what is assumed and what is only hypothesized, so the weak link (H1) is visible at once.</p></li>
+<li><p><strong>The numbers, recomputed.</strong> All 22 derived checks are re-evaluated from the recorded values, so arithmetic slips would surface.</p></li>
+<li><p><strong>The open questions, concrete.</strong> Open proof obligations name the data that would close them, which turns a vague “more evidence is needed” into specific requests.</p></li>
+</ul>
+<p>The encoding is one annotator’s reconstruction (here: hand-encoded, then converted and assessed with LLM assistance). It does not replace the reviewer’s judgment; it makes that judgment faster to form and easier to check. Whether a domain expert would flag the same issues has not been tested.</p>
+<p>To review a paper of your own: <code class="docutils literal notranslate"><span class="pre">claimchain</span> <span class="pre">paper.pdf</span> <span class="pre">-o</span> <span class="pre">paper.yaml</span></code>, then rerun this notebook on <code class="docutils literal notranslate"><span class="pre">paper.yaml</span></code>.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="00-getting-started.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Getting started</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="02-research-opportunities.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Finding research opportunities</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item"><div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-encoding-at-a-glance">The encoding at a glance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-claim-c1-metastability">Main claim C1: metastability</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-numbers-behind-the-claims">The numbers behind the claims</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-claim-c2-ductility">Main claim C2: ductility</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#proof-obligations-what-would-make-the-claims-hold">Proof obligations: what would make the claims hold?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-encoding-to-review-report">From encoding to review report</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-this-gives-a-reviewer">What this gives a reviewer</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By claim-chain team
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=55c26ed414f5f8a31ebb"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=55c26ed414f5f8a31ebb"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
