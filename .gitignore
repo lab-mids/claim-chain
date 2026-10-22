@@ -18,6 +18,7 @@ venv/
 # Papers and figures cropped from them are not ours to redistribute
 papers/
 *.pdf
+!docs/scilogic_paper.pdf
 ideas/*/slides/figs/
 
 # OS / editor
