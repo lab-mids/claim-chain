@@ -24,3 +24,6 @@ ideas/*/slides/figs/
 .DS_Store
 .idea/
 .vscode/
+
+# Jupyter Book build
+docs/_build/

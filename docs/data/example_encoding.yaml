@@ -1,0 +1,134 @@
+# A hand-made toy encoding for the getting-started tutorial.
+# The "paper" is invented: small enough to read in one go, but it uses the same
+# format (schema v0.6) as the real encodings in examples/ and test_papers/yaml/.
+id: claimchain:chain/toy2026
+schema_version: 0.6.0
+annotator: claim-chain team (toy example for the tutorial)
+annotation_date: '2026-10-22'
+publication:
+  id: toy:2026
+  title: Aluminium additions harden a model Mg alloy
+  authors:
+  - A. Author
+  year: 2026
+entities:
+- id: ent:MgAl
+  label: Mg-3Al alloy
+  entity_type: MATERIAL
+- id: ent:Mg
+  label: pure Mg
+  entity_type: MATERIAL
+statements:
+- id: toy:GAP1
+  statement_type: GAP
+  paper_part: INTRODUCTION
+  text: It is not known how much 3 wt.% Al hardens cast Mg.
+- id: toy:H1
+  statement_type: HYPOTHESIS
+  paper_part: INTRODUCTION
+  text: Solid-solution Al atoms raise the hardness of Mg.
+  assessment:
+    validity: PARTIAL
+    rationale: Hardness increases, but the paper does not separate solid-solution
+      hardening from the finer grain size of the alloy.
+    proof_obligations:
+    - text: Show that the alloy is harder than pure Mg
+      obligation_status: DISCHARGED
+      discharged_by:
+      - toy:C1
+    - text: Rule out grain refinement as the cause
+      obligation_status: OPEN
+      priority: HIGH
+      discharged_by: []
+- id: toy:METH1
+  statement_type: METHOD
+  paper_part: METHODS
+  text: Vickers hardness (HV0.5) on cast samples of Mg and Mg-3Al, ten indents each.
+- id: toy:ASM1
+  statement_type: ASSUMPTION
+  paper_part: METHODS
+  text: Both castings have the same grain size.
+  assumption_basis: AUTHOR_CHOICE
+  open_question: Do the two castings in fact have the same grain size?
+- id: toy:OBS1
+  statement_type: OBSERVATION
+  paper_part: RESULTS
+  text: Mg-3Al has a hardness of 52 HV, pure Mg 38 HV.
+  about:
+  - ent:MgAl
+  - ent:Mg
+  evidence:
+  - evidence_kind: DATA_QUANTITATIVE
+    locator: Table 1
+    values:
+    - symbol: HV_alloy
+      quantity: Vickers hardness of Mg-3Al
+      value: 52
+      unit: HV
+    - symbol: HV_Mg
+      quantity: Vickers hardness of pure Mg
+      value: 38
+      unit: HV
+    derived_checks:
+    - expression: relative hardness increase
+      formula: 100*(HV_alloy - HV_Mg)/HV_Mg
+      result: 36.8
+      unit: '%'
+- id: toy:C1
+  statement_type: CLAIM
+  claim_role: MAIN_CONCLUSION
+  author_certainty: DEMONSTRATED
+  claim_modality: COMPARATIVE
+  paper_part: CONCLUSION
+  text: Adding 3 wt.% Al makes Mg about 37 % harder.
+  about:
+  - ent:MgAl
+  assessment:
+    validity: 'YES'
+    rationale: Directly measured; the recomputed increase matches the stated value.
+- id: toy:LIM1
+  statement_type: LIMITATION
+  paper_part: DISCUSSION
+  text: Only one Al content was tested.
+relations:
+- id: toy:R1
+  subject: toy:GAP1
+  predicate: MOTIVATES
+  object: toy:H1
+  asserted_by: AUTHORS
+- id: toy:R2
+  subject: toy:METH1
+  predicate: SUPPORTS
+  object: toy:OBS1
+  asserted_by: AUTHORS
+- id: toy:R3
+  subject: toy:OBS1
+  predicate: SUPPORTS
+  object: toy:C1
+  asserted_by: AUTHORS
+  support_strength: STRONG
+- id: toy:R4
+  subject: toy:C1
+  predicate: SUPPORTS
+  object: toy:H1
+  asserted_by: AUTHORS
+  support_strength: INTERMEDIATE
+  essential: true
+- id: toy:R5
+  subject: toy:ASM1
+  predicate: QUALIFIES
+  object: toy:H1
+  asserted_by: ANNOTATOR
+  note: if the grain sizes differ, Hall-Petch hardening is an alternative explanation
+- id: toy:R6
+  subject: toy:LIM1
+  predicate: QUALIFIES
+  object: toy:C1
+  asserted_by: AUTHORS
+paper_assessment:
+  overall_validity: PARTIAL
+  key_limitations:
+  - Grain size not measured, so solid-solution hardening is not isolated (ASM1).
+  - A single Al content (LIM1).
+  missing_evidence:
+  - Grain-size measurement of both castings.
