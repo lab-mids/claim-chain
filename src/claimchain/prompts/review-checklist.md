@@ -13,7 +13,7 @@ Use the general checks for every paper, then the section for its type. Each item
 
 **Claim strength**
 - [ ] Abstract/highlights vs results: "we demonstrate", "confirm", "predictive", "optimal", "reproduces the grain size distribution" (not shown), "dopant-free" (only checked before processing). → `OVERCLAIM`
-- [ ] Does the paper's own limitation or discussion undercut the headline? *Annealing paper: the text states the martensitic transformation is faster than the quench, which undercuts "kinetic stabilization" in the abstract.* Record it as UNDERCUTS/CONTRADICTS with `asserted_by: AUTHORS`.
+- [ ] Does the paper's own limitation or discussion weaken the headline? *Annealing paper: the text states the martensitic transformation is faster than the quench, which weakens "kinetic stabilization" in the abstract.* Record it as WEAKENS/CONTRADICTS with `asserted_by: AUTHORS`.
 - [ ] Generalizations ("material-independent", "any EBSD dataset", "other MXenes", "heterophase interfaces") from 1-3 cases. → `OVERGENERALIZATION`, verdict usually INCONCLUSIVE.
 - [ ] A precondition the authors state themselves but never test ("provided one can prove the ranking is invariant…"). → ASSUMPTION with `UNTESTED_ASSERTION`.
 

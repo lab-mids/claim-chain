@@ -32,6 +32,9 @@ def normalize(chain: dict) -> dict:
         if isinstance(obj.get(key), bool):
             obj[key] = "YES" if obj[key] else "NO"
 
+    for rel in chain.get("relations") or []:
+        if rel.get("predicate") == "UNDERCUTS":  # renamed to WEAKENS
+            rel["predicate"] = "WEAKENS"
     if isinstance(chain.get("paper_assessment"), dict):
         fix_validity(chain["paper_assessment"], "overall_validity")
     for st in chain.get("statements") or []:

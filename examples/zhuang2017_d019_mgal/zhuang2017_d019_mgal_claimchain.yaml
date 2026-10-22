@@ -583,7 +583,7 @@ relations:
       support_strength: INTERMEDIATE
   - id: zhuang2017:R18
     subject: zhuang2017:C2.4
-    predicate: UNDERCUTS
+    predicate: WEAKENS
     object: zhuang2017:C2
     asserted_by: ANNOTATOR
     note: For the D0_19 > L1_2 part of the ordering only (APB 27 vs 14 mJ/m^2).

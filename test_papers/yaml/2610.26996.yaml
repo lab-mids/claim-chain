@@ -472,9 +472,9 @@ relations:
   # relaxation
   - {id: agarwal2026:R14, subject: agarwal2026:OBS4, predicate: SUPPORTS, object: agarwal2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: agarwal2026:R15, subject: agarwal2026:OBS9, predicate: SUPPORTS, object: agarwal2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
-  - {id: agarwal2026:R16, subject: agarwal2026:OBS10, predicate: UNDERCUTS, object: agarwal2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Activation energies of several eV are implausible for the measured tau(T)"}
+  - {id: agarwal2026:R16, subject: agarwal2026:OBS10, predicate: WEAKENS, object: agarwal2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Activation energies of several eV are implausible for the measured tau(T)"}
   - {id: agarwal2026:R17, subject: agarwal2026:OBS4, predicate: SUPPORTS, object: agarwal2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: agarwal2026:R18, subject: agarwal2026:OBS11, predicate: UNDERCUTS, object: agarwal2026:CLAIM3, asserted_by: ANNOTATOR, note: "Phase angle shows a single process for x = 0.05, where Cole-Cole shows two"}
+  - {id: agarwal2026:R18, subject: agarwal2026:OBS11, predicate: WEAKENS, object: agarwal2026:CLAIM3, asserted_by: ANNOTATOR, note: "Phase angle shows a single process for x = 0.05, where Cole-Cole shows two"}
   - {id: agarwal2026:R19, subject: agarwal2026:METH2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: agarwal2026:OBS4, asserted_by: ANNOTATOR_BACKGROUND, note: "Interface arcs in pressed-powder pellets depend on pressing and particle contacts"}
   # ac conduction
   - {id: agarwal2026:R20, subject: agarwal2026:OBS5, predicate: SUPPORTS, object: agarwal2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
@@ -483,7 +483,7 @@ relations:
   - {id: agarwal2026:R23, subject: agarwal2026:OBS3, predicate: CONTRADICTS, object: agarwal2026:CLAIM4, asserted_by: ANNOTATOR, note: "W_m ~ kT gives s = 1 - 6kT/W_m < 0, inconsistent with the measured 0 < s < 1"}
   - {id: agarwal2026:R24, subject: agarwal2026:CLAIM4, predicate: DEPENDS_ON, object: agarwal2026:ASM1, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
   - {id: agarwal2026:R25, subject: agarwal2026:CLAIM4, predicate: SUPPORTS, object: agarwal2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: agarwal2026:R26, subject: agarwal2026:OBS3, predicate: UNDERCUTS, object: agarwal2026:CLAIM8, asserted_by: ANNOTATOR}
+  - {id: agarwal2026:R26, subject: agarwal2026:OBS3, predicate: WEAKENS, object: agarwal2026:CLAIM8, asserted_by: ANNOTATOR}
   # effect of Y
   - {id: agarwal2026:R27, subject: agarwal2026:OBS8, predicate: SUPPORTS, object: agarwal2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: agarwal2026:R28, subject: agarwal2026:OBS6, predicate: SUPPORTS, object: agarwal2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}

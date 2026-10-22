@@ -868,9 +868,9 @@ relations:
   - {id: delmont2026:R17, subject: delmont2026:CLAIM5, predicate: CONDITIONALLY_SUPPORTS, object: delmont2026:CLAIM3, asserted_by: AUTHORS, note: "Near stoichiometry would hold only if the excess boron is an artefact."}
   - {id: delmont2026:R18, subject: delmont2026:OBS2, predicate: SUPPORTS, object: delmont2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, warrant: {rule: "Artefacts that raise B/As on a stoichiometric crystal also raise it on the film.", warrant_basis: AUTHOR_ARGUMENT}}
   - {id: delmont2026:R19, subject: delmont2026:OBS3, predicate: SUPPORTS, object: delmont2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: delmont2026:R20, subject: delmont2026:A1, predicate: UNDERCUTS, object: delmont2026:CLAIM5, asserted_by: ANNOTATOR, note: "If the single-crystal calibration is valid, artefacts shared with the crystal are already removed from the calibrated ratios."}
+  - {id: delmont2026:R20, subject: delmont2026:A1, predicate: WEAKENS, object: delmont2026:CLAIM5, asserted_by: ANNOTATOR, note: "If the single-crystal calibration is valid, artefacts shared with the crystal are already removed from the calibrated ratios."}
   - {id: delmont2026:R21, subject: delmont2026:LIM1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: delmont2026:CLAIM5, asserted_by: AUTHORS}
-  - {id: delmont2026:R22, subject: delmont2026:OBS1, predicate: UNDERCUTS, object: delmont2026:CLAIM1, asserted_by: ANNOTATOR, note: "B/As about 2 at the growth temperature of the detailed film leaves excess boron beyond c-BAs."}
+  - {id: delmont2026:R22, subject: delmont2026:OBS1, predicate: WEAKENS, object: delmont2026:CLAIM1, asserted_by: ANNOTATOR, note: "B/As about 2 at the growth temperature of the detailed film leaves excess boron beyond c-BAs."}
   - {id: delmont2026:R23, subject: delmont2026:LIM1, predicate: QUALIFIES, object: delmont2026:CLAIM1, asserted_by: AUTHORS}
   # coverage and growth mode
   - {id: delmont2026:R24, subject: delmont2026:OBS4, predicate: SUPPORTS, object: delmont2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
@@ -914,11 +914,11 @@ relations:
   - {id: delmont2026:R59, subject: delmont2026:CLAIM9, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: delmont2026:R60, subject: delmont2026:CLAIM12, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
   - {id: delmont2026:R61, subject: delmont2026:CLAIM7, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: delmont2026:R62, subject: delmont2026:OBS1, predicate: UNDERCUTS, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "Boron-rich composition of the detailed film."}
+  - {id: delmont2026:R62, subject: delmont2026:OBS1, predicate: WEAKENS, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "Boron-rich composition of the detailed film."}
   - {id: delmont2026:R63, subject: delmont2026:DATA2, predicate: QUALIFIES, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "All structural evidence comes from one film."}
   # conclusion
   - {id: delmont2026:R64, subject: delmont2026:HYP1, predicate: SUPPORTS, object: delmont2026:CLAIM14, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, warrant: {rule: "A crystalline, Ga-free c-BAs film on GaAs is a prerequisite for thermal and optoelectronic integration.", warrant_basis: AUTHOR_ARGUMENT}}
-  - {id: delmont2026:R65, subject: delmont2026:LIM3, predicate: UNDERCUTS, object: delmont2026:CLAIM14, asserted_by: AUTHORS}
+  - {id: delmont2026:R65, subject: delmont2026:LIM3, predicate: WEAKENS, object: delmont2026:CLAIM14, asserted_by: AUTHORS}
   - {id: delmont2026:R66, subject: delmont2026:CLAIM14, predicate: MOTIVATES, object: delmont2026:OUT1, asserted_by: AUTHORS}
   - {id: delmont2026:R67, subject: delmont2026:LIM3, predicate: MOTIVATES, object: delmont2026:Q1, asserted_by: ANNOTATOR}
   - {id: delmont2026:R68, subject: delmont2026:LIM1, predicate: MOTIVATES, object: delmont2026:Q2, asserted_by: ANNOTATOR}

@@ -14,7 +14,7 @@ Review is the bottleneck of scientific progress. LLMs speed up the production of
 
 **Processing:**
 1. Extract the paper's argument as typed statements: background, gap, hypothesis, assumption, method, data, observation, claim, limitation, outlook.
-2. Record the evidence the paper gives for each statement, and the links between statements: supports, undercuts, qualifies, alternative explanation, and so on.
+2. Record the evidence the paper gives for each statement, and the links between statements: supports, weakens, qualifies, alternative explanation, and so on.
 3. Record the inference rule (warrant) behind each step and, where the paper gives numbers, checks that can be recomputed.
 4. Assess every claim: *does the data presented in the paper support it?*
 
@@ -54,7 +54,7 @@ Each person's approach is in `ideas/<name>/`. The first versions were written fr
 | Sepideh | **Divide and conquer / paper logic map:** analyse each part of the paper against a fixed question spine, check it locally (completeness, arithmetic, consistency), then follow each aim from the introduction to the conclusion (the golden thread). Worked example: Zhang et al. 2013 (`ideas/sepideh/`). | `paper_part`; AIM statements; DELIVERS and RESTATES links; certainty drift; ARITHMETIC concern and concern `priority`; local checks counted per part; question spine in the review checklist; `claimchain --intro-first` |
 | Soroush | **Quantify the support:** test every link on five criteria (directness, sufficiency, controls, alternatives, scope), rate it strong to unsupported, and derive claim verdicts with the weakest-link rule. Tested on two ML papers (`ideas/soroush/`). | `support_strength`, `link_criteria`, `essential`; WEAK verdict; derived verdicts and score; summary chart |
 | Jan | **Reviewer / investigator:** each claim creates open proof obligations; gather the evidence and check which obligations it discharges. His Zhuang 2017 encoding (branch `jan-janssen`) added recomputable checks, explicit inference rules, claim roles, the authors' own certainty, structured data requests and reference roles. | `proof_obligations` with `priority` and `requested_data`; `derived_checks`; `warrant`; `claim_role`; `author_certainty`; `cited_works` |
-| Markus | **Typed argument chain:** statements typed by role and evidence kind, typed relations including "undercuts", a verdict per claim and a logic score. | the core schema and `render.py` |
+| Markus | **Typed argument chain:** statements typed by role and evidence kind, typed relations including "weakens" (formerly "undercuts"), a verdict per claim and a logic score. | the core schema and `render.py` |
 
 ## The format in short
 
@@ -81,7 +81,7 @@ Each person's approach is in `ideas/<name>/`. The first versions were written fr
 **Scores (draft):**
 - **Logic score:** the mean over all claims and hypotheses of YES = 1, PARTIAL = 0.5, WEAK = 0.375, INCONCLUSIVE = 0.25, NO = 0.
 - **Weighted logic score:** the same, with main conclusions weighted 3, counter-claims 0 and all other claims 1.
-- **Derived score:** the logic score over verdicts that `render.py` derives from the links instead of the annotator's verdicts. A contradiction gives NO; otherwise the strongest support link decides; qualifying or undercutting links cap at PARTIAL; and a claim is no stronger than its weakest essential link (weakest-link rule). The report lists every claim where the derived verdict differs from the annotator's.
+- **Derived score:** the logic score over verdicts that `render.py` derives from the links instead of the annotator's verdicts. A contradiction gives NO; otherwise the strongest support link decides; qualifying or weakening links cap at PARTIAL; and a claim is no stronger than its weakest essential link (weakest-link rule). The report lists every claim where the derived verdict differs from the annotator's.
 - **Obligation coverage:** the share of proof obligations discharged, with partially discharged ones counting half.
 
 None of these weightings is agreed yet.
@@ -174,7 +174,7 @@ The examples illustrate the format only; the tool is meant for any paper. No PDF
 - Should each paper part get a sub-score before the whole-paper score?
 - Should the critique (concerns, assessments) be stored separately from the encoded paper?
 - How should uncertain links propagate to the claims that depend on them? Warrants with weak or unstated bases are natural places to start.
-- `UNDERCUTS` and `CONTRADICTS` both map to `mp:challenges` in the RDF export, so the distinction is lost there.
+- `WEAKENS` and `CONTRADICTS` both map to `mp:challenges` in the RDF export, so the distinction is lost there.
 - The namespaces (`w3id.org/claim-chain/...`) are placeholders.
 
 ## To discuss on 22 October

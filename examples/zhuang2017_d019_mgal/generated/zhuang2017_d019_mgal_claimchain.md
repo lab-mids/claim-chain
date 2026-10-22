@@ -165,7 +165,7 @@ Check: APB(D0_19 Mg3Al) / APB(L1_2 Mg3Al) = 1.93 (recomputed)
 Modality: comparative  
 → supports **C2** [intermediate]  
 &nbsp;&nbsp;&nbsp;warrant: Low APB energies mean less extra resistance to partial-dislocation motion through an ordered phase. (citation; intermediate; refs zhuang2017:ref52)  
-→ undercuts **C2** *(annotator)*  
+→ weakens **C2** *(annotator)*  
 ⚠ unaddressed counterevidence: The D0_19 APB energy is about twice that of L1_2 Mg3Al, which runs against the paper's ordering D0_19 > L1_2 in ductility. Jan's encoding does not record whether the paper discusses this.  
 **Verdict: ✓ YES**. Low relative to Ni3Al, as claimed (recomputed).  
 

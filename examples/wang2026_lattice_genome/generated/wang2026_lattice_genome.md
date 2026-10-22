@@ -200,7 +200,7 @@ Evidence: data_quantitative (Fig. 5a)
 **OBS9** `OBSERVATION`  Sec. 4.2  
 Latent segmentation misses some grain boundaries - those of small grains in AM and W, those near poorly indexed regions in RX, and a few regular grain boundaries.  
 Evidence: data_qualitative (Fig. 5a)  
-→ undercuts **CLAIM4** *(annotator)*  
+→ weakens **CLAIM4** *(annotator)*  
 
 **OBS10** `OBSERVATION`  Sec. 4.2  
 Area distributions of latent domains and misorientation grains closely match for RX and W but not for AM.  
@@ -389,15 +389,15 @@ Evidence: argument
 Kind: method  
 → alternative explanation for **OBS14**  
 → alternative explanation for **OBS17**  
-→ undercuts **CLAIM1c** *(annotator, background knowledge)*  
+→ weakens **CLAIM1c** *(annotator, background knowledge)*  
 
 **LIM3** `LIMITATION`  Sec. 5  
 Lattice genes also encode measurement conditions (detector geometry, pattern centre, background, noise), complicating comparisons across datasets.  
 Evidence: citation [36]  
 Kind: data  
-→ undercuts **CLAIM6** *(annotator)*  
-→ undercuts **CLAIM1c** *(annotator)*  
-→ undercuts **CLAIM1d** *(annotator)*  
+→ weakens **CLAIM6** *(annotator)*  
+→ weakens **CLAIM1c** *(annotator)*  
+→ weakens **CLAIM1d** *(annotator)*  
 
 **LIM4** `LIMITATION`  Sec. 5  
 Where the interaction volume spans several lattices, e.g. at grain or twin boundaries, the lattice gene encodes a superposition, which is harder to interpret but makes the encoding sensitive to overlaps.  

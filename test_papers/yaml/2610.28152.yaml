@@ -390,7 +390,7 @@ relations:
   # stability
   - {id: hasan2026:R8, subject: hasan2026:OBS1, predicate: SUPPORTS, object: hasan2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
   - {id: hasan2026:R9, subject: hasan2026:OBS3, predicate: SUPPORTS, object: hasan2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: hasan2026:R10, subject: hasan2026:OBS2, predicate: UNDERCUTS, object: hasan2026:CLAIM1, asserted_by: ANNOTATOR, note: "3.44 eV is a large formation energy"}
+  - {id: hasan2026:R10, subject: hasan2026:OBS2, predicate: WEAKENS, object: hasan2026:CLAIM1, asserted_by: ANNOTATOR, note: "3.44 eV is a large formation energy"}
   - {id: hasan2026:R11, subject: hasan2026:LIM1, predicate: QUALIFIES, object: hasan2026:HYP1, asserted_by: AUTHORS}
   # binding mechanism
   - {id: hasan2026:R12, subject: hasan2026:OBS4, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
@@ -402,14 +402,14 @@ relations:
   - {id: hasan2026:R18, subject: hasan2026:OBS7, predicate: SUPPORTS, object: hasan2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
   # capacity
   - {id: hasan2026:R19, subject: hasan2026:OBS8, predicate: SUPPORTS, object: hasan2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: hasan2026:R20, subject: hasan2026:METH2, predicate: UNDERCUTS, object: hasan2026:CLAIM5, asserted_by: ANNOTATOR_BACKGROUND, note: "Average-energy criterion can admit outer layers less stable than bulk metal"}
+  - {id: hasan2026:R20, subject: hasan2026:METH2, predicate: WEAKENS, object: hasan2026:CLAIM5, asserted_by: ANNOTATOR_BACKGROUND, note: "Average-energy criterion can admit outer layers less stable than bulk metal"}
   - {id: hasan2026:R21, subject: hasan2026:CLAIM5, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: hasan2026:R22, subject: hasan2026:CLAIM5, predicate: DEPENDS_ON, object: hasan2026:ASM1, asserted_by: ANNOTATOR, uncertainty: MEDIUM}
   - {id: hasan2026:R23, subject: hasan2026:OBS9, predicate: SUPPORTS, object: hasan2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: hasan2026:R24, subject: hasan2026:CLAIM6, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   # diffusion
   - {id: hasan2026:R25, subject: hasan2026:OBS10, predicate: SUPPORTS, object: hasan2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: hasan2026:R26, subject: hasan2026:OBS4, predicate: UNDERCUTS, object: hasan2026:CLAIM7, asserted_by: ANNOTATOR_BACKGROUND, note: "Deeper binding at Co sites implies trapping"}
+  - {id: hasan2026:R26, subject: hasan2026:OBS4, predicate: WEAKENS, object: hasan2026:CLAIM7, asserted_by: ANNOTATOR_BACKGROUND, note: "Deeper binding at Co sites implies trapping"}
   - {id: hasan2026:R27, subject: hasan2026:CLAIM7, predicate: SUPPORTS, object: hasan2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   # comparison
   - {id: hasan2026:R28, subject: hasan2026:CLAIM5, predicate: SUPPORTS, object: hasan2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}

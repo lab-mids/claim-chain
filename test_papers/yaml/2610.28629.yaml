@@ -358,13 +358,13 @@ relations:
   # SGMD
   - {id: liu2026:R13, subject: liu2026:OBS2, predicate: MOTIVATES, object: liu2026:METH3, asserted_by: AUTHORS, note: "Compact model isolates the PGMD region"}
   - {id: liu2026:R14, subject: liu2026:OBS6, predicate: SUPPORTS, object: liu2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: liu2026:R15, subject: liu2026:OBS6, predicate: UNDERCUTS, object: liu2026:CLAIM2, asserted_by: ANNOTATOR, note: "{100}/{110} strength rises with SGMDs"}
+  - {id: liu2026:R15, subject: liu2026:OBS6, predicate: WEAKENS, object: liu2026:CLAIM2, asserted_by: ANNOTATOR, note: "{100}/{110} strength rises with SGMDs"}
   - {id: liu2026:R16, subject: liu2026:LIM1, predicate: QUALIFIES, object: liu2026:CLAIM2, asserted_by: AUTHORS}
   - {id: liu2026:R17, subject: liu2026:OBS5, predicate: SUPPORTS, object: liu2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: liu2026:R18, subject: liu2026:OBS4, predicate: SUPPORTS, object: liu2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
   # anomaly
   - {id: liu2026:R19, subject: liu2026:OBS7, predicate: SUPPORTS, object: liu2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
-  - {id: liu2026:R20, subject: liu2026:CLAIM4, predicate: UNDERCUTS, object: liu2026:CLAIM5, asserted_by: ANNOTATOR, note: "Construction procedure can yield metastable structures"}
+  - {id: liu2026:R20, subject: liu2026:CLAIM4, predicate: WEAKENS, object: liu2026:CLAIM5, asserted_by: ANNOTATOR, note: "Construction procedure can yield metastable structures"}
   - {id: liu2026:R21, subject: liu2026:CLAIM5, predicate: DEPENDS_ON, object: liu2026:ASM2, asserted_by: ANNOTATOR}
   - {id: liu2026:R22, subject: liu2026:CLAIM5, predicate: SUPPORTS, object: liu2026:CLAIM1, asserted_by: ANNOTATOR, support_basis: LOGICAL, support_strength: INTERMEDIATE}
   - {id: liu2026:R23, subject: liu2026:CLAIM5, predicate: SUPPORTS, object: liu2026:CLAIM2, asserted_by: ANNOTATOR, support_basis: LOGICAL, support_strength: INTERMEDIATE}
@@ -374,7 +374,7 @@ relations:
   # agentic claims
   - {id: liu2026:R26, subject: liu2026:CLAIM4, predicate: SUPPORTS, object: liu2026:CLAIM7, asserted_by: AUTHORS, note: "Example of dynamic replanning", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
   - {id: liu2026:R27, subject: liu2026:CLAIM3, predicate: SUPPORTS, object: liu2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
-  - {id: liu2026:R28, subject: liu2026:OBS1, predicate: UNDERCUTS, object: liu2026:CLAIM7, asserted_by: ANNOTATOR, note: "LLM screening missed variants the researcher added"}
+  - {id: liu2026:R28, subject: liu2026:OBS1, predicate: WEAKENS, object: liu2026:CLAIM7, asserted_by: ANNOTATOR, note: "LLM screening missed variants the researcher added"}
   - {id: liu2026:R29, subject: liu2026:LIM2, predicate: QUALIFIES, object: liu2026:CLAIM7, asserted_by: AUTHORS}
   - {id: liu2026:R30, subject: liu2026:METH1, predicate: SUPPORTS, object: liu2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
   - {id: liu2026:R31, subject: liu2026:LIM2, predicate: QUALIFIES, object: liu2026:CLAIM8, asserted_by: AUTHORS}

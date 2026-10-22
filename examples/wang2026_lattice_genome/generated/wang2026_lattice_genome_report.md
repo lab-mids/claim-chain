@@ -10,7 +10,7 @@ Verdicts: 2 YES, 7 PARTIAL, 0 WEAK, 4 INCONCLUSIVE, 1 NO.
 
 Clear concept and well-described tools that reproduce conventional EBSD trends on three FCC Ni-base maps. The central gene claim is argued rather than shown, the distance criterion is contradicted by the paper's own limitations, and "finer detail" and "better contrast" are judged by eye without ground truth.
 
-**Score from derived verdicts: 0.55**, 4 claim(s) where the derived verdict differs from the annotator's. Method: verdicts derived from the links: an incoming CONTRADICTS gives NO; otherwise the strongest support link decides (STRONG YES, INTERMEDIATE PARTIAL, WEAK WEAK, none INCONCLUSIVE); UNDERCUTS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS counts as WEAK at most; an essential link caps the claim at its own strength and at the derived verdict of the claim it comes from. Links without a strength count as INTERMEDIATE. Claims without links keep the annotator's verdict.  
+**Score from derived verdicts: 0.55**, 4 claim(s) where the derived verdict differs from the annotator's. Method: verdicts derived from the links: an incoming CONTRADICTS gives NO; otherwise the strongest support link decides (STRONG YES, INTERMEDIATE PARTIAL, WEAK WEAK, none INCONCLUSIVE); WEAKENS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS counts as WEAK at most; an essential link caps the claim at its own strength and at the derived verdict of the claim it comes from. Links without a strength count as INTERMEDIATE. Claims without links keep the annotator's verdict.  
 
 | Statement | Role | Modality | Authors say | Verdict | Derived | Rationale |
 |---|---|---|---|---|---|---|

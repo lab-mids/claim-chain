@@ -38,7 +38,7 @@ flowchart TD
   OBS7 --> CLAIM4
   OBS8 --> CLAIM4
   OBS10 --> CLAIM4
-  OBS9 -.->|undercuts| CLAIM4
+  OBS9 -.->|weakens| CLAIM4
   LIM4 -.->|alternative explanation for| OBS8
   CLAIM4 -->|answers| Q1
   OBS6 --> CLAIM5
@@ -46,7 +46,7 @@ flowchart TD
   OBS11 --> CLAIM6
   OBS12 --> CLAIM6
   OBS13 --> CLAIM6
-  LIM3 -.->|undercuts| CLAIM6
+  LIM3 -.->|weakens| CLAIM6
   OBS16 --> CLAIM7
   OBS17 -.->|qualifies| CLAIM7
   LIM2 -.->|alternative explanation for| OBS14
@@ -54,9 +54,9 @@ flowchart TD
   OBS15 ==> CLAIM8
   CLAIM6 -->|answers| Q1
   CLAIM7 -->|answers| Q1
-  LIM2 -.->|undercuts| CLAIM1c
-  LIM3 -.->|undercuts| CLAIM1c
-  LIM3 -.->|undercuts| CLAIM1d
+  LIM2 -.->|weakens| CLAIM1c
+  LIM3 -.->|weakens| CLAIM1c
+  LIM3 -.->|weakens| CLAIM1d
   METH1 --> LIM3
   OUT1 -->|answers| LIM2
   OUT2 -->|answers| LIM3
