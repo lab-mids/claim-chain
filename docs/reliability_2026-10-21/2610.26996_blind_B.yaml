@@ -799,7 +799,7 @@ relations:
   uncertainty: LOW
 - id: agarwal2026:R16
   subject: agarwal2026:OBS10
-  predicate: UNDERCUTS
+  predicate: WEAKENS
   object: agarwal2026:CLAIM2
   asserted_by: ANNOTATOR_BACKGROUND
   note: Activation energies of several eV are implausible for the measured tau(T)
@@ -813,7 +813,7 @@ relations:
   uncertainty: MEDIUM
 - id: agarwal2026:R18
   subject: agarwal2026:OBS11
-  predicate: UNDERCUTS
+  predicate: WEAKENS
   object: agarwal2026:CLAIM3
   asserted_by: ANNOTATOR
   note: Phase angle shows a single process for x = 0.05, where Cole-Cole shows two
@@ -869,7 +869,7 @@ relations:
   uncertainty: MEDIUM
 - id: agarwal2026:R26
   subject: agarwal2026:OBS3
-  predicate: UNDERCUTS
+  predicate: WEAKENS
   object: agarwal2026:CLAIM8
   asserted_by: ANNOTATOR
 - id: agarwal2026:R27

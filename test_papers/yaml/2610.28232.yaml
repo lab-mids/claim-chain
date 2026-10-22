@@ -338,12 +338,12 @@ relations:
   - {id: boticaartalejo2026:R13, subject: boticaartalejo2026:CLAIM2, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM2, asserted_by: AUTHORS}
   - {id: boticaartalejo2026:R14, subject: boticaartalejo2026:CLAIM3, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM1, asserted_by: AUTHORS}
   - {id: boticaartalejo2026:R15, subject: boticaartalejo2026:LIM1, predicate: QUALIFIES, object: boticaartalejo2026:CLAIM3, asserted_by: AUTHORS}
-  - {id: boticaartalejo2026:R16, subject: boticaartalejo2026:METH3, predicate: UNDERCUTS, object: boticaartalejo2026:CLAIM3, asserted_by: ANNOTATOR, note: "Thickness varies across the wafer and is interpolated, not measured"}
+  - {id: boticaartalejo2026:R16, subject: boticaartalejo2026:METH3, predicate: WEAKENS, object: boticaartalejo2026:CLAIM3, asserted_by: ANNOTATOR, note: "Thickness varies across the wafer and is interpolated, not measured"}
   # ranking
   - {id: boticaartalejo2026:R17, subject: boticaartalejo2026:OBS5, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: HIGH}
   - {id: boticaartalejo2026:R18, subject: boticaartalejo2026:CLAIM4, predicate: DEPENDS_ON, object: boticaartalejo2026:METH5, asserted_by: AUTHORS}
   - {id: boticaartalejo2026:R19, subject: boticaartalejo2026:CLAIM4, predicate: DEPENDS_ON, object: boticaartalejo2026:ASM3, asserted_by: AUTHORS}
-  - {id: boticaartalejo2026:R20, subject: boticaartalejo2026:OBS5, predicate: UNDERCUTS, object: boticaartalejo2026:CLAIM4, asserted_by: ANNOTATOR, note: "Spot 11's SAW drop is among the largest of the filtered spots"}
+  - {id: boticaartalejo2026:R20, subject: boticaartalejo2026:OBS5, predicate: WEAKENS, object: boticaartalejo2026:CLAIM4, asserted_by: ANNOTATOR, note: "Spot 11's SAW drop is among the largest of the filtered spots"}
   - {id: boticaartalejo2026:R21, subject: boticaartalejo2026:CLAIM2, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
   - {id: boticaartalejo2026:R22, subject: boticaartalejo2026:CLAIM6, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: boticaartalejo2026:R23, subject: boticaartalejo2026:ASM4, predicate: SUPPORTS, object: boticaartalejo2026:CLAIM6, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}

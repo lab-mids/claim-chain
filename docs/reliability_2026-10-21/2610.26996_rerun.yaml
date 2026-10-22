@@ -888,7 +888,7 @@ relations:
   - {id: agarwal2026:R14, subject: agarwal2026:A3, predicate: CONTRADICTS, object: agarwal2026:CL3, asserted_by: ANNOTATOR, note: "Tabulated Wm is about kT, so the Wm >> kT premise of Eqs. 6 and 14 fails."}
   - {id: agarwal2026:R15, subject: agarwal2026:OBS10, predicate: CONTRADICTS, object: agarwal2026:CL3, asserted_by: ANNOTATOR, note: "s from Fig. 7b implies Wm near 180 meV."}
   - {id: agarwal2026:R16, subject: agarwal2026:OBS7, predicate: SUPPORTS, object: agarwal2026:CL4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: agarwal2026:R17, subject: agarwal2026:OBS6, predicate: UNDERCUTS, object: agarwal2026:CL4, asserted_by: ANNOTATOR, note: "Unphysical eps_inf > eps_s rows and missing alpha."}
+  - {id: agarwal2026:R17, subject: agarwal2026:OBS6, predicate: WEAKENS, object: agarwal2026:CL4, asserted_by: ANNOTATOR, note: "Unphysical eps_inf > eps_s rows and missing alpha."}
   - {id: agarwal2026:R18, subject: agarwal2026:OBS7, predicate: SUPPORTS, object: agarwal2026:CL5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
   - {id: agarwal2026:R19, subject: agarwal2026:OBS7, predicate: CONTRADICTS, object: agarwal2026:CL5, asserted_by: ANNOTATOR, note: "Fig. 5 shows the clearest two-arc response at x = 0.10."}
   - {id: agarwal2026:R20, subject: agarwal2026:OBS15, predicate: CONTRADICTS, object: agarwal2026:CL5, asserted_by: AUTHORS, note: "The paper's phase-angle reading (shoulder only at x = 0.10) contradicts its Cole-Cole reading, while claiming agreement."}
@@ -915,7 +915,7 @@ relations:
       support_strength: INTERMEDIATE
   - {id: agarwal2026:R30, subject: agarwal2026:OBS9, predicate: SUPPORTS, object: agarwal2026:CL7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
   - {id: agarwal2026:R31, subject: agarwal2026:CL3, predicate: SUPPORTS, object: agarwal2026:CL7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
-  - {id: agarwal2026:R32, subject: agarwal2026:OBS5, predicate: UNDERCUTS, object: agarwal2026:CL7, asserted_by: ANNOTATOR, note: "With the paper's own Wm, Eq. 14 predicts negative s."}
+  - {id: agarwal2026:R32, subject: agarwal2026:OBS5, predicate: WEAKENS, object: agarwal2026:CL7, asserted_by: ANNOTATOR, note: "With the paper's own Wm, Eq. 14 predicts negative s."}
   - {id: agarwal2026:R33, subject: agarwal2026:CL8, predicate: SUPPORTS, object: agarwal2026:CL7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, note: "Neglecting dc conduction is a premise of reading s as an ac exponent."}
   - {id: agarwal2026:R34, subject: agarwal2026:A1, predicate: SUPPORTS, object: agarwal2026:CL7, asserted_by: ANNOTATOR, note: "CBH chosen before the data; alternatives untested."}
   - {id: agarwal2026:R35, subject: agarwal2026:CL9, predicate: SUPPORTS, object: agarwal2026:CL7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
@@ -927,14 +927,14 @@ relations:
   - {id: agarwal2026:R41, subject: agarwal2026:OBS13, predicate: CONTRADICTS, object: agarwal2026:CL11b, asserted_by: ANNOTATOR, note: "sigma_ac minimum at x = 0.10 in Fig. 9c."}
   - {id: agarwal2026:R42, subject: agarwal2026:OBS9, predicate: CONTRADICTS, object: agarwal2026:CL11b, asserted_by: ANNOTATOR, note: "Fig. 7a: x = 0.10 below x = 0.05."}
   - {id: agarwal2026:R43, subject: agarwal2026:OBS14, predicate: SUPPORTS, object: agarwal2026:CL12, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
-  - {id: agarwal2026:R44, subject: agarwal2026:M4, predicate: UNDERCUTS, object: agarwal2026:OBS14, asserted_by: ANNOTATOR, note: "nu_ph = 10^4 Hz puts Eq. 12 outside its validity."}
+  - {id: agarwal2026:R44, subject: agarwal2026:M4, predicate: WEAKENS, object: agarwal2026:OBS14, asserted_by: ANNOTATOR, note: "nu_ph = 10^4 Hz puts Eq. 12 outside its validity."}
   - {id: agarwal2026:R45, subject: agarwal2026:OBS13, predicate: CONTRADICTS, object: agarwal2026:CL12, asserted_by: ANNOTATOR, note: "sigma_ac is not enhanced monotonically, and its order is inconsistent with Table 3 via Eq. 12."}
   - {id: agarwal2026:R46, subject: agarwal2026:CL11b, predicate: SUPPORTS, object: agarwal2026:CL12, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
   - {id: agarwal2026:R47, subject: agarwal2026:CL13, predicate: SUPPORTS, object: agarwal2026:CL12, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
   - {id: agarwal2026:R48, subject: agarwal2026:A2, predicate: CONDITIONALLY_SUPPORTS, object: agarwal2026:CL13, asserted_by: ANNOTATOR, note: "Y dissolved in the glass network is the premise of the mechanism."}
   - {id: agarwal2026:R49, subject: agarwal2026:CL5, predicate: SUPPORTS, object: agarwal2026:CL15, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
   - {id: agarwal2026:R50, subject: agarwal2026:OBS15, predicate: SUPPORTS, object: agarwal2026:CL15, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
-  - {id: agarwal2026:R51, subject: agarwal2026:OBS1, predicate: UNDERCUTS, object: agarwal2026:CL15, asserted_by: ANNOTATOR_BACKGROUND, note: "eps1 of 1e5-1e6 at low frequency is characteristic of electrode/interfacial polarization."}
+  - {id: agarwal2026:R51, subject: agarwal2026:OBS1, predicate: WEAKENS, object: agarwal2026:CL15, asserted_by: ANNOTATOR_BACKGROUND, note: "eps1 of 1e5-1e6 at low frequency is characteristic of electrode/interfacial polarization."}
   - {id: agarwal2026:R52, subject: agarwal2026:OBS7, predicate: CONTRADICTS, object: agarwal2026:CL15, asserted_by: AUTHORS, note: "The paper assigns a second arc to grain-boundary/electrode interfaces."}
   - {id: agarwal2026:R53, subject: agarwal2026:OBS16, predicate: SUPPORTS, object: agarwal2026:CL16, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
   - {id: agarwal2026:R54, subject: agarwal2026:OBS13, predicate: CONTRADICTS, object: agarwal2026:CL16, asserted_by: ANNOTATOR, note: "P proportional to eps_r - 1 and eps_r highest at x = 0.15; sigma_ac lowest at x = 0.10."}

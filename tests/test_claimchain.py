@@ -125,6 +125,15 @@ def test_normalize_fixes_common_yaml_slips():
     assert obs["evidence"][0]["values"][0]["value"] == 1500.0
 
 
+def test_normalize_renames_undercuts():
+    chain = copy.deepcopy(EXAMPLE)
+    rel = chain["relations"][0]
+    rel["predicate"] = "UNDERCUTS"
+    normalize(chain)
+    assert rel["predicate"] == "WEAKENS"
+    assert validate_chain(chain) == []
+
+
 def test_dangling_reference_is_reported():
     chain = copy.deepcopy(EXAMPLE)
     chain["relations"][0]["object"] = "wang2026:DOES_NOT_EXIST"

@@ -342,7 +342,7 @@ relations:
   - {id: delmont2026:R11, subject: delmont2026:OBS6, predicate: CONTRADICTS, object: delmont2026:CLAIM2, asserted_by: ANNOTATOR, note: "18 deg tilt and mosaic spread are incompatible with a coherent layer"}
   # morphology
   - {id: delmont2026:R12, subject: delmont2026:OBS4, predicate: SUPPORTS, object: delmont2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: delmont2026:R13, subject: delmont2026:OBS7, predicate: UNDERCUTS, object: delmont2026:CLAIM3, asserted_by: ANNOTATOR_BACKGROUND, note: "Continuous film between islands suggests Stranski-Krastanov"}
+  - {id: delmont2026:R13, subject: delmont2026:OBS7, predicate: WEAKENS, object: delmont2026:CLAIM3, asserted_by: ANNOTATOR_BACKGROUND, note: "Continuous film between islands suggests Stranski-Krastanov"}
   # crystallography
   - {id: delmont2026:R14, subject: delmont2026:OBS5, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, note: "Phase identification", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
   - {id: delmont2026:R15, subject: delmont2026:OBS6, predicate: SUPPORTS, object: delmont2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
@@ -360,7 +360,7 @@ relations:
   - {id: delmont2026:R25, subject: delmont2026:CLAIM6, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
   - {id: delmont2026:R26, subject: delmont2026:CLAIM7, predicate: SUPPORTS, object: delmont2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
   - {id: delmont2026:R27, subject: delmont2026:HYP1, predicate: ANSWERS, object: delmont2026:GAP1, asserted_by: AUTHORS}
-  - {id: delmont2026:R28, subject: delmont2026:LIM1, predicate: UNDERCUTS, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "Amorphous boron regions would conflict with a single-phase c-BAs film"}
+  - {id: delmont2026:R28, subject: delmont2026:LIM1, predicate: WEAKENS, object: delmont2026:HYP1, asserted_by: ANNOTATOR, note: "Amorphous boron regions would conflict with a single-phase c-BAs film"}
   - {id: delmont2026:R29, subject: delmont2026:LIM2, predicate: QUALIFIES, object: delmont2026:OUT1, asserted_by: AUTHORS}
   - {id: delmont2026:R30, subject: delmont2026:BG1, predicate: MOTIVATES, object: delmont2026:OUT1, asserted_by: AUTHORS}
 

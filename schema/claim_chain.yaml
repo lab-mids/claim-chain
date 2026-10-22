@@ -635,9 +635,13 @@ enums:
     permissible_values:
       SUPPORTS:
         meaning: mp:supports
-      UNDERCUTS:
+      WEAKENS:
         meaning: mp:challenges
-        description: Weakens the object without directly contradicting it.
+        description: >-
+          Counter-evidence: lowers the credibility of the object without
+          contradicting it. Called UNDERCUTS before; an undercutter in the
+          argumentation sense attacks the inference itself and needs
+          addressable inferences, which the schema does not have yet.
       CONTRADICTS:
         meaning: mp:challenges
       QUALIFIES:

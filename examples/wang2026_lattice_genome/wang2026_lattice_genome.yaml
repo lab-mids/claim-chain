@@ -709,7 +709,7 @@ relations:
   - {id: wang2026:R42, subject: wang2026:OBS7, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: wang2026:R43, subject: wang2026:OBS8, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, note: "Read as higher sensitivity", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
   - {id: wang2026:R44, subject: wang2026:OBS10, predicate: SUPPORTS, object: wang2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: wang2026:R45, subject: wang2026:OBS9, predicate: UNDERCUTS, object: wang2026:CLAIM4, asserted_by: ANNOTATOR}
+  - {id: wang2026:R45, subject: wang2026:OBS9, predicate: WEAKENS, object: wang2026:CLAIM4, asserted_by: ANNOTATOR}
   - {id: wang2026:R46, subject: wang2026:LIM4, predicate: ALTERNATIVE_EXPLANATION_FOR, object: wang2026:OBS8, asserted_by: AUTHORS, note: "Authors present overlap as a contributor to finer boundary networks"}
   - {id: wang2026:R47, subject: wang2026:CLAIM4, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
   - {id: wang2026:R48, subject: wang2026:OBS6, predicate: SUPPORTS, object: wang2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
@@ -718,7 +718,7 @@ relations:
   - {id: wang2026:R50, subject: wang2026:OBS11, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: wang2026:R51, subject: wang2026:OBS12, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: wang2026:R52, subject: wang2026:OBS13, predicate: SUPPORTS, object: wang2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
-  - {id: wang2026:R53, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM6, asserted_by: ANNOTATOR, note: "The gene also encodes noise, which weakens the artifact-robustness mechanism"}
+  - {id: wang2026:R53, subject: wang2026:LIM3, predicate: WEAKENS, object: wang2026:CLAIM6, asserted_by: ANNOTATOR, note: "The gene also encodes noise, which weakens the artifact-robustness mechanism"}
   - {id: wang2026:R54, subject: wang2026:OBS16, predicate: SUPPORTS, object: wang2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: wang2026:R55, subject: wang2026:OBS17, predicate: QUALIFIES, object: wang2026:CLAIM7, asserted_by: AUTHORS}
   - {id: wang2026:R56, subject: wang2026:LIM2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: wang2026:OBS14, asserted_by: AUTHORS, note: "Authors use LIM2 to explain the scale difference"}
@@ -727,9 +727,9 @@ relations:
   - {id: wang2026:R59, subject: wang2026:CLAIM6, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
   - {id: wang2026:R60, subject: wang2026:CLAIM7, predicate: ANSWERS, object: wang2026:Q1, asserted_by: AUTHORS}
   # limitations against the concept (not linked in the paper)
-  - {id: wang2026:R61, subject: wang2026:LIM2, predicate: UNDERCUTS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR_BACKGROUND, note: "Symmetry-equivalent states need not be close in latent space"}
-  - {id: wang2026:R62, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR, note: "Distance reflects measurement as well as lattice"}
-  - {id: wang2026:R63, subject: wang2026:LIM3, predicate: UNDERCUTS, object: wang2026:CLAIM1d, asserted_by: ANNOTATOR}
+  - {id: wang2026:R61, subject: wang2026:LIM2, predicate: WEAKENS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR_BACKGROUND, note: "Symmetry-equivalent states need not be close in latent space"}
+  - {id: wang2026:R62, subject: wang2026:LIM3, predicate: WEAKENS, object: wang2026:CLAIM1c, asserted_by: ANNOTATOR, note: "Distance reflects measurement as well as lattice"}
+  - {id: wang2026:R63, subject: wang2026:LIM3, predicate: WEAKENS, object: wang2026:CLAIM1d, asserted_by: ANNOTATOR}
   - {id: wang2026:R64, subject: wang2026:METH1, predicate: SUPPORTS, object: wang2026:LIM3, asserted_by: ANNOTATOR, note: "A whole latent dimension tracked measurement geometry"}
   # outlook
   - {id: wang2026:R65, subject: wang2026:OUT1, predicate: ANSWERS, object: wang2026:LIM2, asserted_by: AUTHORS}

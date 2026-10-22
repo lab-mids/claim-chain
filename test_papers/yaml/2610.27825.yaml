@@ -421,10 +421,10 @@ relations:
   - {id: skolakova2026:R7, subject: skolakova2026:OBS2, predicate: SUPPORTS, object: skolakova2026:CLAIM2, asserted_by: AUTHORS, note: "Lower Cu in area EDS", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
   # SPS microstructure
   - {id: skolakova2026:R8, subject: skolakova2026:OBS4, predicate: SUPPORTS, object: skolakova2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: skolakova2026:R9, subject: skolakova2026:CLAIM5, predicate: UNDERCUTS, object: skolakova2026:CLAIM3, asserted_by: ANNOTATOR, note: "Active solid-state partitioning at the same temperatures"}
+  - {id: skolakova2026:R9, subject: skolakova2026:CLAIM5, predicate: WEAKENS, object: skolakova2026:CLAIM3, asserted_by: ANNOTATOR, note: "Active solid-state partitioning at the same temperatures"}
   - {id: skolakova2026:R10, subject: skolakova2026:ASM1, predicate: SUPPORTS, object: skolakova2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: skolakova2026:R11, subject: skolakova2026:OBS3, predicate: SUPPORTS, object: skolakova2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: skolakova2026:R12, subject: skolakova2026:CLAIM1, predicate: UNDERCUTS, object: skolakova2026:CLAIM4, asserted_by: ANNOTATOR, note: "Powder reported homogeneous"}
+  - {id: skolakova2026:R12, subject: skolakova2026:CLAIM1, predicate: WEAKENS, object: skolakova2026:CLAIM4, asserted_by: ANNOTATOR, note: "Powder reported homogeneous"}
   - {id: skolakova2026:R13, subject: skolakova2026:OBS3, predicate: SUPPORTS, object: skolakova2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: skolakova2026:R14, subject: skolakova2026:OBS5, predicate: SUPPORTS, object: skolakova2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: skolakova2026:R15, subject: skolakova2026:CLAIM5, predicate: DEPENDS_ON, object: skolakova2026:ASM2, asserted_by: AUTHORS}
@@ -432,7 +432,7 @@ relations:
   - {id: skolakova2026:R16, subject: skolakova2026:OBS7, predicate: MOTIVATES, object: skolakova2026:HYP1, asserted_by: AUTHORS, note: "Melting at 1100 C contradicts the equilibrium solidus"}
   - {id: skolakova2026:R17, subject: skolakova2026:OBS1, predicate: SUPPORTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: skolakova2026:R18, subject: skolakova2026:OBS8, predicate: SUPPORTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: skolakova2026:R19, subject: skolakova2026:OBS9, predicate: UNDERCUTS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, note: "Zr and minor phases disagree with the model"}
+  - {id: skolakova2026:R19, subject: skolakova2026:OBS9, predicate: WEAKENS, object: skolakova2026:CLAIM6, asserted_by: AUTHORS, note: "Zr and minor phases disagree with the model"}
   - {id: skolakova2026:R20, subject: skolakova2026:METH3, predicate: DEPENDS_ON, object: skolakova2026:ASM2, asserted_by: ANNOTATOR}
   - {id: skolakova2026:R21, subject: skolakova2026:OBS10, predicate: SUPPORTS, object: skolakova2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: MEDIUM}
   - {id: skolakova2026:R22, subject: skolakova2026:OBS5, predicate: SUPPORTS, object: skolakova2026:CLAIM7, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
@@ -442,7 +442,7 @@ relations:
   # melting mechanism
   - {id: skolakova2026:R26, subject: skolakova2026:CLAIM7, predicate: SUPPORTS, object: skolakova2026:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: skolakova2026:R27, subject: skolakova2026:LIM1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: skolakova2026:OBS6, asserted_by: AUTHORS, note: "Pulsed-current overheating at contacts"}
-  - {id: skolakova2026:R28, subject: skolakova2026:LIM1, predicate: UNDERCUTS, object: skolakova2026:CLAIM8, asserted_by: AUTHORS}
+  - {id: skolakova2026:R28, subject: skolakova2026:LIM1, predicate: WEAKENS, object: skolakova2026:CLAIM8, asserted_by: AUTHORS}
   # thesis
   - {id: skolakova2026:R29, subject: skolakova2026:CLAIM4, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
   - {id: skolakova2026:R30, subject: skolakova2026:CLAIM5, predicate: SUPPORTS, object: skolakova2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}

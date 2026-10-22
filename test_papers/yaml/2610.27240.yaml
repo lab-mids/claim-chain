@@ -430,12 +430,12 @@ relations:
   - {id: benmoumen2026:R13, subject: benmoumen2026:DATA1, predicate: QUALIFIES, object: benmoumen2026:CLAIM2, asserted_by: ANNOTATOR, note: "Energy dependence confounded with stack thickness"}
   - {id: benmoumen2026:R14, subject: benmoumen2026:OBS3, predicate: SUPPORTS, object: benmoumen2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: benmoumen2026:R15, subject: benmoumen2026:OBS5, predicate: SUPPORTS, object: benmoumen2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: benmoumen2026:R16, subject: benmoumen2026:OBS2, predicate: UNDERCUTS, object: benmoumen2026:CLAIM3, asserted_by: ANNOTATOR, note: "Layers and Ti are sputtered at the same doses"}
+  - {id: benmoumen2026:R16, subject: benmoumen2026:OBS2, predicate: WEAKENS, object: benmoumen2026:CLAIM3, asserted_by: ANNOTATOR, note: "Layers and Ti are sputtered at the same doses"}
   - {id: benmoumen2026:R17, subject: benmoumen2026:LIM3, predicate: QUALIFIES, object: benmoumen2026:CLAIM3, asserted_by: ANNOTATOR, note: "O terminations remain, so the surface is not bare"}
   - {id: benmoumen2026:R18, subject: benmoumen2026:CLAIM3, predicate: MOTIVATES, object: benmoumen2026:OUT1, asserted_by: AUTHORS}
   # core
   - {id: benmoumen2026:R19, subject: benmoumen2026:OBS5, predicate: SUPPORTS, object: benmoumen2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: benmoumen2026:R20, subject: benmoumen2026:OBS4, predicate: UNDERCUTS, object: benmoumen2026:CLAIM4, asserted_by: ANNOTATOR, note: "Predicted O sputtering not observed"}
+  - {id: benmoumen2026:R20, subject: benmoumen2026:OBS4, predicate: WEAKENS, object: benmoumen2026:CLAIM4, asserted_by: ANNOTATOR, note: "Predicted O sputtering not observed"}
   # nitrogen
   - {id: benmoumen2026:R21, subject: benmoumen2026:OBS6, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
   - {id: benmoumen2026:R22, subject: benmoumen2026:OBS7, predicate: SUPPORTS, object: benmoumen2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}

@@ -966,7 +966,7 @@
             "description": "",
             "enum": [
                 "SUPPORTS",
-                "UNDERCUTS",
+                "WEAKENS",
                 "CONTRADICTS",
                 "QUALIFIES",
                 "ALTERNATIVE_EXPLANATION_FOR",

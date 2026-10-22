@@ -381,7 +381,7 @@ relations:
   - {id: starkey2026:R12, subject: starkey2026:CLAIM1, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   # sensitivity
   - {id: starkey2026:R13, subject: starkey2026:OBS5, predicate: SUPPORTS, object: starkey2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
-  - {id: starkey2026:R14, subject: starkey2026:ASM1, predicate: UNDERCUTS, object: starkey2026:CLAIM2, asserted_by: ANNOTATOR, note: "Appendix: alternative h-ZrO eigenstrain changes the microstructure"}
+  - {id: starkey2026:R14, subject: starkey2026:ASM1, predicate: WEAKENS, object: starkey2026:CLAIM2, asserted_by: ANNOTATOR, note: "Appendix: alternative h-ZrO eigenstrain changes the microstructure"}
   # microstructure
   - {id: starkey2026:R15, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: starkey2026:R16, subject: starkey2026:OBS8, predicate: SUPPORTS, object: starkey2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
@@ -391,7 +391,7 @@ relations:
   - {id: starkey2026:R20, subject: starkey2026:LIM2, predicate: QUALIFIES, object: starkey2026:CLAIM3, asserted_by: AUTHORS}
   - {id: starkey2026:R21, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
   - {id: starkey2026:R22, subject: starkey2026:OBS4, predicate: SUPPORTS, object: starkey2026:CLAIM4, asserted_by: AUTHORS, note: "High h-ZrO nucleation rate", support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
-  - {id: starkey2026:R23, subject: starkey2026:OBS8, predicate: UNDERCUTS, object: starkey2026:CLAIM4, asserted_by: ANNOTATOR, note: "Two-phase run without h-ZrO is columnar and fits better"}
+  - {id: starkey2026:R23, subject: starkey2026:OBS8, predicate: WEAKENS, object: starkey2026:CLAIM4, asserted_by: ANNOTATOR, note: "Two-phase run without h-ZrO is columnar and fits better"}
   - {id: starkey2026:R24, subject: starkey2026:CLAIM4, predicate: DEPENDS_ON, object: starkey2026:ASM1, asserted_by: ANNOTATOR, uncertainty: HIGH}
   # stress
   - {id: starkey2026:R25, subject: starkey2026:OBS6, predicate: SUPPORTS, object: starkey2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}

@@ -581,7 +581,7 @@ relations:
   uncertainty: MEDIUM
 - id: delmont2026:R13
   subject: delmont2026:OBS7
-  predicate: UNDERCUTS
+  predicate: WEAKENS
   object: delmont2026:CLAIM3
   asserted_by: ANNOTATOR_BACKGROUND
   note: Continuous film between islands suggests Stranski-Krastanov
@@ -696,7 +696,7 @@ relations:
   asserted_by: AUTHORS
 - id: delmont2026:R28
   subject: delmont2026:LIM1
-  predicate: UNDERCUTS
+  predicate: WEAKENS
   object: delmont2026:HYP1
   asserted_by: ANNOTATOR
   note: Amorphous boron regions would conflict with a single-phase c-BAs film

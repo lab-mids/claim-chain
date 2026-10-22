@@ -33,7 +33,7 @@ CLASSDEFS = """  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
   classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2"""
 EDGE = {
     "SUPPORTS": "-->", "MOTIVATES": "-->", "ANSWERS": "-->", "DEPENDS_ON": "-.->",
-    "UNDERCUTS": "-.->", "CONTRADICTS": "-.->", "QUALIFIES": "-.->",
+    "WEAKENS": "-.->", "CONTRADICTS": "-.->", "QUALIFIES": "-.->",
     "ALTERNATIVE_EXPLANATION_FOR": "-.->", "ANALOG_OF": "-.->", "CONDITIONALLY_SUPPORTS": "-.->",
     "DELIVERS": "-->", "RESTATES": "-.->",
 }
@@ -79,12 +79,12 @@ def weighted_logic_score(chain):
 
 LINK_CRITERIA = ["directness", "sufficiency", "controls", "alternatives", "scope_match"]
 SUPPORT_LINKS = {"SUPPORTS", "CONDITIONALLY_SUPPORTS"}
-CAPPING_LINKS = {"UNDERCUTS", "QUALIFIES", "ALTERNATIVE_EXPLANATION_FOR"}
+CAPPING_LINKS = {"WEAKENS", "QUALIFIES", "ALTERNATIVE_EXPLANATION_FOR"}
 RANK = ["NO", "INCONCLUSIVE", "WEAK", "PARTIAL", "YES"]
 STRENGTH_VERDICT = {"STRONG": "YES", "INTERMEDIATE": "PARTIAL", "WEAK": "WEAK", "UNSUPPORTED": "INCONCLUSIVE"}
 DERIVED_METHOD = ("verdicts derived from the links: an incoming CONTRADICTS gives NO; otherwise the strongest "
                   "support link decides (STRONG YES, INTERMEDIATE PARTIAL, WEAK WEAK, none INCONCLUSIVE); "
-                  "UNDERCUTS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS "
+                  "WEAKENS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS "
                   "counts as WEAK at most; an essential link caps the claim at its own strength and at the derived "
                   "verdict of the claim it comes from. Links without a strength count as INTERMEDIATE. Claims "
                   "without links keep the annotator's verdict")
