@@ -1,0 +1,190 @@
+id: claimchain:chain/Gotz2026InSitu
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/cssc.202501908
+  title: "In Situ EC-EPR Spectroscopy and DFT Analysis of H_UPD on Polycrystalline Pt"
+  authors: [Rainer Götz, Kimmo Pyyhtiä, Bingxin Li, Theophilus K. Sarpey, Kun-Ting Song, Mira Todorova, Nadezhda Kukharchyk, Siegfried Schreier, Pekka Peljo, Elena L. Gubanova, Jörg Neugebauer, Aliaksandr S. Bandarenka]
+  year: 2026
+  doi: 10.1002/cssc.202501908
+  url: https://doi.org/10.1002/cssc.202501908
+
+entities:
+  - {id: ent:Ptpc, label: "eroded polycrystalline Pt wire (0.2 mm) in 0.1 M HClO4 in an EPR capillary with Pt quasi-reference", entity_type: MATERIAL}
+  - {id: ent:EPR, label: "in situ CW X-band EC-EPR at 43-46 °C with potentiostatic holds", entity_type: TECHNIQUE}
+  - {id: ent:Sim, label: "EasySpin simulations of 195Pt hyperfine patterns for Pt-H, Pt2-H, Pt3-H", entity_type: METHOD}
+  - {id: ent:AIMD, label: "revPBE-D3 AIMD of Pt(111) with 7/12 ML H and 64 water molecules; laterally resolved free energy surface", entity_type: METHOD}
+  - {id: ent:Sites, label: "H adsorption sites - on-top, bridge, fcc/hcp hollow", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: gotz2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The adsorption site of underpotentially deposited H on Pt is debated - static DFT favours fcc hollow, AIMD studies variously report on-top and hollow or bridge sites, and SFG suggests on-top; high H mobility prevents direct imaging.
+    evidence: [{evidence_kind: CITATION, references: ["12-31"]}]
+  - id: gotz2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Use in situ EC-EPR at near room temperature, combined with AIMD free-energy surfaces at high H coverage, to identify H_UPD adsorption sites on Pt.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: gotz2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 1, Sec. 2.1
+    paper_part: METHODS
+    text: Hydrogen adsorbed on Pt after the Volmer step is a paramagnetic, EPR-active species whose hyperfine coupling to 195Pt (spin 1/2, 33.8% abundance) reveals the number of coordinating Pt atoms.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "H chemisorbed on a metallic surface is generally not expected to carry a localized unpaired spin observable by EPR at 316-319 K; the assumption is supported only by analogy to Pt-H defects in Si and zeolites, and no isotope (D) control or H-free control is shown.", priority: HIGH}
+  - id: gotz2026:METH1
+    statement_type: METHOD
+    section: Sec. 4.1-4.5
+    paper_part: METHODS
+    text: An eroded Pt wire working electrode with Pt counter and quasi-reference electrodes is cycled and held at potentials vs Pt in a sealed capillary; spectra (120 s sweeps) are averaged, baseline-corrected and low-pass filtered; Pt-H, Pt2-H and Pt3-H spectra are simulated with weights and hyperfine tensors adjusted to the observed satellite peaks.
+    about: [ent:EPR, ent:Sim, ent:Ptpc]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Hyperfine tensors for Pt2-H and Pt3-H and the component weights are adjusted to fit the satellites, so the simulations can match by construction.", priority: MEDIUM}
+      - {concern_type: REPRODUCIBILITY, description: "Potentials are given only vs a Pt quasi-reference that may drift during holds, without conversion to RHE, and the cavity temperature (43-46 °C) differs from the stated room-temperature conditions.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: gotz2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Figs. 4, 6
+    paper_part: RESULTS
+    text: The empty cell gives signals at g = 2.0048 (broad) and 2.0012 (narrow); a pair of satellite peaks split by 207.2 MHz appears clearly only at -0.85 V vs Pt and vanishes near the HER onset.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. 4, 6A"}]
+    about: [ent:EPR]
+    scope: {sample_count: 1, scope_note: "one potential with a clear signal; number of cells not stated"}
+  - id: gotz2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 5-6B
+    paper_part: RESULTS
+    text: Simulations give a 1:1 doublet for Pt-H, an extra central line (1:2:1) for Pt2-H and 1:2:2:1 for Pt3-H (outer lines not observable); the Pt2-H central line at g = 2.0023 would deviate from the recorded spectrum, while Pt-H and Pt3-H are indistinguishable.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.1"
+        values:
+          - {symbol: p195, quantity: natural abundance of 195Pt, value: 0.338}
+        derived_checks:
+          - {expression: "probability that both Pt of a bridge site are 195Pt (stated 11.4%)", formula: "p195**2", result: 0.114}
+          - {expression: "probability that all three Pt of a hollow site are 195Pt (stated 3.9%)", formula: "p195**3", result: 0.0386}
+          - {expression: "fraction of on-top Pt-H sites on a spin-zero Pt isotope, contributing an unsplit central line", formula: "1 - p195", result: 0.662}
+    about: [ent:Sim, ent:Sites]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Bridge sites are excluded because of a central line at g = 2.0023, but 66% of on-top Pt-H sites (spin-zero Pt) and most hollow sites would also give an unsplit central line, and this region coincides with the cell background signals; the central-line argument therefore does not discriminate between sites.", priority: HIGH}
+  - id: gotz2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.1, Sec. 3
+    paper_part: RESULTS
+    text: EPR shows adsorbed atomic hydrogen on Pt in the H_UPD region, located on average at on-top or three-fold hollow sites, while bridge sites are unlikely to be occupied.
+    about: [ent:Sites, ent:EPR]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "A potential-dependent satellite pair is observed, but its assignment to adsorbed H rests on an untested paramagnetism assumption without D or H-free controls, and the exclusion of bridge sites relies on a central-line argument that isotope statistics and background overlap undermine."
+      proof_obligations:
+        - text: "Show the signal stems from adsorbed hydrogen"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "EPR spectra in D2O/DClO4 (hyperfine change) and with a non-adsorbing electrode", method: "isotope substitution and control electrodes"}]
+        - text: "Show bridge sites are absent"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "fit of full spectrum including isotope-weighted central lines and background", method: "global EasySpin fit with fixed natural abundance"}]
+  - id: gotz2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Figs. 7-8
+    paper_part: RESULTS
+    text: AIMD of Pt(111) with 7/12 ML H (initially all fcc) in water over 30-40 ps shows H trajectories concentrated at fcc and on-top sites, height peaks at 0.9 and 1.6 Å, VDOS features near 1100 and 2200 cm-1, and a free energy surface with fcc < on-top < hcp minima and no bridge minimum; site occupancies converge to 0.72 (fcc), 0.26 (on-top) and 0 (bridge).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 7-8"
+        values:
+          - {symbol: p_fcc, quantity: fcc occupancy, value: 0.72}
+          - {symbol: p_top, quantity: on-top occupancy, value: 0.26}
+          - {symbol: p_bridge, quantity: bridge occupancy, value: 0.0}
+        derived_checks:
+          - {expression: "occupancy not assigned to fcc, on-top or bridge (hcp and boundaries)", formula: "1 - p_fcc - p_top - p_bridge", result: 0.02}
+    about: [ent:AIMD, ent:Sites]
+    scope: {sample_count: 1, scope_note: "one coverage, one trajectory, Pt(111) only"}
+  - id: gotz2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.2
+    paper_part: DISCUSSION
+    text: At high coverage fcc hollow is favoured over on-top adsorption and bridge sites are not metastable, which is consistent with the EPR observation and shows the need for entropy and solvent effects in DFT models.
+    about: [ent:AIMD, ent:Sites]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The EPR analysis cannot distinguish on-top from three-fold sites, so it cannot be consistent with a preference for fcc over on-top; the AIMD and EPR conclusions agree only in excluding bridge sites.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The AIMD free energy surface supports fcc > on-top and no bridge minimum on Pt(111) at 7/12 ML, but from one trajectory initialized at fcc; the claimed consistency with EPR is limited to the (weakly supported) bridge exclusion."
+  - id: gotz2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 1, Sec. 4.3
+    paper_part: DISCUSSION
+    text: Thick single crystals cannot be used in the EPR capillary, so polycrystalline wire is compared with Pt(111) simulations; the applied potential may shift during holds without a proper reference electrode.
+  - id: gotz2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: For the first time, EPR probed hydrogen electrosorption on polycrystalline Pt in acid; adsorbed atomic hydrogen is detected, most frequently at on-top and hollow sites, with bridge sites much less likely, consistent with AIMD.
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM1."
+
+relations:
+  - {id: gotz2026:R1, subject: gotz2026:BG1, predicate: MOTIVATES, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R2, subject: gotz2026:METH1, predicate: DELIVERS, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R3, subject: gotz2026:OBS1, predicate: DELIVERS, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R4, subject: gotz2026:CLAIM1, predicate: DELIVERS, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R5, subject: gotz2026:CLAIM2, predicate: DELIVERS, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R6, subject: gotz2026:CONC1, predicate: DELIVERS, object: gotz2026:AIM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R7, subject: gotz2026:METH1, predicate: DEPENDS_ON, object: gotz2026:ASM1, asserted_by: AUTHORS}
+  - {id: gotz2026:R8, subject: gotz2026:OBS1, predicate: SUPPORTS, object: gotz2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Satellite pair at one potential; no D or blank controls; species assignment assumed"}}
+  - {id: gotz2026:R9, subject: gotz2026:OBS2, predicate: SUPPORTS, object: gotz2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: gotz2026:R10, subject: gotz2026:OBS2, predicate: UNDERCUTS, object: gotz2026:CLAIM1, asserted_by: ANNOTATOR, note: "isotope statistics give central lines for on-top and hollow sites too"}
+  - {id: gotz2026:R11, subject: gotz2026:ASM1, predicate: QUALIFIES, object: gotz2026:CLAIM1, asserted_by: ANNOTATOR_BACKGROUND, note: "chemisorbed H on metals not expected to be paramagnetic"}
+  - {id: gotz2026:R12, subject: gotz2026:OBS3, predicate: SUPPORTS, object: gotz2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "One coverage and trajectory, initialized at fcc"}}
+  - {id: gotz2026:R13, subject: gotz2026:OBS3, predicate: SUPPORTS, object: gotz2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "Pt(111) simulation used to support polycrystalline EPR"}
+  - {id: gotz2026:R14, subject: gotz2026:LIM1, predicate: QUALIFIES, object: gotz2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: gotz2026:R15, subject: gotz2026:CONC1, predicate: RESTATES, object: gotz2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: gotz2026:R16, subject: gotz2026:OBS1, predicate: SUPPORTS, object: gotz2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper reports a pair of EPR satellite lines (207 MHz splitting)
+    at one potential in the H_UPD region of a polycrystalline Pt wire and
+    interprets them, with EasySpin simulations and an AIMD free energy
+    surface of Pt(111) at 7/12 ML H, as adsorbed H on on-top or hollow
+    sites with bridge sites excluded. The AIMD analysis is careful and
+    supports fcc > on-top with no bridge minimum on Pt(111). The EPR side
+    is weak: paramagnetism of chemisorbed H on a metal is assumed without
+    D or H-free controls, the bridge exclusion relies on a central line
+    that natural isotope statistics would also produce for most on-top
+    and hollow sites and that overlaps the cell background, EPR cannot
+    separate on-top from hollow sites although agreement with an fcc
+    preference is claimed, and potentials are referenced to a drifting Pt
+    quasi-reference.
+  key_limitations:
+    - "Assignment of the signal to adsorbed H untested (ASM1, CLAIM1)."
+    - "Central-line argument inconsistent with 195Pt statistics (OBS2)."
+    - "EPR cannot support fcc over on-top preference (CLAIM2)."
+    - "Quasi-reference potentials and elevated cavity temperature (METH1)."
+  missing_evidence:
+    - "D/H isotope substitution and electrode-free controls."
+    - "Global fit including isotope-weighted central lines and background."
+    - "Potentials on the RHE scale and repeat cells."

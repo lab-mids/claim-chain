@@ -1,0 +1,151 @@
+id: claimchain:chain/Xu2026Data
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/accountsmr.5c00319
+  title: "Data-Driven Electrocatalyst Discovery: Recent Trends in Machine Learning Approaches and Descriptor-Based Design Principles"
+  authors: [Liangliang Xu, Jian Zhou, Aliaksandr S. Bandarenka, Zhongfang Chen]
+  year: 2026
+  doi: 10.1021/accountsmr.5c00319
+  url: https://doi.org/10.1021/accountsmr.5c00319
+
+entities:
+  - {id: ent:Desc, label: "physicochemical descriptors (d-band center, eg filling, GCN, charge transfer, PME)", entity_type: CONCEPT}
+  - {id: ent:IML, label: "interpretable ML and data mining - LASSO, SISSO, subgroup discovery (SGD), gradient boosting", entity_type: METHOD}
+  - {id: ent:DB, label: "database-first screening (2DMatPedia, Materials Project, etc.)", entity_type: METHOD}
+  - {id: ent:Cases, label: "authors' case studies - Ni-M-MOFs, 2D basal planes, Co SACs, MSA-MOx, TM-HA/g-SACs, inverse-sandwich DACs, TM@MB2", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: xu2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Trial-and-error screening of electrocatalysts is inefficient given compositional and structural diversity; DFT/CHE models predict trends qualitatively, and machine learning accelerates screening, but black-box models limit physical insight.
+    evidence: [{evidence_kind: CITATION, references: ["1-14"]}]
+  - id: xu2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Present a descriptor-centred, interpretable data-driven framework for electrocatalyst discovery - physicochemical descriptors, global rules (LASSO/SISSO) and local high-activity pockets (SGD), database screening - illustrated by the authors' case studies across HER, OER, ORR, CO2RR and NRR.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Body ----------------
+  - id: xu2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Fig. 1, Table 1
+    paper_part: RESULTS
+    text: In the authors' studies, computed OER overpotentials of Ni-M-MOFs show volcano dependences on the dopant d-band center and eg filling (which are linearly related), Pt ORR activity shows a volcano in generalized coordination number with an optimum near 8.3, minimum Pt(hkl) capacitance shows an inverse volcano in a facet-aggregate descriptor, and NiFe-OOH OER activity scales with the PME across four cations; the d-band center fails for single-atom catalysts such as Au/C3N.
+    evidence: [{evidence_kind: CITATION, references: ["15", "23", "37-41"]}]
+    about: [ent:Desc]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Volcano and linear relations are shown for five dopants or four cations without fit statistics in the Account.", priority: LOW}
+  - id: xu2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Fig. 3
+    paper_part: RESULTS
+    text: Screening over 6,300 2DMatPedia materials by synthesizability, conductivity and O-adsorption free energy (0 < ΔG_O* < 3.52 eV for 4e- pathway) split 338 conductive monolayers into 199 four-electron candidates and shortlisted 24 ORR and 2 OER catalysts whose computed basal-plane activities approach or exceed Pt(111) and IrO2(110); linear scaling often breaks on 2D surfaces.
+    evidence: [{evidence_kind: CITATION, references: ["48"]}]
+    about: [ent:DB]
+  - id: xu2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 4.2-4.4, Figs. 5-7
+    paper_part: RESULTS
+    text: Progressive XGBoost learning on 261 single-atom-doped oxides predicted nine candidates below 0.5 V (MnSA-RuO2 synthesized - 836 mA/cm2 at 1.637 V, 324 mV at 200 mA/cm2); SISSO plus SGD screened 10,179 graphene SACs and led to Co-S2N2/g-SAC with E1/2 about 0.92 V; a gradient-boosting model trained on 38 DAC limiting potentials (4:1 split, R2 0.99 train/0.90 test) predicted 154 stable, highly active candidates among 784.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 4.4, Fig. 7b"
+        values:
+          - {symbol: n_train_total, quantity: DAC DFT data points, value: 38}
+          - {symbol: test_frac, quantity: test fraction, value: 0.2}
+          - {symbol: n_screen, quantity: screened DACs, value: 784}
+        derived_checks:
+          - {expression: "number of test points behind the test R2 of 0.90", formula: "n_train_total*test_frac", result: 7.6}
+          - {expression: "extrapolation factor from training data to screened space", formula: "n_screen/n_train_total", result: 20.6}
+    about: [ent:IML, ent:Cases]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The DAC model is validated on about 8 test points and then applied to a space 20 times larger; no cross-validation spread or DFT re-check of predicted hits is reported in the Account.", priority: MEDIUM}
+  - id: xu2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.2, Sec. 4, Sec. 5
+    paper_part: DISCUSSION
+    text: End-to-end interpretable data-driven workflows enable rapid, reliable screening of large catalyst libraries (SACs, DACs, MOFs, 2D materials), overcome the limitations of volcano plots and linear scaling, and establish a new paradigm for catalyst discovery.
+    about: [ent:IML, ent:DB]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Reliability is illustrated by one or two synthesized hits per case without hit rates, negative controls (predicted-poor candidates tested) or comparison with conventional screening.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The case studies show workflows that narrow large spaces and produce some experimentally active catalysts; 'reliable' and 'new paradigm' exceed evidence limited to selected successes without hit-rate or baseline comparison."
+  - id: xu2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.2
+    paper_part: DISCUSSION
+    text: Subgroup discovery performs well with modest data sets, yields transparent rules and transfers more reliably to new chemical spaces than conventional black-box models.
+    about: [ent:IML]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No transfer test or comparison with black-box models is presented; Table 2 itself notes that SGD may pick spurious rules from a few outliers."
+  - id: xu2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.1
+    paper_part: DISCUSSION
+    text: Single descriptors such as the d-band center are useful first-order guides but fail for SACs and covalent systems, so multi-descriptor or orbital-resolved descriptors and interpretable ML are needed.
+    about: [ent:Desc]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Supported by the cited Au/C3N counterexample and broadly established literature; stated with appropriate scope."
+  - id: xu2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 5
+    paper_part: CONCLUSION
+    text: Most workflows rely on vacuum or CHE energetics; potential-dependent energetics, double-layer, cation, pH and solvation effects and inconsistent settings across published data sets currently limit fidelity and data reuse.
+  - id: xu2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 5
+    paper_part: CONCLUSION
+    text: Use tiered multifidelity strategies with constant-potential DFT on uncertainty-selected subsets, active learning and operando measurements to learn electrolyte-sensitive descriptors.
+
+relations:
+  - {id: xu2026:R1, subject: xu2026:BG1, predicate: MOTIVATES, object: xu2026:AIM1, asserted_by: AUTHORS}
+  - {id: xu2026:R2, subject: xu2026:OBS1, predicate: DELIVERS, object: xu2026:AIM1, asserted_by: AUTHORS}
+  - {id: xu2026:R3, subject: xu2026:OBS3, predicate: DELIVERS, object: xu2026:AIM1, asserted_by: AUTHORS}
+  - {id: xu2026:R4, subject: xu2026:CLAIM1, predicate: DELIVERS, object: xu2026:AIM1, asserted_by: AUTHORS}
+  - {id: xu2026:R5, subject: xu2026:OBS2, predicate: SUPPORTS, object: xu2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Computational screening funnel; experimental validation for few hits"}}
+  - {id: xu2026:R6, subject: xu2026:OBS3, predicate: SUPPORTS, object: xu2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Selected successes; no hit rates or baselines; small test sets"}}
+  - {id: xu2026:R7, subject: xu2026:OBS1, predicate: SUPPORTS, object: xu2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: xu2026:R8, subject: xu2026:OBS3, predicate: SUPPORTS, object: xu2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: xu2026:R9, subject: xu2026:LIM1, predicate: QUALIFIES, object: xu2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: xu2026:R10, subject: xu2026:LIM1, predicate: MOTIVATES, object: xu2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    An Account summarizing the authors' descriptor-based and
+    interpretable-ML work on electrocatalysts: physical descriptors,
+    LASSO/SISSO global models, subgroup discovery for local
+    high-activity pockets, database screening, and case studies across
+    five reactions with selected experimental validations. The
+    limitations of single descriptors and of CHE-based workflows are
+    stated fairly. The evaluative claims - 'rapid, reliable' screening,
+    a 'new paradigm', SGD transferring more reliably than black-box
+    models - rest on chosen successes without hit rates, negative
+    controls or baseline comparisons, and the DAC model is tested on
+    about eight points before screening a twenty-fold larger space.
+  key_limitations:
+    - "Reliability inferred from selected successes (CLAIM1)."
+    - "SGD superiority asserted without comparison (CLAIM2)."
+    - "Small test sets for ML models used to extrapolate (OBS3)."
+  missing_evidence:
+    - "Experimental hit rates including predicted-poor controls."
+    - "Benchmark of interpretable vs black-box models on held-out chemistries."

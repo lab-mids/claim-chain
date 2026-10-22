@@ -1,0 +1,175 @@
+id: claimchain:chain/Dudarev2026Evolve
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1186/s13321-026-01180-y
+  title: "Evolve with your research: stepwise system evolution from document-driven to fact-centric research data management in materials science"
+  authors: [Victor Dudarev, Alfred Ludwig]
+  year: 2026
+  doi: 10.1186/s13321-026-01180-y
+  url: https://doi.org/10.1186/s13321-026-01180-y
+
+entities:
+  - {id: ent:MatInf, label: "MatInf research data management system (CRC/TRR 247 tenant)", entity_type: METHOD}
+  - {id: ent:STAR, label: "STAR paradigm - Statefulness, Traceability, Aim, Result - for graph-based research records", entity_type: CONCEPT}
+  - {id: ent:SET, label: "SET methodology - Standardise, Extract, Test - for moving document types to factographic data", entity_type: METHOD}
+  - {id: ent:Levels, label: "document-oriented, graph-based and factographic RDMS stages", entity_type: CONCEPT}
+  - {id: ent:CompSearch, label: "range-based quantitative composition search", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: dudarev2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Funders require research data management in large collaborative projects; NOMAD, Kadi4Mat, Chemotion and the Materials Data Facility improve FAIR access, and materials knowledge graphs focus on semantic integration.
+    evidence: [{evidence_kind: CITATION, references: ["2-11"]}]
+  - id: dudarev2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Existing RDMS do not natively support search by quantitative composition, and methodological guidance on evolving an RDMS from document-oriented to factographic form is limited.
+    evidence: [{evidence_kind: ARGUMENT}]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The statement that none of NOMAD, Kadi4Mat, Chemotion or MDF supports quantitative composition search is not documented with a feature comparison or queries.", priority: MEDIUM}
+  - id: dudarev2026:AIM1
+    statement_type: AIM
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Introduce a methodological framework (STAR paradigm plus SET methodology) for the stepwise evolution of an RDMS from document-oriented through graph-based to factographic, illustrated with MatInf.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods / framework ----------------
+  - id: dudarev2026:DEF1
+    statement_type: DEFINITION
+    section: STAR paradigm, Fig. 1
+    paper_part: METHODS
+    text: STAR requires recording every sample state change, tracking sample location and progress against the plan, a documented aim (Idea/Experiment Plan object as graph root) and a result report including negative results; admissible edge types are a relation R on edge and vertex types enforced by database triggers.
+    about: [ent:STAR]
+  - id: dudarev2026:OBS1
+    statement_type: OBSERVATION
+    section: STAR paradigm
+    paper_part: METHODS
+    text: The text states that in a STAR graph the number of edges must not be smaller than the number of objects, and then that a necessary condition for connectedness is that edges plus one are at least the number of objects.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Sec. STAR paradigm"}]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "A connected graph needs only V - 1 edges (a tree), so 'edges not smaller than objects' is stricter than and inconsistent with the correct necessary condition stated next.", priority: LOW}
+  - id: dudarev2026:DEF2
+    statement_type: DEFINITION
+    section: Factographic systems, Fig. 3
+    paper_part: METHODS
+    text: SET standardises a document format (value ranges, target fields), validates documents against it (Code/Message response) before upload and extracts typed key-value and tabular data into Property tables, with validation, extraction and visualisation delegated to external web services.
+    about: [ent:SET]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The acronym is expanded as Standardise-Extract-Test, while the described procedure validates (tests) before extracting.", priority: LOW}
+  - id: dudarev2026:METH1
+    statement_type: METHOD
+    section: Methods
+    paper_part: METHODS
+    text: MatInf implements the stages with TypeInfo/ObjectInfo/RubricInfo tables, typed links (ObjectLinkObject), a Handover register with notifications, plan objects that generate progress tables, and Property tables with value precision.
+    about: [ent:MatInf]
+
+  # ---------------- Results ----------------
+  - id: dudarev2026:OBS2
+    statement_type: OBSERVATION
+    section: MatInf FAIRness evaluation
+    paper_part: RESULTS
+    text: A criterion-by-criterion self-evaluation maps MatInf features to FAIR principles (tenant URL plus integer ObjectId as PID, Dublin Core JSON-LD, REST API, CC BY 4.0 default), and the FAIR Data Self-Assessment Tool gives 82% for the CRC/TRR 247 tenant.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Sec. FAIRness evaluation, SI"}]
+    about: [ent:MatInf]
+    concerns:
+      - {concern_type: OVERCLAIM, description: "A tenant URL with an integer ID is not a persistent identifier in the FAIR sense (its persistence depends on the deployment URL), and the 82% score is a self-assessment.", priority: MEDIUM}
+  - id: dudarev2026:OBS3
+    statement_type: OBSERVATION
+    section: Quantitative composition search, Fig. 10
+    paper_part: RESULTS
+    text: A GUI query for Volume Composition objects with Ag 10-15%, Au 5-10%, Pd 10-20%, Pt 15-25% and Rh 40-50% returns nine matching objects.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 10"}]
+    about: [ent:CompSearch]
+  - id: dudarev2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: Combining STAR and SET provides a pathway to FAIR-compliant data infrastructures that facilitates reproducibility, reuse and integration of heterogeneous materials data and supports accelerated discovery.
+    about: [ent:STAR, ent:SET]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The framework is described and partly implemented, but no evidence (adoption metrics, reuse cases, reproduced analyses, user study) shows effects on reproducibility, reuse or discovery speed."
+      proof_obligations:
+        - text: "Show measurable benefits of the staged approach"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "fraction of object types moved to factographic form, number of reused datasets or analyses", method: "usage statistics of the CRC/TRR 247 tenant"}]
+  - id: dudarev2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Conclusions, Fig. 2
+    paper_part: CONCLUSION
+    text: Document-oriented systems without explicit links fail key FAIR requirements; a graph-based STAR system is the minimally acceptable approach, and only factographic systems can serve as a source of integrated datasets.
+    about: [ent:Levels]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The argument that unlinked documents lack machine-readable context is sound; 'only factographic systems' and 'minimally acceptable' are normative positions not compared against alternatives such as RO-Crate packages or knowledge graphs."
+  - id: dudarev2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Quantitative composition search
+    paper_part: DISCUSSION
+    text: In contrast to existing RDMS, MatInf natively supports range-based quantitative composition queries, enabled by factographic representation of compositions.
+    about: [ent:CompSearch, ent:MatInf]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The MatInf capability is demonstrated; uniqueness relative to other systems is asserted without comparison."
+  - id: dudarev2026:OUT1
+    statement_type: OUTLOOK
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Integrated datasets combining synthesis parameters and measurements for arbitrary sample groups would enable discovery of new functional dependencies.
+
+relations:
+  - {id: dudarev2026:R1, subject: dudarev2026:BG1, predicate: MOTIVATES, object: dudarev2026:GAP1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R2, subject: dudarev2026:GAP1, predicate: MOTIVATES, object: dudarev2026:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R3, subject: dudarev2026:DEF1, predicate: DELIVERS, object: dudarev2026:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R4, subject: dudarev2026:DEF2, predicate: DELIVERS, object: dudarev2026:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R5, subject: dudarev2026:OBS3, predicate: DELIVERS, object: dudarev2026:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R6, subject: dudarev2026:CLAIM1, predicate: DELIVERS, object: dudarev2026:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R7, subject: dudarev2026:METH1, predicate: SUPPORTS, object: dudarev2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Implementation description, no outcome evidence"}}
+  - {id: dudarev2026:R8, subject: dudarev2026:OBS2, predicate: SUPPORTS, object: dudarev2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: dudarev2026:R9, subject: dudarev2026:DEF1, predicate: SUPPORTS, object: dudarev2026:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: MET, criteria_note: "Conceptual argument without comparison with alternative architectures"}}
+  - {id: dudarev2026:R10, subject: dudarev2026:OBS3, predicate: SUPPORTS, object: dudarev2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: MET, criteria_note: "Capability shown; uniqueness not compared"}}
+  - {id: dudarev2026:R11, subject: dudarev2026:GAP1, predicate: SUPPORTS, object: dudarev2026:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: dudarev2026:R12, subject: dudarev2026:CLAIM2, predicate: MOTIVATES, object: dudarev2026:OUT1, asserted_by: AUTHORS}
+  - {id: dudarev2026:R13, subject: dudarev2026:CLAIM1, predicate: ANSWERS, object: dudarev2026:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    A methodology paper proposing the STAR paradigm and SET methodology
+    for evolving a research data management system from document-oriented
+    to graph-based and factographic form, with MatInf tables, handover
+    tracking, plan-progress reports, a FAIR self-evaluation (82%) and a
+    composition-range query as illustrations. The design rationale is
+    clear and the composition search is demonstrated. The claimed effects
+    on reproducibility, reuse and discovery speed are not evaluated, the
+    statement that other RDMS lack composition search is undocumented, a
+    tenant URL plus integer ID is presented as a persistent identifier,
+    and small internal inconsistencies remain (edge-count condition, SET
+    ordering).
+  key_limitations:
+    - "No outcome evaluation of the framework (CLAIM1)."
+    - "Uniqueness claims without feature comparison (GAP1, CLAIM3)."
+    - "FAIR self-assessment and weak PID notion (OBS2)."
+    - "Minor logical inconsistencies (OBS1, DEF2)."
+  missing_evidence:
+    - "Usage and reuse statistics from production tenants."
+    - "Documented comparison of composition search with NOMAD and others."
+    - "External FAIR assessment with resolvable PIDs."

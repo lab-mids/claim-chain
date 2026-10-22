@@ -85,6 +85,25 @@ prefixes:
   zhang2025b: https://w3id.org/claim-chain/doi10.1007-978-3-032-06118-8_6/
   yu2025: https://w3id.org/claim-chain/doi10.1002-admi.202500680/
   saksena2025: https://w3id.org/claim-chain/doi10.48550-arXiv.2510.09522/
+  petersen2025: https://w3id.org/claim-chain/doi10.1002-adts.202500958/
+  shi2025: https://w3id.org/claim-chain/doi10.1002-ceur.202500333/
+  yu2025b: https://w3id.org/claim-chain/doi10.1021-acscatal.5c05622/
+  stricker2026: https://w3id.org/claim-chain/doi10.1038-s41524-025-01919-5/
+  pukhareva2026: https://w3id.org/claim-chain/doi10.1021-acselectrochem.5c00406/
+  schneider2026: https://w3id.org/claim-chain/doi10.1021-acsami.5c22270/
+  deville2026: https://w3id.org/claim-chain/doi10.1002-smtd.202502169/
+  adofo2026: https://w3id.org/claim-chain/doi10.1002-smll.202510517/
+  todorova2026: https://w3id.org/claim-chain/doi10.1038-s41570-025-00792-6/
+  mattoso2026: https://w3id.org/claim-chain/doi10.1021-acs.jctc.5c02150/
+  xu2026: https://w3id.org/claim-chain/doi10.1021-accountsmr.5c00319/
+  yang2026: https://w3id.org/claim-chain/doi10.1103-5hh2-wypm/
+  dudarev2026: https://w3id.org/claim-chain/doi10.1186-s13321-026-01180-y/
+  gotz2026: https://w3id.org/claim-chain/doi10.1002-cssc.202501908/
+  osterloh2026: https://w3id.org/claim-chain/doi10.1039-d5nh00836k/
+  thelen2026: https://w3id.org/claim-chain/doi10.48550-arXiv.2606.00779/
+  gao2026: https://w3id.org/claim-chain/doi10.1038-s41929-026-01544-5/
+  kim2026: https://w3id.org/claim-chain/doi10.1021-acsnano.6c01692/
+  mohamed2026: https://w3id.org/claim-chain/doi10.1002-adem.202502877/
 default_prefix: claimchain
 default_range: string
 imports:

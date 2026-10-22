@@ -102,7 +102,7 @@ statements:
     claim_role: INTERMEDIATE
     section: Sec. 2.2
     paper_part: DISCUSSION
-    text: *OH adsorption, not sulfate, explains the abrupt PME shift in K2SO4, so K2SO4 and Na2SO4 cannot be treated as equivalent supporting electrolytes.
+    text: "*OH adsorption, not sulfate, explains the abrupt PME shift in K2SO4, so K2SO4 and Na2SO4 cannot be treated as equivalent supporting electrolytes."
     about: [ent:GCHE]
     claim_modality: CAUSAL
     author_certainty: PROPOSED

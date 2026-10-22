@@ -1,0 +1,195 @@
+id: claimchain:chain/Stricker2025Computationally
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of the accepted manuscript; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41524-025-01919-5
+  title: "Computationally accelerated experimental materials characterization - drawing inspiration from high-throughput simulation workflows"
+  authors: [Markus Stricker, Lars Banko, Nik Sarazin, Niklas Siemer, Jan Janssen, Lei Zhang, Jörg Neugebauer, Alfred Ludwig]
+  year: 2026
+  doi: 10.1038/s41524-025-01919-5
+  url: https://doi.org/10.1038/s41524-025-01919-5
+
+entities:
+  - {id: ent:pyiron, label: "pyiron ResistanceGP job with an interface to an (offline dummy) measurement device", entity_type: METHOD}
+  - {id: ent:CSML, label: "Ir-Pd-Pt-Rh-Ru composition-spread library with four-point-probe resistance at 342 areas", entity_type: MATERIAL}
+  - {id: ent:GPR, label: "GPy Gaussian process regression with uncertainty sampling", entity_type: METHOD}
+  - {id: ent:DFTprior, label: "Kubo-Greenwood resistivity of 10 SQS (108 atoms) per composition as prior", entity_type: METHOD}
+  - {id: ent:WEprior, label: "word2vec similarity of compositions to the word 'resistance' as prior", entity_type: METHOD}
+  - {id: ent:MAE, label: "mean absolute error of GPR vs full measurement", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: stricker2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Simulation IDEs such as pyiron and AiiDA provide automation, provenance and data reuse for high-throughput calculations, and experimental high-throughput characterization of composition-spread libraries faces similar data-management challenges; existing experimental orchestration tools lack a direct interface to the computational domain.
+    evidence: [{evidence_kind: CITATION, references: ["1-18"]}]
+  - id: stricker2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Demonstrate that a simulation IDE (pyiron) can run an experimental data acquisition workflow with active learning, automatic data management and analysis.
+    author_certainty: DEMONSTRATED
+  - id: stricker2026:AIM2
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Show that existing DFT and word-embedding data used as priors accelerate the active learning characterization loop, reducing measurements by about an order of magnitude.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: stricker2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1, Sec. 4
+    paper_part: METHODS
+    text: A pyiron job queries an offline dummy device that returns stored resistance values of the CSML; GPR is initialized with five points and the next point is the composition of highest predictive uncertainty, up to a maximum number of iterations.
+    about: [ent:pyiron, ent:GPR]
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The abstract speaks of an interface to an experimental measurement device, but all runs replay an existing full dataset through a dummy device; no live measurement is performed.", priority: MEDIUM}
+  - id: stricker2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3
+    paper_part: METHODS
+    text: For each prior, 40 active learning runs with random 5-point initializations are performed on the prior surface itself, and the initialization converging fastest is reused on the experimental data.
+    about: [ent:DFTprior, ent:WEprior, ent:GPR]
+  - id: stricker2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 1, Sec. 3
+    paper_part: METHODS
+    text: Composition-property relations of solid-solution libraries vary smoothly, and resistance changes track resistivity linearly because film thickness and contact geometry are constant across the wafer.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Constant thickness across the co-sputtered wafer is asserted, not measured; thickness gradients in co-sputtered libraries are common.", priority: LOW}
+
+  # ---------------- Results ----------------
+  - id: stricker2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.2-2.3, Figs. 2-3
+    paper_part: RESULTS
+    text: The measured resistance (about 0.96-1.49 Ohm) varies smoothly with a diagonal max-min orientation, whereas both priors (DFT resistivity of order 1e-7 and word-embedding similarity 0.216-0.228, arbitrary units) have their maxima near 9 o'clock and minima near 3 o'clock.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. 2f, 3"}]
+    about: [ent:CSML, ent:DFTprior, ent:WEprior]
+  - id: stricker2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 4
+    paper_part: RESULTS
+    text: Compared with the mean of 40 random initializations, a cross-shaped and an element-maximum initialization converge fast, an initialization along the DFT gradient does not converge, and the best DFT- and word-embedding-derived initializations converge very fast, the latter reaching the ±0.005 Ohm measurement uncertainty after slightly over 50 iterations.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, Sec. 3"
+        values:
+          - {symbol: n_all, quantity: measurement areas, value: 342}
+          - {symbol: n_al, quantity: measurements needed with word-embedding prior, value: 50}
+          - {symbol: t_meas, quantity: time per measurement, value: 10, unit: s}
+        derived_checks:
+          - {expression: "measurement reduction factor (stated 7-fold)", formula: "n_all/n_al", result: 6.84}
+          - {expression: "full-library measurement time (stated about 1 h)", formula: "n_all*t_meas/60", result: 57, unit: min}
+          - {expression: "time for 50 measurements (stated about 8.5 min)", formula: "n_al*t_meas/60", result: 8.3, unit: min}
+    about: [ent:MAE, ent:GPR]
+    scope: {sample_count: 1, scope_note: "one library; one run per prior-derived initialization"}
+  - id: stricker2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3
+    paper_part: DISCUSSION
+    text: Active learning in pyiron reduces the number of measurements by about one order of magnitude (50 instead of 342, 7-fold) while predicting the unmeasured points within the measurement uncertainty.
+    about: [ent:GPR, ent:MAE]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The 7-fold figure recomputes and holds for the word-embedding-initialized run on this one smooth library; it is compared with full-grid measurement, the stopping point is chosen with knowledge of the ground truth, and it is not shown for other libraries or properties."
+  - id: stricker2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.4, Sec. 3
+    paper_part: DISCUSSION
+    text: Prior knowledge from DFT simulations and word-embedding text mining accelerates the active learning loop compared with random initialization, addressing the cold-start problem.
+    about: [ent:DFTprior, ent:WEprior]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "A best-of-40 initialization selected on each prior is compared with the mean of 40 random initializations; the random spread is not used as a baseline and each prior-derived curve is a single run.", priority: HIGH}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The DFT-gradient initialization does not converge at all, and a prior-free element-maximum initialization also converges fast, so the benefit attributed to priors is not isolated.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "Two prior-derived initializations converge faster than the random mean, but priors that point the wrong way (maxima at 9 vs diagonal) and a failing DFT-based choice show the effect depends on selection rather than prior quality; no statistics are given."
+      proof_obligations:
+        - text: "Compare prior-derived initialization with the distribution of random and simple heuristic initializations"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "iterations to reach measurement uncertainty, percentile vs random runs", method: "repeat on several libraries"}]
+  - id: stricker2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3
+    paper_part: CONCLUSION
+    text: Embedding experimental workflows in pyiron automatically provides automation, reproducibility, provenance and reusability, so experimental and simulated data can be fused in one framework.
+    about: [ent:pyiron]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The demonstrator shows a working pyiron job storing inputs, measured and interpolated data with code published; operation with a real instrument and multi-device workflows remain to be shown."
+  - id: stricker2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The DFT prior (10 SQS of 108 atoms for each of 342 compositions) is too expensive to justify for characterizing one sample; most instruments lack APIs; experimentalists must accept that most stored values are interpolations.
+  - id: stricker2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: Several figure cross-references in the Discussion appear as 'Fig. ??'.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Sec. 3"}]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Broken figure references in the accepted manuscript make the overlap example hard to follow.", priority: LOW}
+  - id: stricker2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Hybrid databases and federations of agents could use overlapping measurements (e.g. binary edges) as priors for new composition spaces and trigger simulations or text-mining predictions automatically.
+
+relations:
+  - {id: stricker2026:R1, subject: stricker2026:BG1, predicate: MOTIVATES, object: stricker2026:AIM1, asserted_by: AUTHORS}
+  - {id: stricker2026:R2, subject: stricker2026:BG1, predicate: MOTIVATES, object: stricker2026:AIM2, asserted_by: AUTHORS}
+  - {id: stricker2026:R3, subject: stricker2026:METH1, predicate: DELIVERS, object: stricker2026:AIM1, asserted_by: AUTHORS}
+  - {id: stricker2026:R4, subject: stricker2026:CLAIM3, predicate: DELIVERS, object: stricker2026:AIM1, asserted_by: AUTHORS}
+  - {id: stricker2026:R5, subject: stricker2026:OBS2, predicate: DELIVERS, object: stricker2026:AIM2, asserted_by: AUTHORS}
+  - {id: stricker2026:R6, subject: stricker2026:CLAIM1, predicate: DELIVERS, object: stricker2026:AIM2, asserted_by: AUTHORS}
+  - {id: stricker2026:R7, subject: stricker2026:CLAIM2, predicate: DELIVERS, object: stricker2026:AIM2, asserted_by: AUTHORS}
+  - {id: stricker2026:R8, subject: stricker2026:METH1, predicate: DEPENDS_ON, object: stricker2026:ASM1, asserted_by: AUTHORS}
+  - {id: stricker2026:R9, subject: stricker2026:OBS2, predicate: SUPPORTS, object: stricker2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "One library, one property; stopping point chosen with ground truth"}}
+  - {id: stricker2026:R10, subject: stricker2026:OBS2, predicate: SUPPORTS, object: stricker2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Best-of-40 vs mean of random; single runs; heuristic init also fast"}}
+  - {id: stricker2026:R11, subject: stricker2026:OBS1, predicate: UNDERCUTS, object: stricker2026:CLAIM2, asserted_by: AUTHORS, note: "priors' maxima and minima are rotated relative to the measurement"}
+  - {id: stricker2026:R12, subject: stricker2026:METH2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: stricker2026:CLAIM2, asserted_by: ANNOTATOR, note: "selection of the best of 40 random starts rather than prior information"}
+  - {id: stricker2026:R13, subject: stricker2026:METH1, predicate: SUPPORTS, object: stricker2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Working demonstrator with dummy device; code published"}}
+  - {id: stricker2026:R14, subject: stricker2026:LIM1, predicate: QUALIFIES, object: stricker2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: stricker2026:R15, subject: stricker2026:CLAIM3, predicate: MOTIVATES, object: stricker2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A perspective-style demonstrator implements a pyiron job that runs
+    uncertainty-sampling GPR against a dummy device replaying a measured
+    five-element resistance library, with DFT- and word-embedding-derived
+    priors used to choose starting points. The workflow and code are
+    available, and the 7-fold reduction (50 of 342 points to reach the
+    measurement uncertainty) recomputes for the best run. The claimed
+    acceleration by priors is weakly supported: a best-of-40 selection is
+    compared with the mean of random starts, each prior-based curve is a
+    single run, the priors are rotated relative to the measured trend, a
+    DFT-gradient initialization fails to converge, and a prior-free
+    element-maximum start also converges quickly; only one library is
+    tested and no live instrument is driven.
+  key_limitations:
+    - "Unfair baseline (best-of-40 vs random mean) and single runs (CLAIM2)."
+    - "Prior-free heuristic performs similarly; DFT-gradient init fails (OBS2)."
+    - "Dummy device replaying existing data (METH1)."
+    - "One library and property; stopping chosen with ground truth (CLAIM1)."
+  missing_evidence:
+    - "Statistics over many runs and several libraries."
+    - "Comparison against simple space-filling initializations."
+    - "Live operation with a real instrument."
