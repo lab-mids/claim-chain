@@ -6,6 +6,8 @@ A paper becomes a set of typed statements (background, assumptions, methods, obs
 
 The reference implementation is [claim-chain](https://github.com/lab-mids/claim-chain). It converts a PDF into an encoding with an LLM (`claimchain paper.pdf`) and renders the encoding into reports, argument maps and a logic score (`scripts/render.py`).
 
+Read the [SciLogic paper (PDF)](scilogic_paper.pdf).
+
 ## Who this is for
 
 - **Peer reviewers** who need to reconstruct and check the argument of a paper.
