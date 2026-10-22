@@ -236,6 +236,17 @@
                         "string",
                         "null"
                     ]
+                },
+                "priority": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/Priority"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "How much the argument depends on an open question, obligation or concern."
                 }
             },
             "required": [
@@ -258,6 +269,7 @@
                 "UNADDRESSED_COUNTEREVIDENCE",
                 "INTERNAL_INCONSISTENCY",
                 "REPRODUCIBILITY",
+                "ARITHMETIC",
                 "CAUSAL_OVERREACH"
             ],
             "title": "ConcernType",
@@ -736,7 +748,7 @@
                             "type": "null"
                         }
                     ],
-                    "description": "How much the argument depends on an open question or obligation."
+                    "description": "How much the argument depends on an open question, obligation or concern."
                 },
                 "requested_data": {
                     "items": {
@@ -962,6 +974,8 @@
                 "ANSWERS",
                 "DEPENDS_ON",
                 "ANALOG_OF",
+                "DELIVERS",
+                "RESTATES",
                 "CONDITIONALLY_SUPPORTS"
             ],
             "title": "RelationType",
@@ -1181,7 +1195,7 @@
                             "type": "null"
                         }
                     ],
-                    "description": "How much the argument depends on an open question or obligation."
+                    "description": "How much the argument depends on an open question, obligation or concern."
                 },
                 "scope": {
                     "anyOf": [
@@ -1232,6 +1246,7 @@
                 "BACKGROUND",
                 "GAP",
                 "HYPOTHESIS",
+                "AIM",
                 "QUESTION",
                 "DEFINITION",
                 "ASSUMPTION",
@@ -1431,6 +1446,6 @@
     ],
     "title": "claim_chain",
     "type": "object",
-    "version": "0.5.0"
+    "version": "0.6.0"
 }
 

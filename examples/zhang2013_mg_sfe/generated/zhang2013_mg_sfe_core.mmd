@@ -1,0 +1,45 @@
+flowchart TD
+  GAP1 --> AIM1
+  GAP2 --> AIM2
+  GAP2 --> AIM3
+  GAP3 --> AIM4
+  CLAIM2 --> AIM1
+  CLAIM1 --> AIM3
+  CLAIM3 --> AIM5
+  CLAIM7 --> AIM6
+  CLAIM8 -.->|restates| CLAIM1
+  CLAIM9 -.->|restates| CLAIM2
+  CLAIM10 -.->|restates| CLAIM3
+  CLAIM12 -.->|restates| CLAIM6
+  CLAIM1 ==> CLAIM2
+  LIM1 -.->|qualifies| CLAIM6
+  CLAIM3 --> CLAIM7
+  CLAIM6 --> CLAIM12
+  AIM1["<b>AIM1</b><br/>The paper computes the I1 stacking fault energy of …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper uses a periodic supercell with two fault …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper tests the convergence of the stacking fault …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper computes each solute at two concentrations on …"]:::claim
+  AIM5["<b>AIM5</b><br/>The paper explains the trends of the stacking fault …"]:::claim
+  AIM6["<b>AIM6</b><br/>The stacking fault energies form a first-principles database meant …"]:::claim
+  CLAIM1["<b>CLAIM1 ✓</b><br/>The two-fault supercell gives converged stacking fault energies that …"]:::claim
+  CLAIM10["<b>CLAIM10 (partial)</b><br/>Solutes with lower ionization energy and larger radius decrease …"]:::claim
+  CLAIM12["<b>CLAIM12 ?</b><br/>The abnormal concentration dependence of the stacking fault energy …"]:::claim
+  CLAIM2["<b>CLAIM2 (partial)</b><br/>Table 2 is a first-principles database of the I1 …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>Solutes with a low first ionization energy and a …"]:::claim
+  CLAIM6["<b>CLAIM6 ?</b><br/>The reversal at 25 at.% arises because electrons tunnel …"]:::claim
+  CLAIM7["<b>CLAIM7 (weak)</b><br/>The SFE rule and the rare-earth trend give a …"]:::claim
+  CLAIM8["<b>CLAIM8 ✓</b><br/>Convergence of the supercells was tested strictly and is …"]:::claim
+  CLAIM9["<b>CLAIM9 (partial)</b><br/>Cobalt and cesium bracket the range of stacking fault …"]:::claim
+  GAP1["<b>GAP1</b><br/>The I1 stacking fault energy has been computed for …"]:::bg
+  GAP2["<b>GAP2</b><br/>Earlier DFT calculations of the I1 fault used vacuum …"]:::bg
+  GAP3["<b>GAP3</b><br/>Earlier calculations of solute effects on the I1 fault …"]:::bg
+  LIM1["<b>LIM1</b><br/>The tunnelling explanation of the concentration reversal is preliminary …"]:::lim
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

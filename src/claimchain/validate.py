@@ -69,8 +69,9 @@ def check_consistency(chain: dict) -> list[str]:
                     issues.append(f"statement {st.get('id')}: discharged_by {ref} is not a defined statement")
         if st.get("statement_type") in SCORED_TYPES and not st.get("assessment"):
             issues.append(f"statement {st.get('id')} ({st.get('statement_type')}) has no assessment")
-    if not any(s.get("statement_type") == "HYPOTHESIS" for s in statements):
-        issues.append("no HYPOTHESIS statement: encode the paper's central thesis as a HYPOTHESIS")
+    if not any(s.get("statement_type") in {"HYPOTHESIS", "AIM"} for s in statements):
+        issues.append("no HYPOTHESIS or AIM statement: encode the paper's central thesis as a HYPOTHESIS, "
+                      "or its stated aims as AIMs")
     if not chain.get("paper_assessment"):
         issues.append("paper_assessment is missing")
     return issues

@@ -1,0 +1,857 @@
+@prefix zhang2013: <https://w3id.org/claim-chain/doi10.1016-j.commatsci.2013.07.012/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix claimchain: <https://w3id.org/claim-chain/schema/> .
+@prefix ent: <https://w3id.org/claim-chain/entity/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix mp: <http://purl.org/mp/> .
+@prefix schema1: <http://schema.org/> .
+@prefix doi: <https://doi.org/> .
+doi:10.1016\/j.commatsci.2013.07.012 dcterms:creator "G. Liu" , "J. Zhang" , "Y. Dou" , "Z. Guo" ;
+	dcterms:title "First-principles study of stacking fault energies in Mg-based binary alloys" ;
+	a schema1:ScholarlyArticle ;
+	claimchain:doi "10.1016/j.commatsci.2013.07.012" ;
+	claimchain:year 2013 .
+zhang2013:AIM1 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The paper computes the I1 stacking fault energy of 52 binary Mg-X systems." .
+zhang2013:AIM2 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The paper uses a periodic supercell with two fault interfaces, so that no vacuum layer and no free surface is needed." .
+zhang2013:AIM3 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The paper tests the convergence of the stacking fault energy with supercell size." .
+zhang2013:AIM4 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The paper computes each solute at two concentrations on the fault plane, 11 and 25 at.%." .
+zhang2013:AIM5 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The paper explains the trends of the stacking fault energy with simple physical features of the solute atoms." .
+zhang2013:AIM6 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 6" ;
+	claimchain:statement_type "AIM" ;
+	claimchain:text "The stacking fault energies form a first-principles database meant to guide the design of formable magnesium alloys." .
+zhang2013:BG1 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Magnesium alloys are the lightest structural metals, but wrought magnesium products such as sheets and extrusions are still rare." .
+zhang2013:BG2 a mp:Statement ;
+	claimchain:evidence _:c14n2 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 1" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Hcp magnesium has only two independent basal slip systems while compatible polycrystal deformation needs five, so non-basal slip and twinning must be activated to make magnesium formable." .
+zhang2013:BG3 a mp:Statement ;
+	claimchain:evidence _:c14n14 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 2" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Stacking fault energy governs the deformation behaviour of metals, and solute atoms change it by disturbing the local charge density and strain field." .
+zhang2013:BG4 a mp:Statement ;
+	claimchain:about ent:I1 ;
+	claimchain:evidence _:c14n10 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 3" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Studies of Mg-Y, Mg-Zn-Y and Mg-Li or Mg-Al link solute-induced changes of the I1 stacking fault energy to the active deformation modes and to ductility." .
+zhang2013:BG5 a mp:Statement ;
+	claimchain:evidence _:c14n20 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 4" ;
+	claimchain:statement_type "BACKGROUND" ;
+	claimchain:text "Measured stacking fault energies of magnesium scatter between 50 and 280 mJ/m2, whereas DFT values for pure magnesium lie between 8 and 21 mJ/m2." .
+zhang2013:CLAIM10 a mp:Statement ;
+	claimchain:assessment _:c14n8 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "CORRELATIONAL" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:paper_part "CONCLUSION" ;
+	claimchain:section "Sec. 5, sentence 6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Solutes with lower ionization energy and larger radius decrease the stacking fault energy, and those with higher ionization energy and smaller radius increase it." .
+zhang2013:CLAIM11 a mp:Statement ;
+	claimchain:assessment _:c14n3 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:paper_part "CONCLUSION" ;
+	claimchain:section "Sec. 5, sentences 7-9" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The effect of a solute usually grows with concentration, but most rare earths change the stacking fault energy non-monotonically." .
+zhang2013:CLAIM12 a mp:Statement ;
+	claimchain:assessment _:c14n4 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:concerns _:c14n6 ;
+	claimchain:paper_part "CONCLUSION" ;
+	claimchain:section "Sec. 5, final sentence" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The abnormal concentration dependence of the stacking fault energy is correlated with quantum tunnelling." .
+zhang2013:CLAIM1 a mp:Statement ;
+	claimchain:assessment _:c14n12 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:claim_role "METHODOLOGICAL" ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 3.1" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The two-fault supercell gives converged stacking fault energies that agree with published DFT values, and the two cells used for alloys give nearly the same pure-magnesium value." .
+zhang2013:CLAIM2 a mp:Statement ;
+	claimchain:assessment _:c14n31 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:claim_role "MAIN_CONCLUSION" ;
+	claimchain:concerns _:c14n27 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 3.2, Table 2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Table 2 is a first-principles database of the I1 stacking fault energy for 52 solutes at two concentrations, which divides the solutes into raisers and lowerers." .
+zhang2013:CLAIM3 a mp:Statement ;
+	claimchain:assessment _:c14n16 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "CORRELATIONAL" ;
+	claimchain:claim_role "MAIN_CONCLUSION" ;
+	claimchain:concerns _:c14n18 , _:c14n52 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.1, final paragraph" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Solutes with a low first ionization energy and a large atomic radius lower the I1 stacking fault energy of magnesium, and solutes with a high ionization energy and a small radius raise it." .
+zhang2013:CLAIM4 a mp:Statement ;
+	claimchain:assessment _:c14n41 ;
+	claimchain:author_certainty "PROPOSED" ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:claim_role "MECHANISTIC_INTERPRETATION" ;
+	claimchain:concerns _:c14n38 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.1, para. 5-6" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "A solute with a high ionization energy forms a local potential well that gathers charge near the fault, so forming the fault needs more charge redistribution and the stacking fault energy rises." .
+zhang2013:CLAIM5 a mp:Statement ;
+	claimchain:assessment _:c14n43 ;
+	claimchain:author_certainty "PROPOSED" ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:claim_role "MECHANISTIC_INTERPRETATION" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.1, para. 7" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Large solutes lower the stacking fault energy because they expand the lattice locally, which favours the wider fcc-like zone at the fault." .
+zhang2013:CLAIM6 a mp:Statement ;
+	claimchain:assessment _:c14n35 ;
+	claimchain:author_certainty "SPECULATIVE" ;
+	claimchain:claim_modality "CAUSAL" ;
+	claimchain:claim_role "MECHANISTIC_INTERPRETATION" ;
+	claimchain:evidence _:c14n49 ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.2, final paragraph" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The reversal at 25 at.% arises because electrons tunnel between neighbouring solutes above about 20 at.%, which weakens the local potential wells and hills; the authors say this needs further verification." .
+zhang2013:CLAIM7 a mp:Statement ;
+	claimchain:assessment _:c14n5 ;
+	claimchain:author_certainty "PROPOSED" ;
+	claimchain:claim_modality "GENERALIZATION" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 3.2, 4.2" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "The SFE rule and the rare-earth trend give a screening rule for magnesium alloy design, and Yb and Bi additions or a rare-earth optimum are worth testing experimentally." .
+zhang2013:CLAIM8 a mp:Statement ;
+	claimchain:assessment _:c14n34 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:paper_part "CONCLUSION" ;
+	claimchain:section "Sec. 5, sentences 1-3" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Convergence of the supercells was tested strictly and is satisfactory for the 2x2x10 cell." .
+zhang2013:CLAIM9 a mp:Statement ;
+	claimchain:assessment _:c14n39 ;
+	claimchain:author_certainty "DEMONSTRATED" ;
+	claimchain:claim_modality "DESCRIPTIVE" ;
+	claimchain:claim_role "INTERMEDIATE" ;
+	claimchain:paper_part "CONCLUSION" ;
+	claimchain:section "Sec. 5, sentences 4-5" ;
+	claimchain:statement_type mp:Claim ;
+	claimchain:text "Cobalt and cesium bracket the range of stacking fault energies; eighteen solutes raise it and most, including every rare earth, lower it." .
+zhang2013:GAP1 a mp:Statement ;
+	claimchain:evidence _:c14n45 ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 5" ;
+	claimchain:statement_type "GAP" ;
+	claimchain:text "The I1 stacking fault energy has been computed for only eight solutes in magnesium (Al, Dy, Gd, Li, Nd, Pr, Tb, Y)." .
+zhang2013:GAP2 a mp:Statement ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1, para. 5" ;
+	claimchain:statement_type "GAP" ;
+	claimchain:text "Earlier DFT calculations of the I1 fault used vacuum layers whose free surfaces may interact with the fault, and rarely tested convergence with supercell size." .
+zhang2013:GAP3 a mp:Statement ;
+	claimchain:note "Not stated in the paper; inferred by Sepideh from the contribution of two concentrations (an implicit gap)." ;
+	claimchain:paper_part "INTRODUCTION" ;
+	claimchain:section "Sec. 1 (implicit)" ;
+	claimchain:statement_type "GAP" ;
+	claimchain:text "Earlier calculations of solute effects on the I1 fault used a single solute concentration." .
+zhang2013:LIM1 a mp:Statement ;
+	claimchain:limitation_kind "INTERPRETATION" ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "LIMITATION" ;
+	claimchain:text "The tunnelling explanation of the concentration reversal is preliminary and needs further verification." .
+zhang2013:METH1 a mp:Statement ;
+	claimchain:about ent:DFT ;
+	claimchain:concerns _:c14n15 , _:c14n54 , _:c14n7 ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 2, para. 1" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "Energies are computed with VASP using PAW potentials and the PBE functional, relaxing atoms with Methfessel-Paxton smearing until forces are below 0.01 eV/A and taking final energies with the tetrahedron method." .
+zhang2013:METH2 a mp:Statement ;
+	claimchain:about ent:I1 , ent:SFE ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 2, para. 2-3, Fig. 1, Eq. (1)" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "The I1 fault is built by switching the stacking from AB to CB halfway along c in a periodic supercell, which then contains two fault interfaces, and the stacking fault energy is (E - E0) / 2A." .
+zhang2013:METH3 a mp:Statement ;
+	claimchain:about ent:MgX ;
+	claimchain:concerns _:c14n24 ;
+	claimchain:evidence _:c14n44 ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 2, para. 4, Fig. 2" ;
+	claimchain:statement_type "METHOD" ;
+	claimchain:text "One magnesium atom in the faulted layer of a 2x2x10 or a 3x3x10 supercell is replaced by a solute, giving 25 or 11 at.% on the fault plane, which the paper states as 2.5 and 1.1 at.% overall." .
+zhang2013:OBS10 a mp:Statement ;
+	claimchain:note "Derived by Sepideh from the cell geometry; not stated in the paper." ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.2 (annotator)" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "In the 2x2x10 cell each solute is about 6.4 A, two lattice spacings, from its own periodic image." .
+zhang2013:OBS1 a mp:Statement ;
+	claimchain:about ent:Mg , ent:SFE ;
+	claimchain:evidence _:c14n42 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:scope _:c14n51 ;
+	claimchain:section "Sec. 3.1, Table 1, Fig. 3" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "The pure-magnesium stacking fault energy stops changing once the supercell has at least 10 unit cells along c, at 17.9-21.4 mJ/m2, within the published DFT range, and the 2x2x10 and 3x3x10 cells give 21.0 and 21.4 mJ/m2." .
+zhang2013:OBS2 a mp:Statement ;
+	claimchain:about ent:MgX , ent:SFE ;
+	claimchain:concerns _:c14n9 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 3.2, Table 2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Eighteen of the 52 solutes raise the I1 stacking fault energy, cobalt most with 34.8 and 54.1 mJ/m2 at 11 and 25 at.%." .
+zhang2013:OBS3 a mp:Statement ;
+	claimchain:about ent:MgX , ent:SFE ;
+	claimchain:concerns _:c14n47 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 3.2, Table 2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Most solutes lower the I1 stacking fault energy, including every rare earth; cesium lowers it most, to -33.3 mJ/m2 at 25 at.%, and nine solutes give a negative value." .
+zhang2013:OBS4 a mp:Statement ;
+	claimchain:concerns _:c14n37 ;
+	claimchain:paper_part "RESULTS" ;
+	claimchain:section "Sec. 3.2, Table 2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Differences below about 1 mJ/m2 from pure magnesium, e.g. Mo 21.6 and Rh 21.3 against 21.0 mJ/m2, are counted as increases of the stacking fault energy." .
+zhang2013:OBS5 a mp:Statement ;
+	claimchain:about ent:Ei ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.1, Fig. 4" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "At 11 at.%, almost every solute that lowers the stacking fault energy has a lower first ionization energy than magnesium, but ten solutes (Ag, Cr, Li, Mn, Mo, Nb, Ni, Rh, Ru, V) have a lower ionization energy and still raise it." .
+zhang2013:OBS6 a mp:Statement ;
+	claimchain:about ent:radius ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.1, Fig. 5" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Virtually every solute that raises the stacking fault energy is smaller than magnesium (160 pm), including all ten exceptions to the ionization-energy trend (124-152 pm)." .
+zhang2013:OBS7 a mp:Statement ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:scope _:c14n22 ;
+	claimchain:section "Sec. 4.1, Fig. 6" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "Charge-density plots show cobalt gathering electrons and cesium pushing them away near the faulted plane." .
+zhang2013:OBS8 a mp:Statement ;
+	claimchain:paper_part "METHODS" ;
+	claimchain:section "Sec. 2, para. 2" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "After relaxation the interplanar distance in the fcc-like zone at the fault is 5.178 A, slightly larger than the 5.165 A of the perfect lattice." .
+zhang2013:OBS9 a mp:Statement ;
+	claimchain:note "A result reported in the discussion; Sepideh maps it to the results (location and function differ)." ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.2, Fig. 7" ;
+	claimchain:statement_type "OBSERVATION" ;
+	claimchain:text "For most solutes the change of the stacking fault energy grows from 11 to 25 at.% (Ga 19.0 to 3.3 mJ/m2), but for 23 solutes it moves back toward pure magnesium (Er 5.6 to 10.2 mJ/m2), including all rare earths except La, Ce, Pr, Nd and Yb." .
+zhang2013:OUT1 a mp:Statement ;
+	claimchain:paper_part "DISCUSSION" ;
+	claimchain:section "Sec. 4.2" ;
+	claimchain:statement_type "OUTLOOK" ;
+	claimchain:text "Yb and Bi may raise the stacking-fault density, and rare-earth content should be optimised rather than maximised." .
+zhang2013:R10 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM6 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG2 .
+zhang2013:R11 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM1 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:METH3 .
+zhang2013:R12 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM1 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:OBS2 .
+zhang2013:R13 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM1 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:CLAIM2 .
+zhang2013:R14 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM2 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:METH2 .
+zhang2013:R15 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:note "pure-Mg values agree with published DFT" ;
+	claimchain:object zhang2013:AIM2 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:OBS1 .
+zhang2013:R16 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM3 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:METH2 .
+zhang2013:R17 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM3 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:CLAIM1 .
+zhang2013:R18 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM4 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:METH3 .
+zhang2013:R19 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM4 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:OBS9 .
+zhang2013:R1 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:BG2 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG1 .
+zhang2013:R20 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM5 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:CLAIM3 .
+zhang2013:R21 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM6 ;
+	claimchain:predicate "DELIVERS" ;
+	claimchain:subject zhang2013:CLAIM7 .
+zhang2013:R22 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object zhang2013:CLAIM1 ;
+	claimchain:predicate "RESTATES" ;
+	claimchain:subject zhang2013:CLAIM8 .
+zhang2013:R23 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object zhang2013:CLAIM2 ;
+	claimchain:predicate "RESTATES" ;
+	claimchain:subject zhang2013:CLAIM9 .
+zhang2013:R24 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object zhang2013:CLAIM3 ;
+	claimchain:predicate "RESTATES" ;
+	claimchain:subject zhang2013:CLAIM10 .
+zhang2013:R25 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object zhang2013:OBS9 ;
+	claimchain:predicate "RESTATES" ;
+	claimchain:subject zhang2013:CLAIM11 .
+zhang2013:R26 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:object zhang2013:CLAIM6 ;
+	claimchain:predicate "RESTATES" ;
+	claimchain:subject zhang2013:CLAIM12 .
+zhang2013:R27 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:link_criteria _:c14n1 ;
+	claimchain:object zhang2013:CLAIM1 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS1 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "STRONG" .
+zhang2013:R28 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n36 ;
+	claimchain:object zhang2013:CLAIM2 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS2 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R29 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM2 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS3 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R2 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:BG4 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG3 .
+zhang2013:R30 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:object zhang2013:CLAIM2 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:CLAIM1 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "STRONG" .
+zhang2013:R31 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "small differences are within the scatter of the pure-Mg value" ;
+	claimchain:object zhang2013:CLAIM2 ;
+	claimchain:predicate "QUALIFIES" ;
+	claimchain:subject zhang2013:OBS4 .
+zhang2013:R32 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n48 ;
+	claimchain:object zhang2013:CLAIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS5 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R33 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n17 ;
+	claimchain:object zhang2013:CLAIM3 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS6 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R34 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM4 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS7 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R35 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM4 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS5 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R36 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS8 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R37 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM5 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS6 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R38 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM6 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:OBS9 .
+zhang2013:R39 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR_BACKGROUND" ;
+	claimchain:note "direct solute-image interaction or strain overlap could also explain the reversal" ;
+	claimchain:object zhang2013:CLAIM6 ;
+	claimchain:predicate "ALTERNATIVE_EXPLANATION_FOR" ;
+	claimchain:subject zhang2013:OBS10 .
+zhang2013:R3 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:GAP1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG4 .
+zhang2013:R40 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM6 ;
+	claimchain:predicate "QUALIFIES" ;
+	claimchain:subject zhang2013:LIM1 .
+zhang2013:R41 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:object zhang2013:CLAIM7 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:CLAIM3 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R42 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM7 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:BG4 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R43 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:OUT1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:CLAIM7 .
+zhang2013:R44 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM8 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS1 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "STRONG" .
+zhang2013:R45 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM9 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS2 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R46 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM9 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS3 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R47 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM10 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS5 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R48 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM10 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS6 ;
+	claimchain:support_basis "QUALITATIVE" ;
+	claimchain:support_strength "INTERMEDIATE" .
+zhang2013:R49 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:CLAIM11 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:OBS9 ;
+	claimchain:support_basis "QUANTITATIVE" ;
+	claimchain:support_strength "STRONG" .
+zhang2013:R4 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:GAP2 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG5 .
+zhang2013:R50 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:object zhang2013:CLAIM12 ;
+	claimchain:predicate mp:supports ;
+	claimchain:subject zhang2013:CLAIM6 ;
+	claimchain:support_basis "LOGICAL" ;
+	claimchain:support_strength "WEAK" .
+zhang2013:R5 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM1 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:GAP1 .
+zhang2013:R6 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM2 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:GAP2 .
+zhang2013:R7 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM3 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:GAP2 .
+zhang2013:R8 a claimchain:Relation ;
+	claimchain:asserted_by "ANNOTATOR" ;
+	claimchain:note "implicit gap" ;
+	claimchain:object zhang2013:AIM4 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:GAP3 .
+zhang2013:R9 a claimchain:Relation ;
+	claimchain:asserted_by "AUTHORS" ;
+	claimchain:object zhang2013:AIM5 ;
+	claimchain:predicate "MOTIVATES" ;
+	claimchain:subject zhang2013:BG3 .
+ent:DFT a claimchain:Entity ;
+	claimchain:entity_type "METHOD" ;
+	claimchain:label "DFT (VASP, PAW, PBE-GGA)" .
+ent:Ei a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "first ionization energy" .
+ent:I1 a claimchain:Entity ;
+	claimchain:entity_type "CONCEPT" ;
+	claimchain:label "I1 basal stacking fault" .
+ent:Mg a claimchain:Entity ;
+	claimchain:entity_type "MATERIAL" ;
+	claimchain:label "hcp Mg" .
+ent:MgX a claimchain:Entity ;
+	claimchain:entity_type "MATERIAL" ;
+	claimchain:label "binary Mg-X alloys (52 solutes)" .
+ent:SFE a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "stacking fault energy" .
+ent:radius a claimchain:Entity ;
+	claimchain:entity_type "QUANTITY" ;
+	claimchain:label "atomic radius" .
+claimchain:chain\/zhang2013 a claimchain:ArgumentChain ;
+	claimchain:annotation_date "2026-10-22"^^xsd:date ;
+	claimchain:annotator "Sepideh (paper logic map, by hand); converted to claim-chain v0.6 and assessed by Claude" ;
+	claimchain:entities ent:DFT , ent:Ei , ent:I1 , ent:Mg , ent:MgX , ent:SFE , ent:radius ;
+	claimchain:paper_assessment _:c14n0 ;
+	claimchain:publication doi:10.1016\/j.commatsci.2013.07.012 ;
+	claimchain:relations zhang2013:R10 , zhang2013:R11 , zhang2013:R12 , zhang2013:R13 , zhang2013:R14 , zhang2013:R15 , zhang2013:R16 , zhang2013:R17 , zhang2013:R18 , zhang2013:R19 , zhang2013:R1 , zhang2013:R20 , zhang2013:R21 , zhang2013:R22 , zhang2013:R23 , zhang2013:R24 , zhang2013:R25 , zhang2013:R26 , zhang2013:R27 , zhang2013:R28 , zhang2013:R29 , zhang2013:R2 , zhang2013:R30 , zhang2013:R31 , zhang2013:R32 , zhang2013:R33 , zhang2013:R34 , zhang2013:R35 , zhang2013:R36 , zhang2013:R37 , zhang2013:R38 , zhang2013:R39 , zhang2013:R3 , zhang2013:R40 , zhang2013:R41 , zhang2013:R42 , zhang2013:R43 , zhang2013:R44 , zhang2013:R45 , zhang2013:R46 , zhang2013:R47 , zhang2013:R48 , zhang2013:R49 , zhang2013:R4 , zhang2013:R50 , zhang2013:R5 , zhang2013:R6 , zhang2013:R7 , zhang2013:R8 , zhang2013:R9 ;
+	claimchain:schema_version "0.6.0" ;
+	claimchain:statements zhang2013:AIM1 , zhang2013:AIM2 , zhang2013:AIM3 , zhang2013:AIM4 , zhang2013:AIM5 , zhang2013:AIM6 , zhang2013:BG1 , zhang2013:BG2 , zhang2013:BG3 , zhang2013:BG4 , zhang2013:BG5 , zhang2013:CLAIM10 , zhang2013:CLAIM11 , zhang2013:CLAIM12 , zhang2013:CLAIM1 , zhang2013:CLAIM2 , zhang2013:CLAIM3 , zhang2013:CLAIM4 , zhang2013:CLAIM5 , zhang2013:CLAIM6 , zhang2013:CLAIM7 , zhang2013:CLAIM8 , zhang2013:CLAIM9 , zhang2013:GAP1 , zhang2013:GAP2 , zhang2013:GAP3 , zhang2013:LIM1 , zhang2013:METH1 , zhang2013:METH2 , zhang2013:METH3 , zhang2013:OBS10 , zhang2013:OBS1 , zhang2013:OBS2 , zhang2013:OBS3 , zhang2013:OBS4 , zhang2013:OBS5 , zhang2013:OBS6 , zhang2013:OBS7 , zhang2013:OBS8 , zhang2013:OBS9 , zhang2013:OUT1 .
+_:c14n0 a claimchain:PaperAssessment ;
+	claimchain:key_limitations "Cutoff energy, spin treatment and lattice parameters are not reported, and the stated overall concentrations do not follow from the described cells (METH1, METH3)." , "Mechanisms rest on two charge-density plots and a 0.013 A spacing difference (CLAIM4, CLAIM5)." , "Small SFE changes carry no uncertainty and the setup is not compared with the eight earlier I1 values (CLAIM2, OBS4)." , "The combined rule is a correlation without a count of correct predictions or a weighting of the two factors (CLAIM3)." , "The tunnelling explanation is untested and gains certainty in the conclusion (CLAIM6, CLAIM12)." ;
+	claimchain:missing_evidence "Charge transfer computed for every solute, not only Co and Cs" , "Comparison with earlier I1 values for Al, Dy, Gd, Li, Nd, Pr, Tb and Y" , "Count of solutes the ionization-energy and radius rule predicts correctly" , "Larger in-plane cells at 25 at.% to separate tunnelling from solute-image interaction" ;
+	claimchain:overall_validity "PARTIAL" ;
+	claimchain:summary "The computational core holds: the two-fault supercell converges, agrees with published values, and delivers I1 stacking fault energies for 52 solutes at two concentrations, which closes the coverage and method gaps named in the introduction. The ionization-energy and radius rule is a visible correlation but is never tested quantitatively, and the mechanisms rest on pictures for two solutes. The tunnelling explanation is called preliminary in the discussion and stated plainly in the conclusion. The no-vacuum design and the alloy-design payoff promised in the introduction are not restated at the end, and the conclusion states no limitations." .
+_:c14n1 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "15 cells, benchmarked against published values." ;
+	claimchain:directness "MET" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "MET" .
+_:c14n10 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "6" , "7" , "8" .
+_:c14n11 a claimchain:QuantitativeValue ;
+	claimchain:quantity "solute atoms per supercell (as described)" ;
+	claimchain:symbol "n_sol" ;
+	claimchain:value "1.0"^^xsd:float .
+_:c14n12 a claimchain:Assessment ;
+	claimchain:rationale "A 15-cell convergence series and agreement with the literature range support it directly." ;
+	claimchain:validity "YES" .
+_:c14n13 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:priority "HIGH" ;
+	claimchain:requested_data _:c14n23 ;
+	claimchain:text "Compare the new values with the earlier I1 values for Al, Dy, Gd, Li, Nd, Pr, Tb and Y." .
+_:c14n14 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "3" , "4" , "5" .
+_:c14n15 a claimchain:Concern ;
+	claimchain:concern_type "REPRODUCIBILITY" ;
+	claimchain:description "The plane-wave cutoff energy is not reported." ;
+	claimchain:priority "MEDIUM" .
+_:c14n16 a claimchain:Assessment ;
+	claimchain:rationale "Both correlations are visible and the radius accounts for the ten ionization-energy exceptions, but the combined rule is never tested quantitatively." ;
+	claimchain:validity "PARTIAL" .
+_:c14n17 a claimchain:LinkCriteria ;
+	claimchain:alternatives "MET" ;
+	claimchain:controls "NOT_APPLICABLE" ;
+	claimchain:criteria_note "Free-atom radius as a proxy for local strain; no count of violations." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "PARTLY" .
+_:c14n18 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "The rule is read from two scatter plots; no fit and no count of how many of the 52 solutes it predicts correctly is given." ;
+	claimchain:priority "HIGH" .
+_:c14n19 a claimchain:ProofObligation ;
+	claimchain:obligation_status "OPEN" ;
+	claimchain:priority "MEDIUM" ;
+	claimchain:text "Give a numerical uncertainty and treat changes inside it as no effect." .
+_:c14n2 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "1" , "2" .
+_:c14n20 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "10" , "11" , "16" , "17" , "18" , "19" , "9" ;
+	claimchain:values _:c14n29 , _:c14n32 , _:c14n33 , _:c14n55 .
+_:c14n21 a claimchain:QuantitativeValue ;
+	claimchain:quantity "pure-Mg SFE in 2x2x10" ;
+	claimchain:symbol "g_2x2" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "21.0"^^xsd:float .
+_:c14n22 a claimchain:Scope ;
+	claimchain:sample_count 2 ;
+	claimchain:scope_note "Co and Cs only" .
+_:c14n23 a claimchain:RequestedData ;
+	claimchain:method "same supercell setup" ;
+	claimchain:quantity "I1 SFE for the eight previously computed solutes" ;
+	claimchain:unit "mJ/m2" .
+_:c14n24 a claimchain:Concern ;
+	claimchain:concern_type "ARITHMETIC" ;
+	claimchain:description "One solute in 80 or 180 atoms gives 1.25 and 0.56 at.%, not the stated 2.5 and 1.1 at.%." ;
+	claimchain:priority "MEDIUM" .
+_:c14n25 a claimchain:DerivedCheck ;
+	claimchain:expression "stated overall concentrations equal one solute per cell" ;
+	claimchain:formula "abs(c_2x2 - 100*n_sol/n_2x2) < 0.1 and abs(c_3x3 - 100*n_sol/n_3x3) < 0.1" ;
+	claimchain:note "The stated values match two solutes per cell, i.e. possibly one per fault interface, which the text does not say." ;
+	claimchain:satisfied false .
+_:c14n26 a claimchain:QuantitativeValue ;
+	claimchain:quantity "atoms in the 2x2x10 supercell" ;
+	claimchain:symbol "n_2x2" ;
+	claimchain:value "80.0"^^xsd:float .
+_:c14n27 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "The introduction names eight solutes with earlier I1 values but the results never compare against them; this is the most direct test of the new setup." ;
+	claimchain:priority "HIGH" .
+_:c14n28 a claimchain:QuantitativeValue ;
+	claimchain:quantity "stated overall concentration in 2x2x10" ;
+	claimchain:symbol "c_2x2" ;
+	claimchain:unit "at.%" ;
+	claimchain:value "2.5"^^xsd:float .
+_:c14n29 a claimchain:QuantitativeValue ;
+	claimchain:quantity "measured SFE (max)" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "280.0"^^xsd:float .
+_:c14n3 a claimchain:Assessment ;
+	claimchain:rationale "Restates the concentration results of Sec. 4.2 and Fig. 7." ;
+	claimchain:validity "YES" .
+_:c14n30 a claimchain:DerivedCheck ;
+	claimchain:expression "one solute in 180 atoms" ;
+	claimchain:formula "100*n_sol/n_3x3" ;
+	claimchain:result "0.56"^^xsd:float ;
+	claimchain:unit "at.%" .
+_:c14n31 a claimchain:Assessment ;
+	claimchain:proof_obligations _:c14n13 , _:c14n19 ;
+	claimchain:rationale "The values are computed and tabulated for all 52 solutes, but small differences carry no uncertainty and the setup is never compared with the eight earlier I1 values." ;
+	claimchain:validity "PARTIAL" .
+_:c14n32 a claimchain:QuantitativeValue ;
+	claimchain:quantity "DFT SFE of pure Mg (min)" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "8.0"^^xsd:float .
+_:c14n33 a claimchain:QuantitativeValue ;
+	claimchain:quantity "DFT SFE of pure Mg (max)" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "21.0"^^xsd:float .
+_:c14n34 a claimchain:Assessment ;
+	claimchain:rationale "Restates the convergence result of Sec. 3.1." ;
+	claimchain:validity "YES" .
+_:c14n35 a claimchain:Assessment ;
+	claimchain:rationale "Proposed from a cited concept and not tested; direct solute-image interaction in the small cell is an untested alternative." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n36 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "PARTLY" ;
+	claimchain:criteria_note "No uncertainty on small changes; no comparison with earlier I1 values." ;
+	claimchain:directness "MET" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "PARTLY" .
+_:c14n37 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "No numerical uncertainty is given, although the pure-Mg value varies by more than 1 mJ/m2 across converged cells." ;
+	claimchain:priority "MEDIUM" .
+_:c14n38 a claimchain:Concern ;
+	claimchain:concern_type "CAUSAL_OVERREACH" ;
+	claimchain:description "The mechanism rests on charge-density pictures for two solutes and no quantitative charge analysis." ;
+	claimchain:priority "MEDIUM" .
+_:c14n39 a claimchain:Assessment ;
+	claimchain:rationale "Restates Table 2, here with Ta correctly among the raisers; small changes still carry no uncertainty." ;
+	claimchain:validity "PARTIAL" .
+_:c14n4 a claimchain:Assessment ;
+	claimchain:rationale "Restates an untested explanation with more certainty than the discussion gives it." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n40 a claimchain:QuantitativeValue ;
+	claimchain:quantity "pure-Mg SFE in 3x3x10" ;
+	claimchain:symbol "g_3x3" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "21.4"^^xsd:float .
+_:c14n41 a claimchain:Assessment ;
+	claimchain:rationale "Shown by plots for the two extreme solutes only; no charge transfer is computed for the others." ;
+	claimchain:validity "WEAK" .
+_:c14n42 a mp:Support ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Table 1, Fig. 3" ;
+	claimchain:values _:c14n21 , _:c14n40 .
+_:c14n43 a claimchain:Assessment ;
+	claimchain:rationale "Argued from a 0.013 A difference in interplanar distance and the size correlation; the local strain around solutes is not computed." ;
+	claimchain:validity "WEAK" .
+_:c14n44 a mp:Support ;
+	claimchain:derived_checks _:c14n25 , _:c14n30 , _:c14n50 ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Sec. 2 and Sec. 5" ;
+	claimchain:values _:c14n11 , _:c14n26 , _:c14n28 , _:c14n46 , _:c14n53 .
+_:c14n45 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "21" , "7" , "8" .
+_:c14n46 a claimchain:QuantitativeValue ;
+	claimchain:quantity "stated overall concentration in 3x3x10" ;
+	claimchain:symbol "c_3x3" ;
+	claimchain:unit "at.%" ;
+	claimchain:value "1.1"^^xsd:float .
+_:c14n47 a claimchain:Concern ;
+	claimchain:concern_type "UNTESTED_ASSERTION" ;
+	claimchain:description "The paper suggests the faulted structure may be stable for the nine negative-SFE solutes but does not test it." ;
+	claimchain:priority "LOW" .
+_:c14n48 a claimchain:LinkCriteria ;
+	claimchain:alternatives "MET" ;
+	claimchain:controls "NOT_APPLICABLE" ;
+	claimchain:criteria_note "Free-atom ionization energy as a proxy; trend read by eye, ten exceptions." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "PARTLY" .
+_:c14n49 a mp:Support ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "33" .
+_:c14n5 a claimchain:Assessment ;
+	claimchain:rationale "Follows from the correlation, but the link from a lower I1 energy to ductility rests on the cited studies and no alloy is tested." ;
+	claimchain:validity "WEAK" .
+_:c14n50 a claimchain:DerivedCheck ;
+	claimchain:expression "one solute in 80 atoms" ;
+	claimchain:formula "100*n_sol/n_2x2" ;
+	claimchain:result "1.25"^^xsd:float ;
+	claimchain:unit "at.%" .
+_:c14n51 a claimchain:Scope ;
+	claimchain:sample_count 15 ;
+	claimchain:scope_note "15 supercells from 1x1 to 3x3 in-plane and 4-12 unit cells along c" .
+_:c14n52 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "The two factors are called competing but the paper does not say which dominates when they disagree." ;
+	claimchain:priority "MEDIUM" .
+_:c14n53 a claimchain:QuantitativeValue ;
+	claimchain:quantity "atoms in the 3x3x10 supercell" ;
+	claimchain:symbol "n_3x3" ;
+	claimchain:value "180.0"^^xsd:float .
+_:c14n54 a claimchain:Concern ;
+	claimchain:concern_type "REPRODUCIBILITY" ;
+	claimchain:description "It is not stated whether calculations are spin-polarized, although Fe, Co, Ni, Mn and Cr are among the solutes." ;
+	claimchain:priority "HIGH" .
+_:c14n55 a claimchain:QuantitativeValue ;
+	claimchain:quantity "measured SFE (min)" ;
+	claimchain:unit "mJ/m2" ;
+	claimchain:value "50.0"^^xsd:float .
+_:c14n6 a claimchain:Concern ;
+	claimchain:concern_type "OVERCLAIM" ;
+	claimchain:description "The discussion calls the tunnelling explanation preliminary; the conclusion states it without that caveat." ;
+	claimchain:priority "HIGH" .
+_:c14n7 a claimchain:Concern ;
+	claimchain:concern_type "REPRODUCIBILITY" ;
+	claimchain:description "The magnesium lattice constants used and whether cell shape or only atomic positions were relaxed are not given." ;
+	claimchain:priority "MEDIUM" .
+_:c14n8 a claimchain:Assessment ;
+	claimchain:rationale "Same rule as in the discussion, with the same lack of a quantitative test." ;
+	claimchain:validity "PARTIAL" .
+_:c14n9 a claimchain:Concern ;
+	claimchain:concern_type "INTERNAL_INCONSISTENCY" ;
+	claimchain:description "Sec. 3.2 lists Ta among both the raising and the lowering solutes; Table 2 (21.7 and 24.6 mJ/m2) shows that it raises the SFE." ;
+	claimchain:priority "LOW" .

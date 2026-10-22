@@ -1,0 +1,26 @@
+flowchart TB
+  P["`**Paper**
+First-principles study of stacking fault energies in Mg-based binary alloys`"]:::idea
+  C0("`**CLAIM2**
+Table 2 is a first-principles database of the I1 stacking fault energy for 52 solutes at …`"):::claim
+  V0["`**Partly true**
+The values are computed and tabulated for all 52 solutes, but small differences carry no uncertainty and the setup is …`"]:::partly
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**CLAIM3**
+Solutes with a low first ionization energy and a large atomic radius lower the I1 stacking …`"):::claim
+  V1["`**Partly true**
+Both correlations are visible and the radius accounts for the ten ionization-energy exceptions, but the combined rule is never tested …`"]:::partly
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  BL["`**Bottom line**
+Overall: Partly true. The computational core holds: the two-fault supercell converges, agrees with published values, and delivers I1 stacking fault energies for 52 solutes at two concentrations, which closes the coverage and method gaps named …`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

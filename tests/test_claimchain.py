@@ -156,3 +156,22 @@ def test_system_prompt_covers_v04():
     text = convert_mod.system_prompt()[0]["text"]
     assert "derived_checks" in text and "claim_role" in text
     assert validate_chain(yaml.safe_load(data_path("example_v04.yaml").read_text(encoding="utf-8"))) == []
+
+
+def test_aims_instead_of_hypothesis():
+    chain = yaml.safe_load(data_path("example_v06.yaml").read_text(encoding="utf-8"))
+    assert not any(s["statement_type"] == "HYPOTHESIS" for s in chain["statements"])
+    assert validate_chain(chain) == []
+
+
+def test_intro_first_keeps_intro_statements(pdf):
+    intro = {"statements": [s for s in EXAMPLE["statements"] if s.get("paper_part") == "INTRODUCTION"]}
+    reworded = copy.deepcopy(EXAMPLE)
+    first = next(s for s in reworded["statements"] if s.get("paper_part") == "INTRODUCTION")
+    first["text"] = "Something else."
+    client = FakeClient(reply(intro), reply(reworded), reply(EXAMPLE))
+    result = convert_pdf(pdf, client=client, intro_first=True)
+    assert result.valid and result.attempts == 2
+    assert "only its abstract and introduction" in client.requests[0]["messages"][0]["content"][1]["text"]
+    assert client.requests[1]["messages"][2]["content"].startswith("Now read the whole paper")
+    assert "was reworded" in client.requests[2]["messages"][-1]["content"]

@@ -1,0 +1,507 @@
+# Zhang, Dou, Liu & Guo 2013 in the claim-chain format (schema v0.6).
+# Converted from Sepideh's paper logic map (ideas/sepideh/Paper_Logic_Map_creation.pdf),
+# not from a fresh reading of the paper. Statement texts, numbers and locations
+# follow her report; verdicts were added during the conversion and rest on her
+# findings. The example shows the v0.6 features: aims followed to the conclusion
+# (golden thread), restatements with certainty drift, and local checks per part.
+# The paper states aims rather than a hypothesis, so it has AIM statements and no HYPOTHESIS.
+id: claimchain:chain/zhang2013
+schema_version: 0.6.0
+annotator: Sepideh (paper logic map, by hand); converted to claim-chain v0.6 and assessed by Claude
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.commatsci.2013.07.012
+  title: First-principles study of stacking fault energies in Mg-based binary alloys
+  authors: [J. Zhang, Y. Dou, G. Liu, Z. Guo]
+  year: 2013
+  doi: 10.1016/j.commatsci.2013.07.012
+
+entities:
+  - {id: ent:Mg, label: hcp Mg, entity_type: MATERIAL}
+  - {id: ent:MgX, label: binary Mg-X alloys (52 solutes), entity_type: MATERIAL}
+  - {id: ent:I1, label: I1 basal stacking fault, entity_type: CONCEPT}
+  - {id: ent:SFE, label: stacking fault energy, entity_type: QUANTITY}
+  - {id: ent:DFT, label: "DFT (VASP, PAW, PBE-GGA)", entity_type: METHOD}
+  - {id: ent:Ei, label: first ionization energy, entity_type: QUANTITY}
+  - {id: ent:radius, label: atomic radius, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction: territory ----------------
+  - id: zhang2013:BG1
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 1
+    text: Magnesium alloys are the lightest structural metals, but wrought magnesium products such as sheets and extrusions are still rare.
+  - id: zhang2013:BG2
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 1
+    text: Hcp magnesium has only two independent basal slip systems while compatible polycrystal deformation needs five, so non-basal slip and twinning must be activated to make magnesium formable.
+    evidence:
+      - {evidence_kind: CITATION, references: ['1', '2']}
+  - id: zhang2013:BG3
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 2
+    text: Stacking fault energy governs the deformation behaviour of metals, and solute atoms change it by disturbing the local charge density and strain field.
+    evidence:
+      - {evidence_kind: CITATION, references: ['3', '4', '5']}
+  - id: zhang2013:BG4
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 3
+    text: Studies of Mg-Y, Mg-Zn-Y and Mg-Li or Mg-Al link solute-induced changes of the I1 stacking fault energy to the active deformation modes and to ductility.
+    about: [ent:I1]
+    evidence:
+      - {evidence_kind: CITATION, references: ['6', '7', '8']}
+  - id: zhang2013:BG5
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 4
+    text: Measured stacking fault energies of magnesium scatter between 50 and 280 mJ/m2, whereas DFT values for pure magnesium lie between 8 and 21 mJ/m2.
+    evidence:
+      - evidence_kind: CITATION
+        references: ['9', '10', '11', '16', '17', '18', '19']
+        values:
+          - {quantity: measured SFE (min), value: 50, unit: mJ/m2}
+          - {quantity: measured SFE (max), value: 280, unit: mJ/m2}
+          - {quantity: DFT SFE of pure Mg (min), value: 8, unit: mJ/m2}
+          - {quantity: DFT SFE of pure Mg (max), value: 21, unit: mJ/m2}
+
+  # ---------------- Introduction: gaps and aims ----------------
+  - id: zhang2013:GAP1
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 5
+    text: The I1 stacking fault energy has been computed for only eight solutes in magnesium (Al, Dy, Gd, Li, Nd, Pr, Tb, Y).
+    evidence:
+      - {evidence_kind: CITATION, references: ['7', '8', '21']}
+  - id: zhang2013:GAP2
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 5
+    text: Earlier DFT calculations of the I1 fault used vacuum layers whose free surfaces may interact with the fault, and rarely tested convergence with supercell size.
+  - id: zhang2013:GAP3
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Sec. 1 (implicit)
+    text: Earlier calculations of solute effects on the I1 fault used a single solute concentration.
+    note: Not stated in the paper; inferred by Sepideh from the contribution of two concentrations (an implicit gap).
+  - id: zhang2013:AIM1
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The paper computes the I1 stacking fault energy of 52 binary Mg-X systems.
+  - id: zhang2013:AIM2
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The paper uses a periodic supercell with two fault interfaces, so that no vacuum layer and no free surface is needed.
+  - id: zhang2013:AIM3
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The paper tests the convergence of the stacking fault energy with supercell size.
+  - id: zhang2013:AIM4
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The paper computes each solute at two concentrations on the fault plane, 11 and 25 at.%.
+  - id: zhang2013:AIM5
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The paper explains the trends of the stacking fault energy with simple physical features of the solute atoms.
+  - id: zhang2013:AIM6
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 6
+    text: The stacking fault energies form a first-principles database meant to guide the design of formable magnesium alloys.
+
+  # ---------------- Methods ----------------
+  - id: zhang2013:METH1
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 2, para. 1
+    text: Energies are computed with VASP using PAW potentials and the PBE functional, relaxing atoms with Methfessel-Paxton smearing until forces are below 0.01 eV/A and taking final energies with the tetrahedron method.
+    about: [ent:DFT]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: The plane-wave cutoff energy is not reported.}
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "It is not stated whether calculations are spin-polarized, although Fe, Co, Ni, Mn and Cr are among the solutes."}
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: The magnesium lattice constants used and whether cell shape or only atomic positions were relaxed are not given.}
+  - id: zhang2013:METH2
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 2, para. 2-3, Fig. 1, Eq. (1)
+    text: "The I1 fault is built by switching the stacking from AB to CB halfway along c in a periodic supercell, which then contains two fault interfaces, and the stacking fault energy is (E - E0) / 2A."
+    about: [ent:I1, ent:SFE]
+  - id: zhang2013:METH3
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 2, para. 4, Fig. 2
+    text: One magnesium atom in the faulted layer of a 2x2x10 or a 3x3x10 supercell is replaced by a solute, giving 25 or 11 at.% on the fault plane, which the paper states as 2.5 and 1.1 at.% overall.
+    about: [ent:MgX]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 2 and Sec. 5
+        values:
+          - {symbol: n_2x2, quantity: atoms in the 2x2x10 supercell, value: 80}
+          - {symbol: n_3x3, quantity: atoms in the 3x3x10 supercell, value: 180}
+          - {symbol: n_sol, quantity: solute atoms per supercell (as described), value: 1}
+          - {symbol: c_2x2, quantity: stated overall concentration in 2x2x10, value: 2.5, unit: at.%}
+          - {symbol: c_3x3, quantity: stated overall concentration in 3x3x10, value: 1.1, unit: at.%}
+        derived_checks:
+          - {expression: "one solute in 80 atoms", formula: "100*n_sol/n_2x2", result: 1.25, unit: at.%}
+          - {expression: "one solute in 180 atoms", formula: "100*n_sol/n_3x3", result: 0.56, unit: at.%}
+          - {expression: "stated overall concentrations equal one solute per cell", formula: "abs(c_2x2 - 100*n_sol/n_2x2) < 0.1 and abs(c_3x3 - 100*n_sol/n_3x3) < 0.1", satisfied: false, note: "The stated values match two solutes per cell, i.e. possibly one per fault interface, which the text does not say."}
+    concerns:
+      - {concern_type: ARITHMETIC, priority: MEDIUM, description: "One solute in 80 or 180 atoms gives 1.25 and 0.56 at.%, not the stated 2.5 and 1.1 at.%."}
+
+  # ---------------- Results ----------------
+  - id: zhang2013:OBS1
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 3.1, Table 1, Fig. 3
+    text: The pure-magnesium stacking fault energy stops changing once the supercell has at least 10 unit cells along c, at 17.9-21.4 mJ/m2, within the published DFT range, and the 2x2x10 and 3x3x10 cells give 21.0 and 21.4 mJ/m2.
+    about: [ent:Mg, ent:SFE]
+    scope: {sample_count: 15, scope_note: 15 supercells from 1x1 to 3x3 in-plane and 4-12 unit cells along c}
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 1, Fig. 3
+        values:
+          - {symbol: g_2x2, quantity: pure-Mg SFE in 2x2x10, value: 21.0, unit: mJ/m2}
+          - {symbol: g_3x3, quantity: pure-Mg SFE in 3x3x10, value: 21.4, unit: mJ/m2}
+  - id: zhang2013:CLAIM1
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 3.1
+    text: The two-fault supercell gives converged stacking fault energies that agree with published DFT values, and the two cells used for alloys give nearly the same pure-magnesium value.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: A 15-cell convergence series and agreement with the literature range support it directly.
+  - id: zhang2013:OBS2
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 3.2, Table 2
+    text: Eighteen of the 52 solutes raise the I1 stacking fault energy, cobalt most with 34.8 and 54.1 mJ/m2 at 11 and 25 at.%.
+    about: [ent:MgX, ent:SFE]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: LOW, description: "Sec. 3.2 lists Ta among both the raising and the lowering solutes; Table 2 (21.7 and 24.6 mJ/m2) shows that it raises the SFE."}
+  - id: zhang2013:OBS3
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 3.2, Table 2
+    text: Most solutes lower the I1 stacking fault energy, including every rare earth; cesium lowers it most, to -33.3 mJ/m2 at 25 at.%, and nine solutes give a negative value.
+    about: [ent:MgX, ent:SFE]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: LOW, description: The paper suggests the faulted structure may be stable for the nine negative-SFE solutes but does not test it.}
+  - id: zhang2013:OBS4
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 3.2, Table 2
+    text: Differences below about 1 mJ/m2 from pure magnesium, e.g. Mo 21.6 and Rh 21.3 against 21.0 mJ/m2, are counted as increases of the stacking fault energy.
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: MEDIUM, description: "No numerical uncertainty is given, although the pure-Mg value varies by more than 1 mJ/m2 across converged cells."}
+  - id: zhang2013:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 3.2, Table 2
+    text: Table 2 is a first-principles database of the I1 stacking fault energy for 52 solutes at two concentrations, which divides the solutes into raisers and lowerers.
+    claim_modality: DESCRIPTIVE
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: HIGH, description: The introduction names eight solutes with earlier I1 values but the results never compare against them; this is the most direct test of the new setup.}
+    assessment:
+      validity: PARTIAL
+      rationale: The values are computed and tabulated for all 52 solutes, but small differences carry no uncertainty and the setup is never compared with the eight earlier I1 values.
+      proof_obligations:
+        - text: Compare the new values with the earlier I1 values for Al, Dy, Gd, Li, Nd, Pr, Tb and Y.
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data:
+            - {quantity: I1 SFE for the eight previously computed solutes, unit: mJ/m2, method: same supercell setup}
+        - text: Give a numerical uncertainty and treat changes inside it as no effect.
+          obligation_status: OPEN
+          priority: MEDIUM
+
+  # ---------------- Discussion ----------------
+  - id: zhang2013:OBS5
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 4.1, Fig. 4
+    text: At 11 at.%, almost every solute that lowers the stacking fault energy has a lower first ionization energy than magnesium, but ten solutes (Ag, Cr, Li, Mn, Mo, Nb, Ni, Rh, Ru, V) have a lower ionization energy and still raise it.
+    about: [ent:Ei]
+  - id: zhang2013:OBS6
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 4.1, Fig. 5
+    text: Virtually every solute that raises the stacking fault energy is smaller than magnesium (160 pm), including all ten exceptions to the ionization-energy trend (124-152 pm).
+    about: [ent:radius]
+  - id: zhang2013:OBS7
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 4.1, Fig. 6
+    text: Charge-density plots show cobalt gathering electrons and cesium pushing them away near the faulted plane.
+    scope: {sample_count: 2, scope_note: Co and Cs only}
+  - id: zhang2013:OBS8
+    statement_type: OBSERVATION
+    paper_part: METHODS
+    section: Sec. 2, para. 2
+    text: After relaxation the interplanar distance in the fcc-like zone at the fault is 5.178 A, slightly larger than the 5.165 A of the perfect lattice.
+  - id: zhang2013:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 4.1, final paragraph
+    text: Solutes with a low first ionization energy and a large atomic radius lower the I1 stacking fault energy of magnesium, and solutes with a high ionization energy and a small radius raise it.
+    claim_modality: CORRELATIONAL
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: HIGH, description: "The rule is read from two scatter plots; no fit and no count of how many of the 52 solutes it predicts correctly is given."}
+      - {concern_type: MISSING_QUANTIFICATION, priority: MEDIUM, description: The two factors are called competing but the paper does not say which dominates when they disagree.}
+    assessment:
+      validity: PARTIAL
+      rationale: Both correlations are visible and the radius accounts for the ten ionization-energy exceptions, but the combined rule is never tested quantitatively.
+  - id: zhang2013:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    paper_part: DISCUSSION
+    section: Sec. 4.1, para. 5-6
+    text: A solute with a high ionization energy forms a local potential well that gathers charge near the fault, so forming the fault needs more charge redistribution and the stacking fault energy rises.
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, priority: MEDIUM, description: The mechanism rests on charge-density pictures for two solutes and no quantitative charge analysis.}
+    assessment:
+      validity: WEAK
+      rationale: Shown by plots for the two extreme solutes only; no charge transfer is computed for the others.
+  - id: zhang2013:CLAIM5
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    paper_part: DISCUSSION
+    section: Sec. 4.1, para. 7
+    text: Large solutes lower the stacking fault energy because they expand the lattice locally, which favours the wider fcc-like zone at the fault.
+    claim_modality: CAUSAL
+    assessment:
+      validity: WEAK
+      rationale: Argued from a 0.013 A difference in interplanar distance and the size correlation; the local strain around solutes is not computed.
+  - id: zhang2013:OBS9
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 4.2, Fig. 7
+    text: For most solutes the change of the stacking fault energy grows from 11 to 25 at.% (Ga 19.0 to 3.3 mJ/m2), but for 23 solutes it moves back toward pure magnesium (Er 5.6 to 10.2 mJ/m2), including all rare earths except La, Ce, Pr, Nd and Yb.
+    note: A result reported in the discussion; Sepideh maps it to the results (location and function differ).
+  - id: zhang2013:OBS10
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 4.2 (annotator)
+    text: In the 2x2x10 cell each solute is about 6.4 A, two lattice spacings, from its own periodic image.
+    note: Derived by Sepideh from the cell geometry; not stated in the paper.
+  - id: zhang2013:CLAIM6
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: SPECULATIVE
+    paper_part: DISCUSSION
+    section: Sec. 4.2, final paragraph
+    text: The reversal at 25 at.% arises because electrons tunnel between neighbouring solutes above about 20 at.%, which weakens the local potential wells and hills; the authors say this needs further verification.
+    claim_modality: CAUSAL
+    evidence:
+      - {evidence_kind: CITATION, references: ['33']}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Proposed from a cited concept and not tested; direct solute-image interaction in the small cell is an untested alternative.
+  - id: zhang2013:LIM1
+    statement_type: LIMITATION
+    limitation_kind: INTERPRETATION
+    paper_part: DISCUSSION
+    section: Sec. 4.2
+    text: The tunnelling explanation of the concentration reversal is preliminary and needs further verification.
+  - id: zhang2013:CLAIM7
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: PROPOSED
+    paper_part: DISCUSSION
+    section: Sec. 3.2, 4.2
+    text: The SFE rule and the rare-earth trend give a screening rule for magnesium alloy design, and Yb and Bi additions or a rare-earth optimum are worth testing experimentally.
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: WEAK
+      rationale: Follows from the correlation, but the link from a lower I1 energy to ductility rests on the cited studies and no alloy is tested.
+  - id: zhang2013:OUT1
+    statement_type: OUTLOOK
+    paper_part: DISCUSSION
+    section: Sec. 4.2
+    text: Yb and Bi may raise the stacking-fault density, and rare-earth content should be optimised rather than maximised.
+
+  # ---------------- Conclusions ----------------
+  - id: zhang2013:CLAIM8
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 5, sentences 1-3
+    text: Convergence of the supercells was tested strictly and is satisfactory for the 2x2x10 cell.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: Restates the convergence result of Sec. 3.1.
+  - id: zhang2013:CLAIM9
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 5, sentences 4-5
+    text: Cobalt and cesium bracket the range of stacking fault energies; eighteen solutes raise it and most, including every rare earth, lower it.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: Restates Table 2, here with Ta correctly among the raisers; small changes still carry no uncertainty.
+  - id: zhang2013:CLAIM10
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 5, sentence 6
+    text: Solutes with lower ionization energy and larger radius decrease the stacking fault energy, and those with higher ionization energy and smaller radius increase it.
+    claim_modality: CORRELATIONAL
+    assessment:
+      validity: PARTIAL
+      rationale: Same rule as in the discussion, with the same lack of a quantitative test.
+  - id: zhang2013:CLAIM11
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 5, sentences 7-9
+    text: The effect of a solute usually grows with concentration, but most rare earths change the stacking fault energy non-monotonically.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: Restates the concentration results of Sec. 4.2 and Fig. 7.
+  - id: zhang2013:CLAIM12
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 5, final sentence
+    text: The abnormal concentration dependence of the stacking fault energy is correlated with quantum tunnelling.
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: OVERCLAIM, priority: HIGH, description: The discussion calls the tunnelling explanation preliminary; the conclusion states it without that caveat.}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Restates an untested explanation with more certainty than the discussion gives it.
+
+relations:
+  # introduction
+  - {id: zhang2013:R1, subject: zhang2013:BG1, predicate: MOTIVATES, object: zhang2013:BG2, asserted_by: AUTHORS}
+  - {id: zhang2013:R2, subject: zhang2013:BG3, predicate: MOTIVATES, object: zhang2013:BG4, asserted_by: AUTHORS}
+  - {id: zhang2013:R3, subject: zhang2013:BG4, predicate: MOTIVATES, object: zhang2013:GAP1, asserted_by: AUTHORS}
+  - {id: zhang2013:R4, subject: zhang2013:BG5, predicate: MOTIVATES, object: zhang2013:GAP2, asserted_by: AUTHORS}
+  - {id: zhang2013:R5, subject: zhang2013:GAP1, predicate: MOTIVATES, object: zhang2013:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2013:R6, subject: zhang2013:GAP2, predicate: MOTIVATES, object: zhang2013:AIM2, asserted_by: AUTHORS}
+  - {id: zhang2013:R7, subject: zhang2013:GAP2, predicate: MOTIVATES, object: zhang2013:AIM3, asserted_by: AUTHORS}
+  - {id: zhang2013:R8, subject: zhang2013:GAP3, predicate: MOTIVATES, object: zhang2013:AIM4, asserted_by: ANNOTATOR, note: implicit gap}
+  - {id: zhang2013:R9, subject: zhang2013:BG3, predicate: MOTIVATES, object: zhang2013:AIM5, asserted_by: AUTHORS}
+  - {id: zhang2013:R10, subject: zhang2013:BG2, predicate: MOTIVATES, object: zhang2013:AIM6, asserted_by: AUTHORS}
+  # golden thread: what delivers each aim
+  - {id: zhang2013:R11, subject: zhang2013:METH3, predicate: DELIVERS, object: zhang2013:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2013:R12, subject: zhang2013:OBS2, predicate: DELIVERS, object: zhang2013:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2013:R13, subject: zhang2013:CLAIM2, predicate: DELIVERS, object: zhang2013:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2013:R14, subject: zhang2013:METH2, predicate: DELIVERS, object: zhang2013:AIM2, asserted_by: AUTHORS}
+  - {id: zhang2013:R15, subject: zhang2013:OBS1, predicate: DELIVERS, object: zhang2013:AIM2, asserted_by: AUTHORS, note: pure-Mg values agree with published DFT}
+  - {id: zhang2013:R16, subject: zhang2013:METH2, predicate: DELIVERS, object: zhang2013:AIM3, asserted_by: AUTHORS}
+  - {id: zhang2013:R17, subject: zhang2013:CLAIM1, predicate: DELIVERS, object: zhang2013:AIM3, asserted_by: AUTHORS}
+  - {id: zhang2013:R18, subject: zhang2013:METH3, predicate: DELIVERS, object: zhang2013:AIM4, asserted_by: AUTHORS}
+  - {id: zhang2013:R19, subject: zhang2013:OBS9, predicate: DELIVERS, object: zhang2013:AIM4, asserted_by: AUTHORS}
+  - {id: zhang2013:R20, subject: zhang2013:CLAIM3, predicate: DELIVERS, object: zhang2013:AIM5, asserted_by: AUTHORS}
+  - {id: zhang2013:R21, subject: zhang2013:CLAIM7, predicate: DELIVERS, object: zhang2013:AIM6, asserted_by: AUTHORS}
+  # restatements in the conclusion
+  - {id: zhang2013:R22, subject: zhang2013:CLAIM8, predicate: RESTATES, object: zhang2013:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: zhang2013:R23, subject: zhang2013:CLAIM9, predicate: RESTATES, object: zhang2013:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: zhang2013:R24, subject: zhang2013:CLAIM10, predicate: RESTATES, object: zhang2013:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: zhang2013:R25, subject: zhang2013:CLAIM11, predicate: RESTATES, object: zhang2013:OBS9, asserted_by: ANNOTATOR}
+  - {id: zhang2013:R26, subject: zhang2013:CLAIM12, predicate: RESTATES, object: zhang2013:CLAIM6, asserted_by: ANNOTATOR}
+  # support
+  - id: zhang2013:R27
+    subject: zhang2013:OBS1
+    predicate: SUPPORTS
+    object: zhang2013:CLAIM1
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "15 cells, benchmarked against published values."}
+  - id: zhang2013:R28
+    subject: zhang2013:OBS2
+    predicate: SUPPORTS
+    object: zhang2013:CLAIM2
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: INTERMEDIATE
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "No uncertainty on small changes; no comparison with earlier I1 values."}
+  - {id: zhang2013:R29, subject: zhang2013:OBS3, predicate: SUPPORTS, object: zhang2013:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE}
+  - {id: zhang2013:R30, subject: zhang2013:CLAIM1, predicate: SUPPORTS, object: zhang2013:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, essential: true}
+  - {id: zhang2013:R31, subject: zhang2013:OBS4, predicate: QUALIFIES, object: zhang2013:CLAIM2, asserted_by: ANNOTATOR, note: small differences are within the scatter of the pure-Mg value}
+  - id: zhang2013:R32
+    subject: zhang2013:OBS5
+    predicate: SUPPORTS
+    object: zhang2013:CLAIM3
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Free-atom ionization energy as a proxy; trend read by eye, ten exceptions."}
+  - id: zhang2013:R33
+    subject: zhang2013:OBS6
+    predicate: SUPPORTS
+    object: zhang2013:CLAIM3
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Free-atom radius as a proxy for local strain; no count of violations."}
+  - {id: zhang2013:R34, subject: zhang2013:OBS7, predicate: SUPPORTS, object: zhang2013:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK}
+  - {id: zhang2013:R35, subject: zhang2013:OBS5, predicate: SUPPORTS, object: zhang2013:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK}
+  - {id: zhang2013:R36, subject: zhang2013:OBS8, predicate: SUPPORTS, object: zhang2013:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK}
+  - {id: zhang2013:R37, subject: zhang2013:OBS6, predicate: SUPPORTS, object: zhang2013:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK}
+  - {id: zhang2013:R38, subject: zhang2013:OBS9, predicate: MOTIVATES, object: zhang2013:CLAIM6, asserted_by: AUTHORS}
+  - {id: zhang2013:R39, subject: zhang2013:OBS10, predicate: ALTERNATIVE_EXPLANATION_FOR, object: zhang2013:CLAIM6, asserted_by: ANNOTATOR_BACKGROUND, note: direct solute-image interaction or strain overlap could also explain the reversal}
+  - {id: zhang2013:R40, subject: zhang2013:LIM1, predicate: QUALIFIES, object: zhang2013:CLAIM6, asserted_by: AUTHORS}
+  - {id: zhang2013:R41, subject: zhang2013:CLAIM3, predicate: SUPPORTS, object: zhang2013:CLAIM7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true}
+  - {id: zhang2013:R42, subject: zhang2013:BG4, predicate: SUPPORTS, object: zhang2013:CLAIM7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK}
+  - {id: zhang2013:R43, subject: zhang2013:CLAIM7, predicate: MOTIVATES, object: zhang2013:OUT1, asserted_by: AUTHORS}
+  - {id: zhang2013:R44, subject: zhang2013:OBS1, predicate: SUPPORTS, object: zhang2013:CLAIM8, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG}
+  - {id: zhang2013:R45, subject: zhang2013:OBS2, predicate: SUPPORTS, object: zhang2013:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE}
+  - {id: zhang2013:R46, subject: zhang2013:OBS3, predicate: SUPPORTS, object: zhang2013:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE}
+  - {id: zhang2013:R47, subject: zhang2013:OBS5, predicate: SUPPORTS, object: zhang2013:CLAIM10, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE}
+  - {id: zhang2013:R48, subject: zhang2013:OBS6, predicate: SUPPORTS, object: zhang2013:CLAIM10, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE}
+  - {id: zhang2013:R49, subject: zhang2013:OBS9, predicate: SUPPORTS, object: zhang2013:CLAIM11, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG}
+  - {id: zhang2013:R50, subject: zhang2013:CLAIM6, predicate: SUPPORTS, object: zhang2013:CLAIM12, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The computational core holds: the two-fault supercell converges, agrees with published
+    values, and delivers I1 stacking fault energies for 52 solutes at two concentrations, which
+    closes the coverage and method gaps named in the introduction. The ionization-energy and
+    radius rule is a visible correlation but is never tested quantitatively, and the mechanisms
+    rest on pictures for two solutes. The tunnelling explanation is called preliminary in the
+    discussion and stated plainly in the conclusion. The no-vacuum design and the alloy-design
+    payoff promised in the introduction are not restated at the end, and the conclusion states
+    no limitations.
+  key_limitations:
+    - Small SFE changes carry no uncertainty and the setup is not compared with the eight earlier I1 values (CLAIM2, OBS4).
+    - The combined rule is a correlation without a count of correct predictions or a weighting of the two factors (CLAIM3).
+    - Mechanisms rest on two charge-density plots and a 0.013 A spacing difference (CLAIM4, CLAIM5).
+    - The tunnelling explanation is untested and gains certainty in the conclusion (CLAIM6, CLAIM12).
+    - Cutoff energy, spin treatment and lattice parameters are not reported, and the stated overall concentrations do not follow from the described cells (METH1, METH3).
+  missing_evidence:
+    - Comparison with earlier I1 values for Al, Dy, Gd, Li, Nd, Pr, Tb and Y
+    - Count of solutes the ionization-energy and radius rule predicts correctly
+    - Charge transfer computed for every solute, not only Co and Cs
+    - Larger in-plane cells at 25 at.% to separate tunnelling from solute-image interaction

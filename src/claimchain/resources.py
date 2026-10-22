@@ -10,6 +10,7 @@ _REPO_FILES = {
     "claim_chain.yaml": _REPO_ROOT / "schema" / "claim_chain.yaml",
     "example.yaml": _REPO_ROOT / "examples" / "wang2026_lattice_genome" / "wang2026_lattice_genome.yaml",
     "example_v04.yaml": _REPO_ROOT / "examples" / "zhuang2017_d019_mgal" / "zhuang2017_d019_mgal_claimchain.yaml",
+    "example_v06.yaml": _REPO_ROOT / "examples" / "zhang2013_mg_sfe" / "zhang2013_mg_sfe.yaml",
 }
 
 

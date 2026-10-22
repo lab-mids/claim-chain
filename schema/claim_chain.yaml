@@ -20,7 +20,14 @@ description: >-
   each claim's verdict from its links (weakest-link rule) and compare it with
   the annotator's verdict. It replaces the per-claim criteria draft. All
   v0.5 additions are optional, so v0.4 files stay valid.
-version: 0.5.0
+  v0.6 adds, from Sepideh's paper logic map: AIM statements (what the paper
+  promises to do), DELIVERS and RESTATES relations, so that scripts/render.py
+  can follow each aim from the introduction to the conclusion (the golden
+  thread) and detect claims that grow more certain at the end; an ARITHMETIC
+  concern and a priority on concerns, so that the local checks of each part
+  (completeness, arithmetic, consistency) can be counted per part. All v0.6
+  additions are optional, so v0.5 files stay valid.
+version: 0.6.0
 license: CC-BY-4.0
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -34,6 +41,7 @@ prefixes:
   ent: https://w3id.org/claim-chain/entity/
   wang2026: https://w3id.org/claim-chain/arXiv2606.09611v1/
   zhuang2017: https://w3id.org/claim-chain/doi10.1088-1361-651X-aa7e0c/
+  zhang2013: https://w3id.org/claim-chain/doi10.1016-j.commatsci.2013.07.012/
   agarwal2026: https://w3id.org/claim-chain/arXiv2610.26996/
   benmoumen2026: https://w3id.org/claim-chain/arXiv2610.27240/
   toncich2026: https://w3id.org/claim-chain/arXiv2610.27355/
@@ -278,6 +286,7 @@ classes:
     slots:
       - concern_type
       - description
+      - priority
 
 slots:
   id:
@@ -516,7 +525,7 @@ slots:
       the statement's own evidence supports it.
   priority:
     range: Priority
-    description: How much the argument depends on an open question or obligation.
+    description: How much the argument depends on an open question, obligation or concern.
   cited_works:
     range: CitedWork
     multivalued: true
@@ -580,6 +589,12 @@ enums:
         description: Problem or gap the work addresses.
       HYPOTHESIS:
         description: Proposition the paper sets out to establish (the central thesis or a sub-hypothesis).
+      AIM:
+        description: >-
+          What the paper promises to do or deliver ("In this work we ..."), and
+          the payoff it promises. Usually in the introduction; many papers state
+          aims rather than a hypothesis. Followed to the conclusion through
+          DELIVERS links (the golden thread).
       QUESTION:
         description: Research or bridging question.
       DEFINITION:
@@ -635,6 +650,15 @@ enums:
         description: The subject uses the object (e.g. a method uses a definition).
       ANALOG_OF:
         description: The subject is defined by analogy to the object.
+      DELIVERS:
+        description: >-
+          The subject (method, observation or claim) carries out or delivers the
+          object, an AIM (or a GAP the paper says it closes).
+      RESTATES:
+        description: >-
+          The subject restates the object later in the paper, e.g. a conclusion
+          sentence restating a discussion claim. render.py compares their
+          author_certainty to find claims that grow more (or less) certain.
       CONDITIONALLY_SUPPORTS:
         description: >-
           Would support the object if the subject were shown; used for
@@ -676,8 +700,11 @@ enums:
         description: Conflicts with another statement in the same paper, and the paper does not say so.
       UNADDRESSED_COUNTEREVIDENCE:
       INTERNAL_INCONSISTENCY:
-        description: Notation, numbering or terminology mismatch.
+        description: Notation, numbering or terminology mismatch, or text that disagrees with the paper's own tables (consistency check).
       REPRODUCIBILITY:
+        description: A detail needed to reproduce or judge this part is not reported (completeness check).
+      ARITHMETIC:
+        description: A stated number cannot be derived from the paper's own description or values (arithmetic check).
       CAUSAL_OVERREACH:
         description: Causal or mechanistic claim supported only by correlational or visual evidence.
 

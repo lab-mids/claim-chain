@@ -75,3 +75,13 @@ Use the general checks for every paper, then the section for its type. Each item
 - [ ] Failures visible in the paper (screening missed candidates the researcher added).
 - [ ] Reproducibility: proprietary model versions, regenerated code, repeat runs.
 - [ ] Separate the physics claims (assess like a computational paper) from the claims about the AI framework (usually INCONCLUSIVE without a baseline).
+
+## Questions per part (Sepideh's question spine)
+
+Ask these of every paper, part by part. An unanswered question is where the argument is weakest; "not reported" items become REPRODUCIBILITY concerns.
+
+- **Introduction:** Why does the field matter? What is the specific problem? What controls it? Why believe it matters in this system? How can it be studied, and why this method? What is still missing (coverage and method gaps)? What does the paper do, one aim per gap? Why does it matter (payoff)?
+- **Methods:** Which theory, code and settings? How is the system or sample built? How is the quantity computed or measured? Which equation defines the result? Is it converged and validated on a known case? How is the variable of interest controlled? Could a reader reproduce it from the text alone?
+- **Results:** Does the method reproduce known values, including earlier values the introduction names? What is the main split or trend? What are the extremes, with numbers? How does the result depend on the controlled variable? Which aims do the results deliver?
+- **Discussion:** Which results need explaining? What hypothesis could explain them? Does it fit the data, and which cases break it? What mechanism links cause and effect, and for how many cases is it shown? What alternative explanations exist?
+- **Conclusions:** Is every aim delivered and restated? Does any claim grow more certain than in the discussion? Are limitations and next steps stated? Does the end return to the opening problem?

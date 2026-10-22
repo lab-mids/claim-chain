@@ -1,0 +1,100 @@
+flowchart TD
+  BG1 --> BG2
+  BG3 --> BG4
+  BG4 --> GAP1
+  BG5 --> GAP2
+  GAP1 --> AIM1
+  GAP2 --> AIM2
+  GAP2 --> AIM3
+  GAP3 --> AIM4
+  BG3 --> AIM5
+  BG2 --> AIM6
+  METH3 --> AIM1
+  OBS2 --> AIM1
+  CLAIM2 --> AIM1
+  METH2 --> AIM2
+  OBS1 --> AIM2
+  METH2 --> AIM3
+  CLAIM1 --> AIM3
+  METH3 --> AIM4
+  OBS9 --> AIM4
+  CLAIM3 --> AIM5
+  CLAIM7 --> AIM6
+  CLAIM8 -.->|restates| CLAIM1
+  CLAIM9 -.->|restates| CLAIM2
+  CLAIM10 -.->|restates| CLAIM3
+  CLAIM11 -.->|restates| OBS9
+  CLAIM12 -.->|restates| CLAIM6
+  OBS1 ==> CLAIM1
+  OBS2 --> CLAIM2
+  OBS3 --> CLAIM2
+  CLAIM1 ==> CLAIM2
+  OBS4 -.->|qualifies| CLAIM2
+  OBS5 --> CLAIM3
+  OBS6 --> CLAIM3
+  OBS7 --> CLAIM4
+  OBS5 --> CLAIM4
+  OBS8 --> CLAIM5
+  OBS6 --> CLAIM5
+  OBS9 --> CLAIM6
+  OBS10 -.->|alternative explanation for| CLAIM6
+  LIM1 -.->|qualifies| CLAIM6
+  CLAIM3 --> CLAIM7
+  BG4 --> CLAIM7
+  CLAIM7 --> OUT1
+  OBS1 ==> CLAIM8
+  OBS2 --> CLAIM9
+  OBS3 --> CLAIM9
+  OBS5 --> CLAIM10
+  OBS6 --> CLAIM10
+  OBS9 ==> CLAIM11
+  CLAIM6 --> CLAIM12
+  AIM1["<b>AIM1</b><br/>The paper computes the I1 stacking fault energy of …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper uses a periodic supercell with two fault …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper tests the convergence of the stacking fault …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper computes each solute at two concentrations on …"]:::claim
+  AIM5["<b>AIM5</b><br/>The paper explains the trends of the stacking fault …"]:::claim
+  AIM6["<b>AIM6</b><br/>The stacking fault energies form a first-principles database meant …"]:::claim
+  BG1["<b>BG1</b><br/>Magnesium alloys are the lightest structural metals, but wrought …"]:::bg
+  BG2["<b>BG2</b><br/>Hcp magnesium has only two independent basal slip systems …"]:::bg
+  BG3["<b>BG3</b><br/>Stacking fault energy governs the deformation behaviour of metals, …"]:::bg
+  BG4["<b>BG4</b><br/>Studies of Mg-Y, Mg-Zn-Y and Mg-Li or Mg-Al link …"]:::bg
+  BG5["<b>BG5</b><br/>Measured stacking fault energies of magnesium scatter between 50 …"]:::bg
+  CLAIM1["<b>CLAIM1 ✓</b><br/>The two-fault supercell gives converged stacking fault energies that …"]:::claim
+  CLAIM10["<b>CLAIM10 (partial)</b><br/>Solutes with lower ionization energy and larger radius decrease …"]:::claim
+  CLAIM11["<b>CLAIM11 ✓</b><br/>The effect of a solute usually grows with concentration, …"]:::claim
+  CLAIM12["<b>CLAIM12 ?</b><br/>The abnormal concentration dependence of the stacking fault energy …"]:::claim
+  CLAIM2["<b>CLAIM2 (partial)</b><br/>Table 2 is a first-principles database of the I1 …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>Solutes with a low first ionization energy and a …"]:::claim
+  CLAIM4["<b>CLAIM4 (weak)</b><br/>A solute with a high ionization energy forms a …"]:::claim
+  CLAIM5["<b>CLAIM5 (weak)</b><br/>Large solutes lower the stacking fault energy because they …"]:::claim
+  CLAIM6["<b>CLAIM6 ?</b><br/>The reversal at 25 at.% arises because electrons tunnel …"]:::claim
+  CLAIM7["<b>CLAIM7 (weak)</b><br/>The SFE rule and the rare-earth trend give a …"]:::claim
+  CLAIM8["<b>CLAIM8 ✓</b><br/>Convergence of the supercells was tested strictly and is …"]:::claim
+  CLAIM9["<b>CLAIM9 (partial)</b><br/>Cobalt and cesium bracket the range of stacking fault …"]:::claim
+  GAP1["<b>GAP1</b><br/>The I1 stacking fault energy has been computed for …"]:::bg
+  GAP2["<b>GAP2</b><br/>Earlier DFT calculations of the I1 fault used vacuum …"]:::bg
+  GAP3["<b>GAP3</b><br/>Earlier calculations of solute effects on the I1 fault …"]:::bg
+  LIM1["<b>LIM1</b><br/>The tunnelling explanation of the concentration reversal is preliminary …"]:::lim
+  METH2["<b>METH2</b><br/>The I1 fault is built by switching the stacking …"]:::meth
+  METH3["<b>METH3</b><br/>One magnesium atom in the faulted layer of a …"]:::meth
+  OBS1["<b>OBS1</b><br/>The pure-magnesium stacking fault energy stops changing once the …"]:::obs
+  OBS10["<b>OBS10</b><br/>In the 2x2x10 cell each solute is about 6.4 …"]:::obs
+  OBS2["<b>OBS2</b><br/>Eighteen of the 52 solutes raise the I1 stacking …"]:::obs
+  OBS3["<b>OBS3</b><br/>Most solutes lower the I1 stacking fault energy, including …"]:::obs
+  OBS4["<b>OBS4</b><br/>Differences below about 1 mJ/m2 from pure magnesium, e.g. …"]:::obs
+  OBS5["<b>OBS5</b><br/>At 11 at.%, almost every solute that lowers the …"]:::obs
+  OBS6["<b>OBS6</b><br/>Virtually every solute that raises the stacking fault energy …"]:::obs
+  OBS7["<b>OBS7</b><br/>Charge-density plots show cobalt gathering electrons and cesium pushing …"]:::obs
+  OBS8["<b>OBS8</b><br/>After relaxation the interplanar distance in the fcc-like zone …"]:::obs
+  OBS9["<b>OBS9</b><br/>For most solutes the change of the stacking fault …"]:::obs
+  OUT1["<b>OUT1</b><br/>Yb and Bi may raise the stacking-fault density, and …"]:::out
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

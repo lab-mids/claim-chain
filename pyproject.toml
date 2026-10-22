@@ -31,6 +31,7 @@ packages = ["src/claimchain"]
 "schema/claim_chain.yaml" = "claimchain/data/claim_chain.yaml"
 "examples/wang2026_lattice_genome/wang2026_lattice_genome.yaml" = "claimchain/data/example.yaml"
 "examples/zhuang2017_d019_mgal/zhuang2017_d019_mgal_claimchain.yaml" = "claimchain/data/example_v04.yaml"
+"examples/zhang2013_mg_sfe/zhang2013_mg_sfe.yaml" = "claimchain/data/example_v06.yaml"
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

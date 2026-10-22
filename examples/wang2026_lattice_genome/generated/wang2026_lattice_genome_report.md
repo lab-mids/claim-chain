@@ -86,6 +86,15 @@ Causal claims (check against correlational evidence): OBS3, CLAIM6, LIM4.
 - **CLAIM7** overclaim: Conclusion attributes "better contrast" to the spreads; only shown (by eye) for KLVS.
 - **CLAIM9** overgeneralization: Not demonstrated; all three maps are single-phase and indexable.
 
+**Local checks per part** (issues found; failed derived checks count as arithmetic):
+
+| Part | Completeness | Arithmetic | Consistency | Argument | High or critical |
+|---|---|---|---|---|---|
+| theory | 1 | 0 | 1 | 3 | 0 |
+| methods | 1 | 0 | 0 | 2 | 0 |
+| results | 2 | 0 | 3 | 5 | 0 |
+| discussion | 0 | 0 | 0 | 2 | 0 |
+
 ## 3. Missing evidence
 
 - Quantitative test of latent distance against misorientation and dislocation density.

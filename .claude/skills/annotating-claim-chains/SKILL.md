@@ -13,8 +13,9 @@ The value lies in the assessment, not in the transcription. A file that paraphra
 
 ## Before you start
 
-1. Read `schema/claim_chain.yaml` (enums, required slots) and two reference examples:
+1. Read `schema/claim_chain.yaml` (enums, required slots) and three reference examples:
    - `examples/wang2026_lattice_genome/wang2026_lattice_genome.yaml`: style. Short self-contained statement texts, a comment header per paper section, flow-style relations on one line each.
+   - `examples/zhang2013_mg_sfe/zhang2013_mg_sfe.yaml`: the v0.6 features. Aims instead of a hypothesis, DELIVERS and RESTATES links (golden thread), certainty drift, local checks with concern priorities.
    - `examples/zhuang2017_d019_mgal/zhuang2017_d019_mgal_claimchain.yaml`: the v0.4 and v0.5 features. Warrants, link criteria and essential links, derived checks with formulas, claim roles, author certainty, prioritized proof obligations with requested data, `cited_works`.
 2. Set up the tools once (in a scratch directory, not the repo):
    ```bash
@@ -32,6 +33,7 @@ The value lies in the assessment, not in the transcription. A file that paraphra
 5. **Cited works** (optional, `<prefix>:ref<n>`): only the references the argument actually leans on (an inference rule, a validated baseline), each with `cited_for` saying what it is assumed to provide. Background citations can stay as plain numbers in `evidence.references`.
 6. **Statements, part by part** (`paper_part`), in reading order:
    - INTRODUCTION: BACKGROUND (cited), GAP, one central HYPOTHESIS (the thesis the paper sets out to establish), and ASSUMPTIONs taken on board.
+   - AIMs: what the paper promises to do or deliver ("In this work we ..."), one per promise, including the promised payoff. Many papers state aims rather than a hypothesis; then AIMs replace the HYPOTHESIS. A gap the contributions imply but the text never states is a GAP with a `note` saying so.
    - METHODS / THEORY: METHOD, DATA (with `scope.sample_count`), ASSUMPTION (with `assumption_basis` and `open_question`), DEFINITION.
    - RESULTS: OBSERVATION (what the data show, with numbers in `evidence.values`), then CLAIM (what the authors conclude from it).
    - DISCUSSION / CONCLUSION: CLAIMs (generalizations, mechanisms), LIMITATIONs the authors themselves state (`limitation_kind`), OUTLOOK, open QUESTIONs (with `priority`).
@@ -47,6 +49,7 @@ The value lies in the assessment, not in the transcription. A file that paraphra
     - `ANNOTATOR`: you derived it from the paper's own content (e.g. its own table contradicts its own claim).
     - `ANNOTATOR_BACKGROUND`: it needs outside domain knowledge (e.g. "a 3-7 nm grain size alone can stabilize t-ZrO2").
     Test every SUPPORTS and CONDITIONALLY_SUPPORTS link into a claim on five criteria in `link_criteria` (MET, PARTLY, NOT_MET or NOT_APPLICABLE, with a short `criteria_note`): **directness** (does the evidence measure the claimed quantity, or only a proxy?), **sufficiency** (samples, repeats, statistics, error analysis), **controls** (confounders, a fair baseline), **alternatives** (other plausible explanations excluded?) and **scope_match** (does the claim stay within what was tested?). Set `support_strength` to match: all met STRONG; one or two partly INTERMEDIATE; one failed or more than two partly WEAK; directness or scope failed UNSUPPORTED (the link does not carry the claim at all). Mark a link `essential: true` only if the claim cannot hold without it; render.py caps a claim at its weakest essential link and at the verdict of the claim that link comes from, and reports where its derived verdict differs from yours.
+    Follow the golden thread: a DELIVERS link from each method, observation or claim that carries out an AIM to that AIM, and a RESTATES link from each conclusion or abstract sentence to the earlier statement it restates. Give both statements their `author_certainty`, so render.py can flag claims that grow more certain at the end and aims that are dropped or not restated. `paper_part` records where a statement appears, even if it does a different job there (a result reported in the discussion stays DISCUSSION; say so in a `note`).
 12. **paper_assessment**: `overall_validity`, a 3-5 sentence `summary` (what holds, then what does not), 3-5 `key_limitations` each citing statement ids, and `missing_evidence`. Do not write `logic_score`; render.py computes it.
 13. **Validate and render** (both must be clean before you report):
     ```bash
@@ -77,6 +80,7 @@ Work through **review-checklist.md** (in this directory) for every paper: the ge
 
 - **Plug the paper's numbers into the paper's own equations**, as derived checks. Fitted parameters often contradict the model they claim to confirm.
 - **Check normalisation and units of compared quantities** (per cell vs per atom, per mass vs per volume). *Zhuang 2017: DOS(E_F) compared per cell across cells of 8, 4 and 2 atoms.*
+- **Check each part locally**, as a reviewer reading it on its own: *completeness* (is everything needed to reproduce or judge this part reported? REPRODUCIBILITY), *arithmetic* (can every stated number be derived from the description? ARITHMETIC, plus a derived check), *consistency* (does the text agree with the paper's own tables, lists and earlier sections? INTERNAL_INCONSISTENCY). Give every concern a `priority`; render.py counts them per part.
 - **Compare abstract, main text, figure captions, tables and supplement** with each other, and look for a baseline or reference value reported with different values in different places. Each mismatch is evidence (a CONTRADICTS or UNDERCUTS link).
 - **Compare abstract and highlights with the results and limitations sections.** Headline claims ("we demonstrate", "predictive", "optimal", "material-independent") often exceed what the body shows, and sometimes the body concedes the opposite.
 - **Count samples, repeats, micrographs and error bars.** Record `sample_count` and flag n = 1 generalizations.
@@ -105,6 +109,7 @@ Work through **review-checklist.md** (in this directory) for every paper: the ge
 - Marking a rule of thumb as CITATION when the citation only names it; an empirical correlation stays EMPIRICAL_CORRELATION even if cited.
 - Marking outside-knowledge links as ANNOTATOR instead of ANNOTATOR_BACKGROUND.
 - Rating support strength by feel instead of from the five link criteria, or marking every link essential.
+- Leaving AIMs without DELIVERS links, or a conclusion sentence without a RESTATES link to the claim it repeats.
 - Citing a statement as support for itself or skipping SUPPORTS links from CLAIMs to the HYPOTHESIS.
 - Reporting completion before linkml-validate and render.py both pass.
 - Overstating your own certainty in the summary: say that the file is a draft, which verdicts rest on figures you could not see, and which links are background knowledge.

@@ -26,6 +26,9 @@ def build_parser() -> argparse.ArgumentParser:
                    help="correction rounds when the YAML fails validation (default: 2)")
     p.add_argument("--no-fallback", action="store_true",
                    help="disable the server-side refusal fallback (needed on Bedrock, Vertex AI, Foundry)")
+    p.add_argument("--intro-first", action="store_true",
+                   help="first fix background, gaps, hypothesis and aims from the abstract and introduction only, "
+                        "then encode the whole paper against them (one extra request)")
     p.add_argument("-q", "--quiet", action="store_true", help="no progress messages")
     p.add_argument("--version", action="version", version=f"claimchain {__version__}")
     return p
@@ -41,7 +44,8 @@ def main(argv: list[str] | None = None) -> int:
 
     try:
         result = convert_pdf(args.pdf, model=args.model, effort=args.effort,
-                             max_repairs=args.max_repairs, fallback=not args.no_fallback, log=log)
+                             max_repairs=args.max_repairs, fallback=not args.no_fallback,
+                             intro_first=args.intro_first, log=log)
     except (ConversionError, anthropic.APIError) as exc:
         print(f"claimchain: {exc}", file=sys.stderr)
         return 2

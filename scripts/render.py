@@ -1,7 +1,9 @@
 """Render a claim-chain argument-chain YAML into Markdown and Mermaid views,
 compute the logic score, and write the three-part report (logic, limitations,
 missing evidence). Also derives each claim's verdict from its support links
-(weakest-link rule) and draws a one-page summary chart.
+(weakest-link rule), draws a one-page summary chart, follows each aim from the
+introduction to the conclusion (golden thread), and counts the local checks of
+each part of the paper.
 
 Usage: python scripts/render.py examples/<paper>/<paper>.yaml examples/<paper>/generated/
 Also checks that every relation points to a known statement or entity, and
@@ -16,7 +18,7 @@ from pathlib import Path
 import yaml
 
 TYPE_STYLE = {
-    "BACKGROUND": "bg", "GAP": "bg", "HYPOTHESIS": "claim", "QUESTION": "q",
+    "BACKGROUND": "bg", "GAP": "bg", "HYPOTHESIS": "claim", "AIM": "claim", "QUESTION": "q",
     "DEFINITION": "claim", "ASSUMPTION": "asm", "METHOD": "meth", "DATA": "meth",
     "OBSERVATION": "obs", "CLAIM": "claim", "LIMITATION": "lim", "OUTLOOK": "out",
 }
@@ -33,9 +35,10 @@ EDGE = {
     "SUPPORTS": "-->", "MOTIVATES": "-->", "ANSWERS": "-->", "DEPENDS_ON": "-.->",
     "UNDERCUTS": "-.->", "CONTRADICTS": "-.->", "QUALIFIES": "-.->",
     "ALTERNATIVE_EXPLANATION_FOR": "-.->", "ANALOG_OF": "-.->", "CONDITIONALLY_SUPPORTS": "-.->",
+    "DELIVERS": "-->", "RESTATES": "-.->",
 }
 SECTIONS = [
-    ("Motivation", {"BACKGROUND", "GAP", "HYPOTHESIS"}),
+    ("Motivation", {"BACKGROUND", "GAP", "HYPOTHESIS", "AIM"}),
     ("Concept", {"DEFINITION", "QUESTION"}),
     ("Methods and data", {"METHOD", "ASSUMPTION", "DATA"}),
     ("Observations", {"OBSERVATION"}),
@@ -175,6 +178,103 @@ def obligation_coverage(chain):
     status = [o["obligation_status"] for s in chain["statements"]
               for o in (s.get("assessment") or {}).get("proof_obligations", [])]
     return (sum(OBLIGATION_SCORE[x] for x in status) / len(status) if status else None), len(status)
+
+
+# ---- golden thread and local checks (Sepideh's paper logic map) ----
+
+END_PARTS = {"CONCLUSION", "ABSTRACT"}
+CERTAINTY_RANK = ["SPECULATIVE", "PROPOSED", "PREDICTED", "DEMONSTRATED"]
+CHECK_KIND = {
+    "completeness": {"REPRODUCIBILITY", "MISSING_QUANTIFICATION"},
+    "arithmetic": {"ARITHMETIC"},
+    "consistency": {"INTERNAL_INCONSISTENCY", "UNACKNOWLEDGED_CONFLICT", "UNADDRESSED_COUNTEREVIDENCE"},
+}
+
+
+def golden_thread(chain):
+    """Follow each AIM to what delivers it. Returns (rows, unpromised main conclusions, certainty drift)."""
+    stmts = {s["id"]: s for s in chain["statements"]}
+    rels = chain["relations"]
+    aims = [s for s in chain["statements"] if s["statement_type"] == "AIM"]
+    restated_by = {}
+    for r in rels:
+        if r["predicate"] == "RESTATES":
+            restated_by.setdefault(r["object"], []).append(r["subject"])
+    has_end = any(s.get("paper_part") in END_PARTS for s in chain["statements"])
+
+    def at_end(sid, seen=()):
+        if stmts.get(sid, {}).get("paper_part") in END_PARTS:
+            return True
+        return any(at_end(x, seen + (sid,)) for x in restated_by.get(sid, []) if x not in seen)
+
+    rows = []
+    for a in aims:
+        gaps = [r["subject"] for r in rels if r["object"] == a["id"] and r["predicate"] == "MOTIVATES"
+                and stmts.get(r["subject"], {}).get("statement_type") == "GAP"]
+        gaps += [r["object"] for r in rels if r["subject"] == a["id"] and r["predicate"] == "ANSWERS"]
+        by = [stmts[r["subject"]] for r in rels if r["object"] == a["id"] and r["predicate"] == "DELIVERS"
+              and r["subject"] in stmts]
+        shown = [x for x in by if x["statement_type"] in {"OBSERVATION", "CLAIM"}]
+        if not by:
+            outcome = "DROPPED"
+        elif not shown:
+            outcome = "METHOD ONLY"
+        elif has_end and not any(at_end(x["id"]) for x in by):
+            outcome = "NOT RESTATED"
+        else:
+            outcome = "DELIVERED"
+        rows.append({"aim": a, "gaps": gaps, "by": by, "outcome": outcome})
+
+    unpromised = []
+    if aims:
+        delivers_from = {r["subject"] for r in rels if r["predicate"] == "DELIVERS"}
+        to_hyp = {r["subject"] for r in rels if r["predicate"] in SUPPORT_LINKS
+                  and stmts.get(r["object"], {}).get("statement_type") == "HYPOTHESIS"}
+        restates = {r["subject"]: r["object"] for r in rels if r["predicate"] == "RESTATES"}
+        for s in chain["statements"]:
+            if s["statement_type"] != "CLAIM" or s.get("claim_role") != "MAIN_CONCLUSION":
+                continue
+            ids, x = {s["id"]}, s["id"]
+            while x in restates and restates[x] not in ids:
+                x = restates[x]
+                ids.add(x)
+            if not ids & (delivers_from | to_hyp):
+                unpromised.append(s)
+
+    drift = []
+    for r in rels:
+        if r["predicate"] != "RESTATES":
+            continue
+        later, earlier = stmts.get(r["subject"]), stmts.get(r["object"])
+        if not later or not earlier or not later.get("author_certainty") or not earlier.get("author_certainty"):
+            continue
+        d = CERTAINTY_RANK.index(later["author_certainty"]) - CERTAINTY_RANK.index(earlier["author_certainty"])
+        if d:
+            drift.append((earlier, later, "STRENGTHENED" if d > 0 else "WEAKENED"))
+    return rows, unpromised, drift
+
+
+def overstated(chain):
+    """Claims the authors present as demonstrated that the annotator finds weak, inconclusive or contradicted."""
+    return [s for s in chain["statements"] if s.get("author_certainty") == "DEMONSTRATED"
+            and (s.get("assessment") or {}).get("validity") in {"WEAK", "INCONCLUSIVE", "NO"}]
+
+
+def part_checks(chain):
+    """Issue counts per paper part and check kind; failed derived checks count as arithmetic."""
+    counts = {}
+    failed = {sid for sid, _, status, _ in run_checks(chain) if status not in {"ok", "not machine-checkable"}}
+    for s in chain["statements"]:
+        part = s.get("paper_part", "UNSPECIFIED")
+        row = counts.setdefault(part, {"completeness": 0, "arithmetic": 0, "consistency": 0, "argument": 0, "high": 0})
+        for c in s.get("concerns", []):
+            kind = next((k for k, types in CHECK_KIND.items() if c["concern_type"] in types), "argument")
+            row[kind] += 1
+            if c.get("priority") in {"CRITICAL", "HIGH"}:
+                row["high"] += 1
+        if s["id"] in failed:
+            row["arithmetic"] += 1
+    return {p: r for p, r in counts.items() if sum(v for k, v in r.items() if k != "high")}
 
 
 def fmt_score(x):
@@ -367,7 +467,8 @@ def markdown(chain):
                 if r.get("warrant"):
                     L.append(f"&nbsp;&nbsp;&nbsp;warrant: {warrant_str(r['warrant'])}  ")
             for c in s.get("concerns", []):
-                L.append(f"⚠ {label(c['concern_type'])}: {c['description']}  ")
+                pr = f" ({label(c['priority'])})" if c.get("priority") else ""
+                L.append(f"⚠ {label(c['concern_type'])}{pr}: {c['description']}  ")
             a = s.get("assessment")
             if a:
                 L.append(f"**Verdict: {VALIDITY_MARK[a['validity']]} {a['validity']}**. {a['rationale']}  ")
@@ -396,7 +497,7 @@ def mermaid(chain, include=None):
         arrow = EDGE[r["predicate"]]
         if r["predicate"] == "SUPPORTS" and r.get("support_strength") == "STRONG":
             L.append(f"  {node(a)} ==> {node(b)}")
-        elif r["predicate"] in {"SUPPORTS", "MOTIVATES", "DEPENDS_ON"}:
+        elif r["predicate"] in {"SUPPORTS", "MOTIVATES", "DEPENDS_ON", "DELIVERS"}:
             L.append(f"  {node(a)} {arrow} {node(b)}")
         else:
             L.append(f"  {node(a)} {arrow}|{lbl}| {node(b)}")
@@ -446,7 +547,8 @@ def summary_mermaid(chain, max_claims=6):
     mains = [s for s in sts if s["statement_type"] == "CLAIM" and s.get("claim_role") == "MAIN_CONCLUSION"
              and s.get("assessment")][:max_claims]
     top = _plain(hyp["text"] if hyp else chain["publication"]["title"], 25)
-    L = ["flowchart TB", f'  P["`**The paper sets out to show**\n{top}`"]:::idea']
+    head = "The paper sets out to show" if hyp else "Paper"
+    L = ["flowchart TB", f'  P["`**{head}**\n{top}`"]:::idea']
     for i, s in enumerate(mains):
         v = s["assessment"]["validity"]
         L.append(f'  C{i}("`**{short(s["id"])}**\n{_plain(s["text"], 16)}`"):::claim')
@@ -508,6 +610,32 @@ def report(chain):
             ess = " (essential)" if r.get("essential") else ""
             L.append(f"| {short(r['subject'])} → {short(r['object'])}{ess} | "
                      f"{''.join(abbrev.get(c.get(k), '·') for k in LINK_CRITERIA)} | {st} | {c.get('criteria_note', '')} |")
+    rows, unpromised, drift = golden_thread(chain)
+    if rows:
+        L += ["", "**Golden thread** (each aim from the introduction to the end of the paper):", "",
+              "| Aim | Gap | Method | Result | Claim (verdict) | Outcome |", "|---|---|---|---|---|---|"]
+        for t in rows:
+            by = lambda types: ", ".join(short(x["id"]) for x in t["by"] if x["statement_type"] in types) or "-"
+            claims = ", ".join(f"{short(x['id'])} ({VALIDITY_MARK[x['assessment']['validity']]})" if x.get("assessment")
+                               else short(x["id"]) for x in t["by"] if x["statement_type"] == "CLAIM") or "-"
+            L.append(f"| **{short(t['aim']['id'])}** {t['aim']['text']} | {', '.join(short(g) for g in t['gaps']) or '-'} | "
+                     f"{by({'METHOD', 'DATA'})} | {by({'OBSERVATION'})} | {claims} | {t['outcome']} |")
+        L.append("")
+        L.append("Outcomes: DELIVERED, NOT RESTATED (delivered but absent from the conclusion and abstract), "
+                 "METHOD ONLY (carried out but no result shown), DROPPED (nothing delivers it).")
+    if unpromised:
+        L += ["", "**Main conclusions no aim or hypothesis promised:** "
+              + ", ".join(short(s["id"]) for s in unpromised) + "."]
+    if drift:
+        L += ["", "**Certainty drift between restatements:**", ""]
+        for earlier, later, kind in drift:
+            L.append(f"- {kind}: **{short(earlier['id'])}** ({label(earlier['author_certainty'])}, "
+                     f"{label(earlier.get('paper_part', '-'))}) → **{short(later['id'])}** "
+                     f"({label(later['author_certainty'])}, {label(later.get('paper_part', '-'))})")
+    over = overstated(chain)
+    if over:
+        L += ["", "**Presented as demonstrated, but the verdict is weak, inconclusive or no:** "
+              + ", ".join(f"{short(s['id'])} ({s['assessment']['validity']})" for s in over) + "."]
     results = run_checks(chain)
     if results:
         L += ["", "**Recomputed checks:**", ""]
@@ -547,7 +675,15 @@ def report(chain):
     L += ["", "**Flagged by the annotator:**", ""]
     for s in sts:
         for c in s.get("concerns", []):
-            L.append(f"- **{short(s['id'])}** {label(c['concern_type'])}: {c['description']}")
+            pr = f" ({label(c['priority'])})" if c.get("priority") else ""
+            L.append(f"- **{short(s['id'])}** {label(c['concern_type'])}{pr}: {c['description']}")
+    pc = part_checks(chain)
+    if pc:
+        L += ["", "**Local checks per part** (issues found; failed derived checks count as arithmetic):", "",
+              "| Part | Completeness | Arithmetic | Consistency | Argument | High or critical |", "|---|---|---|---|---|---|"]
+        for part, r in pc.items():
+            L.append(f"| {label(part)} | {r['completeness']} | {r['arithmetic']} | {r['consistency']} | "
+                     f"{r['argument']} | {r['high']} |")
     L += ["", "## 3. Missing evidence", ""]
     for m in pa.get("missing_evidence", []):
         L.append(f"- {m}")
@@ -574,6 +710,18 @@ def report(chain):
     return "\n".join(L) + "\n"
 
 
+def thread_summary(chain):
+    rows, unpromised, drift = golden_thread(chain)
+    if not rows:
+        return ""
+    outcomes = [t["outcome"] for t in rows]
+    bits = [f"{outcomes.count(o)} {o.lower()}" for o in ["DELIVERED", "NOT RESTATED", "METHOD ONLY", "DROPPED"]
+            if o in outcomes]
+    bits += [f"{len(unpromised)} unpromised"] if unpromised else []
+    bits += [f"{sum(1 for d in drift if d[2] == 'STRENGTHENED')} strengthened"] if drift else []
+    return f"; aims: {', '.join(bits)}"
+
+
 def main():
     src, out = Path(sys.argv[1]), Path(sys.argv[2])
     chain = yaml.safe_load(src.read_text())
@@ -584,7 +732,7 @@ def main():
     (out / f"{stem}_report.md").write_text(report(chain))
     (out / f"{stem}_full.mmd").write_text(mermaid(chain))
     # Core view: thesis-level claims and what bears on them, without methods detail
-    core_types = {"GAP", "HYPOTHESIS", "QUESTION", "CLAIM", "LIMITATION", "ASSUMPTION"}
+    core_types = {"GAP", "HYPOTHESIS", "AIM", "QUESTION", "CLAIM", "LIMITATION", "ASSUMPTION"}
     core = {s["id"] for s in chain["statements"] if s["statement_type"] in core_types}
     (out / f"{stem}_core.mmd").write_text(mermaid(chain, core))
     (out / f"{stem}_summary.mmd").write_text(summary_mermaid(chain))
@@ -594,7 +742,8 @@ def main():
     print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd, {stem}_summary.mmd; "
           f"checks ok: {ok}; logic score: {fmt_score(score)} {counts}; "
           f"weighted: {fmt_score(weighted_logic_score(chain))}; derived: {fmt_score(dscore)} "
-          f"({len(differ)} differ); obligations discharged: {fmt_score(coverage)} of {n_obl}")
+          f"({len(differ)} differ); obligations discharged: {fmt_score(coverage)} of {n_obl}"
+          + thread_summary(chain))
 
 
 if __name__ == "__main__":

@@ -42,6 +42,8 @@ The computational core is sound and checkable: local dynamical and mechanical st
 | C2.3 → C2 | ◐✓✓–◐ | intermediate | Slip anisotropy is an argued, not measured, link to ductility. Computed for the ideal crystal only, not tested mechanically. |
 | C2.4 → C2 | ◐✓✓–◐ | intermediate | APB energies are low against hcp Mg, but D0_19 is higher than L1_2. Computed for the ideal crystal only, not tested mechanically. |
 
+**Presented as demonstrated, but the verdict is weak, inconclusive or no:** C3.1 (INCONCLUSIVE).
+
 **Recomputed checks:**
 
 - **C1.1** E_f(D0_19) - E_f(L1_2) = 7.5 meV/atom (recomputed)
@@ -108,6 +110,13 @@ Causal claims (check against correlational evidence): H1, C3.
 - **C3.1** missing quantification: The values are per cell. The primitive cells differ (8 atoms for D0_19, 4 for L1_2, 2 for hcp Mg), so unless the paper used equal cells the comparison must be normalised per atom, which would reverse it (D0_19 0.50, L1_2 0.77, Mg 1.44 states/eV/atom). Needs checking against the paper.
 - **C3** causal overreach: The step from metallicity to macroscopic ductility is interpretive and less established than the mechanical descriptors (Jan).
 - **C2** overclaim: Ductility is inferred from intrinsic descriptors (B/G, fault energies, APB energy); macroscopic ductility is neither calculated nor measured.
+
+**Local checks per part** (issues found; failed derived checks count as arithmetic):
+
+| Part | Completeness | Arithmetic | Consistency | Argument | High or critical |
+|---|---|---|---|---|---|
+| results | 2 | 0 | 1 | 3 | 0 |
+| conclusion | 0 | 0 | 0 | 1 | 0 |
 
 ## 3. Missing evidence
 
