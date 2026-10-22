@@ -1,0 +1,283 @@
+id: claimchain:chain/Jain2026Morphological
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d5fd00092k
+  title: "Morphological, structural and compositional evolution of PtPdFeCoNi high-entropy alloy nanoparticles towards bifunctional oxygen electrocatalysis"
+  authors: [Priya Jain, Pouya Hosseini, Aleksander Kostka, Eko Budiyanto, Patrick Diehl, Martin Muhler, Harun Tüysüz, Dongshuang Wu, Tong Li]
+  year: 2026
+  doi: 10.1039/d5fd00092k
+  url: https://doi.org/10.1039/d5fd00092k
+
+entities:
+  - {id: ent:NP, label: "colloidal PtPdFeCoNi HEA nanoparticles (8 ± 2 nm, fcc), Pt16Pd15Fe20Co28Ni21 by EDS", entity_type: MATERIAL}
+  - {id: ent:Bench, label: "commercial 20 wt% Pt/C and RuO2 benchmarks", entity_type: MATERIAL}
+  - {id: ent:RDE, label: "RDE/RRDE voltammetry (OER 1 M KOH, ORR O2-saturated 0.1 M KOH), 3000-cycle CV, chronopotentiometry", entity_type: TECHNIQUE}
+  - {id: ent:XPS, label: ex situ XPS quantification from 3p (Fe Co Ni) and Pt 4f/Pd 3d, entity_type: TECHNIQUE}
+  - {id: ent:TEM, label: "STEM-EDS, HR-TEM and SAED before and after cycling", entity_type: TECHNIQUE}
+  - {id: ent:Shell, label: "amorphous (Ni,Co,Fe) (oxy)hydroxide and Co3O4-type oxide shell formed during OER", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: jain2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Pt/C and RuO2 are benchmark ORR and OER catalysts with limited bifunctionality and alkaline stability; noble-metal/3d-metal alloys tune activity but suffer leaching, and catalyst surfaces reconstruct into (oxy)hydroxides under OER.
+    evidence: [{evidence_kind: CITATION, references: ["2-10", "22-25"]}]
+  - id: jain2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Why HEA entropy effects enhance kinetics is unclear because few works characterize HEA catalyst surfaces before and after reaction.
+    evidence: [{evidence_kind: CITATION, references: ["12", "26", "27"]}]
+  - id: jain2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Establish structure-performance correlations of PtPdFeCoNi HEA nanoparticles before and after OER and ORR by combining XPS, TEM, in situ Raman and electrochemistry.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: jain2026:METH1
+    statement_type: METHOD
+    section: Sec. 4.2-4.3
+    paper_part: METHODS
+    text: Nanoparticles are made by one-pot colloidal reduction in oleylamine at 280 °C and annealed at 200 °C; inks of 4 mg catalyst in 1 mL solvent are drop-cast (10 µL) on a 4 mm glassy carbon RDE, stated as 0.204 mg/cm2; OER CVs (3000 cycles) in 1 M KOH, ORR in 0.1 M KOH, 95% iR compensation, three repeats.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 4.3"
+        values:
+          - {symbol: m_cat, quantity: catalyst mass in ink, value: 4, unit: mg}
+          - {symbol: v_ink, quantity: ink volume (705 + 250 + 45 µL), value: 1000, unit: uL}
+          - {symbol: v_drop, quantity: drop-cast volume, value: 10, unit: uL}
+          - {symbol: d_gce, quantity: GCE diameter, value: 0.4, unit: cm}
+          - {symbol: load_stated, quantity: stated loading, value: 0.204, unit: mg cm-2}
+        derived_checks:
+          - {expression: "loading from ink concentration, drop volume and electrode area", formula: "m_cat*v_drop/v_ink/(3.14159*(d_gce/2)**2)", result: 0.318, unit: mg cm-2, note: "stated 0.204 mg/cm2"}
+    about: [ent:NP, ent:RDE]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "4 mg/mL x 10 µL on a 0.126 cm2 electrode gives about 0.32 mg/cm2, not the stated 0.204 mg/cm2.", priority: MEDIUM}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The OER cycling scan rate is 50 mV/s in Sec. 2.2 and Fig. 2 but 100 mV/s in Sec. 4.3; the post-OER XPS/TEM samples were cycled to 0.65 V vs Hg/HgO on glassy carbon plates, not the 0.73 V RDE protocol.", priority: MEDIUM}
+  - id: jain2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 1, Table 1
+    paper_part: RESULTS
+    text: PXRD and SAED show a single fcc phase shifted from Pt, TEM gives 8 ± 2 nm particles in three syntheses, and STEM-EDS gives about 16 Pt, 15 Pd, 20 Fe, 28 Co and 21 Ni at.% with a configurational entropy of 1.57R.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.1, Table 1"
+        values:
+          - {symbol: xPt, quantity: Pt fraction, value: 0.160}
+          - {symbol: xPd, quantity: Pd fraction, value: 0.149}
+          - {symbol: xFe, quantity: Fe fraction, value: 0.201}
+          - {symbol: xCo, quantity: Co fraction, value: 0.277}
+          - {symbol: xNi, quantity: Ni fraction, value: 0.212}
+        derived_checks:
+          - {expression: "configurational entropy in units of R", formula: "-(xPt*log(xPt) + xPd*log(xPd) + xFe*log(xFe) + xCo*log(xCo) + xNi*log(xNi))", result: 1.58}
+    about: [ent:NP, ent:TEM]
+
+  # ---------------- Results: electrochemistry ----------------
+  - id: jain2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2, Fig. S1-S2
+    paper_part: RESULTS
+    text: For the OER the HEA needs 306 mV at 10 mA/cm2 (RuO2 340 mV), 310 mV after 3000 cycles; the Tafel slope rises from 44 to 56 mV/dec (RuO2 71), Rct from 10.1 to 11.3 Ohm, the Cdl-based ECSA from 2.4 to 6.8 (units as given), Co and Ni redox peaks grow, and the potential drifts about 50 mV over 80 h at 10 mA/cm2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2, Fig. S1, Fig. S2a"
+        values:
+          - {symbol: eta_hea, quantity: OER overpotential at 10 mA/cm2 HEA, value: 0.306, unit: V}
+          - {symbol: eta_ruo2, quantity: OER overpotential at 10 mA/cm2 RuO2, value: 0.340, unit: V}
+          - {symbol: ecsa0, quantity: ECSA pristine, value: 2.4}
+          - {symbol: ecsa1, quantity: ECSA after 3000 cycles, value: 6.8}
+        derived_checks:
+          - {expression: "ECSA increase factor at nearly unchanged geometric activity", formula: "ecsa1/ecsa0", result: 2.83, note: "implies lower activity per ECSA after cycling"}
+    about: [ent:RDE, ent:NP]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The rise of the Tafel slope from 44 to 56 mV/dec is described as an 'improvement in kinetic parameters'; the near-threefold ECSA increase at constant geometric current implies a lower intrinsic activity per active area, not activation.", priority: MEDIUM}
+  - id: jain2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 3, Fig. S2-S3
+    paper_part: RESULTS
+    text: For the ORR the HEA has E_onset 0.96 V and E1/2 0.82 V (Pt/C 0.90 V), j_d about 6 mA/cm2 (Pt/C about 7), E1/2 0.80 V after 3000 cycles with 9% current loss at 0.82 V, a K-L kinetic current of 3.5 mA/cm2 at 0.82 V, n = 3.98 from RRDE, and a stable potential for 24 h at 3 mA/cm2; Delta E = E10 - E1/2 is 0.71 V vs 0.74 V for a Pt/C-RuO2 benchmark.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3, Figs. S2-S3"
+        values:
+          - {symbol: e_half_hea, quantity: ORR half-wave potential HEA, value: 0.82, unit: V}
+          - {symbol: e_half_ptc, quantity: ORR half-wave potential Pt/C, value: 0.90, unit: V}
+          - {symbol: jd, quantity: diffusion-limited current density HEA, value: 6, unit: mA cm-2}
+          - {symbol: jk_stated, quantity: stated kinetic current at 0.82 V, value: 3.5, unit: mA cm-2}
+          - {symbol: eta_hea, quantity: OER overpotential at 10 mA/cm2 HEA, value: 0.306, unit: V}
+          - {symbol: eta_ruo2, quantity: OER overpotential at 10 mA/cm2 RuO2, value: 0.340, unit: V}
+          - {symbol: dE_bench_stated, quantity: stated benchmark Delta E, value: 0.74, unit: V}
+        derived_checks:
+          - {expression: "Delta E of the HEA", formula: "1.23 + eta_hea - e_half_hea", result: 0.716, unit: V}
+          - {expression: "Delta E from the paper's own RuO2 and Pt/C values (stated 0.74 V)", formula: "1.23 + eta_ruo2 - e_half_ptc", result: 0.67, unit: V}
+          - {expression: "Koutecky-Levich kinetic current at the half-wave potential, where j = jd/2 (stated 3.5 mA/cm2)", formula: "(jd/2)*jd/(jd - jd/2)", result: 6.0, unit: mA cm-2}
+    about: [ent:RDE, ent:Bench]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "With RuO2 at 340 mV and Pt/C E1/2 = 0.90 V from the same paper the benchmark Delta E is 0.67 V, below the HEA's 0.71 V; the stated 0.74 V benchmark is not explained.", priority: HIGH}
+      - {concern_type: ARITHMETIC, description: "At E1/2 = 0.82 V the K-L relation gives j_k = j_d of about 6 mA/cm2, not 3.5 mA/cm2.", priority: MEDIUM}
+  - id: jain2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.2, Sec. 3
+    paper_part: RESULTS
+    text: PtPdFeCoNi HEA nanoparticles combine high bifunctional OER/ORR activity and stability, outperforming commercial Pt/C and RuO2 benchmarks with a narrow Delta E of 0.71 V and durability significantly surpassing conventional benchmarks.
+    about: [ent:NP, ent:Bench]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Pt/C has the better ORR half-wave potential (0.90 vs 0.82 V); no durability data for the benchmarks are reported, yet durability is said to surpass them.", priority: HIGH}
+    assessment:
+      validity: "NO"
+      rationale: "The HEA beats RuO2 in OER overpotential, but its ORR E1/2 is 80 mV worse than Pt/C, the paper's own benchmark numbers give a smaller Delta E (0.67 V) than the HEA (0.71 V), and no benchmark durability test is shown."
+      proof_obligations:
+        - text: "Benchmark stability under the same 3000-cycle and chronopotentiometry protocols"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "E1/2 and eta10 drift of Pt/C and RuO2 after 3000 cycles", method: "same RDE protocol"}]
+        - text: "Consistent Delta E of the benchmark"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "E10 and E1/2 of the Pt/C-RuO2 electrode", method: "report the measured curves behind the 0.74 V value"}]
+
+  # ---------------- Results: surface evolution ----------------
+  - id: jain2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 4, Table 1
+    paper_part: RESULTS
+    text: Ex situ XPS gives surface Pt/Pd/Fe/Co/Ni of 27/11/19/25/18 at.% pristine, 24/10/22/26/22 after ORR and 7/3/14/57/18 after OER; Pt and Pd stay metallic, Ni and Co convert to hydroxides and Co oxides after OER.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table 1, Fig. 4"}]
+    about: [ent:XPS]
+  - id: jain2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Figs. 5-6
+    paper_part: RESULTS
+    text: STEM-EDS shows a 1-2 nm Fe/Co/Ni-enriched surface already in pristine particles and unchanged after ORR, while after OER particles become irregular with a nearly amorphous surface, Co-rich and Fe/Ni-rich regions, Pt/Pd skeleton-like distributions and extra Co3O4 SAED reflections.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 5-6, Figs. S5-S6"}]
+    about: [ent:TEM, ent:Shell]
+  - id: jain2026:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Table S3, Fig. S7
+    paper_part: RESULTS
+    text: ICP-OES of electrolyte from the Raman flow cell shows no significant increase of Co, Fe, Ni or Pd after reaction and an increase of Pt attributed to the Pt counter electrode; in situ Raman shows a 400-600 cm-1 (oxy)hydroxide band, obscured by carbon residues.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table S3, Fig. S7"}]
+    about: [ent:Shell]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "ICP-OES was taken from a different cell (flow cell, Pt counter, gold substrate, 0.1 M KOH) than the RDE and post-mortem samples, and the Pt counter electrode prevents assessing Pt dissolution.", priority: MEDIUM}
+  - id: jain2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, Sec. 3
+    paper_part: DISCUSSION
+    text: Under ORR the HEA surface shows no evident structural, morphological or compositional change, which explains its high activity and stability.
+    about: [ent:NP, ent:XPS, ent:TEM]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "XPS, STEM-EDS and HR-TEM consistently show little change after ORR cycling; 'explains' is a correlation, and the post-mortem samples were cycled on glassy carbon plates rather than the RDE electrodes."
+  - id: jain2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, Sec. 3
+    paper_part: DISCUSSION
+    text: During OER the surface transforms into an amorphous Fe/Co/Ni (oxy)hydroxide and Co-rich spinel-oxide shell that is responsible for the enhanced activity and acts as a passivation layer preventing continuous Pt and Pd dissolution.
+    about: [ent:Shell]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Activity is unchanged after cycling (306 vs 310 mV), so the shell is not shown to enhance activity; the passivation role is inferred from ICP-OES in a different cell, while XPS and STEM point to Pt/Pd loss from the surface.", priority: HIGH}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Surface Pt drops from 27 to 7 at.% and Pd from 11 to 3 at.% and STEM shows skeleton-like Pt/Pd, which the authors attribute to dissolution, yet the shell is said to prevent Pt/Pd dissolution.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Shell formation is well documented by XPS, STEM-EDS, SAED and Raman; its causal role in activity and protection is not tested, and the activity did not increase."
+      missing_evidence:
+        - "Online ICP-MS of Pt, Pd and 3d metals during OER cycling in the RDE setup"
+        - "Activity normalized to ECSA before and after shell formation"
+  - id: jain2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 2.2, Sec. 2.3
+    paper_part: DISCUSSION
+    text: The ORR activity and stability arise from Pt/Pd-3d metal synergy and are aided by high configurational entropy that resists agglomeration and passivation.
+    about: [ent:NP]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The conclusion states that the 'high-entropy synergistic effect' requires verification because surfaces are oxide-covered, while the ORR discussion invokes high configurational entropy as the stabilizing cause.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No control (e.g. PtPd or lower-entropy alloy particles) or calculation isolates entropy or synergy effects."
+  - id: jain2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.3
+    paper_part: DISCUSSION
+    text: Carbon residues hinder Raman and APT analysis, ex situ XPS captures only the resting state, and Fe chemical states cannot be resolved; EELS, APT and in situ TEM/XRD are planned.
+  - id: jain2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: The OER-formed redox-active shell is responsible for enhanced catalytic kinetics while the Pt/Pd core ensures conductivity and durability, overcoming the activity-stability trade-off.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM3 with stronger generalization."
+
+relations:
+  - {id: jain2026:R1, subject: jain2026:BG1, predicate: MOTIVATES, object: jain2026:GAP1, asserted_by: AUTHORS}
+  - {id: jain2026:R2, subject: jain2026:GAP1, predicate: MOTIVATES, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R3, subject: jain2026:OBS4, predicate: DELIVERS, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R4, subject: jain2026:OBS5, predicate: DELIVERS, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R5, subject: jain2026:CLAIM2, predicate: DELIVERS, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R6, subject: jain2026:CLAIM3, predicate: DELIVERS, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R7, subject: jain2026:CONC1, predicate: DELIVERS, object: jain2026:AIM1, asserted_by: AUTHORS}
+  - {id: jain2026:R8, subject: jain2026:OBS2, predicate: SUPPORTS, object: jain2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "OER part only; three repeats without error bars in text"}}
+  - {id: jain2026:R9, subject: jain2026:OBS3, predicate: SUPPORTS, object: jain2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "Pt/C better in ORR; benchmark durability not measured"}}
+  - {id: jain2026:R10, subject: jain2026:OBS3, predicate: CONTRADICTS, object: jain2026:CLAIM1, asserted_by: ANNOTATOR, note: "Pt/C E1/2 0.90 V > 0.82 V; benchmark Delta E from own values 0.67 V < 0.71 V"}
+  - {id: jain2026:R11, subject: jain2026:OBS4, predicate: SUPPORTS, object: jain2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Post-mortem samples on glassy carbon plates, single measurement"}}
+  - {id: jain2026:R12, subject: jain2026:OBS5, predicate: SUPPORTS, object: jain2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: jain2026:R13, subject: jain2026:OBS3, predicate: SUPPORTS, object: jain2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: jain2026:R14, subject: jain2026:OBS4, predicate: SUPPORTS, object: jain2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Shows the shell, not its effect on activity or dissolution"}}
+  - {id: jain2026:R15, subject: jain2026:OBS5, predicate: SUPPORTS, object: jain2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: jain2026:R16, subject: jain2026:OBS6, predicate: SUPPORTS, object: jain2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: jain2026:R17, subject: jain2026:OBS2, predicate: UNDERCUTS, object: jain2026:CLAIM3, asserted_by: ANNOTATOR, note: "activity unchanged after shell formation; per-ECSA activity drops"}
+  - {id: jain2026:R18, subject: jain2026:OBS4, predicate: UNDERCUTS, object: jain2026:CLAIM3, asserted_by: ANNOTATOR, note: "surface Pt and Pd fall to 7 and 3 at.% after OER"}
+  - {id: jain2026:R19, subject: jain2026:OBS1, predicate: SUPPORTS, object: jain2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: jain2026:R20, subject: jain2026:LIM1, predicate: QUALIFIES, object: jain2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: jain2026:R21, subject: jain2026:CONC1, predicate: RESTATES, object: jain2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: jain2026:R22, subject: jain2026:OBS5, predicate: SUPPORTS, object: jain2026:CONC1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: jain2026:R23, subject: jain2026:CLAIM3, predicate: ANSWERS, object: jain2026:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper characterizes colloidal PtPdFeCoNi nanoparticles before and
+    after 3000 ORR and OER cycles. The post-mortem XPS, STEM-EDS and
+    HR-TEM consistently show an unchanged surface after ORR and an
+    oxide/(oxy)hydroxide shell after OER, and the OER overpotential beats
+    RuO2. The comparative headline fails on the paper's own numbers: Pt/C
+    has the better ORR half-wave potential, the benchmark Delta E from the
+    reported RuO2 and Pt/C values is 0.67 V (below the HEA's 0.71 V, not
+    0.74 V), and benchmark durability is never measured. Several stated
+    numbers do not recompute (loading 0.32 vs 0.204 mg/cm2, j_k at E1/2),
+    the OER scan rate differs between sections, and the causal role of the
+    shell in activity and protection is asserted without test while the
+    activity did not increase and surface Pt/Pd decreased.
+  key_limitations:
+    - "Comparative superiority contradicted by own benchmark values (CLAIM1, OBS3)."
+    - "Loading, kinetic current and scan-rate inconsistencies (METH1, OBS3)."
+    - "Shell's role in activity and anti-dissolution untested (CLAIM3)."
+    - "ICP-OES from a different cell with a Pt counter electrode (OBS6)."
+    - "Entropy invoked and questioned in the same paper (CLAIM4)."
+  missing_evidence:
+    - "Benchmark durability under identical protocols."
+    - "Online ICP-MS during OER and ORR in the RDE setup."
+    - "ECSA-normalized activities and lower-entropy control particles."

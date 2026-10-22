@@ -1,0 +1,300 @@
+id: claimchain:chain/Li2025Arrangement
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/adma.202509610
+  title: "How the Arrangement of Platinum Atoms on Ruthenium Nanoparticles Improves Hydrogen Evolution Activity"
+  authors: [Qinyu Li, Soshan Cheong, Agus R. Poerwoprajitno, Shuting Xiang, Anatoly I. Frenkel, Yuwei Yang, Nicholas M. Bedford, Sohaib Umer, Martina Lessio, Ichiro Ohnishi, Zeno R. Ramadhan, Dale L. Huber, Liming Dai, Wolfgang Schuhmann, J. Justin Gooding, Richard D. Tilley]
+  year: 2025
+  doi: 10.1002/adma.202509610
+  url: https://doi.org/10.1002/adma.202509610
+
+entities:
+  - {id: ent:Island, label: "Pt islands (4 x 2 nm) on hcp Ru hourglass nanoparticles, as synthesized", entity_type: MATERIAL}
+  - {id: ent:PSpread, label: "partially spread Pt islands on Ru (air then 5% H2/N2 anneal at 200 °C)", entity_type: MATERIAL}
+  - {id: ent:String, label: "Pt atomic strings and clusters on Ru (air then 5% H2/N2 anneal at 400 °C)", entity_type: MATERIAL}
+  - {id: ent:STEM, label: "HAADF-STEM, atomic-resolution EDX and low-dose HRTEM", entity_type: TECHNIQUE}
+  - {id: ent:XAS, label: "Pt L3-edge XANES/EXAFS coordination numbers", entity_type: TECHNIQUE}
+  - {id: ent:HER, label: "alkaline HER on RDE in 1 M KOH (overpotential, mass activity, CO-stripping TOF, Tafel slope)", entity_type: TECHNIQUE}
+  - {id: ent:DFT, label: "PBE-D3 DFT of four Pt atoms on Ru(0001) with VASPsol", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: li2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: In alkaline HER oxophilic Ru accelerates water dissociation (Volmer step) while Pt is optimal for H recombination and desorption; co-reduction gives random PtRu alloys and Pt deposition usually gives Ru-core Pt-shell structures.
+    evidence: [{evidence_kind: CITATION, references: ["1-5"]}]
+  - id: li2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Arranging Pt on Ru so that Pt-Ru sites for water dissociation sit next to Pt-Pt sites for H recombination (Pt atomic strings) makes HER proceed via the faster Volmer-Tafel pathway and strongly increases intrinsic activity.
+    about: [ent:String, ent:HER]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The string sample is clearly the most active and EXAFS shows more Pt-Ru and fewer Pt-Pt bonds, but the comparison is confounded by different thermal treatments (ligand removal), and the Volmer-Tafel assignment rests on a Tafel slope below the physical Volmer-Tafel limit."
+      proof_obligations:
+        - text: "Show the arrangement, not surface cleaning, causes the activity difference"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "HER activity of Pt-island on Ru after ligand removal without spreading (e.g. UV-ozone or low-temperature air treatment)", method: "same RDE protocol"}]
+        - text: "Show the Volmer-Tafel pathway"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [li2025:OBS5, li2025:OBS6]
+  - id: li2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Control the arrangement of Pt on Ru nanoparticles (islands, partially spread islands, atomic strings) by directed growth and annealing and relate it to alkaline HER activity.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: li2025:METH1
+    statement_type: METHOD
+    section: Sec. 2, Sec. 4
+    paper_part: METHODS
+    text: Pt(acac)2 (0.036 mmol) is slowly injected onto 0.16 mmol hourglass Ru nanoparticles at 180 °C to grow Pt islands at step edges; islands loaded on carbon are annealed 2 h in air and 2 h in 5% H2/N2 at 200 °C (partial spreading) or 400 °C (strings).
+    about: [ent:Island, ent:PSpread, ent:String]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The air/H2 anneal that spreads Pt also removes residual surfactants; the Pt-island reference is not described as receiving an equivalent cleaning step, so arrangement and surface cleanliness change together.", priority: HIGH}
+  - id: li2025:METH2
+    statement_type: METHOD
+    section: Sec. 4
+    paper_part: METHODS
+    text: Inks of 1 mg carbon-supported catalyst (stated 10% metal) in 400 µL are drop-cast (15 µL) on a 0.196 cm2 RDE, stated to give 0.8 µg/cm2 Pt and 120 µg/cm2 Pt + Ru; Pt mass is from ICP-MS and Ru from the EDX Pt:Ru ratio; TOF uses CO-stripping charge (420 µC/cm2); potentials are 95% iR- and capacitance-corrected.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 4, Electrochemical Studies"
+        values:
+          - {symbol: m_cat, quantity: carbon-supported catalyst in ink, value: 1, unit: mg}
+          - {symbol: f_metal, quantity: stated metal fraction, value: 0.10}
+          - {symbol: v_ink, quantity: ink volume, value: 400, unit: uL}
+          - {symbol: v_drop, quantity: drop-cast volume, value: 15, unit: uL}
+          - {symbol: area, quantity: RDE area, value: 0.196, unit: cm2}
+          - {symbol: load_stated, quantity: stated Pt + Ru loading, value: 120, unit: ug cm-2}
+          - {symbol: np_mass, quantity: nanoparticle mass in carbon loading step, value: 5, unit: mg}
+          - {symbol: c_mass, quantity: carbon mass in loading step, value: 16, unit: mg}
+        derived_checks:
+          - {expression: "metal loading from the ink recipe with 10% metal", formula: "m_cat*1000*f_metal*v_drop/v_ink/area", result: 19.1, unit: ug cm-2, note: "stated 120 µg/cm2"}
+          - {expression: "metal fraction implied by the carbon-loading step (stated 10%)", formula: "np_mass/(np_mass + c_mass)", result: 0.238}
+    about: [ent:HER]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "The ink recipe gives about 19 µg/cm2 metal (or 45 µg/cm2 with the 24% metal implied by the 5 mg NP + 16 mg carbon loading), not the stated 120 µg/cm2; the stated 10% metal also disagrees with the loading step.", priority: MEDIUM}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The stated Pt fraction of the metal (0.8/120, i.e. 0.7 wt%) is far below the nominal 30 wt% from 0.036 mmol Pt on 0.16 mmol Ru, which is not discussed although mass activities depend on it.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: li2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 1, Figs. S4-S12
+    paper_part: RESULTS
+    text: TEM/STEM-EDX show Pt islands at step edges and corners that flatten at 200 °C and disappear into a uniform Pt distribution at 400 °C, with the Ru hcp structure retained; HAADF-STEM near particle edges shows 3-10-atom strings or clusters making up 66% of the analysed bright atoms, the rest single atoms or dimers.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1, Figs. S11-S13"}]
+    about: [ent:STEM, ent:String]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The number of particles and atoms in the 66% statistic is not given in the main text, and Pt contrast is only identifiable near edges.", priority: LOW}
+  - id: li2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 2b, Table S2
+    paper_part: RESULTS
+    text: DFT formation energies for four Pt atoms on Ru(0001) favour a string over a cluster, two dimers or four single atoms.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2b, Table S2"}]
+    about: [ent:DFT]
+    scope: {sample_count: 4, scope_note: "four configurations of four Pt atoms on one facet"}
+  - id: li2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Sec. 2
+    paper_part: RESULTS
+    text: The Pt atomic string arrangement on Ru is the thermodynamically favourable configuration.
+    about: [ent:String, ent:DFT]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Only four hand-picked configurations of four atoms on Ru(0001) are compared; larger strings, other facets, step edges and Pt subsurface sites are not sampled.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Among the four computed configurations the string is lowest, consistent with STEM; no global search or temperature-dependent stability is shown."
+  - id: li2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 2d-f, Table S3, Fig. S19
+    paper_part: RESULTS
+    text: Pt and Ru are metallic in XANES, and Pt L3 EXAFS fits show Pt-Ru coordination increasing and Pt-Pt decreasing from islands to partially spread islands to strings; the island sample was measured in air and the annealed samples in 5% H2/N2 at 200 and 400 °C.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2f, Table S3"}]
+    about: [ent:XAS]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "EXAFS of the three samples was recorded at different temperatures and atmospheres, which affects Debye-Waller factors and fitted coordination numbers.", priority: LOW}
+  - id: li2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 3a-b, Fig. S21
+    paper_part: RESULTS
+    text: At 10 mA/cm2 the overpotentials are 14 (strings), 39 (partially spread), 69 (islands), 67 (Pt/C) and 177 mV (bare Ru); Pt mass activities at 70 mV are 86, 28, 10 and 0.18 A/mgPt; TOFs at 70 mV are 9.2, 2.6, 1.7 and 1.0 s-1.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3a-b, Fig. S21"
+        values:
+          - {symbol: tof_s, quantity: TOF Pt-string, value: 9.2, unit: s-1}
+          - {symbol: tof_p, quantity: TOF partially spread, value: 2.6, unit: s-1}
+          - {symbol: tof_i, quantity: TOF Pt-island, value: 1.7, unit: s-1}
+          - {symbol: tof_c, quantity: TOF Pt/C, value: 1.0, unit: s-1}
+          - {symbol: ma_s, quantity: mass activity per Pt+Ru Pt-string, value: 0.56, unit: A mg-1}
+          - {symbol: ma_p, quantity: mass activity per Pt+Ru partially spread, value: 0.18, unit: A mg-1}
+          - {symbol: ma_i, quantity: mass activity per Pt+Ru Pt-island, value: 0.06, unit: A mg-1}
+          - {symbol: map_s, quantity: mass activity per Pt Pt-string, value: 86, unit: A mg-1}
+        derived_checks:
+          - {expression: "TOF ratio string/partially spread (stated 3.5)", formula: "tof_s/tof_p", result: 3.54}
+          - {expression: "TOF ratio string/island (stated 5.4)", formula: "tof_s/tof_i", result: 5.41}
+          - {expression: "TOF ratio string/Pt-C (stated 9.2)", formula: "tof_s/tof_c", result: 9.2}
+          - {expression: "mass-activity ratio string/partially spread (stated 3)", formula: "ma_s/ma_p", result: 3.11}
+          - {expression: "mass-activity ratio string/island (stated >9)", formula: "ma_s/ma_i", result: 9.33}
+          - {expression: "Pt mass fraction implied by the two mass activities", formula: "ma_s/map_s", result: 0.0065}
+    about: [ent:HER, ent:String]
+  - id: li2025:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 3c, Fig. S23
+    paper_part: RESULTS
+    text: The Tafel slope is 18.7 mV/dec for Pt strings and 47.4 and 45.9 mV/dec for islands and partially spread islands, similar to bare Ru and Pt/C.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3c"
+        values:
+          - {symbol: b_string, quantity: Tafel slope Pt-string, value: 18.7, unit: mV dec-1}
+          - {symbol: T, quantity: temperature, value: 298.15, unit: K}
+        derived_checks:
+          - {expression: "lowest Tafel slope for a rate-determining Tafel step, 2.303RT/2F", formula: "2.303*8.314*T/(2*96485)*1000", result: 29.6, unit: mV dec-1}
+          - {expression: "measured slope lies below the Volmer-Tafel limit", formula: "b_string < 2.303*8.314*T/(2*96485)*1000", satisfied: true}
+    about: [ent:HER]
+  - id: li2025:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 3d, Fig. S22
+    paper_part: RESULTS
+    text: CO stripping in 0.1 M HClO4 shows the CO oxidation peak of the Pt-string catalyst 380 mV more negative than that of the Pt-island catalyst, and a broad 0.5-0.8 V peak for partially spread islands.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3d"}]
+    about: [ent:HER]
+  - id: li2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2, Sec. 3
+    paper_part: RESULTS
+    text: Pt strings on Ru are the most active catalyst, with more than fivefold higher TOF than Pt islands on Ru and over nine times higher intrinsic activity than Pt/C, among the highest reported for Pt-Ru HER catalysts.
+    about: [ent:String, ent:HER]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "All ratios recompute from the reported TOFs and mass activities; the island reference differs in thermal treatment, the loading statement does not match the ink recipe, and no repeat statistics are reported."
+  - id: li2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 2, Sec. 3
+    paper_part: DISCUSSION
+    text: In the Pt-string catalyst every Pt-Pt site is adjacent to Pt-Ru sites, so H generated by Ru-assisted water dissociation recombines via the Tafel step; island catalysts follow Volmer-Heyrovsky.
+    about: [ent:String, ent:HER]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A Tafel slope near 30 mV/dec indicates a Volmer-Tafel pathway and near 40 mV/dec Volmer-Heyrovsky.", warrant_basis: DOMAIN_CONVENTION}
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "An 18.7 mV/dec slope is below the 29.6 mV/dec minimum for a Tafel-step-limited reaction at 25 °C, indicating mass-transport, iR or fitting artefacts at 14 mV overpotential rather than a mechanism; CO stripping in acid probes Pt-Ru proximity, not alkaline H recombination.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "EXAFS and CO stripping show more Pt-Ru contact, and DFT gives a smaller largest step for the string; the pathway assignment from a sub-Nernstian-limit Tafel slope is not valid."
+  - id: li2025:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 4
+    paper_part: RESULTS
+    text: DFT free-energy profiles give water adsorption steps of 0.51 (string), 0.20 (cluster) and 0.71 eV (single atoms) and water dissociation steps of 0.27 (string) and 0.65 eV (cluster), with H adsorption favourable on all.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4b"
+        values:
+          - {symbol: ads_s, quantity: water adsorption step string, value: 0.51, unit: eV}
+          - {symbol: dis_s, quantity: water dissociation step string, value: 0.27, unit: eV}
+          - {symbol: ads_c, quantity: water adsorption step cluster, value: 0.20, unit: eV}
+          - {symbol: dis_c, quantity: water dissociation step cluster, value: 0.65, unit: eV}
+        derived_checks:
+          - {expression: "largest step string is smaller than largest step cluster", formula: "max(ads_s, dis_s) < max(ads_c, dis_c)", satisfied: true}
+    about: [ent:DFT]
+  - id: li2025:OBS8
+    statement_type: OBSERVATION
+    section: Sec. 2, Figs. S25-S27
+    paper_part: RESULTS
+    text: At 10 mA/cm2 the overpotential rises by 10.7 mV over 20 h for strings, 34.8 mV for islands and >140 mV within 10 h for Pt/C; at 100 mA/cm2 strings lose 62 mV in 10 h; post-test TEM/EDX shows retained shape and uniform Pt.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. S25-S27"}]
+    about: [ent:String]
+  - id: li2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: The high stability arises from strong Pt-Ru bonds preventing Pt dissolution and aggregation and from the well-defined hcp Ru support.
+    about: [ent:String]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Stability is measured, but no dissolution data (e.g. ICP of the electrolyte) or bond-strength comparison test the proposed cause."
+  - id: li2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Well-aligned Pt-Pt sites adjacent to Pt-Ru sites catalyse alkaline HER via the more efficient Volmer-Tafel pathway instead of Volmer-Heyrovsky.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM3."
+
+relations:
+  - {id: li2025:R1, subject: li2025:BG1, predicate: MOTIVATES, object: li2025:HYP1, asserted_by: AUTHORS}
+  - {id: li2025:R2, subject: li2025:HYP1, predicate: MOTIVATES, object: li2025:AIM1, asserted_by: AUTHORS}
+  - {id: li2025:R3, subject: li2025:METH1, predicate: DELIVERS, object: li2025:AIM1, asserted_by: AUTHORS}
+  - {id: li2025:R4, subject: li2025:OBS1, predicate: DELIVERS, object: li2025:AIM1, asserted_by: AUTHORS}
+  - {id: li2025:R5, subject: li2025:CLAIM2, predicate: DELIVERS, object: li2025:AIM1, asserted_by: AUTHORS}
+  - {id: li2025:R6, subject: li2025:CONC1, predicate: DELIVERS, object: li2025:AIM1, asserted_by: AUTHORS}
+  - {id: li2025:R7, subject: li2025:OBS2, predicate: SUPPORTS, object: li2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Four configurations on one facet"}}
+  - {id: li2025:R8, subject: li2025:OBS1, predicate: SUPPORTS, object: li2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2025:R9, subject: li2025:OBS4, predicate: SUPPORTS, object: li2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Ratios recompute; reference thermal history differs; no repeat statistics"}}
+  - {id: li2025:R10, subject: li2025:METH2, predicate: QUALIFIES, object: li2025:CLAIM2, asserted_by: ANNOTATOR, note: "stated loading does not follow from the ink recipe"}
+  - {id: li2025:R11, subject: li2025:OBS5, predicate: SUPPORTS, object: li2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Slope below the Volmer-Tafel limit cannot identify the pathway"}}
+  - {id: li2025:R12, subject: li2025:OBS6, predicate: SUPPORTS, object: li2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Acidic CO stripping as proxy for alkaline Pt-Ru proximity"}}
+  - {id: li2025:R13, subject: li2025:OBS3, predicate: SUPPORTS, object: li2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2025:R14, subject: li2025:OBS7, predicate: SUPPORTS, object: li2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: li2025:R15, subject: li2025:METH1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: li2025:CLAIM2, asserted_by: ANNOTATOR, note: "ligand removal by the spreading anneal"}
+  - {id: li2025:R16, subject: li2025:OBS8, predicate: SUPPORTS, object: li2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: li2025:R17, subject: li2025:CLAIM2, predicate: SUPPORTS, object: li2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2025:R18, subject: li2025:CLAIM3, predicate: SUPPORTS, object: li2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: li2025:R19, subject: li2025:CLAIM1, predicate: SUPPORTS, object: li2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2025:R20, subject: li2025:CONC1, predicate: RESTATES, object: li2025:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: li2025:R21, subject: li2025:OBS5, predicate: SUPPORTS, object: li2025:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Controlled growth and annealing yield Pt islands, partially spread
+    islands and Pt atomic strings on hourglass Ru nanoparticles,
+    documented by STEM, EXAFS and XPS, and the string catalyst is clearly
+    the most active alkaline HER catalyst in the series; all activity
+    ratios recompute from the reported TOFs and mass activities. The
+    mechanistic headline is weaker: the Volmer-Tafel assignment rests on
+    an 18.7 mV/dec Tafel slope that lies below the physical 29.6 mV/dec
+    limit, the island reference does not receive the cleaning anneal that
+    accompanies spreading, the stated metal loading does not follow from
+    the ink recipe, the Pt fraction is far below nominal without comment,
+    and stability mechanisms are proposed without dissolution data.
+  key_limitations:
+    - "Arrangement confounded with thermal/ligand treatment (METH1, CLAIM2)."
+    - "Tafel slope below the Volmer-Tafel limit used to assign the pathway (CLAIM3, OBS5)."
+    - "Loading and Pt-fraction inconsistencies (METH2)."
+    - "DFT limited to four configurations (CLAIM1)."
+    - "Stability cause untested (CLAIM4)."
+  missing_evidence:
+    - "Ligand-free Pt-island reference."
+    - "Kinetic analysis in a range free of mass-transport effects (e.g. microkinetic fits or H2-saturated electrolyte)."
+    - "Electrolyte ICP-MS after stability tests."

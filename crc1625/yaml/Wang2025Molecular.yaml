@@ -1,0 +1,231 @@
+id: claimchain:chain/Wang2025Molecular
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/jacs.4c17825
+  title: "Molecular H2 as the Reducing Agent in Low-Temperature Oxide Reduction Using Calcium Hydride"
+  authors: [Jiayue Wang, Yijun Yu, Ahmed Abdelkawy, Jiarui Li, Jinlei Li, Jing Yang, Eun Kyo Ko, Yonghun Lee, Vivek Thampy, Yi Cui, Mira Todorova, Jörg Neugebauer, Harold Y. Hwang]
+  year: 2025
+  doi: 10.1021/jacs.4c17825
+  url: https://doi.org/10.1021/jacs.4c17825
+
+entities:
+  - {id: ent:Fe2O3, label: "~25 nm (0001) epitaxial alpha-Fe2O3 film on SrTiO3", entity_type: MATERIAL}
+  - {id: ent:CaH2, label: CaH2 powder (0.15 g) in evacuated sealed quartz tube, entity_type: MATERIAL}
+  - {id: ent:Transport, label: in situ four-probe (van der Pauw) sheet resistance during reduction, entity_type: TECHNIQUE}
+  - {id: ent:Ea, label: apparent activation energy from total transformation time Fe2O3 to Fe, entity_type: QUANTITY}
+  - {id: ent:DFT, label: DFT reaction barriers for H2 oxidation on O-terminated (0001) Fe2O3, entity_type: METHOD}
+  - {id: ent:TGA, label: thermogravimetric analysis of CaH2 in N2 with trace moisture, entity_type: TECHNIQUE}
+  - {id: ent:H2, label: molecular hydrogen as reducing agent, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: wang2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Alkali and alkaline-earth hydrides such as CaH2 reduce oxides at low temperature and enabled nickelate superconductors, but uncontrolled hydride reduction degrades materials.
+    evidence: [{evidence_kind: CITATION, references: ["1-15"]}]
+  - id: wang2025:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Hydride ions (solid-solid pathway), molecular H2 and atomic H have each been proposed as the active reducing agent, but H- diffusion seems implausible below 200 C and H2 gas alone often fails to reproduce hydride reduction.
+    evidence: [{evidence_kind: CITATION, references: ["8", "16-21"]}]
+  - id: wang2025:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Which species (H-, H2 or H) drives low-temperature hydride reduction of oxides has not been established.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: wang2025:ASM1
+    statement_type: ASSUMPTION
+    section: Introduction
+    paper_part: METHODS
+    text: In a ~25 nm film the reduction is surface-reaction limited, so the apparent activation energy identifies the reducing species - about 3 eV for H- (solid-solid), about 0.9 eV for H2 and about 0.01 eV for atomic H, taken from literature on other systems.
+    evidence: [{evidence_kind: CITATION, references: ["17", "22-27", "36"]}]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Do activation energies measured in other oxide/hydride systems transfer to CaH2/Fe2O3, and could mixed pathways give an intermediate apparent Ea?"
+  - id: wang2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Summary
+    paper_part: INTRODUCTION
+    text: Molecular H2 released from CaH2 is the dominant reducing species in low-temperature CaH2-driven oxide reduction, and the hydride's superior reducing power comes from removing residual moisture near the oxide.
+    about: [ent:H2, ent:CaH2, ent:Fe2O3]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Equal apparent activation energies in contact and non-contact modes matching gas-phase H2 reduction support H2 as reducing agent; the moisture explanation for the 10-fold contact acceleration is argued, not measured, and neither H2 nor H2O partial pressures in the tube are quantified."
+      missing_evidence:
+        - "In situ H2 and H2O partial pressure measurement in the sealed tube"
+        - "Gas-phase H2 reduction of the same films in the same setup with and without a moisture getter"
+      proof_obligations:
+        - text: "Show that contact and non-contact reduction share the activation energy of H2 reduction"
+          obligation_status: DISCHARGED
+          discharged_by: [wang2025:OBS2]
+        - text: "Show that moisture removal causes the contact-mode acceleration"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: local H2O partial pressure, unit: mbar, method: "residual gas analysis or humidity sensing in the sealed tube"}]
+
+  # ---------------- Methods ----------------
+  - id: wang2025:METH1
+    statement_type: METHOD
+    section: Main text, Fig. 1-2
+    paper_part: METHODS
+    text: Epitaxial alpha-Fe2O3 films are sealed with CaH2 in an evacuated quartz tube (~1e-6 bar) with hermetic W leads, either separated from the hydride by a Pyrex spacer (non-contact) or covered with it (contact), and the sheet resistance is tracked isothermally; the total transformation time from Fe2O3 to Fe gives an Arrhenius apparent activation energy.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 1a,b, Fig. 2a,b, Fig. S5"}]
+    about: [ent:Transport, ent:Ea]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Number of temperatures per Arrhenius fit and the uncertainty of the fitted Ea are not reported in the main text.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: wang2025:OBS1
+    statement_type: OBSERVATION
+    section: Main text, Fig. 1
+    paper_part: RESULTS
+    text: The sheet resistance drops in two steps; XRD of quenched samples shows (0001) alpha-Fe2O3 converting to (111) Fe3O4 and then polycrystalline alpha-Fe, confirmed by metallic transport and Fe0 valence.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1d,e, Figs. S2-S4"}]
+    about: [ent:Fe2O3, ent:Transport]
+  - id: wang2025:OBS2
+    statement_type: OBSERVATION
+    section: Main text, Fig. 2
+    paper_part: RESULTS
+    text: Contact-mode reduction is nearly ten times faster than non-contact reduction, but both give apparent activation energies of about 0.9 eV, close to gas-phase H2 reduction of Fe2O3 and far from ~3 eV (solid-solid CaH2-oxide) and ~0.01 eV (atomic H).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2d"
+        values:
+          - {symbol: Ea, quantity: apparent activation energy both modes, value: 0.9, unit: eV}
+          - {quantity: rate ratio contact vs non-contact, value: 10}
+    about: [ent:Ea, ent:CaH2]
+  - id: wang2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Main text, Summary
+    paper_part: RESULTS
+    text: Low-temperature CaH2 reduction in both contact and non-contact modes follows a solid-gas pathway with molecular H2 as the dominant reducing agent.
+    about: [ent:H2, ent:Ea]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Under surface-reaction-limited conditions, identical apparent activation energies imply the same rate-limiting reducing species.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: PARTIAL
+      rationale: "The shared ~0.9 eV and the match with gas-phase H2 reduction are good evidence; discrimination relies on literature Ea values for other systems, and the fitted Ea uncertainty is not given."
+  - id: wang2025:OBS3
+    statement_type: OBSERVATION
+    section: Main text, Fig. 3
+    paper_part: RESULTS
+    text: DFT on O-terminated (0001) Fe2O3 gives highest barriers of 1.3 eV for direct H2 reaction with a surface O and 1.5 eV for dissociative adsorption followed by H migration.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3"
+        values:
+          - {symbol: Eb_dft, quantity: DFT barrier direct pathway, value: 1.3, unit: eV}
+          - {symbol: Ea_exp, quantity: experimental apparent Ea, value: 0.9, unit: eV}
+          - {symbol: kT, quantity: thermal energy at ~320 C, value: 0.0511, unit: eV}
+        derived_checks:
+          - {expression: "rate factor implied by the 0.4 eV difference at 320 C", formula: "exp((Eb_dft - Ea_exp)/kT)", result: 2.5e+3}
+    about: [ent:DFT]
+  - id: wang2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Main text, Summary
+    paper_part: DISCUSSION
+    text: The observed ~0.9 eV apparent activation energy likely originates from surface H2 oxidation on Fe2O3, as the DFT barrier of 1.3 eV is close to it.
+    about: [ent:DFT, ent:Ea]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "A 0.4 eV difference corresponds to a rate factor of order 1e3 at the reaction temperature; the authors acknowledge that an apparent Ea needs microkinetic modelling to interpret.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The DFT barrier is of the right order but not quantitatively close, and no microkinetic model connects it to the apparent activation energy."
+  - id: wang2025:OBS4
+    statement_type: OBSERVATION
+    section: Main text, Fig. 4a, Fig. S7
+    paper_part: RESULTS
+    text: CaH2 powder in N2 with trace moisture gains mass continuously during thermal cycling between 200 and 350 C, whereas Ca(OH)2 is mass-stable under the same conditions.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4a, Fig. S7"}]
+    about: [ent:TGA, ent:CaH2]
+  - id: wang2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Main text
+    paper_part: RESULTS
+    text: Under the experimental conditions H2 is produced mainly by the reaction of CaH2 with water rather than by thermal decomposition.
+    about: [ent:CaH2, ent:H2]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "TGA is done in flowing N2 with moisture, not in the evacuated sealed tube used for reduction, where the water supply is limited to residual moisture and reduction-generated water.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Mass gain with a Ca(OH)2 control shows hydrolysis dominates in moist N2; transfer to the evacuated reduction environment is assumed."
+  - id: wang2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Main text, Abstract, Summary
+    paper_part: DISCUSSION
+    text: Direct contact accelerates reduction because the hydride removes water vapour and generates H2 at the reaction front, raising the local H2/H2O ratio, whereas a distant hydride cannot control the local environment.
+    about: [ent:CaH2, ent:H2]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No measurement of local H2O or H2 near the sample; the mechanism is a schematic argument (Fig. 4b,c).", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The explanation is consistent with equal activation energies and a changed prefactor, but no experiment isolates moisture as the variable."
+      missing_evidence:
+        - "Non-contact reduction with an additional desiccant placed at the sample"
+  - id: wang2025:OUT1
+    statement_type: OUTLOOK
+    section: Summary
+    paper_part: CONCLUSION
+    text: Moisture control could enable sustainable low-temperature synthesis of metastable materials, and in situ transport offers a framework for other hydride-based processes.
+
+relations:
+  - {id: wang2025:R1, subject: wang2025:BG1, predicate: MOTIVATES, object: wang2025:GAP1, asserted_by: AUTHORS}
+  - {id: wang2025:R2, subject: wang2025:BG2, predicate: MOTIVATES, object: wang2025:GAP1, asserted_by: AUTHORS}
+  - {id: wang2025:R3, subject: wang2025:GAP1, predicate: MOTIVATES, object: wang2025:HYP1, asserted_by: AUTHORS}
+  - {id: wang2025:R4, subject: wang2025:METH1, predicate: DEPENDS_ON, object: wang2025:ASM1, asserted_by: AUTHORS}
+  - {id: wang2025:R5, subject: wang2025:OBS1, predicate: SUPPORTS, object: wang2025:CLAIM1, asserted_by: AUTHORS, note: "Validates the transport signal", support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: wang2025:R6, subject: wang2025:OBS2, predicate: SUPPORTS, object: wang2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Ea discrimination uses literature values; fit uncertainty not given"}}
+  - {id: wang2025:R7, subject: wang2025:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: wang2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: wang2025:R8, subject: wang2025:CLAIM1, predicate: SUPPORTS, object: wang2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: wang2025:R9, subject: wang2025:OBS3, predicate: SUPPORTS, object: wang2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2025:R10, subject: wang2025:OBS3, predicate: UNDERCUTS, object: wang2025:CLAIM2, asserted_by: ANNOTATOR, note: "0.4 eV mismatch is large on a rate scale"}
+  - {id: wang2025:R11, subject: wang2025:OBS4, predicate: SUPPORTS, object: wang2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: wang2025:R12, subject: wang2025:CLAIM3, predicate: SUPPORTS, object: wang2025:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2025:R13, subject: wang2025:OBS2, predicate: SUPPORTS, object: wang2025:CLAIM4, asserted_by: AUTHORS, note: "Same Ea, different rate", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: wang2025:R14, subject: wang2025:CLAIM4, predicate: SUPPORTS, object: wang2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2025:R15, subject: wang2025:CLAIM2, predicate: SUPPORTS, object: wang2025:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: wang2025:R16, subject: wang2025:HYP1, predicate: ANSWERS, object: wang2025:GAP1, asserted_by: AUTHORS}
+  - {id: wang2025:R17, subject: wang2025:HYP1, predicate: MOTIVATES, object: wang2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    An elegant in situ transport approach tracks CaH2-driven reduction of
+    epitaxial Fe2O3 films through Fe3O4 to Fe, and equal apparent
+    activation energies (~0.9 eV) for contact and non-contact modes,
+    matching gas-phase H2 reduction, make a good case for molecular H2 as
+    the reducing species. The discrimination rests on literature
+    activation energies of other systems and an unreported fit
+    uncertainty; the DFT barrier differs by 0.4 eV (a rate factor of
+    order 1e3), and the moisture-removal explanation for the ten-fold
+    contact acceleration is not measured, with TGA done in moist N2 rather
+    than the evacuated tube.
+  key_limitations:
+    - "Ea discrimination relies on literature values for other systems; fit uncertainty missing (ASM1, OBS2)."
+    - "Moisture mechanism untested; no H2/H2O partial pressure measurement (CLAIM4)."
+    - "DFT barrier 1.3 eV vs 0.9 eV called close (CLAIM2)."
+    - "TGA environment differs from reduction environment (CLAIM3)."
+  missing_evidence:
+    - "Residual gas analysis inside the sealed tube during reduction."
+    - "Same-setup gas-phase H2 reduction with controlled moisture."
+    - "Microkinetic model linking DFT barriers to apparent Ea."

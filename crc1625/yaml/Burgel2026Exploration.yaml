@@ -1,0 +1,282 @@
+id: claimchain:chain/Burgel2026Exploration
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d5fd00082c
+  title: "Exploration of nanostructured high-entropy alloys for key electrochemical reactions: a comparative study for the solid solution systems Cu-Pd-Pt-Ru, Ir-Pd-Pt-Ru and Ni-Pd-Pt-Ru"
+  authors: [Jan Lukas Bürgel, Rico Zehl, Felix Thelen, Ridha Zerdoumi, Olga A. Krysiak, Benedikt Kohnen, Ellen Suhr, Wolfgang Schuhmann, Alfred Ludwig]
+  year: 2026
+  doi: 10.1039/d5fd00082c
+  url: https://doi.org/10.1039/d5fd00082c
+
+entities:
+  - {id: ent:Libs, label: "16 co-sputtered thin-film libraries (Pd-Pt-Ru and X-Pd-Pt-Ru, X = Cu, Ir, Ni), 5472 measurement areas", entity_type: MATERIAL}
+  - {id: ent:Elem, label: "single-element thin-film references (Cu, Ir, Ni, Pd, Pt, Ru)", entity_type: MATERIAL}
+  - {id: ent:SDC, label: "scanning droplet cell LSV in 0.05 M KOH (+0.05 M KNO3 for NOxRR), 10 mV/s, geometric normalization", entity_type: TECHNIQUE}
+  - {id: ent:XRD, label: "high-throughput XRD and Vegard-type linear fit of the main reflection", entity_type: TECHNIQUE}
+  - {id: ent:j, label: "current density at fixed potential (HER -0.1 V, OER 1.7 V, ORR 0.8 V, NOxRR 0.05 V vs RHE)", entity_type: QUANTITY}
+  - {id: ent:Pareto, label: "activity vs material cost Pareto fronts", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: burgel2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Compositionally complex solid solutions offer a broad distribution of surface binding sites that can be tuned by composition, but the combinatorial explosion of compositions requires efficient high-throughput exploration.
+    evidence: [{evidence_kind: CITATION, references: ["5-9"]}]
+  - id: burgel2026:AIM1
+    statement_type: AIM
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Compare HER, OER, ORR and NOxRR activity in alkaline media over large composition ranges of Cu-, Ir- and Ni-Pd-Pt-Ru, including phase constitution and morphology, to assess the tunability of activity within and across systems.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: burgel2026:METH1
+    statement_type: METHOD
+    section: Experimental methods
+    paper_part: METHODS
+    text: One ternary and five quaternary libraries per system (equiatomic plus four corner-rich) are sputtered at room temperature (about 100 nm), and all 342 areas per library are characterized by EDS, XRD and SDC LSV; activities are taken as current density at one fixed potential per reaction; elemental films serve as references.
+    about: [ent:Libs, ent:SDC, ent:j]
+    scope: {sample_count: 16, scope_note: "16 libraries, 5472 areas, one LSV per area and reaction"}
+  - id: burgel2026:ASM1
+    statement_type: ASSUMPTION
+    section: Results
+    paper_part: METHODS
+    text: Because SEM shows similar 10-20 nm grains and AFM only minor roughness differences, geometric current densities at a fixed potential reflect composition-driven activity trends; bulk EDS composition stands in for surface composition.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No ECSA is measured; morphology is checked only at selected areas; surface segregation and oxidation are acknowledged but not measured.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: burgel2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 3, Fig. S2
+    paper_part: RESULTS
+    text: Linear fits of the main reflection position versus composition give R2 of 0.98 (Ni), 0.98 (Cu) and 0.945 (Ir), barely changing when Ru-rich hcp compositions are excluded (0.99, 0.99, 0.95); fcc dominates (about 80% of Ni-Pd-Pt-Ru areas), hcp appears above about 55 at.% Ru, and the two-phase boundary cannot be resolved.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3, Fig. S2"}]
+    about: [ent:XRD]
+  - id: burgel2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: RESULTS
+    text: The Cu-, Ni-, Ir-, Pd-, Pt-rich and near-equiatomic regions are single-phase fcc solid solutions.
+    about: [ent:Libs]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A near-linear shift of the main reflection with composition (Vegard's law) and a single visible pattern indicate a single-phase solid solution.", warrant_basis: EMPIRICAL_CORRELATION}
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "The linear fit is equally good with and without the hcp/two-phase compositions, so R2 does not discriminate single- from multi-phase regions; texture hides minor reflections, as the authors note.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Single fcc patterns support solid solutions in most regions, but the R2 criterion is insensitive to phase changes and minor phases cannot be excluded in strongly textured films."
+  - id: burgel2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Figs. 4-5, Table S3
+    paper_part: RESULTS
+    text: The OER maximum is Ir23Pd3Pt8Ru66 with 2.68 mA/cm2 at 1.7 V, with activity rising toward Ir-Ru and toward Ru in the other systems; pure Ru appears at least 250% more active but its LSV indicates significant dissolution, so it is excluded.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. Results, Fig. 5, Fig. S6"
+        values:
+          - {symbol: ir_oer, quantity: OER maximum Ir-Pd-Pt-Ru, value: 2.68, unit: mA cm-2}
+          - {symbol: cu_gain_text, quantity: stated OER excess over Cu-Pd-Pt-Ru in main text, value: 67, unit: "%"}
+          - {symbol: cu_gain_abs, quantity: stated OER excess over Cu-Pd-Pt-Ru in abstract, value: 74, unit: "%"}
+        derived_checks:
+          - {expression: "Cu-system OER maximum implied by the main-text 67%", formula: "ir_oer/(1 + cu_gain_text/100)", result: 1.60, unit: mA cm-2}
+          - {expression: "Cu-system OER maximum implied by the abstract 74%", formula: "ir_oer/(1 + cu_gain_abs/100)", result: 1.54, unit: mA cm-2}
+    about: [ent:j]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The OER excess of the Ir system over the Cu system is 74% in the abstract and 67% in the main text.", priority: LOW}
+  - id: burgel2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: For the OER, Ir23Pd3Pt8Ru66 is the most active composition, exceeding the best alloys of Ni-Pd-Pt-Ru by 51% and Cu-Pd-Pt-Ru by 67-74%, with maxima near the Ir-Ru binary.
+    about: [ent:j]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Pure Ru is excluded because its OER current includes dissolution, but the Ru-rich (66 at.%) alloy maxima are not checked for the same contribution.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "The ranking follows from single LSVs per area with consistent trends, but the dissolution argument used to exclude Ru applies at least partly to Ru-rich maxima, and no stability or repeat data are given."
+      proof_obligations:
+        - text: "Show that the OER current of Ru-rich alloys is not dominated by dissolution"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "dissolved Ru and Ir during OER", method: "SFC-ICP-MS on selected areas"}]
+  - id: burgel2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 6
+    paper_part: RESULTS
+    text: The HER maximum is Ir36Pd4Pt48Ru12 at -3.48 mA/cm2 (-0.1 V), versus -3.33 mA/cm2 in Ni-Pd-Pt-Ru, which exceeds the Cu-Pd-Pt-Ru and Pd-Pt-Ru maxima by 18% and pure Pt by 20%; Cu lowers HER activity, and no near-equiatomic composition is a maximum for any reaction.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. Results, Figs. 5-6"
+        values:
+          - {symbol: ir_her, quantity: HER maximum Ir system, value: 3.48, unit: mA cm-2}
+          - {symbol: ni_her, quantity: HER maximum Ni system, value: 3.33, unit: mA cm-2}
+          - {symbol: ni_over_cu, quantity: Ni maximum over Cu maximum, value: 0.18}
+          - {symbol: ni_over_pt, quantity: Ni maximum over pure Pt, value: 0.20}
+        derived_checks:
+          - {expression: "Ir over Ni HER maximum (stated 5%)", formula: "(ir_her/ni_her - 1)*100", result: 4.5, unit: "%"}
+          - {expression: "Ir over Cu HER maximum (stated 23%)", formula: "(ir_her/(ni_her/(1 + ni_over_cu)) - 1)*100", result: 23.3, unit: "%"}
+          - {expression: "Ir over pure Pt (stated 26%)", formula: "(ir_her/(ni_her/(1 + ni_over_pt)) - 1)*100", result: 25.4, unit: "%"}
+    about: [ent:j]
+  - id: burgel2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: For the HER, Pt-, Ru- and Ir-rich alloys are most active, small amounts of Ni help, and the alloys outperform all elemental constituents (by up to 26%), indicating a synergistic effect.
+    about: [ent:j, ent:Elem]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Differences of 5-26% between single LSVs on different films are interpreted without repeat measurements or uncertainty, and without ECSA normalization of alloys versus elemental films.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "The trends toward Pt-Ru-Ir are consistent over thousands of areas and the stated percentages recompute; the synergy claim rests on margins of 5-26% with no uncertainty or surface-area correction."
+  - id: burgel2026:OBS4
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: ORR currents span only -0.24 to -0.29 mA/cm2 maxima (Pd-rich best), limited by the oxygen in the SDC tip, and some areas give positive (oxidation) currents at the reference potential.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5"}]
+    about: [ent:j]
+  - id: burgel2026:OBS5
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: The NOxRR maximum (-3.33 mA/cm2 at 0.05 V) lies in Cu-rich Cu-Pd-Pt-Ru, only 4% above pure Cu; the Ni system peaks at -2.07 mA/cm2 near Ni41Pd37Pt8Ru14 and the Ir system at -1.66 mA/cm2 in the Pd-rich region; one Ni-system library was excluded as faulty.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. Results"
+        values:
+          - {symbol: cu_nox, quantity: NOxRR maximum Cu system, value: 3.33, unit: mA cm-2}
+          - {symbol: orr_max, quantity: largest ORR current maximum, value: 0.29, unit: mA cm-2}
+          - {symbol: ir_nox, quantity: NOxRR maximum Ir system, value: 1.66, unit: mA cm-2}
+        derived_checks:
+          - {expression: "possible ORR share of the Ir-system NOxRR current in air-exposed electrolyte", formula: "orr_max/ir_nox*100", result: 17.5, unit: "%"}
+    about: [ent:j]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The NOxRR activity is the total cathodic current without product analysis; dissolved-O2 reduction (up to about 0.3 mA/cm2) and other reactions are not subtracted, which matters for the low-activity systems.", priority: MEDIUM}
+  - id: burgel2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: Electrochemical activity of compositionally complex solid solutions is tunable by composition within and across systems for four reactions, with different reactions responding differently to the same compositional change and maxima mostly outside the near-equiatomic region.
+    about: [ent:Libs]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Directly shown by the activity maps of 5472 areas for four reactions in three systems; it is a descriptive claim about measured current ranges."
+  - id: burgel2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: Continuous activity trends across the composition spaces support the presence of solid solutions in which gradual surface composition changes shift adsorption energies, and the trends are robust enough that individual data point veracity is less critical.
+    about: [ent:Libs]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Continuity of activity does not establish a solid solution or adsorption-energy shifts; surface composition was not measured, as the authors concede.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No surface composition or adsorption energy data; continuity is equally expected from mixed-phase gradients."
+  - id: burgel2026:OBS6
+    statement_type: OBSERVATION
+    section: Multi-objective optimisation, Fig. 8
+    paper_part: RESULTS
+    text: In activity-cost Pareto fronts pure Ni (OER, HER) and pure Cu (NOxRR) are cost-efficient, Ni-Pd-Pt-Ru alloys dominate the ORR and HER fronts, and moving from Ni- to Ir-Pd-Pt-Ru raises cost by up to 269% for 51% more OER activity.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 8"}]
+    about: [ent:Pareto]
+  - id: burgel2026:CLAIM6
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Multi-objective optimisation, Conclusion
+    paper_part: DISCUSSION
+    text: Including Ir is not justified on activity and cost alone.
+    about: [ent:Pareto]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Follows from the Pareto analysis of measured activities and cited prices; stability, which may favour Ir in the OER, is not included."
+  - id: burgel2026:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: Reducing LSVs to one current density loses information (e.g. dissolution contributions), the ORR data are limited by oxygen supply, surface composition was not measured, and the HER may contain an ORR contribution from the combined sweep.
+  - id: burgel2026:OUT1
+    statement_type: OUTLOOK
+    section: Multi-objective optimisation, Conclusion
+    paper_part: CONCLUSION
+    text: Use machine learning, micro-libraries, backward elimination and simulations to handle larger spaces, and include stability, selectivity and cost as objectives.
+  - id: burgel2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Activity maxima, many outside the near-equiatomic region, were identified; Ir23Pd3Pt8Ru66 is the OER maximum, Ru-, Pt- and Ir-rich alloys are best for the HER, Pd-rich for the ORR and Cu-rich for the NOxRR.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM2-CLAIM4; the OER maximum carries the same dissolution caveat."
+
+relations:
+  - {id: burgel2026:R1, subject: burgel2026:BG1, predicate: MOTIVATES, object: burgel2026:AIM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R2, subject: burgel2026:METH1, predicate: DELIVERS, object: burgel2026:AIM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R3, subject: burgel2026:CLAIM4, predicate: DELIVERS, object: burgel2026:AIM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R4, subject: burgel2026:OBS1, predicate: DELIVERS, object: burgel2026:AIM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R5, subject: burgel2026:CONC1, predicate: DELIVERS, object: burgel2026:AIM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R6, subject: burgel2026:METH1, predicate: DEPENDS_ON, object: burgel2026:ASM1, asserted_by: AUTHORS}
+  - {id: burgel2026:R7, subject: burgel2026:OBS1, predicate: SUPPORTS, object: burgel2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "R2 insensitive to the hcp region; texture hides minor phases"}}
+  - {id: burgel2026:R8, subject: burgel2026:OBS2, predicate: SUPPORTS, object: burgel2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Single LSV per area; dissolution not excluded for Ru-rich alloys"}}
+  - {id: burgel2026:R9, subject: burgel2026:OBS2, predicate: UNDERCUTS, object: burgel2026:CLAIM2, asserted_by: ANNOTATOR, note: "the dissolution argument for pure Ru applies partly to 66 at.% Ru alloys"}
+  - {id: burgel2026:R10, subject: burgel2026:OBS3, predicate: SUPPORTS, object: burgel2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "No repeats or ECSA for 5-26% margins"}}
+  - {id: burgel2026:R11, subject: burgel2026:OBS2, predicate: SUPPORTS, object: burgel2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Descriptive claim over thousands of areas"}}
+  - {id: burgel2026:R12, subject: burgel2026:OBS3, predicate: SUPPORTS, object: burgel2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: burgel2026:R13, subject: burgel2026:OBS5, predicate: SUPPORTS, object: burgel2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: burgel2026:R14, subject: burgel2026:OBS4, predicate: SUPPORTS, object: burgel2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: burgel2026:R15, subject: burgel2026:CLAIM1, predicate: SUPPORTS, object: burgel2026:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: burgel2026:R16, subject: burgel2026:OBS6, predicate: SUPPORTS, object: burgel2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Stability not an objective"}}
+  - {id: burgel2026:R17, subject: burgel2026:LIM1, predicate: QUALIFIES, object: burgel2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: burgel2026:R18, subject: burgel2026:LIM1, predicate: QUALIFIES, object: burgel2026:CLAIM5, asserted_by: AUTHORS}
+  - {id: burgel2026:R19, subject: burgel2026:CONC1, predicate: RESTATES, object: burgel2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: burgel2026:R20, subject: burgel2026:OBS2, predicate: SUPPORTS, object: burgel2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: burgel2026:R21, subject: burgel2026:LIM1, predicate: MOTIVATES, object: burgel2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A large, openly shared high-throughput dataset (16 libraries, 5472
+    areas, four reactions, three quaternary systems plus elemental
+    references) convincingly shows that activity can be tuned by
+    composition and that maxima mostly lie outside the near-equiatomic
+    region; the HER percentages recompute consistently. Quantitative
+    rankings rest on single LSVs per area without uncertainties or ECSA,
+    the OER maximum is Ru-rich although pure Ru was excluded for
+    dissolution, the NOxRR current is not corrected for O2 reduction or
+    product selectivity, the Vegard R2 cannot discriminate phases, and the
+    OER margin over the Cu system differs between abstract (74%) and text
+    (67%).
+  key_limitations:
+    - "Single LSV per area; no uncertainty or ECSA for small margins (CLAIM3)."
+    - "Dissolution not excluded for Ru-rich OER maxima (CLAIM2)."
+    - "NOxRR current includes unseparated side reactions (OBS5)."
+    - "Phase assignment via R2 insensitive to phase changes (CLAIM1)."
+    - "Abstract-text mismatch in OER percentage (OBS2)."
+  missing_evidence:
+    - "Repeat measurements at maxima with error bars."
+    - "Online ICP-MS during OER on Ru-rich alloys."
+    - "Product analysis for NOxRR and O2-free reference measurements."

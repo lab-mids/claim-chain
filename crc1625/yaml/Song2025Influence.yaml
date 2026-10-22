@@ -1,0 +1,206 @@
+id: claimchain:chain/Song2025Influence
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/celc.202400587
+  title: "Influence of the Electrolyte pH on the Double Layer Capacitance of Polycrystalline Pt and Au Electrodes in Acidic Solutions"
+  authors: [Kun-Ting Song, Peter M. Schneider, Ivo Grabovac, Batyr Garlyyev, Sebastian A. Watzele, Aliaksandr S. Bandarenka]
+  year: 2025
+  doi: 10.1002/celc.202400587
+  url: https://doi.org/10.1002/celc.202400587
+
+entities:
+  - {id: ent:Pt, label: polycrystalline Pt electrode (hanging meniscus), entity_type: MATERIAL}
+  - {id: ent:Au, label: polycrystalline Au electrode (hanging meniscus), entity_type: MATERIAL}
+  - {id: ent:HClO4, label: "HClO4 at pH 0-2 without supporting electrolyte (0.01-1 M)", entity_type: MATERIAL}
+  - {id: ent:CV, label: cyclic voltammetry capacitance estimate, entity_type: TECHNIQUE}
+  - {id: ent:EIS, label: "EIS with CPE-based equivalent circuits (100 kHz-1 Hz)", entity_type: TECHNIQUE}
+  - {id: ent:Cdl, label: double-layer capacitance C'DL and its minimum, entity_type: QUANTITY}
+  - {id: ent:PME, label: potential of maximum entropy (from LICT data of ref. 32), entity_type: QUANTITY}
+  - {id: ent:CPEn, label: CPE exponent n and its transition potential, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: song2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Classical EDL theory ignores electrode composition, structure and electrolyte chemistry, so no quantitative means exist to explain and predict double-layer capacitance trends with pH for solid electrodes.
+    evidence: [{evidence_kind: CITATION, references: ["1-12"]}]
+  - id: song2025:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: On Pt(111) the PZFC is pH-independent while PZTC and CDL change with pH in acid, and the PME of Pt(pc) and Au(pc) in HClO4 increases linearly with pH on the RHE scale between pH 0 and 2.
+    evidence: [{evidence_kind: CITATION, references: ["14", "25", "29", "30", "32"]}]
+  - id: song2025:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Systematic CDL measurements on polycrystalline electrodes in concentrated acids are rare and are rarely combined with other EDL parameters such as the PME.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: song2025:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Determine the pH dependence (pH 0-2) of CDL for Pt(pc) and Au(pc) by CV and EIS and correlate the CDL minimum, the CPE exponent transition and the PME.
+    about: [ent:Pt, ent:Au, ent:Cdl, ent:PME]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: song2025:METH1
+    statement_type: METHOD
+    section: Experimental
+    paper_part: METHODS
+    text: Pt(pc) and Au(pc) in hanging-meniscus configuration are measured in Ar-saturated HClO4 at pH 0 to 2 in 0.5 steps by CV and by EIS (0.3-0.6 V for Pt, 0.04-0.52 V for Au, 20 mV steps, 10 mV amplitude), fitted with CPE-based circuits including adsorption elements, with at least three repetitions per pH.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Experimental, Figs. S2-S3"}]
+    about: [ent:CV, ent:EIS, ent:HClO4]
+    scope: {sample_count: 3}
+  - id: song2025:ASM1
+    statement_type: ASSUMPTION
+    section: Experimental, Results
+    paper_part: METHODS
+    text: Varying HClO4 concentration without supporting electrolyte isolates the effect of pH, and with CPE exponents above 0.9 the CPE parameter can be treated as an ideal capacitance.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "How much of the CDL trend reflects the hundred-fold change in ionic strength rather than proton activity?"
+    note: "The paper uses 'electrolyte concentration, i.e. electrolyte pH' interchangeably."
+
+  # ---------------- Results ----------------
+  - id: song2025:OBS1
+    statement_type: OBSERVATION
+    section: Results, Figs. 1-2
+    paper_part: RESULTS
+    text: In CVs the hydrogen and oxide peaks of both electrodes shift positively on the RHE scale with increasing pH, and the capacitive current in the double-layer region increases with pH for Pt(pc) but decreases with pH for Au(pc); the minimum CV-derived capacitance of Pt correlates with the hydrogen adsorption charge.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 1, 2, S1"}]
+    about: [ent:CV, ent:Pt, ent:Au]
+  - id: song2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 3
+    paper_part: RESULTS
+    text: EIS-derived C'DL minima follow the same pH trends as the CVs (increasing with pH for Pt, decreasing for Au) but are lower than CV values; Nyquist plots show a small semicircle and tilted line indicating slower adsorption processes, and Pt minima exceed Au minima at the same pH.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3, Figs. S4-S5"}]
+    about: [ent:EIS, ent:Cdl]
+  - id: song2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: RESULTS
+    text: The CDL of Pt(pc) increases with increasing pH in acidic solution, while that of Au(pc) shows the opposite trend, and the Pt trend cannot be quantitatively described by the Stern model because of stronger adsorption on Pt.
+    about: [ent:Cdl, ent:Pt, ent:Au]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "pH and ionic strength change together (0.01-1 M HClO4, no supporting electrolyte), so the trends cannot be attributed to pH as such.", priority: HIGH}
+      - {concern_type: UNTESTED_ASSERTION, description: "No Stern-model fit is presented to show the quantitative failure; the attribution to adsorption is qualitative.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Opposite CDL trends are reproduced by CV and EIS with repeats; the dependence is on HClO4 concentration rather than pH alone, and the failure of the Stern model and its adsorption origin are asserted without a quantitative model comparison."
+      missing_evidence:
+        - "Measurements at constant ionic strength (e.g. NaClO4/HClO4 mixtures)"
+        - "Quantitative Gouy-Chapman-Stern fit to the Au and Pt data"
+      proof_obligations:
+        - text: "Show opposite CDL trends for Pt and Au"
+          obligation_status: DISCHARGED
+          discharged_by: [song2025:OBS1, song2025:OBS2]
+        - text: "Separate pH from ionic-strength effects"
+          obligation_status: OPEN
+          priority: HIGH
+  - id: song2025:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: The CPE exponent stays above 0.9 for both metals but shows a sharp minimum for Pt(pc) between the double-layer region and the onset of hydrogen adsorption, absent for Au(pc); the PME (from ref. 32) lies between the C'DL minimum and this CPE transition for Pt and almost coincides with the C'DL minimum for Au.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4, Figs. S6-S7"}]
+    about: [ent:CPEn, ent:PME]
+  - id: song2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results, Conclusions
+    paper_part: DISCUSSION
+    text: The CPE-exponent minimum on Pt(pc) reflects a 2D phase transition associated with specific adsorption and solvent restructuring near the onset of hydrogen adsorption, which does not occur on Au(pc).
+    about: [ent:CPEn, ent:Pt]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The dip is measured, but its assignment to a 2D phase transition is inferred from literature without structural evidence on the polycrystalline surface."
+  - id: song2025:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 4C, Fig. S8
+    paper_part: RESULTS
+    text: For Pt(pc) the potential of the C'DL minimum increases with pH at 59 mV/pH on the RHE scale and stays approximately constant on the SHE scale, whereas for Au(pc) the C'DL minimum and PME shift positively on both scales.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4C, Fig. S8"
+        values:
+          - {symbol: slope, quantity: "slope of E_C'DL,min vs pH (RHE)", value: 59, unit: mV/pH}
+          - {symbol: RTF, quantity: "2.303 RT/F at 298 K", value: 59.16, unit: mV}
+        derived_checks:
+          - {expression: "slope equals the Nernstian conversion RHE vs SHE", formula: "abs(slope - RTF) < 1", satisfied: true}
+    about: [ent:Cdl, ent:Pt, ent:Au]
+  - id: song2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: The potential of minimum CDL, the PME and (for Pt) the CPE transition potential all increase linearly with pH, trends that closely correlate with reaction activities, and combining them gives a more comprehensive assessment of the EDL.
+    about: [ent:Cdl, ent:PME, ent:CPEn]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "For Pt the 59 mV/pH increase on the RHE scale is just the RHE-SHE conversion, i.e. the potential is pH-independent on an absolute scale; no reaction activity is measured, and the PME data are taken from another paper.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The linear RHE trends are measured, but for Pt they are a reference-scale effect, and the asserted correlation with reaction activity is not tested in this work."
+  - id: song2025:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: CV is insufficient to determine CDL accurately, polycrystalline facets and grain boundaries mix responses, and partially charged adsorbates make extracting the pure CDL difficult.
+    limitation_kind: METHOD
+  - id: song2025:OUT1
+    statement_type: OUTLOOK
+    section: Results, Conclusions
+    paper_part: CONCLUSION
+    text: Scanning-probe techniques and models beyond the Stern model should be used to study EDLs of polycrystalline electrodes at varying ionic strength.
+
+relations:
+  - {id: song2025:R1, subject: song2025:BG1, predicate: MOTIVATES, object: song2025:GAP1, asserted_by: AUTHORS}
+  - {id: song2025:R2, subject: song2025:BG2, predicate: MOTIVATES, object: song2025:AIM1, asserted_by: AUTHORS}
+  - {id: song2025:R3, subject: song2025:GAP1, predicate: MOTIVATES, object: song2025:AIM1, asserted_by: AUTHORS}
+  - {id: song2025:R4, subject: song2025:METH1, predicate: DEPENDS_ON, object: song2025:ASM1, asserted_by: AUTHORS}
+  - {id: song2025:R5, subject: song2025:OBS1, predicate: SUPPORTS, object: song2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: song2025:R6, subject: song2025:OBS2, predicate: SUPPORTS, object: song2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Ionic strength co-varies with pH; no Stern fit"}}
+  - {id: song2025:R7, subject: song2025:ASM1, predicate: QUALIFIES, object: song2025:CLAIM1, asserted_by: ANNOTATOR, note: "pH and ionic strength confounded"}
+  - {id: song2025:R8, subject: song2025:OBS3, predicate: SUPPORTS, object: song2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: song2025:R9, subject: song2025:OBS3, predicate: SUPPORTS, object: song2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: song2025:R10, subject: song2025:OBS4, predicate: UNDERCUTS, object: song2025:CLAIM3, asserted_by: ANNOTATOR, note: "Pt trend on RHE equals the Nernstian conversion; constant on SHE"}
+  - {id: song2025:R11, subject: song2025:OBS4, predicate: SUPPORTS, object: song2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: song2025:R12, subject: song2025:LIM1, predicate: QUALIFIES, object: song2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: song2025:R13, subject: song2025:CLAIM1, predicate: DELIVERS, object: song2025:AIM1, asserted_by: AUTHORS}
+  - {id: song2025:R14, subject: song2025:CLAIM3, predicate: DELIVERS, object: song2025:AIM1, asserted_by: AUTHORS}
+  - {id: song2025:R15, subject: song2025:CLAIM1, predicate: ANSWERS, object: song2025:GAP1, asserted_by: AUTHORS}
+  - {id: song2025:R16, subject: song2025:LIM1, predicate: MOTIVATES, object: song2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A careful CV and EIS study with repeats showing opposite double-layer
+    capacitance trends for polycrystalline Pt and Au in 0.01-1 M HClO4,
+    with consistent results between methods and a reported CPE-exponent dip
+    only on Pt. Interpretation is weaker: pH and ionic strength are changed
+    together, the failure of the Stern model is asserted without a fit, the
+    'positive linear trend with pH' for Pt is the Nernstian RHE conversion
+    (constant on SHE), and the abstract's correlation with reaction
+    activity is not tested, with PME values taken from earlier work.
+  key_limitations:
+    - "pH confounded with ionic strength (ASM1, CLAIM1)."
+    - "No quantitative Stern/GCS model comparison (CLAIM1)."
+    - "Pt potential trends are a reference-scale artefact; activity not measured (OBS4, CLAIM3)."
+    - "Phase-transition interpretation of the CPE dip untested (CLAIM2)."
+  missing_evidence:
+    - "Constant-ionic-strength series with supporting electrolyte."
+    - "Quantitative GCS fits including specific adsorption."
+    - "Activity measurements under the same conditions."

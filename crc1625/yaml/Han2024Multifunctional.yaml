@@ -1,0 +1,318 @@
+id: claimchain:chain/Han2024Multifunctional
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41578-024-00720-y
+  title: "Multifunctional high-entropy materials"
+  authors: [Liuliu Han, Shuya Zhu, Ziyuan Rao, Christina Scheu, Dirk Ponge, Alfred Ludwig, Hongbin Zhang, Oliver Gutfleisch, Horst Hahn, Zhiming Li, Dierk Raabe]
+  year: 2024
+  doi: 10.1038/s41578-024-00720-y
+  url: https://doi.org/10.1038/s41578-024-00720-y
+
+entities:
+  - {id: ent:HEM, label: high-entropy / compositionally complex materials, entity_type: MATERIAL}
+  - {id: ent:SoftMag, label: soft magnetic HEMs (e.g. Fe32Co28Ni28Ta5Al7 with nanoprecipitates), entity_type: MATERIAL}
+  - {id: ent:HardMag, label: rare-earth-free and RE-lean hard magnetic HEMs, entity_type: MATERIAL}
+  - {id: ent:TE, label: thermoelectric HEMs, entity_type: MATERIAL}
+  - {id: ent:Invar, label: Invar-type HEMs, entity_type: MATERIAL}
+  - {id: ent:Catalyst, label: HEM electrocatalysts with polyelemental surface atom arrangements, entity_type: MATERIAL}
+  - {id: ent:Hydride, label: high-entropy hydrides, entity_type: MATERIAL}
+  - {id: ent:Decoration, label: chemical co-decoration of lattice defects (Gibbs adsorption isotherm), entity_type: CONCEPT}
+  - {id: ent:AI, label: high-throughput and AI / text-mining driven materials discovery, entity_type: METHOD}
+  - {id: ent:Sustainability, label: "cost, CO2 and energy footprint of alloying elements", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: han2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Compositionally complex alloys with multiple principal elements, originally designed for entropy-stabilized solid solutions and mostly metastable, open a vast composition and microstructure space and have mainly been studied for mechanical properties.
+    evidence: [{evidence_kind: CITATION, references: ["1-15"]}]
+  - id: han2024:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Functional properties such as low coercivity, low electrical resistance or soft magnetism require few lattice defects, whereas strength and strain hardening require many, so functional and mechanical properties usually conflict.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: han2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Governing principles for designing HEMs that reconcile several functional properties with good mechanical properties have not been systematically analysed.
+    evidence: [{evidence_kind: ARGUMENT}]
+    note: "Implied by the review's stated aim; not phrased as a gap in the text."
+  - id: han2024:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Introduction, Future perspectives
+    paper_part: INTRODUCTION
+    text: The continuously adjustable chemistry and decorated defect microstructures of HEMs allow functional properties previously thought mutually exclusive to be reconciled in one material without sacrificing mechanical properties, making multifunctional HEMs a disruptive design opportunity.
+    about: [ent:HEM]
+    claim_modality: GENERALIZATION
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "Individual examples (nanoprecipitate soft magnets, Invar HEMs, thermoelectrics, resistive alloys) show combined properties; the review itself notes that few HEMs surpass commercial materials, that superconducting and first-order magnetocaloric HEMs are lacking, and that cost and sustainability often disqualify them, so the general claim exceeds the evidence collected."
+      missing_evidence:
+        - "Systematic comparison of multifunctional HEMs against best conventional materials including cost"
+        - "Counter-examples and negative results across the property classes"
+      proof_obligations:
+        - text: "Show HEMs that combine at least two functional properties with good mechanical properties"
+          obligation_status: DISCHARGED
+          discharged_by: [han2024:OBS1, han2024:OBS3]
+        - text: "Show that the combinations surpass conventional materials"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [han2024:OBS2]
+        - text: "Show that the advantage survives cost and sustainability constraints"
+          obligation_status: OPEN
+          priority: HIGH
+  - id: han2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Defect decoration can be larger in massive solid solutions than in dilute alloys, because the chemical potentials of decorating elements are much higher in HEMs and interactions at co-decorated defects increase total segregation beyond ideal-solution isotherms.
+    evidence: [{evidence_kind: CITATION, references: ["15", "18", "19"]}]
+    about: [ent:Decoration]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The 'much higher' chemical potential is asserted without a quantitative comparison or example values.", priority: LOW}
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported by cited APT co-decoration findings and defect-phase-diagram theory; no quantitative comparison across dilute and concentrated alloys is presented."
+
+  # ---------------- Methods / design ----------------
+  - id: han2024:METH1
+    statement_type: METHOD
+    section: Design challenges and strategies
+    paper_part: METHODS
+    text: The review groups multifunctional HEM phenomena by property class and identifies features linked in the literature by a natural language analysis of more than three million HEM texts (Fig. 2).
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 2, Supplementary section 1"}]
+    about: [ent:AI]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Literature selection criteria for the examples are not stated; the review is narrative, so positive examples may be over-represented.", priority: MEDIUM}
+
+  # ---------------- Magnetic ----------------
+  - id: han2024:OBS1
+    statement_type: OBSERVATION
+    section: Magnetic HEMs
+    paper_part: RESULTS
+    text: Fe32Co28Ni28Ta5Al7 with 90-100 nm nanoprecipitates reaches a coercivity of 78 A/m together with 1,336 MPa tensile strength, 54 % elongation, 100 A m2/kg saturation magnetization and 103 uOhm cm resistivity, and coherent nanoprecipitates in Fe-Co-Ni-Ta-Al raise yield strength from ~500 to ~1,200 MPa while coercivity rises only from 0.6 to 0.8 kA/m.
+    evidence:
+      - evidence_kind: CITATION
+        references: ["37", "38"]
+        locator: "Fig. 5"
+        values:
+          - {quantity: coercivity, value: 78, unit: A/m}
+          - {quantity: tensile strength, value: 1336, unit: MPa}
+          - {quantity: elongation, value: 54, unit: "%"}
+          - {quantity: saturation magnetization, value: 100, unit: A m2/kg}
+    about: [ent:SoftMag]
+  - id: han2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Magnetic HEMs
+    paper_part: RESULTS
+    text: Nanostructuring HEMs decouples mechanical and magnetic length scales, so precipitates of tuned size strengthen soft magnets without strong domain-wall pinning.
+    about: [ent:SoftMag]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Precipitates smaller than the domain-wall width pin domain walls weakly while still obstructing dislocations.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: "YES"
+      rationale: "The cited Fe-Co-Ni-Ta-Al studies report strength gains with low or barely increased coercivity, consistent with the length-scale argument."
+  - id: han2024:OBS2
+    statement_type: OBSERVATION
+    section: Magnetic HEMs, Thermal HEMs, Electrical HEMs
+    paper_part: RESULTS
+    text: The review states that few soft magnetic HEMs have surpassed commercial materials in performance and cost, only a few thermoelectric HEMs surpass commercial thermoelectrics, all reported magnetocaloric HEMs show second-order transitions, and no promising conventional superconducting HEMs have been identified.
+    evidence: [{evidence_kind: CITATION, references: ["37", "39", "125", "179-182"], locator: "Fig. 4, Supplementary Table 1"}]
+    about: [ent:HEM]
+  - id: han2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Magnetic HEMs
+    paper_part: DISCUSSION
+    text: Rare-earth-free hard magnetic HEMs can be pursued by inducing tetragonal distortion with interstitials (H, B, C, N) or combining 3d with 5d elements, and RE-lean ThMn12-type or 'RE ore basket' compositions are promising for RE-containing HEM magnets.
+    about: [ent:HardMag]
+    claim_modality: CONCEPTUAL
+    author_certainty: SPECULATIVE
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Presented as design strategies; the best cited RE-free HEM (Fe2CoNiAlCu0.4Ti0.4, Hc 86-101 kA/m) is only semi-hard and far below Nd-Fe-B, so no data decide the claim."
+
+  # ---------------- Thermal / electrical ----------------
+  - id: han2024:OBS3
+    statement_type: OBSERVATION
+    section: Thermal HEMs
+    paper_part: RESULTS
+    text: Cited thermoelectric HEMs reach ZT 1.8 at 900 K (Pb0.89Sb0.012Sn0.1Se0.5Te0.25S0.25) and 2.7 at 750 K (GeTe-based), and active-learning design produced Invar HEMs Fe41.8Ni9.4Co40.9Cr8 and Fe54.1Ni22.8Co17.2Cr5.9 with thermal expansion around 2e-6 /K at 300 K.
+    evidence:
+      - evidence_kind: CITATION
+        references: ["66", "147", "155"]
+        values:
+          - {quantity: ZT max, value: 1.8, condition: "Pb-Sb-Sn-Se-Te-S, 900 K"}
+          - {quantity: ZT max, value: 2.7, condition: "GeTe-based, 750 K"}
+          - {quantity: thermal expansion coefficient, value: 2.0e-6, unit: 1/K, condition: "Invar HEMs, 300 K"}
+    about: [ent:TE, ent:Invar]
+  - id: han2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Thermal HEMs
+    paper_part: RESULTS
+    text: Entropy engineering in thermoelectric HEMs lowers lattice thermal conductivity through distortion-enhanced phonon scattering and can raise the Seebeck coefficient, making it a promising route to higher ZT despite Anderson localization reducing electrical conductivity.
+    about: [ent:TE]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The GeTe example is described as 'enhancement of thermal conductivity without sacrificing electrical properties', which would lower ZT; a reduction is meant.", priority: LOW}
+      - {concern_type: UNTESTED_ASSERTION, description: "Long-term thermal cycling stability of the cited high-ZT HEMs is acknowledged as unstudied.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Cited high-ZT examples support the route; the causal attribution to configurational entropy versus specific compositional effects is not separated in the review."
+  - id: han2024:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Electrical HEMs
+    paper_part: RESULTS
+    text: HEMs are promising multifunctional resistive materials because lattice distortion and complex electronic structure give high resistivity with low temperature coefficient, combined with strengthening mechanisms, as in FeCrAlTiSi (183 uOhm cm, ~1 GPa compressive yield strength) and Al2.08CoCrFeNi.
+    evidence: [{evidence_kind: CITATION, references: ["173", "177"]}]
+    about: [ent:HEM]
+    claim_modality: GENERALIZATION
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "The mechanical evidence is compressive; the review itself notes tensile ductility must still be tested for load-bearing use.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "High resistivity and low TCR are shown in cited alloys; the mechanical side rests on compression tests only."
+
+  # ---------------- Radiation, catalysis, hydrides ----------------
+  - id: han2024:CLAIM6
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Radiation-resistive HEMs
+    paper_part: RESULTS
+    text: HEMs resist irradiation better than dilute counterparts because chemically decorated defects act as sinks, sluggish diffusion and local self-healing limit damage accumulation, as shown for Cr15Ta36V11W38 films up to 8 dpa and (CrNbTaTiW)C up to 10 dpa.
+    evidence: [{evidence_kind: CITATION, references: ["183-191"]}]
+    about: [ent:HEM]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Tested doses (8-10 dpa) are far below the >200 dpa required for application, as the review notes.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Low-dose experiments and MD simulations support improved tolerance; relevance at service doses is untested."
+  - id: han2024:CLAIM7
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Catalytic HEMs
+    paper_part: RESULTS
+    text: The abundance of polyelemental surface atom arrangements on HEM surfaces gives a continuously tunable binding-energy distribution that can reconcile activity, selectivity and stability and reduce or replace noble metals, and entropy stabilization could overcome the activity-stability duality.
+    evidence: [{evidence_kind: CITATION, references: ["41-43", "204-207", "213-217"]}]
+    about: [ent:Catalyst]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The same section concedes that metastable HEM surfaces may demix, that surface rather than bulk composition matters, and that in situ stability data are scarce; surface reconstruction under operating conditions (e.g. dissolution of less noble elements) directly challenges the stability argument.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The activity argument is supported by DFT and screening studies; the claimed stability benefit from entropy stabilization is contradicted or unproven, as the review itself acknowledges few in situ studies."
+      missing_evidence:
+        - "In situ / operando evidence that HEM surface compositions persist during electrocatalysis"
+  - id: han2024:OBS4
+    statement_type: OBSERVATION
+    section: High-entropy hydrides
+    paper_part: RESULTS
+    text: TiZrCrMnFeNi (95 wt% C14 Laves) absorbs and desorbs 1.7 wt% hydrogen at room temperature without activation, and lightweight TiVMgLi absorbs 2.62 wt% at 50 C under 100 bar; many HEMs have high density and poor room-temperature capacity.
+    evidence: [{evidence_kind: CITATION, references: ["231", "234"], values: [{quantity: H capacity, value: 1.7, unit: wt%, condition: TiZrCrMnFeNi}, {quantity: H capacity, value: 2.62, unit: wt%, condition: "TiVMgLi, 50 C, 100 bar"}]}]
+    about: [ent:Hydride]
+
+  # ---------------- Perspectives ----------------
+  - id: han2024:CLAIM8
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Future perspectives, Fig. 6
+    paper_part: CONCLUSION
+    text: Many multifunctional HEMs are not competitive in cost, CO2 footprint, responsible sourcing and recyclability, so new HEMs must outperform established materials in sustainability as well, favouring low-volume applications and defect-only (interface) high-entropy design using segregating elements.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6, Supplementary Table 2", references: ["255", "256", "261"]}]
+    about: [ent:Sustainability, ent:Decoration]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Element-level price, energy and carbon footprints in Fig. 6 support the cost argument; the defect-only design principle is presented as an opportunity, not as a result."
+  - id: han2024:CLAIM9
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Design challenges and strategies, Future perspectives
+    paper_part: DISCUSSION
+    text: Exploring the practically unbounded HEM space requires combining high-throughput experiments with AI methods such as text mining, active learning, LLM-driven workflows and graph models, trained on full-text quality-controlled data including negative results.
+    about: [ent:AI]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Supported by examples of LLM-guided and active-learning alloy design, but the necessity of AI for discovery is argued, not demonstrated against alternatives."
+  - id: han2024:LIM1
+    statement_type: LIMITATION
+    section: several sections
+    paper_part: DISCUSSION
+    text: Biomedical HEMs lack in vivo data, catalytic HEMs lack in situ stability data, radiation tests are at low dose, and high-entropy perovskites and photovoltaic HEMs often decompose or have reduced stability.
+    limitation_kind: DATA
+  - id: han2024:OUT1
+    statement_type: OUTLOOK
+    section: Future perspectives
+    paper_part: CONCLUSION
+    text: Extending HEM design to interstitials and to six- to eight-element systems, and to chemically complex defects instead of bulk, may yield more sustainable multifunctional materials.
+
+relations:
+  - {id: han2024:R1, subject: han2024:BG1, predicate: MOTIVATES, object: han2024:GAP1, asserted_by: AUTHORS}
+  - {id: han2024:R2, subject: han2024:BG2, predicate: MOTIVATES, object: han2024:HYP1, asserted_by: AUTHORS}
+  - {id: han2024:R3, subject: han2024:GAP1, predicate: MOTIVATES, object: han2024:HYP1, asserted_by: AUTHORS}
+  - {id: han2024:R4, subject: han2024:CLAIM1, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: han2024:R5, subject: han2024:OBS1, predicate: SUPPORTS, object: han2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: han2024:R6, subject: han2024:CLAIM2, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: han2024:R7, subject: han2024:OBS3, predicate: SUPPORTS, object: han2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: han2024:R8, subject: han2024:OBS3, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: han2024:R9, subject: han2024:CLAIM4, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: han2024:R10, subject: han2024:CLAIM5, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: han2024:R11, subject: han2024:CLAIM6, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: han2024:R12, subject: han2024:CLAIM7, predicate: SUPPORTS, object: han2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: han2024:R13, subject: han2024:OBS2, predicate: QUALIFIES, object: han2024:HYP1, asserted_by: AUTHORS, note: "Few HEMs surpass commercial materials"}
+  - {id: han2024:R14, subject: han2024:CLAIM8, predicate: QUALIFIES, object: han2024:HYP1, asserted_by: AUTHORS, note: "Cost and sustainability often disqualify HEMs"}
+  - {id: han2024:R15, subject: han2024:LIM1, predicate: UNDERCUTS, object: han2024:CLAIM7, asserted_by: AUTHORS, note: "No in situ stability data"}
+  - {id: han2024:R16, subject: han2024:OBS2, predicate: UNDERCUTS, object: han2024:CLAIM3, asserted_by: ANNOTATOR, note: "No HEM approaches RE magnets"}
+  - {id: han2024:R17, subject: han2024:OBS4, predicate: QUALIFIES, object: han2024:HYP1, asserted_by: AUTHORS, note: "High density and poor capacity of many HEM hydrides"}
+  - {id: han2024:R18, subject: han2024:METH1, predicate: QUALIFIES, object: han2024:HYP1, asserted_by: ANNOTATOR, note: "Narrative selection of positive examples"}
+  - {id: han2024:R19, subject: han2024:HYP1, predicate: ANSWERS, object: han2024:GAP1, asserted_by: AUTHORS}
+  - {id: han2024:R20, subject: han2024:CLAIM8, predicate: MOTIVATES, object: han2024:OUT1, asserted_by: AUTHORS}
+  - {id: han2024:R21, subject: han2024:CLAIM9, predicate: MOTIVATES, object: han2024:OUT1, asserted_by: AUTHORS}
+  - {id: han2024:R22, subject: han2024:CLAIM1, predicate: SUPPORTS, object: han2024:CLAIM8, asserted_by: AUTHORS, note: "Gibbs adsorption guides defect-only design", support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A broad, well-structured review that shifts the HEM discussion from
+    mechanical to multifunctional property profiles. It documents convincing
+    individual examples, notably nanoprecipitate-strengthened soft magnets
+    and active-learning Invar alloys, and is candid about cost,
+    sustainability and the scarcity of HEMs that beat commercial materials.
+    The headline claim that HEMs reconcile previously exclusive properties
+    is supported only by selected examples; hard magnets, superconductors
+    and first-order magnetocalorics remain aspirational, and the catalytic
+    stability argument from entropy stabilization is not supported by the
+    in situ evidence the review itself calls for.
+  key_limitations:
+    - "Narrative selection of positive examples without stated criteria (METH1, HYP1)."
+    - "Few HEMs surpass commercial materials in any single class (OBS2)."
+    - "Catalytic stability via entropy stabilization unsupported and challenged by surface reconstruction (CLAIM7)."
+    - "Mechanical evidence for resistive and radiation-tolerant HEMs from compression tests and low doses (CLAIM5, CLAIM6)."
+    - "Hard-magnet and AI strategies are prospective (CLAIM3, CLAIM9)."
+  missing_evidence:
+    - "Quantitative cross-class benchmark of multifunctional HEMs versus best conventional materials with cost."
+    - "In situ / operando stability data for HEM catalysts."
+    - "Tensile and service-condition tests for multifunctional HEMs."

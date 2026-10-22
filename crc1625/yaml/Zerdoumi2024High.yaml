@@ -1,0 +1,194 @@
+id: claimchain:chain/Zerdoumi2024High
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.coelec.2024.101590
+  title: "High entropy intermetallic compounds: A discovery platform for structure-property correlations and materials design principles in electrocatalysis"
+  authors: [Ridha Zerdoumi, Alfred Ludwig, Wolfgang Schuhmann]
+  year: 2024
+  doi: 10.1016/j.coelec.2024.101590
+  url: https://doi.org/10.1016/j.coelec.2024.101590
+
+entities:
+  - {id: ent:HEIMC, label: high-entropy intermetallic compounds (ordered sublattices with at least one random sublattice), entity_type: MATERIAL}
+  - {id: ent:HEA, label: compositionally complex solid solutions / high-entropy alloys, entity_type: MATERIAL}
+  - {id: ent:IMC, label: ordered binary/ternary intermetallic compounds (e.g. Pt3M), entity_type: MATERIAL}
+  - {id: ent:Effects, label: "ligand, strain, ensemble, steric, ordering, multifunctional and mixing effects", entity_type: CONCEPT}
+  - {id: ent:Scaling, label: linear scaling relations and volcano plots, entity_type: CONCEPT}
+  - {id: ent:Smix, label: "configurational entropy Delta S_mix = R ln n", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zerdoumi2024b:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Alloying noble metals with other elements tunes electronic and geometric effects that govern catalytic activity, selectivity and durability and can reduce cost.
+    evidence: [{evidence_kind: CITATION, references: ["1-3"]}]
+  - id: zerdoumi2024b:OBS1
+    statement_type: OBSERVATION
+    section: Introduction, Fig. 1
+    paper_part: INTRODUCTION
+    text: A Scopus count shows over 4500 annual papers on alloy catalysts, over 200 on intermetallic catalysts and 125 on HEA catalysts in 2022; the first HEIMC catalysis study appeared in 2020 and only three more followed by 2022.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1", values: [{quantity: HEIMC catalysis studies up to 2022, value: 4}, {quantity: HEA catalysis papers 2022, value: 125}, {quantity: intermetallic catalysis papers 2022, value: 200}]}]
+    about: [ent:HEIMC]
+  - id: zerdoumi2024b:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: HEIMC electrocatalysis is in its infancy, and the tunable parameters and design principles for high-performance HEIMC catalysts have not been summarized.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: zerdoumi2024b:AIM1
+    statement_type: AIM
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Summarize current knowledge of HEIMCs and their role in electrocatalysis, focusing on the key tunable parameters for high-performance catalysts.
+    about: [ent:HEIMC, ent:Effects]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Concepts ----------------
+  - id: zerdoumi2024b:DEF1
+    statement_type: DEFINITION
+    section: Concepts, Fig. 3
+    paper_part: THEORY
+    text: Catalytic properties of multimetallic materials are classified into electronic (ligand, strain), geometric (ensemble, steric), ordering, multifunctional and high-entropy mixing effects, with steric and ordering effects specific to intermetallics and multifunctional and mixing effects prominent in high-entropy materials.
+    evidence: [{evidence_kind: CITATION, references: ["44-58"]}]
+    about: [ent:Effects]
+  - id: zerdoumi2024b:OBS2
+    statement_type: OBSERVATION
+    section: High entropy mixing effects
+    paper_part: THEORY
+    text: The configurational entropy Delta S_mix = R ln n gives 1.39 R for four and 1.61 R for five equiatomic elements.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "main text"
+        values:
+          - {symbol: n4, quantity: number of elements, value: 4}
+          - {symbol: n5, quantity: number of elements, value: 5}
+        derived_checks:
+          - {expression: "Smix/R for four elements (stated 1.39)", formula: "log(n4)", result: 1.386}
+          - {expression: "Smix/R for five elements (stated 1.61)", formula: "log(n5)", result: 1.609}
+    about: [ent:Smix]
+  - id: zerdoumi2024b:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Ordering effects
+    paper_part: THEORY
+    text: Ordered intermetallic phases are typically more active than disordered alloys of the same composition because ordering maximizes heteroatomic nearest-neighbour contacts and charge transfer, although their electronic structures are 'more or less alike'.
+    evidence: [{evidence_kind: CITATION, references: ["52-55"]}]
+    about: [ent:IMC, ent:Effects]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The introduction states that ordered intermetallic structures create electronic 'scaffolds' significantly different from solid-solution counterparts, while this section calls the electronic structures of ordered and disordered phases more or less alike.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The activity advantage of ordered Pt-M phases is supported by cited studies; the single mechanism (maximized contacts) is asserted, and the electronic-structure statement conflicts with the introduction."
+  - id: zerdoumi2024b:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Multifunctional effects, Scaling relation
+    paper_part: THEORY
+    text: Multiple active sites from different elements in high-entropy materials enable simultaneous reaction steps and provide additional independent descriptors that can break linear scaling relations.
+    evidence: [{evidence_kind: CITATION, references: ["19", "20", "57", "58"]}]
+    about: [ent:Scaling, ent:Effects]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No example is given in which a high-entropy material is shown to break a scaling relation; more independent descriptors does not by itself decouple intermediate binding energies on a given site.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Presented as an opportunity; no data in the review show scaling relations being broken."
+  - id: zerdoumi2024b:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: High entropy mixing effects, Summary
+    paper_part: THEORY
+    text: Increasing the number of elements raises the mixing entropy, enhances miscibility and thereby improves the stability of the formed phase and potentially catalytic properties.
+    about: [ent:Smix, ent:HEA]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Entropy stabilizes single phases at high temperature; the summary carries this over to phase 'stability' in catalysis without distinguishing thermodynamic phase stability from electrochemical stability under operating conditions.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The thermodynamic argument for high-temperature solid-solution stabilization is standard; its transfer to catalytic stability is not supported in the review."
+
+  # ---------------- HEIMC attributes ----------------
+  - id: zerdoumi2024b:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Special electrocatalytic attributes, Summary
+    paper_part: DISCUSSION
+    text: HEIMCs uniquely combine the multifunctionality of a random sublattice with steric and ordering effects of an ordered sublattice and site isolation, offering more diverse ensembles and electronic properties than HEAs and the potential to overcome scaling limitations and revolutionize electrocatalysis.
+    about: [ent:HEIMC, ent:Effects, ent:Scaling]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "By the review's own count only about four HEIMC catalysis studies exist, and none of their results is discussed quantitatively; 'revolutionize' and 'exclusive platform' rest on conceptual arguments.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The combination of effects is a plausible design concept, but no HEIMC catalytic data are presented to test any of the claimed advantages."
+      missing_evidence:
+        - "Benchmark of HEIMCs against isocompositional HEAs and parent intermetallics for the same reaction"
+      proof_obligations:
+        - text: "Show HEIMC activity or selectivity advantages over HEAs and intermetallics"
+          obligation_status: OPEN
+          priority: CRITICAL
+  - id: zerdoumi2024b:CLAIM5
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Disentangling electronic and geometric effects, Summary
+    paper_part: CONCLUSION
+    text: Gradual substitution in isostructural intermetallics (same group for lattice parameter, same period for valence electron count) can disentangle electronic and geometric effects, and combined with descriptors, high-throughput experimentation and mechanistic studies is required to understand multimetallic catalysts.
+    evidence: [{evidence_kind: CITATION, references: ["59", "60"]}]
+    about: [ent:IMC, ent:Effects]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "The substitution strategy is supported by a cited study and is logically sound; its applicability to HEIMCs is not shown."
+  - id: zerdoumi2024b:OUT1
+    statement_type: OUTLOOK
+    section: Summary and outlook
+    paper_part: CONCLUSION
+    text: HEIMCs could enable multidimensional control of reaction paths towards more selective, active and durable catalysts.
+
+relations:
+  - {id: zerdoumi2024b:R1, subject: zerdoumi2024b:BG1, predicate: MOTIVATES, object: zerdoumi2024b:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R2, subject: zerdoumi2024b:OBS1, predicate: MOTIVATES, object: zerdoumi2024b:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R3, subject: zerdoumi2024b:GAP1, predicate: MOTIVATES, object: zerdoumi2024b:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R4, subject: zerdoumi2024b:DEF1, predicate: DELIVERS, object: zerdoumi2024b:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R5, subject: zerdoumi2024b:OBS2, predicate: SUPPORTS, object: zerdoumi2024b:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: zerdoumi2024b:R6, subject: zerdoumi2024b:CLAIM1, predicate: SUPPORTS, object: zerdoumi2024b:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zerdoumi2024b:R7, subject: zerdoumi2024b:CLAIM2, predicate: SUPPORTS, object: zerdoumi2024b:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: zerdoumi2024b:R8, subject: zerdoumi2024b:CLAIM3, predicate: SUPPORTS, object: zerdoumi2024b:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zerdoumi2024b:R9, subject: zerdoumi2024b:OBS1, predicate: UNDERCUTS, object: zerdoumi2024b:CLAIM4, asserted_by: ANNOTATOR, note: "Only about four HEIMC catalysis studies exist"}
+  - {id: zerdoumi2024b:R10, subject: zerdoumi2024b:DEF1, predicate: SUPPORTS, object: zerdoumi2024b:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zerdoumi2024b:R11, subject: zerdoumi2024b:CLAIM4, predicate: ANSWERS, object: zerdoumi2024b:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R12, subject: zerdoumi2024b:CLAIM4, predicate: MOTIVATES, object: zerdoumi2024b:OUT1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024b:R13, subject: zerdoumi2024b:CLAIM4, predicate: DELIVERS, object: zerdoumi2024b:AIM1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: INCONCLUSIVE
+  summary: >-
+    A short conceptual minireview that clearly classifies electronic,
+    geometric, ordering, multifunctional and mixing effects and proposes
+    high-entropy intermetallics as a platform combining them; the entropy
+    values recompute and the isostructural substitution strategy for
+    disentangling effects is sound. Its central claims about HEIMCs
+    (unique synergy, breaking scaling relations, potential to
+    revolutionize electrocatalysis) are not tested against any HEIMC data,
+    although the review counts only about four such studies, and the
+    description of electronic structure in ordered vs. disordered phases
+    is internally inconsistent.
+  key_limitations:
+    - "No HEIMC catalytic data discussed; claims are conceptual (CLAIM4)."
+    - "Breaking scaling relations asserted without example (CLAIM2)."
+    - "Inconsistent statements on electronic structure of ordered vs disordered phases (CLAIM1)."
+    - "Thermodynamic phase stability conflated with catalytic stability (CLAIM3)."
+  missing_evidence:
+    - "Side-by-side catalytic benchmarks of HEIMCs, isocompositional HEAs and parent intermetallics."
+    - "Demonstrated deviation from scaling relations on a high-entropy surface."

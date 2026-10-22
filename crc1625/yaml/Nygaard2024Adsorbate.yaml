@@ -1,0 +1,219 @@
+id: claimchain:chain/Nygaard2024Adsorbate
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/anie.202417308
+  title: "Adsorbate Resonance Induces Water-Metal Bonds in Electrochemical Interfaces"
+  authors: [Marcus F. Nygaard, Martin L. S. Nielsen, Jan Rossmeisl]
+  year: 2025
+  doi: 10.1002/anie.202417308
+  url: https://doi.org/10.1002/anie.202417308
+
+entities:
+  - {id: ent:CSS, label: "complex solid solution (high-entropy alloy) surfaces with random atomic arrangements", entity_type: MATERIAL}
+  - {id: ent:Adlayer, label: "mixed *OH/*H2O adlayer (hexagonal, zigzag, pairs, trimers)", entity_type: MATERIAL}
+  - {id: ent:DFT, label: DFT adsorption energy calculations (~5000 data points), entity_type: METHOD}
+  - {id: ent:MLR, label: multiple linear regression on site-resolved OH adsorption energies, entity_type: METHOD}
+  - {id: ent:Emix, label: "mixed descriptor Delta E_mix (2/3 OH site + 1/3 H2O site)", entity_type: QUANTITY}
+  - {id: ent:Eres, label: resonance energy (residual after mixed bond and H-bond terms), entity_type: QUANTITY}
+  - {id: ent:Resonance, label: adsorbate resonance (delocalized surface bond between *OH and *H2O), entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: nygaard2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Descriptor-based ORR theory uses the *OH adsorption energy, and explicit water has been found to stabilize *OH by a roughly fixed amount via hydrogen bonds, so water is often replaced by an energy offset.
+    evidence: [{evidence_kind: CITATION, references: ["3-19"]}]
+  - id: nygaard2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Whether interfacial water forms covalent surface bonds when coadsorbed with *OH, and how this affects adsorption on heterogeneous surfaces, has not been quantified.
+    evidence: [{evidence_kind: CITATION, references: ["14", "27", "32", "33"]}]
+  - id: nygaard2024:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Eq. 1
+    paper_part: INTRODUCTION
+    text: When surface-near H2O donates a hydrogen bond to *OH, the surface bonding electrons delocalize over both adsorbates through near-degenerate resonance structures, inducing H2O-metal covalency and an extra resonance stabilization, so that the coadsorption energy equals a mixed surface bond plus hydrogen bond plus resonance energy.
+    about: [ent:Resonance, ent:Adlayer]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The energetic data show that the coadsorption energy depends on both binding sites with fractional weights and that water-donor configurations are more stable; the quantum-mechanical resonance mechanism is inferred from regression coefficients and residuals, without electronic-structure analysis."
+      missing_evidence:
+        - "Projected density of states, charge density difference or COHP showing a water-metal bonding state"
+        - "Comparison with explicit-solvent or AIMD calculations"
+      proof_obligations:
+        - text: "Show that coadsorption energies depend on the water binding site"
+          obligation_status: DISCHARGED
+          discharged_by: [nygaard2024:OBS1]
+        - text: "Show that the dependence reflects covalent water-metal bonding"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [nygaard2024:OBS2]
+        - text: "Demonstrate electron delocalization directly"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "bonding/antibonding population (COHP) of H2O-metal", method: "electronic structure analysis of selected configurations"}]
+
+  # ---------------- Methods ----------------
+  - id: nygaard2024:METH1
+    statement_type: METHOD
+    section: Main text, SI
+    paper_part: METHODS
+    text: DFT adsorption energies of mixed *OH/*H2O adlayers, isolated pairs, trimers and tetramers are computed on many random complex solid solution surfaces (about 5000 data points), and the coadsorption energy is regressed on the *OH adsorption energies of the two involved binding sites.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 2, SI computational details"}]
+    about: [ent:DFT, ent:MLR, ent:CSS]
+    scope: {sample_count: 5000}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Functional, alloy elements and cell sizes are only in the SI; the five principal elements of the CSS are not named in the main text.", priority: LOW}
+  - id: nygaard2024:DEF1
+    statement_type: DEFINITION
+    section: Eq. 2
+    paper_part: THEORY
+    text: The resonance energy is defined as the residual of the observed *(OH-H2O) adsorption energy after subtracting the mixed surface bond term and the hydrogen-bond term.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eq. 2"}]
+    about: [ent:Eres]
+
+  # ---------------- Results ----------------
+  - id: nygaard2024:OBS1
+    statement_type: OBSERVATION
+    section: Main text, Fig. 2
+    paper_part: RESULTS
+    text: The *(OH-H2O) coadsorption energy is described by a plane in the two site-resolved *OH energies with coefficients of about 2/3 (OH site) and 1/3 (H2O site) that sum to one, and the coadsorption spectrum on CSSs is more homogeneous than that of *OH.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2, Fig. S1, Fig. S11"
+        values:
+          - {symbol: c_oh, quantity: regression coefficient OH site, value: 0.667}
+          - {symbol: c_w, quantity: regression coefficient H2O site, value: 0.333}
+        derived_checks:
+          - {expression: "coefficients sum to unity (bond order one)", formula: "c_oh + c_w", result: 1.0}
+    about: [ent:Emix, ent:MLR]
+  - id: nygaard2024:OBS2
+    statement_type: OBSERVATION
+    section: Main text, Table S2
+    paper_part: RESULTS
+    text: Upon coadsorption, internal O-H bonds of H2O lengthen by 3 % and the H2O-surface distance shrinks by 10 %, while the OH-surface distance grows by 7 %; the H2O-donor hydrogen bond is 0.3 A shorter than the OH-donor one.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table S2", values: [{quantity: H2O-surface distance change, value: -10, unit: "%"}, {quantity: OH-surface distance change, value: 7, unit: "%"}]}]
+    about: [ent:Adlayer]
+  - id: nygaard2024:OBS3
+    statement_type: OBSERVATION
+    section: Main text, Table S1, Fig. 3
+    paper_part: RESULTS
+    text: In isolated H2O-donor/OH-acceptor pairs water carries about 1/6 of a covalent bond and in the double-donor trimer about 1/3, whereas OH-donor/H2O-acceptor pairs show negligible water covalency and multimodal energy distributions; the non-resonant hydrogen bond energy is estimated at 0.16 eV.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table S1, Fig. 3, Fig. S12", values: [{quantity: H-bond energy without resonance, value: 0.16, unit: eV}]}]
+    about: [ent:Adlayer, ent:Resonance]
+  - id: nygaard2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Main text, Abstract
+    paper_part: RESULTS
+    text: The fractional regression weights show that water forms a covalent bond to the surface in the mixed adlayer, with *OH and *H2O sharing a single surface bond in bidentate fashion.
+    about: [ent:Emix, ent:Resonance]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A regression weight on the OH adsorption energy of a site measures the fraction of a covalent OH-type bond formed at that site.", warrant_basis: AUTHOR_ARGUMENT}
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "A correlation of the coadsorption energy with the OH energy of the water site could also arise from site-dependent hydrogen-bond strength or relaxation, without a covalent water-metal bond; the warrant equating regression weight with bond order is not tested.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Large statistics and structural trends (shorter H2O-surface distance, longer OH-surface distance) are consistent with induced water-metal bonding; interpreting regression weights as covalent bond fractions is an untested warrant."
+      missing_evidence:
+        - "Electronic structure evidence of a water-metal bonding state"
+  - id: nygaard2024:OBS4
+    statement_type: OBSERVATION
+    section: Main text, Fig. 4
+    paper_part: RESULTS
+    text: The residual resonance energy is about -0.2 eV per pair of resonance structures and about -0.4 eV for configurations where water donates two hydrogen bonds (zigzag and hexagonal networks).
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4", values: [{quantity: resonance energy per pair, value: -0.2, unit: eV}, {quantity: resonance energy double donor, value: -0.4, unit: eV}]}]
+    about: [ent:Eres]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text first assigns a single resonance pair (-0.2 eV) to *(H2OD-OHA) and then lists *(H2OD-OHA) among the -0.4 eV configurations; the conclusion uses *(H2ODD-OHA).", priority: LOW}
+  - id: nygaard2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Main text, Conclusion
+    paper_part: DISCUSSION
+    text: Adsorbate resonance stabilizes the *(OH-H2O) adlayer by about 0.2 eV per resonance pair, is a predominant and universal effect on heterogeneous CSS surfaces, and can make even sites differing by 1 eV in OH binding resonate, as for Ru and Ag.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "main text"
+        values:
+          - {symbol: dE_site, quantity: OH binding difference Ru vs Ag, value: 1.0, unit: eV}
+          - {symbol: w_h2o, quantity: water bond fraction in pair, value: 0.1667}
+          - {symbol: e_res, quantity: resonance energy per pair, value: -0.2, unit: eV}
+        derived_checks:
+          - {expression: "energy penalty of mixing (stated 1/6 eV)", formula: "dE_site*w_h2o", result: 0.167, unit: eV}
+          - {expression: "penalty is compensated by resonance energy", formula: "dE_site*w_h2o + e_res <= 0", satisfied: true}
+    about: [ent:Eres, ent:CSS]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "The resonance energy is defined as the residual of a two-term model, so any unmodelled interaction (relaxation, electrostatics, H-bond cooperativity) is attributed to resonance.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "A consistent ~0.2 eV stabilization per donor H-bond beyond the fitted terms is shown across configurations; its attribution to resonance follows from the definition rather than an independent measurement, and 'universal' rests on one family of CSS surfaces."
+      missing_evidence:
+        - "Independent estimate of the delocalization energy (e.g. constrained or block-localized DFT)"
+  - id: nygaard2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Main text, Fig. S4
+    paper_part: DISCUSSION
+    text: Adsorbate resonance also occurs for coadsorbed *OOH and *H2O, so the *OH/*OOH scaling relation and the origin of the ORR overpotential persist in the presence of water.
+    about: [ent:Resonance]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported by an SI figure only; data and statistics are not shown in the main text."
+  - id: nygaard2024:OUT1
+    statement_type: OUTLOOK
+    section: Main text
+    paper_part: CONCLUSION
+    text: Complex solid solutions can serve as platforms to test catalytic theories, and the analysis could be extended to transition states and other adsorbates such as methoxy.
+
+relations:
+  - {id: nygaard2024:R1, subject: nygaard2024:BG1, predicate: MOTIVATES, object: nygaard2024:GAP1, asserted_by: AUTHORS}
+  - {id: nygaard2024:R2, subject: nygaard2024:GAP1, predicate: MOTIVATES, object: nygaard2024:HYP1, asserted_by: AUTHORS}
+  - {id: nygaard2024:R3, subject: nygaard2024:OBS1, predicate: SUPPORTS, object: nygaard2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: PARTLY, alternatives: NOT_MET, scope_match: MET, criteria_note: "Regression weights are a proxy for covalency; alternative site-dependent H-bond effects not excluded"}}
+  - {id: nygaard2024:R4, subject: nygaard2024:OBS2, predicate: SUPPORTS, object: nygaard2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nygaard2024:R5, subject: nygaard2024:OBS3, predicate: SUPPORTS, object: nygaard2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nygaard2024:R6, subject: nygaard2024:OBS4, predicate: SUPPORTS, object: nygaard2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: MEDIUM, essential: true, link_criteria: {directness: NOT_MET, sufficiency: MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Resonance energy is a residual by definition"}}
+  - {id: nygaard2024:R7, subject: nygaard2024:DEF1, predicate: QUALIFIES, object: nygaard2024:CLAIM2, asserted_by: ANNOTATOR, note: "Residual definition absorbs any unmodelled interaction"}
+  - {id: nygaard2024:R8, subject: nygaard2024:CLAIM1, predicate: SUPPORTS, object: nygaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nygaard2024:R9, subject: nygaard2024:CLAIM2, predicate: SUPPORTS, object: nygaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nygaard2024:R10, subject: nygaard2024:OBS1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: nygaard2024:CLAIM1, asserted_by: ANNOTATOR_BACKGROUND, note: "Site-dependent hydrogen-bond strength or relaxation can produce the same fractional weights"}
+  - {id: nygaard2024:R11, subject: nygaard2024:METH1, predicate: SUPPORTS, object: nygaard2024:OBS1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: nygaard2024:R12, subject: nygaard2024:CLAIM2, predicate: SUPPORTS, object: nygaard2024:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: nygaard2024:R13, subject: nygaard2024:HYP1, predicate: ANSWERS, object: nygaard2024:GAP1, asserted_by: AUTHORS}
+  - {id: nygaard2024:R14, subject: nygaard2024:CLAIM2, predicate: MOTIVATES, object: nygaard2024:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A short communication that cleverly uses the site variability of complex
+    solid solutions and about 5000 DFT data points to show that *OH/*H2O
+    coadsorption energies depend on both binding sites with weights of
+    about 2/3 and 1/3, that water-donor configurations are systematically
+    more stable, and that the structural trends point to water-metal
+    interaction. The interpretation as adsorbate resonance with induced
+    water covalency rests on equating regression weights with bond order
+    and on a resonance energy defined as a residual; no electronic
+    structure analysis tests the proposed delocalization, so the mechanism
+    remains plausible but not demonstrated.
+  key_limitations:
+    - "Covalency inferred from regression weights, no electronic structure evidence (CLAIM1)."
+    - "Resonance energy is a residual by definition (DEF1, CLAIM2)."
+    - "Static adlayers without solvent dynamics; 'universal' from one CSS family (CLAIM2)."
+    - "Inconsistent labelling of single- vs double-donor configurations (OBS4)."
+  missing_evidence:
+    - "PDOS/COHP or charge density analysis of selected configurations."
+    - "Block-localized or constrained DFT estimates of delocalization energy."
+    - "AIMD or explicit-solvent checks of the adlayer energetics."
