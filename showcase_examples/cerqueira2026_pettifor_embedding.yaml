@@ -1,0 +1,498 @@
+# Showcase (well-regarded paper): Cerqueira, Wang, Botti & Marques 2026, npj Comput. Mater. 12:48.
+# Annotated by Claude from the PDF in showcase_examples/ (schema v0.6), with the same rules as the
+# retracted showcase paper. Only the paper's internal logic is assessed; references and the ESI are
+# taken at face value. Table 2 counts (wins, mean ranks) were recomputed from the printed table.
+id: claimchain:chain/cerqueira2026
+schema_version: 0.6.0
+annotator: Claude (Opus 5.5), from PDF, for the claim-chain showcase
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41524-025-01916-8
+  title: A non-orthogonal representation for materials based on chemical similarity
+  authors: [Tiago F. T. Cerqueira, Haichen Wang, Silvana Botti, Miguel A. L. Marques]
+  year: 2026
+  doi: 10.1038/s41524-025-01916-8
+
+entities:
+  - {id: ent:PettiforEmb, label: Pettifor embedding (non-orthogonal composition vector), entity_type: METHOD}
+  - {id: ent:PettiforSTR, label: "Pettifor + structure (STR) embedding", entity_type: METHOD}
+  - {id: ent:S, label: element similarity matrix S from ICSD substitution counts, entity_type: CONCEPT}
+  - {id: ent:UMAP, label: UMAP dimension reduction, entity_type: METHOD}
+  - {id: ent:CrabNet, label: CrabNet compositional model, entity_type: METHOD}
+  - {id: ent:Alexandria, label: Alexandria convex-hull compounds (over 115 000), entity_type: MATERIAL}
+  - {id: ent:ABC3, label: cubic ABC3 perovskites, entity_type: MATERIAL}
+
+statements:
+
+  # ---------------- Abstract ----------------
+  - id: cerqueira2026:ABS1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: ABSTRACT
+    section: Abstract
+    text: Pettifor embeddings systematically outperform other commonly used elemental embeddings in compositional machine learning models.
+    claim_modality: COMPARATIVE
+    concerns:
+      - {concern_type: OVERCLAIM, priority: MEDIUM, description: "Table 2 shows the Pettifor embedding best (or tied) in 12 of 27 benchmarks, ahead of one-hot in 19 and of CGCNN in 17; the results section says 'on average the best', which the table supports, but not 'systematically'."}
+    assessment:
+      validity: PARTIAL
+      rationale: Best mean rank across 27 benchmarks (1.96 against 2.30 for CGCNN), but it loses to at least one alternative in 15 of them and no run-to-run spread is given.
+  - id: cerqueira2026:ABS2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: ABSTRACT
+    section: Abstract
+    text: Two-dimensional maps of thermodynamically stable compounds built from the Pettifor embeddings separate material classes according to basic physical properties.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: Shown for crystal system and metal versus non-metal; the paper itself shows that magnetic and non-magnetic compounds are not separated.
+  - id: cerqueira2026:ABS3
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    author_certainty: DEMONSTRATED
+    paper_part: ABSTRACT
+    section: Abstract
+    text: In the non-orthogonal composition space, a chemical composition is defined by a point on the unit sphere.
+    claim_modality: CONCEPTUAL
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: LOW, description: "Methods state that composition vectors are in general not on the unit sphere but on an (N-1)-dimensional simplex, because they are normalised with the L1 norm; only elementary substances lie on the unit sphere."}
+    assessment:
+      validity: WEAK
+      rationale: Contradicted by the paper's own Methods for every compound except elementary substances; a wording slip, not a flaw of the method.
+
+  # ---------------- Introduction ----------------
+  - id: cerqueira2026:BG1
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Introduction, para. 1-3
+    text: Large materials databases call for representations of compounds that are both machine-readable and humanly understandable; structure maps do this for binaries but not for multinary compounds or mixed crystal structures.
+    evidence:
+      - {evidence_kind: CITATION, references: ['1', '3-7', '8', '9', '10-13']}
+  - id: cerqueira2026:GAP1
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Introduction, para. 4
+    text: Embeddings taken from trained neural networks already contain information about the target property, which complicates the interpretation of structure-property relationships.
+    evidence:
+      - {evidence_kind: CITATION, references: ['17', '18', '19', '20', '21']}
+  - id: cerqueira2026:GAP2
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Introduction, para. 6
+    text: Learned or database-derived elemental embeddings predict well but act as black boxes, while one-hot encoding is transparent but treats all elements as equally dissimilar.
+    evidence:
+      - {evidence_kind: CITATION, references: ['24', '25-34']}
+  - id: cerqueira2026:AIM1
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Introduction, para. 5-6
+    text: The paper builds a fingerprint of a compound from its composition and crystal structure only, such that distances between fingerprints reflect the similarity of compounds.
+  - id: cerqueira2026:AIM2
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Introduction, para. 6-7
+    text: The paper introduces a composition embedding in a non-orthogonal space whose axis angles encode element similarity from ICSD substitution statistics, combining the efficiency of learned embeddings with transparency.
+  - id: cerqueira2026:AIM3
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Introduction, final paragraph
+    text: The paper shows that the representation gives interpretable maps of material space.
+  - id: cerqueira2026:AIM4
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Introduction, final paragraph
+    text: The paper shows that the representation provides powerful embeddings for machine learning.
+  - id: cerqueira2026:ASM1
+    statement_type: ASSUMPTION
+    paper_part: INTRODUCTION
+    section: Introduction, para. 8
+    text: Element substitution counts in ICSD measure chemical similarity, although the database is biased and incomplete.
+
+  # ---------------- Methods ----------------
+  - id: cerqueira2026:METH1
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Methods, Pettifor embeddings
+    text: "The substitution-count matrix M from ICSD is row-normalised, raised element-wise to the power 1/2 to counter the diagonal bias and renormalised, giving unit row vectors S_A; a composition c (stoichiometric fractions) is embedded as f = c x S."
+    about: [ent:S, ent:PettiforEmb]
+    evidence:
+      - {evidence_kind: CITATION, references: ['15', '35', '36']}
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, priority: LOW, description: "The exponent alpha = 1/2 is taken from an earlier procedure; its effect on the results is not shown."}
+  - id: cerqueira2026:METH2
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Results, Embeddings with structural information
+    text: The structural part is the pymatgen local-coordination fingerprint (61 x 4 = 244 components), concatenated with equal weight to the composition part.
+    about: [ent:PettiforSTR]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Discussion, para. 1
+        values:
+          - {symbol: n_site, quantity: site features, value: 61}
+          - {symbol: n_stat, quantity: statistics per feature, value: 4}
+          - {symbol: n_str, quantity: stated structure dimensions, value: 244}
+        derived_checks:
+          - {expression: "61 x 4", formula: "n_site*n_stat", result: 244, satisfied: true}
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, priority: LOW, description: Equal weights for composition and structure are chosen for simplicity; other weights are not tested.}
+  - id: cerqueira2026:METH3
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Results, Fingerprint for chemical composition, Table 2
+    text: CrabNet is trained with five elemental embeddings on 27 benchmark datasets, averaging each result over 8 training runs.
+    about: [ent:CrabNet]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: MEDIUM, description: "The spread over the 8 runs is not reported, so it is unclear which of the many small differences in Table 2 are significant."}
+
+  # ---------------- Results: elements ----------------
+  - id: cerqueira2026:OBS1
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Results, Similarity of chemical elements, Fig. 2
+    text: The UMAP map of the element embeddings places lanthanides and actinides top left, transition metals in the middle and non-metals and alkali metals bottom right, while one-hot elements show no grouping.
+    about: [ent:UMAP]
+  - id: cerqueira2026:OBS2
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Results, Table 1
+    text: The nearest elements in the Pettifor embedding are Se, Po, Te for S; Ge, Sn, Ga for Si; and Au, Cu, Pd for Ag, with S-Se at 0.77 and S-O at 1.26, while Magpie puts Ga closest to S.
+    evidence:
+      - {evidence_kind: DATA_QUANTITATIVE, locator: Table 1}
+  - id: cerqueira2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Results, Similarity of chemical elements
+    text: Chemically similar elements cluster in the embedding, purely from substitution patterns and without encoding the periodic table.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: Fig. 2 shows the grouping against a one-hot control; robustness to UMAP parameters is shown in the ESI.
+  - id: cerqueira2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Results, Similarity of chemical elements
+    text: The embedding separates degrees of similarity that a one-dimensional scale cannot, e.g. Se is much closer to S than O is, although both are nearest neighbours of S on the modified Pettifor scale.
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "YES"
+      rationale: Follows from the construction and is shown by the Table 1 distances; illustrated for three elements only.
+
+  # ---------------- Results: compositions and ML ----------------
+  - id: cerqueira2026:OBS3
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Results, Fig. 3
+    text: In the composition map of cubic ABC3 perovskites, compounds cluster by the C element, with fine structure from A and B; most cubic perovskites are unstable and the most stable ones are inverted perovskites such as ABCa3 and ABSr3.
+    about: [ent:ABC3]
+  - id: cerqueira2026:OBS4
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Results, Table 2
+    text: Across 27 benchmarks the Pettifor embedding is best or tied best in 12, has the best mean rank (1.96, against 2.30 for CGCNN, 2.74 one-hot, 2.93 Mat2Vec, 4.70 Magpie), and is not best in any of the three smallest datasets (312, 636 and 1265 entries; ranks 4, 3 and 2).
+    note: Counts and ranks recomputed by the annotator from Table 2 (lower MAE better; ROC AUC higher better for the two classification tasks).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 2
+        values:
+          - {symbol: n_bench, quantity: benchmarks in Table 2, value: 27}
+          - {symbol: n_best, quantity: benchmarks where Pettifor is best or tied, value: 12}
+          - {symbol: rank_pet, quantity: mean rank of Pettifor, value: 1.96}
+          - {symbol: rank_cgcnn, quantity: mean rank of CGCNN, value: 2.30}
+        derived_checks:
+          - {expression: "Pettifor has the best mean rank", formula: "rank_pet < rank_cgcnn", satisfied: true}
+          - {expression: "Pettifor is best in most benchmarks", formula: "n_best > n_bench/2", satisfied: false}
+  - id: cerqueira2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Results, after Table 2
+    text: Used as input to CrabNet, the Pettifor embedding yields on average the best results of the five embeddings while remaining simple and interpretable.
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: PARTIAL
+      rationale: The mean rank is best, but margins are often a few percent and no spread over the 8 runs is given to show they are significant.
+      proof_obligations:
+        - text: Report the standard deviation over the 8 runs for each benchmark and embedding.
+          obligation_status: OPEN
+          priority: MEDIUM
+  - id: cerqueira2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Results, after Table 2
+    text: The Pettifor embedding performs particularly well for small- and medium-sized datasets.
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "NO"
+      rationale: On the three smallest datasets it ranks 4th, 3rd and 2nd; its wins lie between about 3 400 and 60 000 entries.
+  - id: cerqueira2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    paper_part: RESULTS
+    section: Results, after Table 2
+    text: The improved performance suggests that the representation captures the chemical relationships relevant to materials properties, which makes it valuable where training data are scarce.
+    claim_modality: CAUSAL
+    assessment:
+      validity: WEAK
+      rationale: The first half follows plausibly from the benchmark; the data-scarce half rests on CLAIM4, which the table does not support.
+
+  # ---------------- Results: maps of material space ----------------
+  - id: cerqueira2026:OBS5
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Results, Figs. 4 and 5
+    text: The UMAP map of over 115 000 Alexandria hull compounds forms large continents and small islands; regions are dominated by particular crystal systems, metals and non-metals separate well, and magnetic and non-magnetic compounds do not.
+    about: [ent:Alexandria, ent:PettiforSTR]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: LOW, description: Separation is judged by eye; no clustering or classification score is given.}
+  - id: cerqueira2026:CLAIM6
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Results, Figs. 4 and 5
+    text: Despite the diversity of the data set, the map gives a reasonable structural separation of compounds and an excellent separation of metals and non-metals.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: Visible in Figures 4 and 5, but judged by eye and dependent on UMAP parameters, as the authors note.
+  - id: cerqueira2026:CLAIM7
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: PROPOSED
+    paper_part: RESULTS
+    section: Results, final paragraph
+    text: The missing separation of magnetic compounds suggests that magnetism will be much harder to predict with machine learning than the other properties.
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: WEAK
+      rationale: A two-dimensional UMAP projection says little about what a model trained on the full embedding can learn; no model is trained on magnetism.
+
+  # ---------------- Discussion: applications ----------------
+  - id: cerqueira2026:OBS6
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Discussion, para. 1
+    text: A PCA needs 39 components for 95% of the variance in composition and 42 for composition plus structure, out of more than 300 dimensions.
+  - id: cerqueira2026:OBS7
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Discussion, para. 3-4, Fig. 6
+    text: The nearest compounds to Si are Ge (0.64), SiC (0.70) and NiSi3P4 (0.71), whose band structure resembles that of Si; the nearest to MgB2 are Mg4AlB10 (0.16) and LiMgB4, with a calculated Tc of about 20.8 K.
+    scope: {sample_count: 2, scope_note: Two reference compounds (Si and MgB2) and their five nearest neighbours each}
+  - id: cerqueira2026:CLAIM8
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Discussion, para. 1
+    text: The information can probably be compressed into a much smaller feature vector.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: "YES"
+      rationale: Follows directly from the PCA counts.
+  - id: cerqueira2026:CLAIM9
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Discussion, para. 3-4
+    text: Proximity in the embedding space correlates with comparable physical properties, so the embedding can find functional analogues of known materials without any calculation.
+    claim_modality: GENERALIZATION
+    concerns:
+      - {concern_type: OVERGENERALIZATION, priority: MEDIUM, description: "A general correlation is stated from two hand-picked cases; the paper's own hBN-graphite pair (close neighbours with very different electronic properties) is a counterexample that is not discussed as such."}
+    assessment:
+      validity: WEAK
+      rationale: Two illustrative cases, no systematic test of how well distance predicts property similarity.
+  - id: cerqueira2026:OBS8
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Discussion, para. 5
+    text: Defining uniqueness as the distance to the nearest hull compound, As is the most unique element (1.06 to P) and hexagonal BN the most unique binary (1.17 to graphite), although hBN is an insulator and graphite a semimetal.
+  - id: cerqueira2026:CLAIM10
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: PROPOSED
+    paper_part: DISCUSSION
+    section: Discussion, para. 5
+    text: The uniqueness measure highlights compounds with few similar alternatives that may merit attention in experiments.
+    claim_modality: CONCEPTUAL
+    assessment:
+      validity: PARTIAL
+      rationale: A definition with two examples; its usefulness for experiments is argued, not shown.
+
+  # ---------------- Conclusion (last paragraph of the Discussion) ----------------
+  - id: cerqueira2026:CON1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Discussion, final paragraph
+    text: The fingerprint can be used to create structure or property maps that span families of materials or the entire material space.
+    claim_modality: DESCRIPTIVE
+    assessment:
+      validity: PARTIAL
+      rationale: Restates the map results, which hold for structure and metallicity but not for magnetism.
+  - id: cerqueira2026:CON2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Discussion, final paragraph
+    text: The human-generated fingerprint can compete with machine-learned opaque representations as input to machine learning models.
+    claim_modality: COMPARATIVE
+    assessment:
+      validity: "YES"
+      rationale: '"Can compete" is exactly what Table 2 shows; more cautious than the abstract.'
+  - id: cerqueira2026:LIM1
+    statement_type: LIMITATION
+    limitation_kind: DATA
+    paper_part: CONCLUSION
+    section: Discussion, final paragraph; Introduction, para. 8
+    text: The similarity data lack information for rare gases and some actinides, and ICSD bias may create spurious correlations.
+  - id: cerqueira2026:LIM2
+    statement_type: LIMITATION
+    limitation_kind: METHOD
+    paper_part: RESULTS
+    section: Results, Similarity of chemical elements; Figs. 4-5 text
+    text: The shape of the two-dimensional maps depends on the UMAP parameters, and two dimensions may distort distances.
+
+relations:
+  # introduction
+  - {id: cerqueira2026:R1, subject: cerqueira2026:BG1, predicate: MOTIVATES, object: cerqueira2026:GAP1, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R2, subject: cerqueira2026:GAP1, predicate: MOTIVATES, object: cerqueira2026:AIM1, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R3, subject: cerqueira2026:GAP2, predicate: MOTIVATES, object: cerqueira2026:AIM2, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R4, subject: cerqueira2026:BG1, predicate: MOTIVATES, object: cerqueira2026:AIM3, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R5, subject: cerqueira2026:GAP2, predicate: MOTIVATES, object: cerqueira2026:AIM4, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R6, subject: cerqueira2026:METH1, predicate: DEPENDS_ON, object: cerqueira2026:ASM1, asserted_by: ANNOTATOR, note: the embedding is only as good as the substitution statistics}
+  # golden thread
+  - {id: cerqueira2026:R7, subject: cerqueira2026:METH2, predicate: DELIVERS, object: cerqueira2026:AIM1, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R8, subject: cerqueira2026:CON1, predicate: DELIVERS, object: cerqueira2026:AIM1, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R9, subject: cerqueira2026:METH1, predicate: DELIVERS, object: cerqueira2026:AIM2, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R10, subject: cerqueira2026:CLAIM1, predicate: DELIVERS, object: cerqueira2026:AIM2, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R11, subject: cerqueira2026:CLAIM6, predicate: DELIVERS, object: cerqueira2026:AIM3, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R12, subject: cerqueira2026:CLAIM3, predicate: DELIVERS, object: cerqueira2026:AIM4, asserted_by: AUTHORS}
+  # restatements
+  - {id: cerqueira2026:R13, subject: cerqueira2026:ABS1, predicate: RESTATES, object: cerqueira2026:CLAIM3, asserted_by: ANNOTATOR, note: "'on average the best' becomes 'systematically outperform'"}
+  - {id: cerqueira2026:R14, subject: cerqueira2026:CON2, predicate: RESTATES, object: cerqueira2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: cerqueira2026:R15, subject: cerqueira2026:ABS2, predicate: RESTATES, object: cerqueira2026:CLAIM6, asserted_by: ANNOTATOR}
+  - {id: cerqueira2026:R16, subject: cerqueira2026:CON1, predicate: RESTATES, object: cerqueira2026:CLAIM6, asserted_by: ANNOTATOR}
+  # support
+  - id: cerqueira2026:R17
+    subject: cerqueira2026:OBS1
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM1
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "One-hot map as control; UMAP robustness in the ESI."}
+  - {id: cerqueira2026:R18, subject: cerqueira2026:OBS2, predicate: SUPPORTS, object: cerqueira2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE}
+  - id: cerqueira2026:R19
+    subject: cerqueira2026:OBS2
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM2
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Direct distances against ElMD, C-GRID, Mat2Vec, Magpie and CGCNN."}
+  - id: cerqueira2026:R20
+    subject: cerqueira2026:OBS4
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM3
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: INTERMEDIATE
+    essential: true
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Same model, same data, four alternative embeddings; no run-to-run spread, so small margins could be noise."}
+  - id: cerqueira2026:R21
+    subject: cerqueira2026:OBS4
+    predicate: SUPPORTS
+    object: cerqueira2026:ABS1
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: INTERMEDIATE
+    essential: true
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "'Systematically' is wider than the 12 of 27 wins in Table 2."}
+  - {id: cerqueira2026:R22, subject: cerqueira2026:OBS4, predicate: SUPPORTS, object: cerqueira2026:CON2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, essential: true}
+  - {id: cerqueira2026:R23, subject: cerqueira2026:OBS4, predicate: CONTRADICTS, object: cerqueira2026:CLAIM4, asserted_by: ANNOTATOR, note: "Ranks 4, 3 and 2 on the three smallest datasets."}
+  - {id: cerqueira2026:R24, subject: cerqueira2026:CLAIM3, predicate: SUPPORTS, object: cerqueira2026:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  - {id: cerqueira2026:R25, subject: cerqueira2026:CLAIM4, predicate: SUPPORTS, object: cerqueira2026:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true, note: the data-scarce part rests on CLAIM4}
+  - {id: cerqueira2026:R26, subject: cerqueira2026:OBS3, predicate: SUPPORTS, object: cerqueira2026:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE}
+  - id: cerqueira2026:R27
+    subject: cerqueira2026:OBS5
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM6
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: INTERMEDIATE
+    essential: true
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Judged by eye on one UMAP projection."}
+  - {id: cerqueira2026:R28, subject: cerqueira2026:LIM2, predicate: QUALIFIES, object: cerqueira2026:CLAIM6, asserted_by: AUTHORS}
+  - {id: cerqueira2026:R29, subject: cerqueira2026:OBS5, predicate: SUPPORTS, object: cerqueira2026:ABS2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, essential: true}
+  - {id: cerqueira2026:R30, subject: cerqueira2026:OBS5, predicate: QUALIFIES, object: cerqueira2026:ABS2, asserted_by: AUTHORS, note: magnetic and non-magnetic compounds are not separated}
+  - {id: cerqueira2026:R31, subject: cerqueira2026:OBS5, predicate: SUPPORTS, object: cerqueira2026:CON1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, essential: true}
+  - id: cerqueira2026:R32
+    subject: cerqueira2026:OBS5
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM7
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: WEAK
+    essential: true
+    link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "A 2D projection is not a test of learnability."}
+  - id: cerqueira2026:R33
+    subject: cerqueira2026:OBS6
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM8
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET}
+  - id: cerqueira2026:R34
+    subject: cerqueira2026:OBS7
+    predicate: SUPPORTS
+    object: cerqueira2026:CLAIM9
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: WEAK
+    essential: true
+    link_criteria: {directness: MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Two chosen examples, no systematic distance-property test."}
+  - {id: cerqueira2026:R35, subject: cerqueira2026:OBS8, predicate: QUALIFIES, object: cerqueira2026:CLAIM9, asserted_by: ANNOTATOR, note: hBN and graphite are nearest neighbours but electronically very different}
+  - {id: cerqueira2026:R36, subject: cerqueira2026:OBS8, predicate: SUPPORTS, object: cerqueira2026:CLAIM10, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, essential: true}
+  - {id: cerqueira2026:R37, subject: cerqueira2026:METH1, predicate: CONTRADICTS, object: cerqueira2026:ABS3, asserted_by: ANNOTATOR, note: "Methods: composition vectors lie on a simplex, not on the unit sphere."}
+  - {id: cerqueira2026:R38, subject: cerqueira2026:LIM1, predicate: QUALIFIES, object: cerqueira2026:CLAIM1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A coherent methods paper: all four aims are delivered, and three are restated in the abstract or conclusion. The construction is
+    fully specified, the element-level results are shown against a one-hot control, and the
+    CrabNet benchmark covers 27 datasets against four alternatives, on which the new embedding
+    has the best mean rank. The weak spots are wording rather than logic: the abstract turns
+    "on average the best" into "systematically outperform", the claim of particular strength on
+    small datasets is contradicted by the paper's own table, the unit-sphere description in the
+    abstract conflicts with the Methods, and the analogue-finding claim generalises from two
+    examples. Benchmark spreads over the 8 runs are not given.
+  key_limitations:
+    - No run-to-run spread in Table 2, so small margins cannot be judged (CLAIM3).
+    - The small-dataset advantage is not in the table (CLAIM4).
+    - Abstract wording stronger than the results (ABS1, ABS3).
+    - Property similarity from embedding distance rests on two examples (CLAIM9).
+  missing_evidence:
+    - Standard deviations over the 8 CrabNet runs
+    - A systematic test of distance versus property similarity over many compound pairs
+    - A quantitative separation score for the maps instead of visual judgement

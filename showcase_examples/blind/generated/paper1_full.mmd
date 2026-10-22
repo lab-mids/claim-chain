@@ -1,0 +1,165 @@
+flowchart TD
+  BG1 --> GAP1
+  BG2 --> GAP1
+  BG3 --> GAP2
+  GAP1 --> HYP1
+  GAP2 --> HYP1
+  BG4 --> AIM1
+  GAP1 --> AIM2
+  BG5 --> AIM3
+  GAP1 --> AIM4
+  GAP2 --> AIM5
+  METH1 -.-> ASM1
+  LIM1 -.->|qualifies| ASM1
+  METH2 -.-> METH1
+  METH3 -.-> METH2
+  METH4 -.-> METH3
+  DEF1 -.-> METH4
+  METH6 -.-> DATA1
+  METH2 --> AIM1
+  METH3 --> AIM1
+  METH4 --> AIM2
+  CLAIM12 --> AIM2
+  CLAIM3 --> AIM3
+  CLAIM5 --> AIM3
+  CLAIM6 --> AIM3
+  CLAIM8 --> AIM4
+  CLAIM12 --> AIM4
+  CLAIM14 --> AIM4
+  CLAIM9 --> AIM5
+  CLAIM1 -.->|restates| CLAIM9
+  CLAIM2 -.->|restates| CLAIM14
+  CLAIM22 -.->|restates| CLAIM9
+  CLAIM21 -.->|restates| CLAIM12
+  CLAIM20 -.->|restates| CLAIM7
+  OBS1 --> CLAIM3
+  ASM2 -.->|conditionally supports| CLAIM3
+  LIM2 -.->|qualifies| CLAIM3
+  OBS2 --> CLAIM4
+  OBS3 --> CLAIM5
+  OBS4 ==> CLAIM6
+  METH2 ==> CLAIM6
+  METH1 ==> CLAIM7
+  LIM1 -.->|undercuts| CLAIM5
+  OBS5 --> CLAIM8
+  DATA2 --> CLAIM8
+  OBS6 --> CLAIM9
+  METH6 --> CLAIM9
+  OBS8 -.->|undercuts| CLAIM9
+  OBS7 -.->|contradicts| CLAIM10
+  OBS6 --> CLAIM10
+  CLAIM9 --> CLAIM11
+  OBS6 --> CLAIM1
+  CLAIM9 --> CLAIM1
+  OBS7 -.->|undercuts| CLAIM1
+  OBS8 -.->|undercuts| CLAIM1
+  GAP2 -.->|qualifies| CLAIM1
+  OBS6 --> CLAIM22
+  OBS9 --> CLAIM12
+  DATA3 --> CLAIM12
+  LIM2 -.->|qualifies| CLAIM12
+  ASM2 -.->|conditionally supports| CLAIM13
+  OBS9 --> CLAIM13
+  OBS10 --> CLAIM14
+  OBS11 --> CLAIM15
+  ASM2 -.->|alternative explanation for| CLAIM15
+  CLAIM14 --> CLAIM2
+  CLAIM12 --> CLAIM2
+  OBS11 -.->|undercuts| CLAIM2
+  OBS12 --> CLAIM16
+  METH7 -.-> METH4
+  OBS13 --> CLAIM17
+  OBS14 --> CLAIM18
+  CLAIM17 --> CLAIM18
+  OBS15 --> CLAIM19
+  DEF1 --> CLAIM19
+  ASM3 -.->|alternative explanation for| CLAIM19
+  CLAIM7 ==> CLAIM20
+  CLAIM6 ==> CLAIM20
+  CLAIM8 --> CLAIM21
+  CLAIM12 --> CLAIM21
+  OBS11 -.->|qualifies| CLAIM21
+  LIM3 -.->|qualifies| CLAIM20
+  CLAIM22 --> OUT1
+  CLAIM9 --> HYP1
+  CLAIM20 ==> HYP1
+  CLAIM5 --> HYP1
+  CLAIM12 --> HYP1
+  CLAIM14 --> HYP1
+  OBS7 -.->|undercuts| HYP1
+  AIM1["<b>AIM1</b><br/>The paper constructs a non-orthogonal compositional space from the …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper combines the compositional representation with the pymatgen …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows that the non-orthogonal representation captures meaningful …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper generates interpretable two-dimensional visualizations of material space …"]:::claim
+  AIM5["<b>AIM5</b><br/>The paper shows that the representation provides powerful embeddings …"]:::claim
+  ASM1["<b>ASM1</b><br/>Co-occurrence of two elements on the same site of …"]:::asm
+  ASM2["<b>ASM2</b><br/>Proximity and clusters in a two-dimensional UMAP projection reflect …"]:::asm
+  ASM3["<b>ASM3</b><br/>The minimal distance to other hull compounds measures chemical …"]:::asm
+  BG1["<b>BG1</b><br/>High-throughput density functional theory and machine learning have produced …"]:::bg
+  BG2["<b>BG2</b><br/>Structure maps correlate the structure type of a compound …"]:::bg
+  BG3["<b>BG3</b><br/>Embeddings from trained neural networks such as crystal graph …"]:::bg
+  BG4["<b>BG4</b><br/>A chemical similarity scale between elements was previously built …"]:::bg
+  BG5["<b>BG5</b><br/>Earth Mover's Distance approaches such as ElMD compare compositions …"]:::bg
+  CLAIM1["<b>CLAIM1 (partial)</b><br/>Pettifor embeddings systematically outperform other commonly used elemental embeddings …"]:::claim
+  CLAIM10["<b>CLAIM10 ✗</b><br/>The Pettifor embedding performs particularly well for small and …"]:::claim
+  CLAIM11["<b>CLAIM11 (weak)</b><br/>The improved ML performance suggests that the Pettifor representation …"]:::claim
+  CLAIM12["<b>CLAIM12 (partial)</b><br/>Despite the large diversity of the Alexandria hull, the …"]:::claim
+  CLAIM13["<b>CLAIM13 ?</b><br/>Small islands in the Alexandria map can be interpreted …"]:::claim
+  CLAIM14["<b>CLAIM14 (partial)</b><br/>UMAP combined with the Pettifor + STR fingerprint provides …"]:::claim
+  CLAIM15["<b>CLAIM15 ?</b><br/>Because magnetic and non-magnetic compounds are not separated in …"]:::claim
+  CLAIM16["<b>CLAIM16 (partial)</b><br/>The information in the Pettifor + STR embedding may …"]:::claim
+  CLAIM17["<b>CLAIM17 (weak)</b><br/>The Pettifor + STR embedding captures both chemical and …"]:::claim
+  CLAIM18["<b>CLAIM18 (weak)</b><br/>The embeddings can uncover promising candidates with a desired …"]:::claim
+  CLAIM19["<b>CLAIM19 ?</b><br/>A high uniqueness U reveals truly distinctive compounds that …"]:::claim
+  CLAIM2["<b>CLAIM2 (partial)</b><br/>Two-dimensional maps built from Pettifor embeddings and UMAP succeed …"]:::claim
+  CLAIM20["<b>CLAIM20 ✓</b><br/>The proposed fingerprint is a simple and interpretable representation …"]:::claim
+  CLAIM21["<b>CLAIM21 (partial)</b><br/>The fingerprint can create structure or property maps spanning …"]:::claim
+  CLAIM22["<b>CLAIM22 ✓</b><br/>The human-generated Pettifor fingerprint can compete with machine-learned opaque …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>The two-dimensional map of Pettifor element embeddings clusters chemically …"]:::claim
+  CLAIM4["<b>CLAIM4 (weak)</b><br/>Other common elemental embeddings (Magpie, Mat2Vec, Jarvis, CGCNN) give …"]:::claim
+  CLAIM5["<b>CLAIM5 (partial)</b><br/>Pettifor element distances generally agree with ElMD and differ …"]:::claim
+  CLAIM6["<b>CLAIM6 ✓</b><br/>Unlike ElMD, the Pettifor embedding distinguishes neighbours of the …"]:::claim
+  CLAIM7["<b>CLAIM7 ✓</b><br/>The Pettifor embedding is unsupervised and independent of any …"]:::claim
+  CLAIM8["<b>CLAIM8 (partial)</b><br/>The Pettifor composition map of ABC3 perovskites is divided …"]:::claim
+  CLAIM9["<b>CLAIM9 (partial)</b><br/>CrabNet with the Pettifor embedding gives on average the …"]:::claim
+  DATA1["<b>DATA1</b><br/>The ML benchmark comprises 27 datasets from 312 (steel …"]:::meth
+  DATA2["<b>DATA2</b><br/>The perovskite dataset of ref. 42 contains cubic Pm-3m …"]:::meth
+  DATA3["<b>DATA3</b><br/>The structure maps use all compounds on the convex …"]:::meth
+  DEF1["<b>DEF1</b><br/>The uniqueness U of a compound on the convex …"]:::claim
+  GAP1["<b>GAP1</b><br/>For ternary or multinary compounds and for datasets with …"]:::bg
+  GAP2["<b>GAP2</b><br/>Trained embeddings contain information about the target property and …"]:::bg
+  HYP1["<b>HYP1 (partial)</b><br/>A non-orthogonal compositional space in which the angle between …"]:::claim
+  LIM1["<b>LIM1</b><br/>Spurious correlations may arise from bias and incompleteness of …"]:::lim
+  LIM2["<b>LIM2</b><br/>Reduction to two dimensions may distort distances, and the …"]:::lim
+  LIM3["<b>LIM3</b><br/>The representation lacks information for rare gases and some …"]:::lim
+  METH1["<b>METH1</b><br/>The raw symmetric matrix M from ref. 35 counts, …"]:::meth
+  METH2["<b>METH2</b><br/>To counter the ICSD bias toward diagonal terms, the …"]:::meth
+  METH3["<b>METH3</b><br/>The fingerprint of a composition is f = c …"]:::meth
+  METH4["<b>METH4</b><br/>Composition and structure are combined by concatenating the Pettifor …"]:::meth
+  METH6["<b>METH6</b><br/>CrabNet is trained with Mat2Vec, Magpie, CGCNN initial atomic …"]:::meth
+  METH7["<b>METH7</b><br/>A principal component analysis of the Pettifor and Pettifor …"]:::meth
+  OBS1["<b>OBS1</b><br/>In the UMAP map of the Pettifor element embeddings, …"]:::obs
+  OBS10["<b>OBS10</b><br/>In the Alexandria map coloured by band gap, metals …"]:::obs
+  OBS11["<b>OBS11</b><br/>In the Alexandria map coloured by magnetic moment, magnetic …"]:::obs
+  OBS12["<b>OBS12</b><br/>Seven principal components capture 60 % of the compositional …"]:::obs
+  OBS13["<b>OBS13</b><br/>The nearest compounds to diamond Si in Pettifor + …"]:::obs
+  OBS14["<b>OBS14</b><br/>The compounds closest to MgB2 include Mg4AlB10 (distance 0.16), …"]:::obs
+  OBS15["<b>OBS15</b><br/>As is the most unique elementary substance on the …"]:::obs
+  OBS2["<b>OBS2</b><br/>The one-hot embedding gives an unstructured element map because …"]:::obs
+  OBS3["<b>OBS3</b><br/>In Table 1 the three Pettifor nearest neighbours are …"]:::obs
+  OBS4["<b>OBS4</b><br/>The Pettifor distance of S to Se (0.77) is …"]:::obs
+  OBS5["<b>OBS5</b><br/>The UMAP map of cubic ABC3 perovskites splits into …"]:::obs
+  OBS6["<b>OBS6</b><br/>Across the 27 benchmarks of Table 2 the Pettifor …"]:::obs
+  OBS7["<b>OBS7</b><br/>In the five smallest datasets (312-3422 entries) the Pettifor …"]:::obs
+  OBS8["<b>OBS8</b><br/>Many differences between the Pettifor embedding and the best …"]:::obs
+  OBS9["<b>OBS9</b><br/>In the UMAP map of the Alexandria hull compounds …"]:::obs
+  OUT1["<b>OUT1</b><br/>The representation may become an important tool for accurate …"]:::out
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

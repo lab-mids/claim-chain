@@ -1,0 +1,42 @@
+flowchart TD
+  GAP1 --> AIM1
+  GAP2 --> AIM2
+  GAP2 --> AIM4
+  CON1 --> AIM1
+  CLAIM1 --> AIM2
+  CLAIM6 --> AIM3
+  CLAIM3 --> AIM4
+  ABS1 -.->|restates| CLAIM3
+  CON2 -.->|restates| CLAIM3
+  ABS2 -.->|restates| CLAIM6
+  CON1 -.->|restates| CLAIM6
+  CLAIM3 --> CLAIM5
+  CLAIM4 --> CLAIM5
+  LIM2 -.->|qualifies| CLAIM6
+  LIM1 -.->|qualifies| CLAIM1
+  ABS1["<b>ABS1 (partial)</b><br/>Pettifor embeddings systematically outperform other commonly used elemental embeddings …"]:::claim
+  ABS2["<b>ABS2 (partial)</b><br/>Two-dimensional maps of thermodynamically stable compounds built from the …"]:::claim
+  AIM1["<b>AIM1</b><br/>The paper builds a fingerprint of a compound from …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper introduces a composition embedding in a non-orthogonal …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows that the representation gives interpretable maps …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper shows that the representation provides powerful embeddings …"]:::claim
+  CLAIM1["<b>CLAIM1 ✓</b><br/>Chemically similar elements cluster in the embedding, purely from …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>Used as input to CrabNet, the Pettifor embedding yields …"]:::claim
+  CLAIM4["<b>CLAIM4 ✗</b><br/>The Pettifor embedding performs particularly well for small- and …"]:::claim
+  CLAIM5["<b>CLAIM5 (weak)</b><br/>The improved performance suggests that the representation captures the …"]:::claim
+  CLAIM6["<b>CLAIM6 (partial)</b><br/>Despite the diversity of the data set, the map …"]:::claim
+  CON1["<b>CON1 (partial)</b><br/>The fingerprint can be used to create structure or …"]:::claim
+  CON2["<b>CON2 ✓</b><br/>The human-generated fingerprint can compete with machine-learned opaque representations …"]:::claim
+  GAP1["<b>GAP1</b><br/>Embeddings taken from trained neural networks already contain information …"]:::bg
+  GAP2["<b>GAP2</b><br/>Learned or database-derived elemental embeddings predict well but act …"]:::bg
+  LIM1["<b>LIM1</b><br/>The similarity data lack information for rare gases and …"]:::lim
+  LIM2["<b>LIM2</b><br/>The shape of the two-dimensional maps depends on the …"]:::lim
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

@@ -1,0 +1,47 @@
+flowchart TB
+  P["`**Paper**
+A non-orthogonal representation for materials based on chemical similarity`"]:::idea
+  C0("`**ABS1**
+Pettifor embeddings systematically outperform other commonly used elemental embeddings in compositional machine learning models.`"):::claim
+  V0["`**Partly true**
+Best mean rank across 27 benchmarks (1.96 against 2.30 for CGCNN), but it loses to at least one alternative in …`"]:::partly
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**ABS2**
+Two-dimensional maps of thermodynamically stable compounds built from the Pettifor embeddings separate material classes according to …`"):::claim
+  V1["`**Partly true**
+Shown for crystal system and metal versus non-metal; the paper itself shows that magnetic and non-magnetic compounds are not separated.`"]:::partly
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  C2("`**CLAIM3**
+Used as input to CrabNet, the Pettifor embedding yields on average the best results of the …`"):::claim
+  V2["`**Partly true**
+The mean rank is best, but margins are often a few percent and no spread over the 8 runs is …`"]:::partly
+  P --> C2
+  C2 --> V2
+  V2 --> BL
+  C3("`**CLAIM6**
+Despite the diversity of the data set, the map gives a reasonable structural separation of compounds …`"):::claim
+  V3["`**Partly true**
+Visible in Figures 4 and 5, but judged by eye and dependent on UMAP parameters, as the authors note.`"]:::partly
+  P --> C3
+  C3 --> V3
+  V3 --> BL
+  C4("`**CLAIM9**
+Proximity in the embedding space correlates with comparable physical properties, so the embedding can find functional …`"):::claim
+  V4["`**Weak**
+Two illustrative cases, no systematic test of how well distance predicts property similarity.`"]:::weak
+  P --> C4
+  C4 --> V4
+  V4 --> BL
+  BL["`**Bottom line**
+Overall: Partly true. A coherent methods paper: all four aims are delivered, and three are restated in the abstract or conclusion.`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

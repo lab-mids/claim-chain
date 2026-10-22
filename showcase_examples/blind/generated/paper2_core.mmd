@@ -1,0 +1,63 @@
+flowchart TD
+  GAP1 --> AIM1
+  GAP2 --> AIM3
+  GAP1 --> AIM4
+  CLAIM2 --> AIM2
+  CLAIM7 --> AIM3
+  CLAIM8 --> AIM3
+  CLAIM14 --> AIM4
+  CLAIM15 -.->|restates| CLAIM2
+  CLAIM15 -.->|restates| CLAIM7
+  CLAIM16 -.->|restates| CLAIM2
+  CLAIM16 -.->|restates| CLAIM7
+  CLAIM9 -.->|restates| CLAIM1
+  CLAIM1 --> CLAIM9
+  CLAIM3 --> CLAIM2
+  CLAIM5 --> CLAIM2
+  CLAIM6 --> CLAIM2
+  CLAIM3 --> CLAIM4
+  CLAIM7 --> CLAIM8
+  CLAIM2 --> CLAIM8
+  CLAIM2 --> CLAIM16
+  CLAIM7 --> CLAIM16
+  CLAIM11 --> CLAIM12
+  CLAIM5 --> CLAIM13
+  CLAIM6 --> CLAIM13
+  CLAIM2 --> CLAIM14
+  CLAIM7 --> CLAIM14
+  GAP1 -.->|qualifies| CLAIM14
+  CLAIM2 --> CLAIM15
+  CLAIM7 --> CLAIM15
+  CLAIM15 --> CLAIM17
+  CLAIM15 --> AIM2
+  AIM1["<b>AIM1</b><br/>The paper characterizes the microstructure and mechanical properties of …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper correlates microstructural features with mechanical properties to …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows the influence of casting parameters on …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper underscores the importance of integrated microstructural and …"]:::claim
+  CLAIM1["<b>CLAIM1 (partial)</b><br/>The XRD patterns confirm the phases observed by SEM …"]:::claim
+  CLAIM11["<b>CLAIM11 ✗</b><br/>Aluminium Alloy 356 combines relatively low hardness and yield …"]:::claim
+  CLAIM12["<b>CLAIM12 ?</b><br/>The property profiles make Aluminium Alloy 356 suitable for …"]:::claim
+  CLAIM13["<b>CLAIM13 ?</b><br/>Secondary phases raise hardness and UTS through load transfer …"]:::claim
+  CLAIM14["<b>CLAIM14 ?</b><br/>The study demonstrates the power of advanced characterization techniques …"]:::claim
+  CLAIM15["<b>CLAIM15 ?</b><br/>The research successfully elucidated the intricate relationships between microstructural …"]:::claim
+  CLAIM16["<b>CLAIM16 ?</b><br/>The study of a variety of industrially relevant cast …"]:::claim
+  CLAIM17["<b>CLAIM17 ?</b><br/>The research reaffirms that the properties of a material …"]:::claim
+  CLAIM2["<b>CLAIM2 (weak)</b><br/>Statistical analysis of the data reveals strong correlations between …"]:::claim
+  CLAIM3["<b>CLAIM3 (weak)</b><br/>Grain size correlates inversely with hardness and yield strength …"]:::claim
+  CLAIM4["<b>CLAIM4 ?</b><br/>The inverse dependence of hardness and yield strength on …"]:::claim
+  CLAIM5["<b>CLAIM5 ?</b><br/>Phase distribution significantly influences hardness and ultimate tensile strength …"]:::claim
+  CLAIM6["<b>CLAIM6 ?</b><br/>Defect morphology affects the ductility of the cast materials."]:::claim
+  CLAIM7["<b>CLAIM7 ?</b><br/>Pouring temperature and cooling rate affect grain size, phase …"]:::claim
+  CLAIM8["<b>CLAIM8 ?</b><br/>The results give a comprehensive understanding of the microstructure …"]:::claim
+  CLAIM9["<b>CLAIM9 (partial)</b><br/>SEM, XRD and EBSD reveal for each material the …"]:::claim
+  GAP1["<b>GAP1</b><br/>Conventional optical microscopy and macro-scale mechanical tests often fall …"]:::bg
+  GAP2["<b>GAP2</b><br/>Further research is needed to fully understand how material …"]:::bg
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

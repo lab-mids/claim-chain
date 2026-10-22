@@ -1,0 +1,70 @@
+flowchart TD
+  BG1 --> GAP1
+  GAP1 --> AIM1
+  BG1 --> AIM2
+  BG1 --> AIM3
+  GAP1 --> AIM4
+  OBS2 --> AIM1
+  CLAIM1 --> AIM1
+  CLAIM3 --> AIM2
+  CLAIM5 --> AIM3
+  CLAIM9 --> AIM4
+  ABS1 -.->|restates| CLAIM3
+  ABS2 -.->|restates| CLAIM5
+  CON1 -.->|restates| CLAIM3
+  CON1 -.->|restates| CLAIM5
+  CON2 -.->|restates| CLAIM9
+  CON3 -.->|restates| CLAIM1
+  OBS2 --> CLAIM1
+  OBS1 --> CLAIM1
+  OBS2 --> CLAIM2
+  OBS3 -.->|undercuts| CLAIM2
+  METH4 --> CLAIM3
+  OBS2 --> CLAIM3
+  METH4 --> CLAIM4
+  METH1 --> CLAIM5
+  OBS2 -.->|contradicts| CLAIM6
+  OBS4 --> CLAIM7
+  CLAIM4 --> CLAIM8
+  CLAIM3 --> CLAIM9
+  CLAIM5 --> CLAIM9
+  CLAIM3 --> ABS1
+  CLAIM5 --> ABS2
+  CLAIM3 --> CON1
+  CLAIM9 --> CON2
+  CLAIM1 --> CON3
+  ABS1["<b>ABS1 ?</b><br/>The findings reveal a strong correlation between microstructural features …"]:::claim
+  ABS2["<b>ABS2 ?</b><br/>The study highlights the influence of casting parameters on …"]:::claim
+  AIM1["<b>AIM1</b><br/>The paper characterises the microstructure and mechanical properties of …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper correlates microstructural features with mechanical properties to …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows the influence of casting parameters on …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper shows that advanced characterisation gives a more …"]:::claim
+  BG1["<b>BG1</b><br/>The properties of cast materials are largely determined by …"]:::bg
+  CLAIM1["<b>CLAIM1 (partial)</b><br/>Each material shows the microstructure and phases expected for …"]:::claim
+  CLAIM2["<b>CLAIM2 ?</b><br/>Grain size correlates inversely with hardness and yield strength, …"]:::claim
+  CLAIM3["<b>CLAIM3 ?</b><br/>Statistical analysis revealed strong correlations between microstructural features and …"]:::claim
+  CLAIM4["<b>CLAIM4 ?</b><br/>Phase distribution significantly influences hardness and tensile strength, and …"]:::claim
+  CLAIM5["<b>CLAIM5 ?</b><br/>Pouring temperature and cooling rate affect grain size, phase …"]:::claim
+  CLAIM6["<b>CLAIM6 ✗</b><br/>Aluminium alloy 356 combines relatively low hardness and yield …"]:::claim
+  CLAIM7["<b>CLAIM7 ?</b><br/>The austenite and carbides of SS316 reflect its high-temperature …"]:::claim
+  CLAIM8["<b>CLAIM8 ?</b><br/>Secondary phases strengthen by load transfer and dislocation pinning, …"]:::claim
+  CLAIM9["<b>CLAIM9 ?</b><br/>The study demonstrates the power of advanced characterisation techniques …"]:::claim
+  CON1["<b>CON1 ?</b><br/>The study successfully elucidated the relationships between microstructural features …"]:::claim
+  CON2["<b>CON2 ?</b><br/>The demonstrated power of advanced characterisation techniques underscores their …"]:::claim
+  CON3["<b>CON3 (partial)</b><br/>SEM, XRD and EBSD revealed distinct microstructural features for …"]:::claim
+  GAP1["<b>GAP1</b><br/>Conventional optical microscopy and macro-scale mechanical tests often fall …"]:::bg
+  METH1["<b>METH1</b><br/>Aluminium alloy 356, gray cast iron and stainless steel …"]:::meth
+  METH4["<b>METH4</b><br/>The microstructural and mechanical data were analysed statistically with …"]:::meth
+  OBS1["<b>OBS1</b><br/>SEM and XRD show a dendritic alpha-Al matrix with …"]:::obs
+  OBS2["<b>OBS2</b><br/>Table 1 gives one value per material: grain size …"]:::obs
+  OBS3["<b>OBS3</b><br/>The paper writes the Hall-Petch relation as sigma_y = …"]:::obs
+  OBS4["<b>OBS4</b><br/>Figure 4 is said to show the corrosion resistance …"]:::obs
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

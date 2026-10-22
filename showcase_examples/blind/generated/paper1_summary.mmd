@@ -1,0 +1,33 @@
+flowchart TB
+  P["`**The paper sets out to show**
+A non-orthogonal compositional space in which the angle between element axes encodes ICSD substitution similarity, combined with a structural fingerprint, gives a material representation that …`"]:::idea
+  C0("`**CLAIM1**
+Pettifor embeddings systematically outperform other commonly used elemental embeddings in compositional machine learning models.`"):::claim
+  V0["`**Partly true**
+Pettifor has the best mean rank (1.96) and the most wins (12/27) in Table 2, but loses to one-hot in …`"]:::partly
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**CLAIM2**
+Two-dimensional maps built from Pettifor embeddings and UMAP succeed in physically separating material classes according to …`"):::claim
+  V1["`**Partly true**
+Metal/non-metal and partial crystal-system separation are reported (judged from captions and text of Figs.`"]:::partly
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  C2("`**CLAIM20**
+The proposed fingerprint is a simple and interpretable representation of a compound, built so that chemically …`"):::claim
+  V2["`**True**
+Holds by construction of S and f = c x S, and Table 1 illustrates that close elements are chemically …`"]:::yes
+  P --> C2
+  C2 --> V2
+  V2 --> BL
+  BL["`**Bottom line**
+Overall: Partly true. The construction is sound and transparent: the Pettifor embedding is target-independent and interpretable by design, distinguishes neighbours that a one-dimensional scale cannot, and in CrabNet has the best mean rank (1.96) and …`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

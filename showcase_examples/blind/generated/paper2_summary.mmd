@@ -1,0 +1,47 @@
+flowchart TB
+  P["`**Paper**
+Characterization of Microstructure and Mechanical Properties of Cast Materials using Advanced Techniques`"]:::idea
+  C0("`**CLAIM16**
+The study of a variety of industrially relevant cast alloys provides a comprehensive understanding of their …`"):::claim
+  V0["`**Not supported**
+No result is reported per casting condition and phase distribution and defect morphology are never quantified; only the grain-size ranking …`"]:::no
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**CLAIM2**
+Statistical analysis of the data reveals strong correlations between the microstructural features and the mechanical properties …`"):::claim
+  V1["`**Weak**
+Only grain size is quantified, and over three different alloy systems its ranking inversely matches hardness and yield (OBS6); no …`"]:::weak
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  C2("`**CLAIM7**
+Pouring temperature and cooling rate affect grain size, phase distribution and defect morphology of the cast …`"):::claim
+  V2["`**Not supported**
+The paper presents no data at all on casting parameters, so the claimed process-microstructure-property chain is asserted rather than shown.`"]:::no
+  P --> C2
+  C2 --> V2
+  V2 --> BL
+  C3("`**CLAIM8**
+The results give a comprehensive understanding of the microstructure and mechanical properties of the cast materials …`"):::claim
+  V3["`**Not supported**
+Without any casting-parameter data or process-property relation in the paper, the optimization payoff cannot be judged.`"]:::no
+  P --> C3
+  C3 --> V3
+  V3 --> BL
+  C4("`**CLAIM14**
+The study demonstrates the power of advanced characterization techniques in revealing the intricate relationships between microstructure, …`"):::claim
+  V4["`**Not supported**
+Without a baseline using conventional methods and with no processing data, the paper cannot show what the advanced techniques add …`"]:::no
+  P --> C4
+  C4 --> V4
+  V4 --> BL
+  BL["`**Bottom line**
+Overall: Not supported. The paper reports one set of round-number microstructure and property values for three sand-cast alloys (A356, gray cast iron, SS316).`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

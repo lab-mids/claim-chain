@@ -1,0 +1,122 @@
+flowchart TD
+  BG1 --> AIM2
+  GAP1 --> AIM1
+  BG2 --> AIM1
+  BG3 --> GAP2
+  GAP2 --> AIM3
+  GAP1 --> AIM4
+  DATA1 --> AIM1
+  DATA2 --> AIM1
+  CLAIM2 --> AIM2
+  CLAIM7 --> AIM3
+  CLAIM8 --> AIM3
+  CLAIM14 --> AIM4
+  METH6 --> AIM2
+  CLAIM15 -.->|restates| CLAIM2
+  CLAIM15 -.->|restates| CLAIM7
+  CLAIM16 -.->|restates| CLAIM2
+  CLAIM16 -.->|restates| CLAIM7
+  CLAIM9 -.->|restates| CLAIM1
+  CLAIM4 -.-> DEF1
+  OBS2 --> CLAIM1
+  OBS1 --> CLAIM1
+  OBS1 --> CLAIM9
+  OBS3 --> CLAIM9
+  CLAIM1 --> CLAIM9
+  OBS6 --> CLAIM3
+  OBS3 --> CLAIM3
+  OBS4 --> CLAIM3
+  OBS5 --> CLAIM3
+  CLAIM3 --> CLAIM2
+  CLAIM5 --> CLAIM2
+  CLAIM6 --> CLAIM2
+  METH6 --> CLAIM2
+  OBS6 -.->|undercuts| CLAIM2
+  OBS6 -.->|undercuts| CLAIM16
+  CLAIM3 --> CLAIM4
+  OBS7 -.->|undercuts| CLAIM4
+  DATA1 -.->|alternative explanation for| CLAIM3
+  DEF1 -.->|undercuts| CLAIM4
+  OBS1 --> CLAIM5
+  OBS1 --> CLAIM6
+  DATA1 --> CLAIM7
+  DATA2 -.->|undercuts| CLAIM7
+  DATA2 -.->|undercuts| CLAIM8
+  DATA2 -.->|undercuts| CLAIM16
+  CLAIM7 --> CLAIM8
+  CLAIM2 --> CLAIM8
+  CLAIM2 --> CLAIM16
+  CLAIM7 --> CLAIM16
+  OBS8 --> CLAIM10
+  OBS1 --> CLAIM10
+  OBS2 -.->|undercuts| CLAIM10
+  DATA2 ==> CLAIM18
+  OBS4 ==> CLAIM18
+  OBS5 ==> CLAIM18
+  OBS5 -.->|contradicts| CLAIM11
+  OBS5 --> CLAIM11
+  OBS5 --> CLAIM12
+  CLAIM11 --> CLAIM12
+  CLAIM5 --> CLAIM13
+  CLAIM6 --> CLAIM13
+  OBS1 --> CLAIM13
+  CLAIM2 --> CLAIM14
+  CLAIM7 --> CLAIM14
+  GAP1 -.->|qualifies| CLAIM14
+  CLAIM14 --> OUT1
+  CLAIM2 --> CLAIM15
+  CLAIM7 --> CLAIM15
+  CLAIM15 --> CLAIM17
+  CLAIM14 --> OUT2
+  CLAIM15 --> AIM2
+  BG3 --> BG1
+  AIM1["<b>AIM1</b><br/>The paper characterizes the microstructure and mechanical properties of …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper correlates microstructural features with mechanical properties to …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows the influence of casting parameters on …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper underscores the importance of integrated microstructural and …"]:::claim
+  BG1["<b>BG1</b><br/>The properties of cast materials are largely determined by …"]:::bg
+  BG2["<b>BG2</b><br/>SEM gives high-resolution imaging and elemental analysis, XRD quantitative …"]:::bg
+  BG3["<b>BG3</b><br/>Earlier studies report that reinforcements, alloying additions and processing …"]:::bg
+  CLAIM1["<b>CLAIM1 (partial)</b><br/>The XRD patterns confirm the phases observed by SEM …"]:::claim
+  CLAIM10["<b>CLAIM10 ?</b><br/>The austenitic matrix and carbide precipitates of Stainless Steel …"]:::claim
+  CLAIM11["<b>CLAIM11 ✗</b><br/>Aluminium Alloy 356 combines relatively low hardness and yield …"]:::claim
+  CLAIM12["<b>CLAIM12 ?</b><br/>The property profiles make Aluminium Alloy 356 suitable for …"]:::claim
+  CLAIM13["<b>CLAIM13 ?</b><br/>Secondary phases raise hardness and UTS through load transfer …"]:::claim
+  CLAIM14["<b>CLAIM14 ?</b><br/>The study demonstrates the power of advanced characterization techniques …"]:::claim
+  CLAIM15["<b>CLAIM15 ?</b><br/>The research successfully elucidated the intricate relationships between microstructural …"]:::claim
+  CLAIM16["<b>CLAIM16 ?</b><br/>The study of a variety of industrially relevant cast …"]:::claim
+  CLAIM17["<b>CLAIM17 ?</b><br/>The research reaffirms that the properties of a material …"]:::claim
+  CLAIM18["<b>CLAIM18 ✓</b><br/>Nanoindentation and tensile testing show a wide range of …"]:::claim
+  CLAIM2["<b>CLAIM2 (weak)</b><br/>Statistical analysis of the data reveals strong correlations between …"]:::claim
+  CLAIM3["<b>CLAIM3 (weak)</b><br/>Grain size correlates inversely with hardness and yield strength …"]:::claim
+  CLAIM4["<b>CLAIM4 ?</b><br/>The inverse dependence of hardness and yield strength on …"]:::claim
+  CLAIM5["<b>CLAIM5 ?</b><br/>Phase distribution significantly influences hardness and ultimate tensile strength …"]:::claim
+  CLAIM6["<b>CLAIM6 ?</b><br/>Defect morphology affects the ductility of the cast materials."]:::claim
+  CLAIM7["<b>CLAIM7 ?</b><br/>Pouring temperature and cooling rate affect grain size, phase …"]:::claim
+  CLAIM8["<b>CLAIM8 ?</b><br/>The results give a comprehensive understanding of the microstructure …"]:::claim
+  CLAIM9["<b>CLAIM9 (partial)</b><br/>SEM, XRD and EBSD reveal for each material the …"]:::claim
+  DATA1["<b>DATA1</b><br/>Three materials (Aluminium Alloy 356, gray cast iron, Stainless …"]:::meth
+  DATA2["<b>DATA2</b><br/>Table 1 summarizes the results with one row per …"]:::meth
+  DEF1["<b>DEF1</b><br/>The paper writes the Hall-Petch relation as sigma_y = …"]:::claim
+  GAP1["<b>GAP1</b><br/>Conventional optical microscopy and macro-scale mechanical tests often fall …"]:::bg
+  GAP2["<b>GAP2</b><br/>Further research is needed to fully understand how material …"]:::bg
+  METH6["<b>METH6</b><br/>The microstructural and mechanical data are analysed statistically by …"]:::meth
+  OBS1["<b>OBS1</b><br/>SEM shows a dendritic structure with secondary phases along …"]:::obs
+  OBS2["<b>OBS2</b><br/>XRD shows alpha-Al and 'Al-Si eutectic' peaks for Aluminium …"]:::obs
+  OBS3["<b>OBS3</b><br/>EBSD gives an average grain size of 100 um …"]:::obs
+  OBS4["<b>OBS4</b><br/>Nanoindentation gives hardness 80 HV and modulus 70 GPa …"]:::obs
+  OBS5["<b>OBS5</b><br/>Tensile tests give yield strength 250 MPa, UTS 310 …"]:::obs
+  OBS6["<b>OBS6</b><br/>In Table 1 the grain-size ranking (Al 356 100 …"]:::obs
+  OBS7["<b>OBS7</b><br/>Fitting the Hall-Petch form sigma_y = sigma_0 + k …"]:::obs
+  OBS8["<b>OBS8</b><br/>Fig. 4 is captioned as the corrosion resistance of …"]:::obs
+  OUT1["<b>OUT1</b><br/>Future work could extend the study to other cast …"]:::out
+  OUT2["<b>OUT2</b><br/>Integrating computational modelling and machine learning with experimental characterization …"]:::out
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

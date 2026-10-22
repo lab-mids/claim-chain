@@ -1,0 +1,829 @@
+# Singh et al. 2023 (E3S Web Conf. 430, 01111) in the claim-chain format (schema v0.6).
+# Annotated from a text extraction; figures were not available and are judged from captions and text only.
+# The paper states aims rather than a hypothesis, so it has AIM statements and no HYPOTHESIS.
+id: claimchain:chain/paper2
+schema_version: 0.6.0
+annotator: "blind annotator"
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1051/e3sconf/202343001111
+  title: Characterization of Microstructure and Mechanical Properties of Cast Materials using Advanced Techniques
+  authors: [Bharat Singh, C Praveen Kumar, Ravi Kalra, Koushal Dhamija, Zahraa N. Salman, Manish Kumar]
+  year: 2023
+  doi: 10.1051/e3sconf/202343001111
+  url: https://doi.org/10.1051/e3sconf/202343001111
+
+entities:
+  - {id: ent:A356, label: Aluminium Alloy 356 (sand cast), entity_type: MATERIAL}
+  - {id: ent:GCI, label: gray cast iron (sand cast), entity_type: MATERIAL}
+  - {id: ent:SS316, label: Stainless Steel 316 (sand cast), entity_type: MATERIAL}
+  - {id: ent:sandcast, label: sand casting with varied pouring temperature and cooling rate, entity_type: PROCESSING_STATE}
+  - {id: ent:castparams, label: casting parameters (pouring temperature and cooling rate), entity_type: QUANTITY}
+  - {id: ent:SEM, label: field-emission SEM with EDS, entity_type: TECHNIQUE}
+  - {id: ent:XRD, label: "X-ray diffraction (Cu K-alpha)", entity_type: TECHNIQUE}
+  - {id: ent:EBSD, label: electron backscatter diffraction, entity_type: TECHNIQUE}
+  - {id: ent:nanoind, label: "nanoindentation (Berkovich tip, Oliver-Pharr analysis)", entity_type: TECHNIQUE}
+  - {id: ent:tensile, label: tensile testing to ASTM E8, entity_type: TECHNIQUE}
+  - {id: ent:stats, label: "regression, ANOVA and PCA", entity_type: METHOD}
+  - {id: ent:grainsize, label: grain size (pearlite colony size for gray cast iron), entity_type: QUANTITY}
+  - {id: ent:hardness, label: hardness, entity_type: QUANTITY}
+  - {id: ent:modulus, label: elastic modulus, entity_type: QUANTITY}
+  - {id: ent:yield, label: yield strength, entity_type: QUANTITY}
+  - {id: ent:UTS, label: ultimate tensile strength, entity_type: QUANTITY}
+  - {id: ent:ductility, label: ductility (elongation), entity_type: QUANTITY}
+  - {id: ent:phasedist, label: phase distribution, entity_type: CONCEPT}
+  - {id: ent:defects, label: defect morphology (porosity and inclusions), entity_type: CONCEPT}
+  - {id: ent:HallPetch, label: Hall-Petch relation, entity_type: CONCEPT}
+  - {id: ent:corrosion, label: corrosion resistance, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Abstract ----------------
+  - id: paper2:CLAIM16
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: ABSTRACT
+    section: Abstract
+    text: The study of a variety of industrially relevant cast alloys provides a comprehensive understanding of their behaviour under different casting conditions and reveals a strong correlation between grain size, phase distribution and defect morphology on one side and hardness, yield strength and ductility on the other.
+    claim_modality: GENERALIZATION
+    about: [ent:castparams, ent:grainsize, ent:phasedist, ent:defects]
+    concerns:
+      - {concern_type: OVERCLAIM, priority: HIGH, description: "Three alloys, each reported with a single set of values, are called a variety giving comprehensive understanding under different casting conditions; no condition-resolved data are shown."}
+      - {concern_type: OVERCLAIM, priority: HIGH, description: "Ductility is listed among the correlated properties, but in Table 1 ductility does not track grain size (r = 0.13) and phase distribution and defects are never quantified."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: No result is reported per casting condition and phase distribution and defect morphology are never quantified; only the grain-size ranking against hardness and yield over three different alloys exists, which does not decide the claim as worded.
+      missing_evidence:
+        - Table of grain size, porosity and phase fractions with properties for each pouring temperature and cooling rate of each alloy
+      proof_obligations:
+        - text: Report microstructure and properties for each casting condition, not only one row per material.
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data:
+            - {quantity: "grain size, porosity fraction, phase fractions, hardness, yield strength, elongation per casting condition", unit: "um, %, HV, MPa, %", method: "EBSD, image analysis, XRD Rietveld, tensile tests"}
+        - text: Quantify the correlation (coefficient and significance) with replicates.
+          obligation_status: OPEN
+          priority: HIGH
+
+  # ---------------- Introduction ----------------
+  - id: paper2:BG1
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 1-2
+    text: The properties of cast materials are largely determined by their microstructure (grain size, phase distribution, defect morphology), which depends on casting process parameters and post-casting treatments.
+    evidence:
+      - {evidence_kind: NONE, description: Stated without citation.}
+  - id: paper2:BG2
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 2
+    text: SEM gives high-resolution imaging and elemental analysis, XRD quantitative phase analysis, EBSD grain size, orientation and texture, and nanoindentation local hardness and modulus that can be correlated with microstructural features.
+    about: [ent:SEM, ent:XRD, ent:EBSD, ent:nanoind]
+    evidence:
+      - {evidence_kind: NONE, description: Stated without citation.}
+  - id: paper2:GAP1
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 2
+    text: Conventional optical microscopy and macro-scale mechanical tests often fall short of a detailed and accurate characterization of modern cast materials with complex microstructures.
+    evidence:
+      - {evidence_kind: NONE, description: Asserted without citation or example.}
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: MEDIUM, description: "The gap is asserted without citation, and the paper never compares its advanced techniques with conventional ones, so the gap is not shown to be closed."}
+  - id: paper2:BG3
+    statement_type: BACKGROUND
+    paper_part: INTRODUCTION
+    section: Sec. 2 (Literature Review)
+    text: Earlier studies report that reinforcements, alloying additions and processing (B4C in WE43, hybrid reinforcement of Al 7075, boron and graphite in Al 2024, high-pressure torsion of cast Mg, Mo in Cu-15Ni-8Sn, LPBF versus cast Inconel 713) change the microstructure and mechanical properties of cast materials.
+    evidence:
+      - {evidence_kind: CITATION, references: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14']}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: HIGH, description: "The reference list does not match the studies attributed to it: ref. 4 (cited for a hybrid Al 7075 composite) is on Pr3+-doped phosphate glasses, ref. 5 (Al 2024 with boron and graphite) on solar MPPT, ref. 13 (TiN/Al-7Si composite) on fenugreek seed toxicity, ref. 1 (Mg-Gd-Y-Zn-Al) on ECAP of Al6061."}
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "References 15-33 are never cited in the text."}
+  - id: paper2:GAP2
+    statement_type: GAP
+    paper_part: INTRODUCTION
+    section: Sec. 2, last para.
+    text: Further research is needed to fully understand how material type, casting process and additions control the microstructure and properties of cast materials and to optimize these properties.
+  - id: paper2:AIM1
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 3
+    text: The paper characterizes the microstructure and mechanical properties of a variety of industrially relevant cast materials with SEM, XRD, EBSD, nanoindentation and tensile testing.
+    author_certainty: DEMONSTRATED
+  - id: paper2:AIM2
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 3
+    text: The paper correlates microstructural features with mechanical properties to gain insight into the behaviour of cast materials under different casting conditions.
+    author_certainty: DEMONSTRATED
+  - id: paper2:AIM3
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 3
+    text: The paper shows the influence of casting parameters on microstructure and properties and so offers guidelines for optimizing casting processes (promised payoff).
+    author_certainty: PROPOSED
+  - id: paper2:AIM4
+    statement_type: AIM
+    paper_part: INTRODUCTION
+    section: Sec. 1, para. 3
+    text: The paper underscores the importance of integrated microstructural and mechanical characterization for understanding and predicting the performance of cast materials (promised payoff).
+    author_certainty: PROPOSED
+
+  # ---------------- Methods ----------------
+  - id: paper2:DATA1
+    statement_type: DATA
+    paper_part: METHODS
+    section: Sec. 3, para. 1
+    text: Three materials (Aluminium Alloy 356, gray cast iron, Stainless Steel 316) are sand cast, with pouring temperature and cooling rate controlled and varied between samples.
+    about: [ent:A356, ent:GCI, ent:SS316, ent:sandcast, ent:castparams]
+    scope:
+      materials: [ent:A356, ent:GCI, ent:SS316]
+      sample_count: 3
+      scope_note: "Three materials; the number of casting conditions, specimens per condition and repeats is not reported."
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: CRITICAL, description: "No pouring temperatures, cooling rates, number of casting conditions, mould details or specimen counts are given, although the casting-parameter claims rest on them."}
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "Chemical compositions, melt treatment (e.g. modification, inoculation) and heat treatment state of the alloys are not reported."}
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: LOW, description: "The methods say 'Figure 1 represents the casting process', but Fig. 1 is 'Microstructure Images' in the literature review and the casting flowchart is Fig. 2."}
+  - id: paper2:METH1
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3, para. 1
+    text: Samples are sectioned, mounted, ground, diamond-polished and etched, and imaged by field-emission SEM with EDS for grain and phase morphology and defects such as porosity and inclusions.
+    about: [ent:SEM]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "Etchants, instrument, voltage and the number of fields imaged are not given; no EDS result is reported anywhere."}
+  - id: paper2:METH2
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3, Eq. (1)
+    text: XRD with Cu K-alpha radiation is analysed with Bragg's law and is said to give quantitative phase information and crystallographic parameters.
+    about: [ent:XRD]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "No quantitative phase method (e.g. Rietveld) is described and no phase fractions or lattice parameters are reported, although 'quantitative phase information' is promised."}
+  - id: paper2:METH3
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3
+    text: EBSD in the SEM gives grain size, orientation and texture.
+    about: [ent:EBSD, ent:grainsize]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "Step size, map area, misorientation threshold for grain boundaries and the grain-size definition are not given."}
+  - id: paper2:METH4
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3, Eqs. (2)-(3)
+    text: Nanoindentation with a Berkovich tip is analysed by the Oliver-Pharr method, H = Pmax/Ac and Er = (sqrt(pi)/2) S/sqrt(Ac), to give local hardness and elastic modulus.
+    about: [ent:nanoind, ent:hardness, ent:modulus]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "Load, number of indents, indent locations (which phase) and the Poisson ratios used to convert Er to E are not reported."}
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: MEDIUM, description: "Eq. (2) gives hardness as load per contact area (GPa), yet results are reported in Vickers units (HV) without a stated conversion."}
+  - id: paper2:METH5
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3
+    text: Tensile tests to ASTM E8 on a universal testing machine give yield strength, ultimate tensile strength and ductility.
+    about: [ent:tensile, ent:yield, ent:UTS, ent:ductility]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "Specimen geometry, number of specimens, strain rate, yield definition (0.2 % offset) and ductility measure (elongation or reduction of area) are not given."}
+  - id: paper2:METH6
+    statement_type: METHOD
+    paper_part: METHODS
+    section: Sec. 3, last para.
+    text: The microstructural and mechanical data are analysed statistically by regression analysis, ANOVA and principal component analysis to establish correlations and trends.
+    about: [ent:stats]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: CRITICAL, description: "No regression coefficient, ANOVA table, p-value or PCA loading is reported anywhere in the paper; with one row per material (three points) such analyses cannot be meaningful."}
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "Software, variables entered and sample sizes for the statistics are not named."}
+
+  # ---------------- Results ----------------
+  - id: paper2:OBS1
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 4, para. 1
+    text: SEM shows a dendritic structure with secondary phases along dendrite boundaries in Aluminium Alloy 356, pearlite with dispersed graphite flakes in gray cast iron, and an austenitic matrix with some carbide precipitates in Stainless Steel 316.
+    about: [ent:A356, ent:GCI, ent:SS316, ent:SEM]
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Sec. 4 text; Fig. 1 caption 'Microstructure Images'", description: "No SEM micrograph is referenced in the results; Fig. 1 sits in the literature review and its provenance is unclear (figure not available, judged from caption)."}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "The results cite no micrograph, and the only microstructure figure (Fig. 1) appears in the literature review, described as microstructures under different conditions with no labels in the text."}
+  - id: paper2:OBS2
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 4, para. 1
+    text: XRD shows alpha-Al and 'Al-Si eutectic' peaks for Aluminium Alloy 356, alpha-Fe and Fe3C peaks for gray cast iron, and gamma-Fe and Cr23C6 peaks for Stainless Steel 316.
+    about: [ent:XRD]
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: Sec. 4 text, description: No diffraction pattern is shown.}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: MEDIUM, description: "No pattern, peak list or phase fraction is shown."}
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: MEDIUM, description: "Graphite, seen by SEM in gray cast iron, is not reported in its XRD, so XRD does not confirm all SEM phases; an 'Al-Si eutectic phase' is not a single crystalline phase with its own peaks (Si peaks would be expected)."}
+  - id: paper2:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 1
+    text: The XRD patterns confirm the phases observed by SEM in the three cast materials.
+    claim_modality: COMPARATIVE
+    about: [ent:XRD, ent:SEM]
+    assessment:
+      validity: PARTIAL
+      rationale: The reported XRD phases match the matrix phases and carbides named from SEM, but graphite in gray cast iron is not confirmed and no pattern is shown, so confirmation rests on text alone.
+      missing_evidence:
+        - Indexed XRD patterns for each alloy including graphite and Si reflections
+  - id: paper2:OBS3
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 4, para. 2
+    text: EBSD gives an average grain size of 100 um with random texture for Aluminium Alloy 356, a pearlite colony size of 50 um with preferred orientation along [100] for gray cast iron, and an average grain size of 75 um with random texture for Stainless Steel 316.
+    about: [ent:EBSD, ent:grainsize]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 4 and Table 1
+        values:
+          - {symbol: d_Al, quantity: grain size A356, value: 100, unit: um}
+          - {symbol: d_GCI, quantity: pearlite colony size gray cast iron, value: 50, unit: um}
+          - {symbol: d_SS, quantity: grain size SS316, value: 75, unit: um}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: HIGH, description: "For gray cast iron the text reports pearlite colony size, but Table 1 lists it in the 'Grain Size' column and the Hall-Petch comparison treats it as grain size."}
+      - {concern_type: MISSING_QUANTIFICATION, priority: MEDIUM, description: "Single round averages without distribution, standard deviation or number of grains; no EBSD map is shown."}
+  - id: paper2:OBS4
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 4, para. 2; Table 1
+    text: Nanoindentation gives hardness 80 HV and modulus 70 GPa for Aluminium Alloy 356, 200 HV and 210 GPa for gray cast iron, and 150 HV and 200 GPa for Stainless Steel 316.
+    about: [ent:nanoind, ent:hardness, ent:modulus]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 4 and Table 1
+        values:
+          - {symbol: H_Al, quantity: hardness A356, value: 80, unit: HV}
+          - {symbol: H_GCI, quantity: hardness gray cast iron, value: 200, unit: HV}
+          - {symbol: H_SS, quantity: hardness SS316, value: 150, unit: HV}
+          - {symbol: E_Al, quantity: elastic modulus A356, value: 70, unit: GPa}
+          - {symbol: E_GCI, quantity: elastic modulus gray cast iron, value: 210, unit: GPa}
+          - {symbol: E_SS, quantity: elastic modulus SS316, value: 200, unit: GPa}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: HIGH, description: "Nanoindentation of multiphase cast materials gives phase-dependent local values, yet one round number per material is reported without scatter or indent count."}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, priority: MEDIUM, description: "A modulus of 210 GPa for flake-graphite gray cast iron is at the level of steel; bulk gray iron is usually far lower because of the graphite flakes, so the value is either a matrix value or implausible, and the paper does not say which (annotator background)."}
+  - id: paper2:OBS5
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Sec. 4, para. 3; Table 1
+    text: Tensile tests give yield strength 250 MPa, UTS 310 MPa and ductility 5 % for Aluminium Alloy 356, 350 MPa, 400 MPa and 1 % for gray cast iron, and 300 MPa, 500 MPa and 30 % for Stainless Steel 316.
+    about: [ent:tensile, ent:yield, ent:UTS, ent:ductility]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Sec. 4, Table 1, Fig. 3 (caption only)
+        values:
+          - {symbol: Y_Al, quantity: yield strength A356, value: 250, unit: MPa}
+          - {symbol: Y_GCI, quantity: yield strength gray cast iron, value: 350, unit: MPa}
+          - {symbol: Y_SS, quantity: yield strength SS316, value: 300, unit: MPa}
+          - {symbol: U_Al, quantity: UTS A356, value: 310, unit: MPa}
+          - {symbol: U_GCI, quantity: UTS gray cast iron, value: 400, unit: MPa}
+          - {symbol: U_SS, quantity: UTS SS316, value: 500, unit: MPa}
+          - {symbol: D_Al, quantity: ductility A356, value: 5, unit: '%'}
+          - {symbol: D_GCI, quantity: ductility gray cast iron, value: 1, unit: '%'}
+          - {symbol: D_SS, quantity: ductility SS316, value: 30, unit: '%'}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: HIGH, description: "No error bars, repeats or specimen counts; all values are round numbers and no value is given per casting condition."}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, priority: LOW, description: "A distinct 350 MPa yield strength for flake gray iron and 250 MPa for sand-cast A356 of unstated temper are high for these materials; the paper does not discuss them (annotator background)."}
+  - id: paper2:DATA2
+    statement_type: DATA
+    paper_part: RESULTS
+    section: Table 1
+    text: Table 1 summarizes the results with one row per material (grain size, hardness, elastic modulus, yield strength, UTS, ductility) and contains no casting-parameter variable.
+    scope: {sample_count: 3, scope_note: "One row per material; no replicate, scatter or casting condition."}
+  - id: paper2:OBS6
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Table 1 (annotator)
+    text: "In Table 1 the grain-size ranking (Al 356 100 um > SS316 75 um > gray iron 50 um) is the exact inverse of the hardness and yield-strength rankings, yield strength falls exactly linearly with grain size (r = -1.00) and hardness nearly so (r = -0.995), whereas UTS (r = -0.47) and ductility (r = 0.13) do not follow grain size."
+    note: Derived by the annotator from Table 1; correlation coefficients computed from the three rows.
+    about: [ent:grainsize, ent:hardness, ent:yield, ent:UTS, ent:ductility]
+    scope: {sample_count: 3, scope_note: three different base metals}
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 1
+        values:
+          - {symbol: d_Al, quantity: grain size A356, value: 100, unit: um}
+          - {symbol: d_GCI, quantity: colony size gray cast iron, value: 50, unit: um}
+          - {symbol: d_SS, quantity: grain size SS316, value: 75, unit: um}
+          - {symbol: H_Al, quantity: hardness A356, value: 80, unit: HV}
+          - {symbol: H_GCI, quantity: hardness gray cast iron, value: 200, unit: HV}
+          - {symbol: H_SS, quantity: hardness SS316, value: 150, unit: HV}
+          - {symbol: Y_Al, quantity: yield A356, value: 250, unit: MPa}
+          - {symbol: Y_GCI, quantity: yield gray cast iron, value: 350, unit: MPa}
+          - {symbol: Y_SS, quantity: yield SS316, value: 300, unit: MPa}
+          - {symbol: U_Al, quantity: UTS A356, value: 310, unit: MPa}
+          - {symbol: U_GCI, quantity: UTS gray cast iron, value: 400, unit: MPa}
+          - {symbol: U_SS, quantity: UTS SS316, value: 500, unit: MPa}
+          - {symbol: D_Al, quantity: ductility A356, value: 5, unit: '%'}
+          - {symbol: D_GCI, quantity: ductility gray cast iron, value: 1, unit: '%'}
+          - {symbol: D_SS, quantity: ductility SS316, value: 30, unit: '%'}
+        derived_checks:
+          - {expression: "grain size ranking inverse to hardness and yield rankings", formula: "d_Al > d_SS > d_GCI and H_Al < H_SS < H_GCI and Y_Al < Y_SS < Y_GCI", satisfied: true}
+          - {expression: "yield strength exactly linear in grain size (equal slopes)", formula: "(Y_SS - Y_Al)/(d_SS - d_Al) == (Y_GCI - Y_SS)/(d_GCI - d_SS)", satisfied: true, note: "sigma_y = 450 - 2 d MPa with zero residual; three round-number points with no scatter."}
+          - {expression: "UTS does not follow the grain-size ranking", formula: "U_SS > U_GCI > U_Al", satisfied: true, note: "SS316 (middle grain size) has the highest UTS."}
+          - {expression: "ductility does not follow the grain-size ranking", formula: "D_SS > D_Al > D_GCI", satisfied: true, note: "Pearson r(d, ductility) = 0.13."}
+  - id: paper2:OBS7
+    statement_type: OBSERVATION
+    paper_part: RESULTS
+    section: Table 1 and Eq. (4) (annotator)
+    text: Fitting the Hall-Petch form sigma_y = sigma_0 + k d^-1/2 to the three Table 1 points gives pairwise slopes k of 1.9 to 3.2 MPa m^1/2 (about 2.4 MPa m^1/2 for a three-point fit with sigma_0 of about 19 MPa), well above the Hall-Petch constants usually reported for aluminium alloys or austenitic steel.
+    note: Derived by the annotator from Table 1; the comparison with typical Hall-Petch constants is annotator background.
+    about: [ent:HallPetch]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 1
+        values:
+          - {symbol: d_Al, quantity: grain size A356, value: 100, unit: um}
+          - {symbol: d_GCI, quantity: colony size gray cast iron, value: 50, unit: um}
+          - {symbol: d_SS, quantity: grain size SS316, value: 75, unit: um}
+          - {symbol: Y_Al, quantity: yield A356, value: 250, unit: MPa}
+          - {symbol: Y_GCI, quantity: yield gray cast iron, value: 350, unit: MPa}
+          - {symbol: Y_SS, quantity: yield SS316, value: 300, unit: MPa}
+        derived_checks:
+          - {expression: "k from Al 356 and gray iron (MPa m^1/2)", formula: "(Y_GCI - Y_Al)/(d_GCI**-0.5 - d_Al**-0.5)/1000", result: 2.414, unit: MPa m^1/2}
+          - {expression: "k from Al 356 and SS316 (MPa m^1/2)", formula: "(Y_SS - Y_Al)/(d_SS**-0.5 - d_Al**-0.5)/1000", result: 3.232, unit: MPa m^1/2}
+          - {expression: "k from SS316 and gray iron (MPa m^1/2)", formula: "(Y_GCI - Y_SS)/(d_GCI**-0.5 - d_SS**-0.5)/1000", result: 1.927, unit: MPa m^1/2}
+  - id: paper2:DEF1
+    statement_type: DEFINITION
+    paper_part: RESULTS
+    section: Sec. 4, Eq. (4)
+    text: The paper writes the Hall-Petch relation as sigma_y = sigma_0 + 1/sqrt(k d), with sigma_0 the friction stress, k the Hall-Petch constant and d the grain size.
+    about: [ent:HallPetch]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: MEDIUM, description: "The printed equation is wrong: the Hall-Petch relation is sigma_y = sigma_0 + k d^-1/2; the printed form puts k under the root in the denominator and is dimensionally inconsistent with k being a stress times sqrt(length)."}
+  - id: paper2:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4
+    text: Statistical analysis of the data reveals strong correlations between the microstructural features and the mechanical properties of the cast materials.
+    claim_modality: CORRELATIONAL
+    about: [ent:stats, ent:grainsize, ent:phasedist, ent:defects]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, priority: CRITICAL, description: "'Strong' is not backed by any reported coefficient, significance or replicate; n = 3 materials."}
+      - {concern_type: CONFOUNDED_COMPARISON, priority: CRITICAL, description: "Each data point is a different base metal (Al, cast iron, austenitic steel), so microstructure and alloy chemistry change together and the correlation cannot be attributed to microstructure."}
+    assessment:
+      validity: WEAK
+      rationale: Only grain size is quantified, and over three different alloy systems its ranking inversely matches hardness and yield (OBS6); no statistics are reported, phase distribution and defects are never quantified, and UTS and ductility do not follow grain size.
+      missing_evidence:
+        - Within-alloy variation of grain size, porosity and phase fractions with properties over several casting conditions and replicates
+        - Reported regression coefficients, ANOVA tables and PCA loadings
+      proof_obligations:
+        - text: Show the correlation within one alloy over varied microstructures, so that alloy chemistry is held constant.
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data:
+            - {quantity: "yield strength and hardness versus grain size within each alloy", unit: "MPa, HV, um", method: tensile and hardness tests on castings with different cooling rates}
+        - text: Report the statistical analyses the methods announce.
+          obligation_status: OPEN
+          priority: HIGH
+        - text: Quantify phase distribution and defect morphology.
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data:
+            - {quantity: "porosity fraction, secondary-phase fraction and spacing", unit: "%, um", method: SEM image analysis and XRD Rietveld}
+  - id: paper2:CLAIM3
+    statement_type: CLAIM
+    claim_role: QUANTITATIVE_SUPPORT
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4
+    text: Grain size correlates inversely with hardness and yield strength in the cast materials studied.
+    claim_modality: CORRELATIONAL
+    about: [ent:grainsize, ent:hardness, ent:yield]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, priority: HIGH, description: "The three points are three base metals; the gray-iron value is a pearlite colony size, not a grain size."}
+      - {concern_type: MISSING_QUANTIFICATION, priority: MEDIUM, description: "With n = 3, a perfect inverse ranking arises by chance with probability 1/6; no significance is given."}
+    assessment:
+      validity: WEAK
+      rationale: Table 1 shows the inverse ranking exactly (OBS6), but over only three different alloys with no replicates, and one 'grain size' is a colony size, so the correlation is thin and uncontrolled.
+      missing_evidence:
+        - Grain-size series within each alloy with replicate hardness and tensile tests
+  - id: paper2:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4; Sec. 5, para. 3
+    text: The inverse dependence of hardness and yield strength on grain size in the cast materials is consistent with Hall-Petch grain-boundary strengthening.
+    claim_modality: CAUSAL
+    about: [ent:HallPetch]
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, priority: HIGH, description: "Hall-Petch describes grain-size strengthening within one material; across Al, cast iron and steel the yield differences mainly reflect different base metals, friction stresses and strengthening phases (graphite, pearlite, carbides)."}
+      - {concern_type: ARITHMETIC, priority: MEDIUM, description: "The implied Hall-Petch slopes (1.9-3.2 MPa m^1/2, OBS7) differ between pairs and are far above typical constants for these alloys; the equation is also misprinted (DEF1)."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: No within-material grain-size variation is shown, so the data cannot decide whether grain boundaries cause the trend; the cross-alloy comparison gives inconsistent and implausibly large implied Hall-Petch slopes.
+      missing_evidence:
+        - Yield strength versus d^-1/2 for at least four grain sizes of one alloy
+  - id: paper2:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4
+    text: Phase distribution significantly influences hardness and ultimate tensile strength of the cast materials.
+    claim_modality: CAUSAL
+    about: [ent:phasedist, ent:hardness, ent:UTS]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: HIGH, description: "Phase distribution is never quantified (no phase fractions, spacing or morphology metric), so 'significantly' has no data or test behind it."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: The paper reports no quantity describing phase distribution, so no data relate it to hardness or UTS.
+      missing_evidence:
+        - Secondary-phase fraction and spacing per sample with hardness and UTS
+  - id: paper2:CLAIM6
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4
+    text: Defect morphology affects the ductility of the cast materials.
+    claim_modality: CAUSAL
+    about: [ent:defects, ent:ductility]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: HIGH, description: "No porosity, inclusion or graphite-flake measurement is reported; ductility differences (1-30 %) are equally explained by the different base metals."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Defect morphology is mentioned as an SEM capability but never measured, so nothing in the paper links it to the ductility values.
+      missing_evidence:
+        - Porosity fraction and pore size per specimen with fractography and elongation
+  - id: paper2:CLAIM7
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, para. 4
+    text: Pouring temperature and cooling rate affect grain size, phase distribution and defect morphology of the cast materials, which in turn influence their mechanical properties.
+    claim_modality: CAUSAL
+    about: [ent:castparams, ent:grainsize, ent:phasedist, ent:defects]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: CRITICAL, description: "No pouring temperature, cooling rate or per-condition result appears anywhere; Table 1 has one row per material."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: The paper presents no data at all on casting parameters, so the claimed process-microstructure-property chain is asserted rather than shown.
+      missing_evidence:
+        - Grain size, porosity and properties of each alloy at several pouring temperatures and cooling rates
+      proof_obligations:
+        - text: Report the casting conditions and the microstructure obtained under each.
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data:
+            - {quantity: "pouring temperature, cooling rate, grain size, porosity", unit: "degC, K/s, um, %", method: thermocouple-instrumented sand casting with EBSD and image analysis}
+        - text: Report properties for each condition with replicates.
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data:
+            - {quantity: "hardness, yield strength, elongation per condition", unit: "HV, MPa, %", method: ASTM E8 tensile tests (n >= 3) and hardness}
+  - id: paper2:CLAIM8
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: RESULTS
+    section: Sec. 4, last para.
+    text: The results give a comprehensive understanding of the microstructure and mechanical properties of the cast materials and their dependence on casting parameters, and offer insights for optimizing the casting process and tailoring properties.
+    claim_modality: GENERALIZATION
+    about: [ent:castparams]
+    concerns:
+      - {concern_type: OVERCLAIM, priority: HIGH, description: "No guideline, process window or parameter-property relation is given, so the promised optimization insight is not delivered."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Without any casting-parameter data or process-property relation in the paper, the optimization payoff cannot be judged.
+      missing_evidence:
+        - A process map relating pouring temperature and cooling rate to target properties for each alloy
+
+  # ---------------- Discussion ----------------
+  - id: paper2:CLAIM9
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 2
+    text: SEM, XRD and EBSD reveal for each material the phases and grain structures typically associated with it (dendrites and secondary phases in Aluminium Alloy 356, pearlite and graphite flakes in gray cast iron, austenite and carbides in Stainless Steel 316).
+    claim_modality: DESCRIPTIVE
+    about: [ent:A356, ent:GCI, ent:SS316]
+    assessment:
+      validity: PARTIAL
+      rationale: The reported phase descriptions match the textbook microstructures, but no micrograph, map or pattern is tied to the results (Fig. 1 judged from its caption only) and XRD does not show graphite.
+  - id: paper2:OBS8
+    statement_type: OBSERVATION
+    paper_part: DISCUSSION
+    section: Sec. 5, Fig. 4
+    text: Fig. 4 is captioned as the corrosion resistance of different cast materials, but the methods describe no corrosion test and the text reports no corrosion value.
+    note: Judged from the caption and text; the figure is not available.
+    about: [ent:corrosion]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, priority: HIGH, description: "Corrosion data appear in a figure with no method, medium, metric or sample description."}
+  - id: paper2:CLAIM10
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 2
+    text: The austenitic matrix and carbide precipitates of Stainless Steel 316 reflect its high-temperature stability and corrosion resistance.
+    claim_modality: CAUSAL
+    about: [ent:SS316, ent:corrosion]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: MEDIUM, description: "Neither high-temperature stability nor corrosion is measured by a described method."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: No corrosion or high-temperature test is described; Fig. 4 has no method and is judged from its caption only, and grain-boundary Cr23C6 is usually linked to reduced, not improved, corrosion resistance.
+      missing_evidence:
+        - Polarization or intergranular corrosion tests of the as-cast SS316 with carbide quantification
+  - id: paper2:CLAIM18
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 3; Sec. 6
+    text: Nanoindentation and tensile testing show a wide range of mechanical properties across the three cast materials.
+    claim_modality: DESCRIPTIVE
+    about: [ent:hardness, ent:yield, ent:ductility]
+    assessment:
+      validity: "YES"
+      rationale: Table 1 spans hardness 80-200 HV, modulus 70-210 GPa, UTS 310-500 MPa and ductility 1-30 %, which is a wide range for three different base metals.
+  - id: paper2:CLAIM11
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 3
+    text: Aluminium Alloy 356 combines relatively low hardness and yield strength with high ductility, which suits it to lightweight parts needing good formability.
+    claim_modality: COMPARATIVE
+    about: [ent:A356, ent:ductility]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: Table 1
+        values:
+          - {symbol: D_Al, quantity: ductility A356, value: 5, unit: '%'}
+          - {symbol: D_SS, quantity: ductility SS316, value: 30, unit: '%'}
+          - {symbol: D_GCI, quantity: ductility gray cast iron, value: 1, unit: '%'}
+        derived_checks:
+          - {expression: "A356 ductility relative to SS316", formula: "D_Al/D_SS", result: 0.167}
+          - {expression: "A356 has the highest ductility of the three", formula: "D_Al > D_SS and D_Al > D_GCI", satisfied: false}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: HIGH, description: "Table 1 gives A356 a ductility of 5 %, one sixth of SS316 (30 %); calling it high ductility and inferring good formability contradicts the paper's own table."}
+    assessment:
+      validity: "NO"
+      rationale: The low hardness and yield part holds, but the paper's own Table 1 gives A356 only 5 % ductility against 30 % for SS316, so 'high ductility' and the formability argument built on it are contradicted.
+  - id: paper2:CLAIM12
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 3
+    text: The property profiles make Aluminium Alloy 356 suitable for automotive parts, gray cast iron ideal for engine blocks needing high strength and vibration damping, and Stainless Steel 316 versatile for chemical-processing equipment needing strength, ductility and corrosion resistance.
+    claim_modality: GENERALIZATION
+    about: [ent:A356, ent:GCI, ent:SS316]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, priority: MEDIUM, description: "Damping, weight-specific properties, formability and corrosion are not measured."}
+      - {concern_type: INTERNAL_INCONSISTENCY, priority: LOW, description: "Gray cast iron is credited with high strength, but its UTS (400 MPa) is below that of SS316 (500 MPa) in Table 1."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: These are handbook application statements; the properties they rest on (damping, corrosion, formability) are not measured in the paper.
+  - id: paper2:CLAIM13
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    author_certainty: PROPOSED
+    paper_part: DISCUSSION
+    section: Sec. 5, para. 4
+    text: Secondary phases raise hardness and UTS through load transfer and dislocation pinning, and defects lower ductility by acting as stress concentrators and fracture initiation sites.
+    claim_modality: CAUSAL
+    about: [ent:phasedist, ent:defects]
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, priority: MEDIUM, description: "Mechanisms are invoked without fractography, dislocation imaging or any quantified phase or defect data."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Textbook mechanisms are named but nothing in the paper (no fractography, TEM or defect statistics) tests them for these samples.
+  - id: paper2:CLAIM14
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    author_certainty: DEMONSTRATED
+    paper_part: DISCUSSION
+    section: Sec. 5, last para.; Sec. 6; Abstract
+    text: The study demonstrates the power of advanced characterization techniques in revealing the intricate relationships between microstructure, mechanical properties and processing parameters in cast materials.
+    claim_modality: COMPARATIVE
+    about: [ent:SEM, ent:XRD, ent:EBSD, ent:nanoind]
+    concerns:
+      - {concern_type: OVERCLAIM, priority: HIGH, description: "No comparison with conventional techniques is made; the only quantified microstructural feature (average grain size) is obtainable by optical metallography, and EDS, XRD quantification and local nanoindentation mapping produce no reported result."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Without a baseline using conventional methods and with no processing data, the paper cannot show what the advanced techniques add or that processing relationships were revealed.
+      missing_evidence:
+        - Side-by-side optical metallography and macro-hardness on the same samples showing what the advanced techniques add
+        - Phase-resolved nanoindentation maps linked to EBSD
+      proof_obligations:
+        - text: Show a relation that only the advanced techniques could reveal.
+          obligation_status: OPEN
+          priority: HIGH
+        - text: Show processing-parameter relationships with data.
+          obligation_status: OPEN
+          priority: CRITICAL
+  - id: paper2:OUT1
+    statement_type: OUTLOOK
+    paper_part: DISCUSSION
+    section: Sec. 5, last para.; Sec. 6
+    text: Future work could extend the study to other cast materials and characterization techniques and to post-casting treatments such as heat treatment and surface modification.
+
+  # ---------------- Conclusion ----------------
+  - id: paper2:CLAIM15
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 6, para. 1-2
+    text: The research successfully elucidated the intricate relationships between microstructural features and mechanical properties of Aluminium Alloy 356, gray cast iron and Stainless Steel 316 and their dependence on casting parameters, and the strong correlations found underscore the pivotal role of microstructure.
+    claim_modality: CAUSAL
+    concerns:
+      - {concern_type: OVERCLAIM, priority: HIGH, description: "The conclusion states the casting-parameter dependence as elucidated, although no casting-parameter data are reported, and states no limitation."}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: Restates CLAIM2 and CLAIM7; the microstructure-property part rests only on a three-alloy ranking and the casting-parameter part on no data.
+  - id: paper2:CLAIM17
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    author_certainty: DEMONSTRATED
+    paper_part: CONCLUSION
+    section: Sec. 6, last para.
+    text: The research reaffirms that the properties of a material are determined by its structure and that the structure can be controlled by processing.
+    claim_modality: GENERALIZATION
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: The structure-property step is only a cross-alloy ranking, and the processing-structure step has no data in the paper.
+  - id: paper2:OUT2
+    statement_type: OUTLOOK
+    paper_part: CONCLUSION
+    section: Sec. 6, para. 3
+    text: Integrating computational modelling and machine learning with experimental characterization to predict the performance of cast materials and optimize processing parameters warrants further investigation.
+
+relations:
+  # introduction
+  - {id: paper2:R1, subject: paper2:BG1, predicate: MOTIVATES, object: paper2:AIM2, asserted_by: AUTHORS}
+  - {id: paper2:R2, subject: paper2:GAP1, predicate: MOTIVATES, object: paper2:AIM1, asserted_by: AUTHORS}
+  - {id: paper2:R3, subject: paper2:BG2, predicate: MOTIVATES, object: paper2:AIM1, asserted_by: AUTHORS}
+  - {id: paper2:R4, subject: paper2:BG3, predicate: MOTIVATES, object: paper2:GAP2, asserted_by: AUTHORS}
+  - {id: paper2:R5, subject: paper2:GAP2, predicate: MOTIVATES, object: paper2:AIM3, asserted_by: AUTHORS}
+  - {id: paper2:R6, subject: paper2:GAP1, predicate: MOTIVATES, object: paper2:AIM4, asserted_by: AUTHORS}
+  # golden thread
+  - {id: paper2:R7, subject: paper2:DATA1, predicate: DELIVERS, object: paper2:AIM1, asserted_by: AUTHORS, note: "only three materials, called a variety"}
+  - {id: paper2:R8, subject: paper2:DATA2, predicate: DELIVERS, object: paper2:AIM1, asserted_by: AUTHORS}
+  - {id: paper2:R9, subject: paper2:CLAIM2, predicate: DELIVERS, object: paper2:AIM2, asserted_by: AUTHORS}
+  - {id: paper2:R10, subject: paper2:CLAIM7, predicate: DELIVERS, object: paper2:AIM3, asserted_by: AUTHORS, note: claimed delivery without casting-parameter data}
+  - {id: paper2:R11, subject: paper2:CLAIM8, predicate: DELIVERS, object: paper2:AIM3, asserted_by: AUTHORS}
+  - {id: paper2:R12, subject: paper2:CLAIM14, predicate: DELIVERS, object: paper2:AIM4, asserted_by: AUTHORS}
+  - {id: paper2:R13, subject: paper2:METH6, predicate: DELIVERS, object: paper2:AIM2, asserted_by: AUTHORS, note: announced analyses whose results are never reported}
+  # restatements
+  - {id: paper2:R14, subject: paper2:CLAIM15, predicate: RESTATES, object: paper2:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: paper2:R15, subject: paper2:CLAIM15, predicate: RESTATES, object: paper2:CLAIM7, asserted_by: ANNOTATOR}
+  - {id: paper2:R16, subject: paper2:CLAIM16, predicate: RESTATES, object: paper2:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: paper2:R17, subject: paper2:CLAIM16, predicate: RESTATES, object: paper2:CLAIM7, asserted_by: ANNOTATOR}
+  - {id: paper2:R18, subject: paper2:CLAIM9, predicate: RESTATES, object: paper2:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: paper2:R19, subject: paper2:CLAIM4, predicate: DEPENDS_ON, object: paper2:DEF1, asserted_by: AUTHORS}
+  # support: XRD and microstructure
+  - id: paper2:R20
+    subject: paper2:OBS2
+    predicate: SUPPORTS
+    object: paper2:CLAIM1
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: INTERMEDIATE
+    uncertainty: MEDIUM
+    essential: true
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Phases listed in text only, no pattern; graphite not confirmed."}
+  - {id: paper2:R21, subject: paper2:OBS1, predicate: SUPPORTS, object: paper2:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - id: paper2:R22
+    subject: paper2:OBS1
+    predicate: SUPPORTS
+    object: paper2:CLAIM9
+    asserted_by: AUTHORS
+    support_basis: QUALITATIVE
+    support_strength: INTERMEDIATE
+    uncertainty: MEDIUM
+    essential: true
+    link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Descriptions only; micrographs not tied to results."}
+  - {id: paper2:R23, subject: paper2:OBS3, predicate: SUPPORTS, object: paper2:CLAIM9, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: paper2:R24, subject: paper2:CLAIM1, predicate: SUPPORTS, object: paper2:CLAIM9, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE}
+  # support: correlation claims
+  - id: paper2:R25
+    subject: paper2:OBS6
+    predicate: SUPPORTS
+    object: paper2:CLAIM3
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: WEAK
+    uncertainty: HIGH
+    essential: true
+    link_criteria: {directness: MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Exact inverse ranking but n = 3 with no replicates; each point a different base metal; one 'grain size' is a colony size."}
+    warrant: {rule: "A monotonic inverse ranking of property against grain size over the samples indicates an inverse correlation.", warrant_basis: UNSTATED}
+  - {id: paper2:R26, subject: paper2:OBS3, predicate: SUPPORTS, object: paper2:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: paper2:R27, subject: paper2:OBS4, predicate: SUPPORTS, object: paper2:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: paper2:R28, subject: paper2:OBS5, predicate: SUPPORTS, object: paper2:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - id: paper2:R29
+    subject: paper2:CLAIM3
+    predicate: SUPPORTS
+    object: paper2:CLAIM2
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: WEAK
+    uncertainty: HIGH
+    essential: true
+    link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Only grain size of the three named features is quantified; three alloys; alloy chemistry not controlled."}
+    warrant: {rule: "Correlation across samples of different alloys indicates a microstructure-property relationship.", warrant_basis: UNSTATED}
+  - {id: paper2:R30, subject: paper2:CLAIM5, predicate: SUPPORTS, object: paper2:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, note: phase distribution never quantified}
+  - {id: paper2:R31, subject: paper2:CLAIM6, predicate: SUPPORTS, object: paper2:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, note: defect morphology never quantified}
+  - {id: paper2:R32, subject: paper2:METH6, predicate: SUPPORTS, object: paper2:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, note: statistical analyses announced but no output reported}
+  - {id: paper2:R33, subject: paper2:OBS6, predicate: UNDERCUTS, object: paper2:CLAIM2, asserted_by: ANNOTATOR, note: "UTS (r = -0.47) and ductility (r = 0.13) do not follow grain size, so 'strong correlations' with the properties do not hold beyond hardness and yield"}
+  - {id: paper2:R34, subject: paper2:OBS6, predicate: UNDERCUTS, object: paper2:CLAIM16, asserted_by: ANNOTATOR, note: ductility does not correlate with grain size in Table 1}
+  - id: paper2:R35
+    subject: paper2:CLAIM3
+    predicate: SUPPORTS
+    object: paper2:CLAIM4
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: UNSUPPORTED
+    uncertainty: HIGH
+    essential: true
+    link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Hall-Petch concerns grain size within one material; the evidence compares three base metals."}
+    warrant: {rule: "Higher strength at smaller grain size follows from grain-boundary strengthening (Hall-Petch).", warrant_basis: DOMAIN_CONVENTION}
+  - {id: paper2:R36, subject: paper2:OBS7, predicate: UNDERCUTS, object: paper2:CLAIM4, asserted_by: ANNOTATOR_BACKGROUND, note: "implied k of 1.9-3.2 MPa m^1/2 is inconsistent between pairs and far above typical values for these alloys"}
+  - {id: paper2:R37, subject: paper2:DATA1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: paper2:CLAIM3, asserted_by: ANNOTATOR, note: "the three points are different base metals (Al, Fe-C with graphite, austenitic steel), so alloy chemistry and strengthening phases explain the strength ranking without grain size"}
+  - {id: paper2:R38, subject: paper2:DEF1, predicate: UNDERCUTS, object: paper2:CLAIM4, asserted_by: ANNOTATOR, note: the Hall-Petch relation is misprinted}
+  # phase, defects, casting parameters
+  - {id: paper2:R39, subject: paper2:OBS1, predicate: SUPPORTS, object: paper2:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Qualitative phase names only; no phase distribution metric related to properties."}}
+  - {id: paper2:R40, subject: paper2:OBS1, predicate: SUPPORTS, object: paper2:CLAIM6, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "No defect measurement reported."}}
+  - {id: paper2:R41, subject: paper2:DATA1, predicate: SUPPORTS, object: paper2:CLAIM7, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Parameters said to be varied but no values or per-condition results given."}}
+  - {id: paper2:R42, subject: paper2:DATA2, predicate: UNDERCUTS, object: paper2:CLAIM7, asserted_by: ANNOTATOR, note: "Table 1 holds one row per material and no casting-parameter variable"}
+  - {id: paper2:R43, subject: paper2:DATA2, predicate: UNDERCUTS, object: paper2:CLAIM8, asserted_by: ANNOTATOR}
+  - {id: paper2:R44, subject: paper2:DATA2, predicate: UNDERCUTS, object: paper2:CLAIM16, asserted_by: ANNOTATOR}
+  - {id: paper2:R45, subject: paper2:CLAIM7, predicate: SUPPORTS, object: paper2:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Optimization insight would follow only from parameter-property data, which are absent."}}
+  - {id: paper2:R46, subject: paper2:CLAIM2, predicate: SUPPORTS, object: paper2:CLAIM8, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK}
+  - {id: paper2:R47, subject: paper2:CLAIM2, predicate: SUPPORTS, object: paper2:CLAIM16, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Three alloys; no per-condition data."}}
+  - {id: paper2:R48, subject: paper2:CLAIM7, predicate: SUPPORTS, object: paper2:CLAIM16, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, essential: true}
+  # discussion
+  - {id: paper2:R49, subject: paper2:OBS8, predicate: SUPPORTS, object: paper2:CLAIM10, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Figure with no method; caption only."}}
+  - {id: paper2:R50, subject: paper2:OBS1, predicate: SUPPORTS, object: paper2:CLAIM10, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED}
+  - {id: paper2:R51, subject: paper2:OBS2, predicate: UNDERCUTS, object: paper2:CLAIM10, asserted_by: ANNOTATOR_BACKGROUND, note: "Cr23C6 precipitation in austenitic stainless steel is usually associated with sensitization and lower intergranular corrosion resistance"}
+  - id: paper2:R52
+    subject: paper2:DATA2
+    predicate: SUPPORTS
+    object: paper2:CLAIM18
+    asserted_by: AUTHORS
+    support_basis: QUANTITATIVE
+    support_strength: STRONG
+    uncertainty: MEDIUM
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Differences of factors 3-30 between materials far exceed any plausible scatter."}
+  - {id: paper2:R53, subject: paper2:OBS4, predicate: SUPPORTS, object: paper2:CLAIM18, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG}
+  - {id: paper2:R54, subject: paper2:OBS5, predicate: SUPPORTS, object: paper2:CLAIM18, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG}
+  - {id: paper2:R55, subject: paper2:OBS5, predicate: CONTRADICTS, object: paper2:CLAIM11, asserted_by: ANNOTATOR, note: "A356 ductility 5 % vs 30 % for SS316"}
+  - {id: paper2:R56, subject: paper2:OBS5, predicate: SUPPORTS, object: paper2:CLAIM11, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: NOT_MET, criteria_note: "Supports low hardness and yield but not 'high ductility'."}}
+  - {id: paper2:R57, subject: paper2:OBS5, predicate: SUPPORTS, object: paper2:CLAIM12, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "Strength and ductility only; damping, corrosion, formability unmeasured."}}
+  - {id: paper2:R58, subject: paper2:CLAIM11, predicate: SUPPORTS, object: paper2:CLAIM12, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED}
+  - {id: paper2:R59, subject: paper2:CLAIM5, predicate: MOTIVATES, object: paper2:CLAIM13, asserted_by: AUTHORS}
+  - {id: paper2:R60, subject: paper2:CLAIM6, predicate: MOTIVATES, object: paper2:CLAIM13, asserted_by: AUTHORS}
+  - {id: paper2:R61, subject: paper2:OBS1, predicate: SUPPORTS, object: paper2:CLAIM13, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "No fractography, TEM or quantified phases/defects."}}
+  - {id: paper2:R62, subject: paper2:CLAIM2, predicate: SUPPORTS, object: paper2:CLAIM14, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "No comparison with conventional techniques; relationship rests on averages obtainable by optical metallography."}}
+  - {id: paper2:R63, subject: paper2:CLAIM7, predicate: SUPPORTS, object: paper2:CLAIM14, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED}
+  - {id: paper2:R64, subject: paper2:GAP1, predicate: QUALIFIES, object: paper2:CLAIM14, asserted_by: ANNOTATOR, note: "the gap names conventional methods as inadequate, but no conventional baseline is run, so the comparison the gap requires is missing"}
+  - {id: paper2:R65, subject: paper2:CLAIM14, predicate: MOTIVATES, object: paper2:OUT1, asserted_by: AUTHORS}
+  # conclusion
+  - {id: paper2:R66, subject: paper2:CLAIM2, predicate: SUPPORTS, object: paper2:CLAIM15, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true}
+  - {id: paper2:R67, subject: paper2:CLAIM7, predicate: SUPPORTS, object: paper2:CLAIM15, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, essential: true}
+  - {id: paper2:R68, subject: paper2:CLAIM15, predicate: SUPPORTS, object: paper2:CLAIM17, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, essential: true}
+  - {id: paper2:R69, subject: paper2:CLAIM14, predicate: MOTIVATES, object: paper2:OUT2, asserted_by: AUTHORS}
+  - {id: paper2:R70, subject: paper2:CLAIM15, predicate: DELIVERS, object: paper2:AIM2, asserted_by: AUTHORS}
+  - {id: paper2:R71, subject: paper2:BG3, predicate: SUPPORTS, object: paper2:BG1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, note: "cited references do not match the attributed studies"}
+
+paper_assessment:
+  overall_validity: INCONCLUSIVE
+  summary: >-
+    The paper reports one set of round-number microstructure and property values for three
+    sand-cast alloys (A356, gray cast iron, SS316). Their phase descriptions match the known
+    microstructures, and Table 1 does show a wide spread of properties. The headline claims do not
+    hold. The 'strong correlations' rest on three different base metals with no reported statistics.
+    Phase distribution and defects are never quantified. No casting-parameter value or per-condition
+    result appears anywhere, so the process-microstructure-property conclusions and the
+    optimization payoff are asserted, not shown. The paper also misprints the Hall-Petch equation,
+    calls 5 % ductility 'high', reports a corrosion figure with no method, and cites references that
+    do not match the studies attributed to them.
+  key_limitations:
+    - No casting-parameter data or per-condition results, although casting-parameter influence is a main conclusion (DATA1, DATA2, CLAIM7, CLAIM8, CLAIM15).
+    - "Correlations rest on n = 3 different base metals with no replicates or reported regression/ANOVA/PCA output, so microstructure is confounded with alloy chemistry (METH6, OBS6, CLAIM2, CLAIM3)."
+    - Hall-Petch consistency is asserted across alloys with a misprinted equation and implausible implied slopes (DEF1, OBS7, CLAIM4).
+    - Phase distribution, defect morphology and corrosion are never measured, yet conclusions are drawn about them (CLAIM5, CLAIM6, CLAIM10, CLAIM13, OBS8).
+    - Internal inconsistencies, namely 'high ductility' for 5 % elongation, colony size tabulated as grain size, HV units from Oliver-Pharr nanoindentation, and figure and reference numbering that do not match the text (CLAIM11, OBS3, METH4, BG3).
+  missing_evidence:
+    - Pouring temperature and cooling rate for each casting, with grain size, porosity, phase fractions and properties per condition
+    - Replicate tensile and hardness tests with scatter
+    - Within-alloy grain-size series to test Hall-Petch behaviour
+    - Reported regression coefficients, ANOVA tables and PCA loadings
+    - Quantified porosity and secondary-phase fractions, and fractography
+    - Described corrosion test method behind Fig. 4
+    - Comparison with conventional characterization to show what the advanced techniques add

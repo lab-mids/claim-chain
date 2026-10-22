@@ -1,0 +1,54 @@
+flowchart TB
+  P["`**Paper**
+Characterization of Microstructure and Mechanical Properties of Cast Materials using Advanced Techniques`"]:::idea
+  C0("`**ABS1**
+The findings reveal a strong correlation between microstructural features (grain size, phase distribution, defect morphology) and …`"):::claim
+  V0["`**Not supported**
+Restates CLAIM3, CLAIM4 and CLAIM5, none of which is backed by reported statistics.`"]:::no
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**ABS2**
+The study highlights the influence of casting parameters on these properties, offering insights for optimising casting …`"):::claim
+  V1["`**Not supported**
+Restates CLAIM6; no casting parameter values or per-condition results are reported anywhere.`"]:::no
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  C2("`**CLAIM2**
+Grain size correlates inversely with hardness and yield strength, consistent with the Hall-Petch relationship.`"):::claim
+  V2["`**Not supported**
+The ordering in Table 1 happens to match, but three different materials cannot test a grain-size effect, no fit is …`"]:::no
+  P --> C2
+  C2 --> V2
+  V2 --> BL
+  C3("`**CLAIM3**
+Statistical analysis revealed strong correlations between microstructural features and mechanical properties.`"):::claim
+  V3["`**Not supported**
+No statistic is reported, and with one value for each of three materials no regression, ANOVA or PCA could establish …`"]:::no
+  P --> C3
+  C3 --> V3
+  V3 --> BL
+  C4("`**CLAIM4**
+Phase distribution significantly influences hardness and tensile strength, and defect morphology affects ductility.`"):::claim
+  V4["`**Not supported**
+Phase distribution and defect morphology are never quantified, so there is nothing to correlate.`"]:::no
+  P --> C4
+  C4 --> V4
+  V4 --> BL
+  C5("`**CLAIM5**
+Pouring temperature and cooling rate affect grain size, phase distribution and defect morphology, which in turn …`"):::claim
+  V5["`**Not supported**
+No casting parameter value and no result per casting condition is reported.`"]:::no
+  P --> C5
+  C5 --> V5
+  V5 --> BL
+  BL["`**Bottom line**
+Overall: Not supported. The paper promises to correlate microstructure with properties, to show the effect of casting parameters and to show that advanced techniques beat conventional ones.`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

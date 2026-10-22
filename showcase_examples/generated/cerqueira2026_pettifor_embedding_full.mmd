@@ -1,0 +1,83 @@
+flowchart TD
+  BG1 --> GAP1
+  GAP1 --> AIM1
+  GAP2 --> AIM2
+  BG1 --> AIM3
+  GAP2 --> AIM4
+  METH1 -.-> ASM1
+  METH2 --> AIM1
+  CON1 --> AIM1
+  METH1 --> AIM2
+  CLAIM1 --> AIM2
+  CLAIM6 --> AIM3
+  CLAIM3 --> AIM4
+  ABS1 -.->|restates| CLAIM3
+  CON2 -.->|restates| CLAIM3
+  ABS2 -.->|restates| CLAIM6
+  CON1 -.->|restates| CLAIM6
+  OBS1 ==> CLAIM1
+  OBS2 --> CLAIM1
+  OBS2 ==> CLAIM2
+  OBS4 --> CLAIM3
+  OBS4 --> ABS1
+  OBS4 ==> CON2
+  OBS4 -.->|contradicts| CLAIM4
+  CLAIM3 --> CLAIM5
+  CLAIM4 --> CLAIM5
+  OBS3 --> CLAIM6
+  OBS5 --> CLAIM6
+  LIM2 -.->|qualifies| CLAIM6
+  OBS5 --> ABS2
+  OBS5 -.->|qualifies| ABS2
+  OBS5 --> CON1
+  OBS5 --> CLAIM7
+  OBS6 ==> CLAIM8
+  OBS7 --> CLAIM9
+  OBS8 -.->|qualifies| CLAIM9
+  OBS8 --> CLAIM10
+  METH1 -.->|contradicts| ABS3
+  LIM1 -.->|qualifies| CLAIM1
+  ABS1["<b>ABS1 (partial)</b><br/>Pettifor embeddings systematically outperform other commonly used elemental embeddings …"]:::claim
+  ABS2["<b>ABS2 (partial)</b><br/>Two-dimensional maps of thermodynamically stable compounds built from the …"]:::claim
+  ABS3["<b>ABS3 (weak)</b><br/>In the non-orthogonal composition space, a chemical composition is …"]:::claim
+  AIM1["<b>AIM1</b><br/>The paper builds a fingerprint of a compound from …"]:::claim
+  AIM2["<b>AIM2</b><br/>The paper introduces a composition embedding in a non-orthogonal …"]:::claim
+  AIM3["<b>AIM3</b><br/>The paper shows that the representation gives interpretable maps …"]:::claim
+  AIM4["<b>AIM4</b><br/>The paper shows that the representation provides powerful embeddings …"]:::claim
+  ASM1["<b>ASM1</b><br/>Element substitution counts in ICSD measure chemical similarity, although …"]:::asm
+  BG1["<b>BG1</b><br/>Large materials databases call for representations of compounds that …"]:::bg
+  CLAIM1["<b>CLAIM1 ✓</b><br/>Chemically similar elements cluster in the embedding, purely from …"]:::claim
+  CLAIM10["<b>CLAIM10 (partial)</b><br/>The uniqueness measure highlights compounds with few similar alternatives …"]:::claim
+  CLAIM2["<b>CLAIM2 ✓</b><br/>The embedding separates degrees of similarity that a one-dimensional …"]:::claim
+  CLAIM3["<b>CLAIM3 (partial)</b><br/>Used as input to CrabNet, the Pettifor embedding yields …"]:::claim
+  CLAIM4["<b>CLAIM4 ✗</b><br/>The Pettifor embedding performs particularly well for small- and …"]:::claim
+  CLAIM5["<b>CLAIM5 (weak)</b><br/>The improved performance suggests that the representation captures the …"]:::claim
+  CLAIM6["<b>CLAIM6 (partial)</b><br/>Despite the diversity of the data set, the map …"]:::claim
+  CLAIM7["<b>CLAIM7 (weak)</b><br/>The missing separation of magnetic compounds suggests that magnetism …"]:::claim
+  CLAIM8["<b>CLAIM8 ✓</b><br/>The information can probably be compressed into a much …"]:::claim
+  CLAIM9["<b>CLAIM9 (weak)</b><br/>Proximity in the embedding space correlates with comparable physical …"]:::claim
+  CON1["<b>CON1 (partial)</b><br/>The fingerprint can be used to create structure or …"]:::claim
+  CON2["<b>CON2 ✓</b><br/>The human-generated fingerprint can compete with machine-learned opaque representations …"]:::claim
+  GAP1["<b>GAP1</b><br/>Embeddings taken from trained neural networks already contain information …"]:::bg
+  GAP2["<b>GAP2</b><br/>Learned or database-derived elemental embeddings predict well but act …"]:::bg
+  LIM1["<b>LIM1</b><br/>The similarity data lack information for rare gases and …"]:::lim
+  LIM2["<b>LIM2</b><br/>The shape of the two-dimensional maps depends on the …"]:::lim
+  METH1["<b>METH1</b><br/>The substitution-count matrix M from ICSD is row-normalised, raised …"]:::meth
+  METH2["<b>METH2</b><br/>The structural part is the pymatgen local-coordination fingerprint (61 …"]:::meth
+  OBS1["<b>OBS1</b><br/>The UMAP map of the element embeddings places lanthanides …"]:::obs
+  OBS2["<b>OBS2</b><br/>The nearest elements in the Pettifor embedding are Se, …"]:::obs
+  OBS3["<b>OBS3</b><br/>In the composition map of cubic ABC3 perovskites, compounds …"]:::obs
+  OBS4["<b>OBS4</b><br/>Across 27 benchmarks the Pettifor embedding is best or …"]:::obs
+  OBS5["<b>OBS5</b><br/>The UMAP map of over 115 000 Alexandria hull …"]:::obs
+  OBS6["<b>OBS6</b><br/>A PCA needs 39 components for 95% of the …"]:::obs
+  OBS7["<b>OBS7</b><br/>The nearest compounds to Si are Ge (0.64), SiC …"]:::obs
+  OBS8["<b>OBS8</b><br/>Defining uniqueness as the distance to the nearest hull …"]:::obs
+  classDef bg fill:#eef2f7,stroke:#64748b,color:#111
+  classDef claim fill:#dbeafe,stroke:#1d4ed8,color:#111
+  classDef obs fill:#dcfce7,stroke:#15803d,color:#111
+  classDef lim fill:#fee2e2,stroke:#b91c1c,color:#111
+  classDef asm fill:#fef3c7,stroke:#b45309,color:#111
+  classDef meth fill:#f3e8ff,stroke:#7e22ce,color:#111
+  classDef out fill:#f1f5f9,stroke:#94a3b8,color:#111,stroke-dasharray:4 3
+  classDef q fill:#ffffff,stroke:#334155,color:#111
+  classDef ext fill:#ffffff,stroke:#64748b,color:#111,stroke-dasharray:2 2

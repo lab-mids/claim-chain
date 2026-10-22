@@ -52,6 +52,8 @@ prefixes:
   starkey2026: https://w3id.org/claim-chain/arXiv2610.28493/
   yin2026: https://w3id.org/claim-chain/arXiv2610.28564/
   liu2026: https://w3id.org/claim-chain/arXiv2610.28629/
+  cerqueira2026: https://w3id.org/claim-chain/doi10.1038-s41524-025-01916-8/
+  singh2023: https://w3id.org/claim-chain/doi10.1051-e3sconf-202343001111/
 default_prefix: claimchain
 default_range: string
 imports:
