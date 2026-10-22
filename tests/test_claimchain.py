@@ -175,3 +175,30 @@ def test_intro_first_keeps_intro_statements(pdf):
     assert "only its abstract and introduction" in client.requests[0]["messages"][0]["content"][1]["text"]
     assert client.requests[1]["messages"][2]["content"].startswith("Now read the whole paper")
     assert "was reworded" in client.requests[2]["messages"][-1]["content"]
+
+
+def test_open_questions_collects_unresolved_items():
+    import importlib.util
+    from pathlib import Path
+    path = Path(__file__).resolve().parents[1] / "scripts" / "open_questions.py"
+    spec = importlib.util.spec_from_file_location("open_questions", path)
+    oq = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(oq)
+    chain = {
+        "publication": {"arxiv": "0000.00000"},
+        "statements": [
+            {"id": "p:Q1", "statement_type": "QUESTION", "text": "Answered?"},
+            {"id": "p:Q2", "statement_type": "QUESTION", "text": "Open?"},
+            {"id": "p:ASM1", "statement_type": "ASSUMPTION", "text": "A.", "open_question": "Does A hold?"},
+            {"id": "p:ASM2", "statement_type": "ASSUMPTION", "text": "B."},
+            {"id": "p:LIM1", "statement_type": "LIMITATION", "text": "Small sample."},
+            {"id": "p:C1", "statement_type": "CLAIM", "text": "C.", "assessment": {"validity": "PARTIAL", "proof_obligations": [
+                {"text": "Show X", "obligation_status": "OPEN"},
+                {"text": "Show Y", "obligation_status": "DISCHARGED"}]}},
+        ],
+        "relations": [{"id": "p:R1", "subject": "p:C1", "predicate": "ANSWERS", "object": "p:Q1"}],
+    }
+    found = oq.collect(chain)
+    assert [(e["kind"], e["source"]) for e in found] == [
+        ("QUESTION", "p:Q2"), ("ASSUMPTION", "p:ASM1"), ("LIMITATION", "p:LIM1"), ("OBLIGATION", "p:C1")]
+    assert found[1]["text"] == "Does A hold?"
