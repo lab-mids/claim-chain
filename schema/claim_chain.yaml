@@ -54,6 +54,37 @@ prefixes:
   liu2026: https://w3id.org/claim-chain/arXiv2610.28629/
   cerqueira2026: https://w3id.org/claim-chain/doi10.1038-s41524-025-01916-8/
   singh2023: https://w3id.org/claim-chain/doi10.1051-e3sconf-202343001111/
+  thelen2025: https://w3id.org/claim-chain/doi10.1016-j.surfcoat.2025.131998/
+  arrudadeoliveira2024: https://w3id.org/claim-chain/doi10.1039-d4sc04407j/
+  deissenbeck2024: https://w3id.org/claim-chain/doi10.1021-jacs.4c10086/
+  han2024: https://w3id.org/claim-chain/doi10.1038-s41578-024-00720-y/
+  ke2024: https://w3id.org/claim-chain/doi10.14778-3681954.3682023/
+  li2024: https://w3id.org/claim-chain/doi10.1002-admi.202400772/
+  luan2024: https://w3id.org/claim-chain/doi10.1021-acscatal.4c02792/
+  nettler2025: https://w3id.org/claim-chain/doi10.1016-j.electacta.2025.145776/
+  ngoipala2024: https://w3id.org/claim-chain/doi10.1002-adma.202410951/
+  nygaard2024: https://w3id.org/claim-chain/doi10.1002-anie.202417308/
+  ostergaard2024: https://w3id.org/claim-chain/doi10.1016-j.jcat.2024.115570/
+  papaderakis2025: https://w3id.org/claim-chain/doi10.1016-j.actamat.2025.120756/
+  plenge2025: https://w3id.org/claim-chain/doi10.1007-s44210-025-00057-3/
+  schott2024: https://w3id.org/claim-chain/doi10.1021-acs.chemrev.3c00806/
+  schott2025: https://w3id.org/claim-chain/doi10.1016-j.electacta.2024.145533/
+  song2025: https://w3id.org/claim-chain/doi10.1002-celc.202400587/
+  wang2025: https://w3id.org/claim-chain/doi10.1021-jacs.4c17825/
+  yang2025: https://w3id.org/claim-chain/doi10.1103-PhysRevB.111.054117/
+  zerdoumi2024b: https://w3id.org/claim-chain/doi10.1016-j.coelec.2024.101590/
+  zerdoumi2024: https://w3id.org/claim-chain/doi10.1021-acs.analchem.4c00149/
+  dudarev2025: https://w3id.org/claim-chain/doi10.1038-s41524-025-01618-1/
+  zhang2025: https://w3id.org/claim-chain/doi10.1039-d5dd00169b/
+  schott2025b: https://w3id.org/claim-chain/doi10.1021-acscatal.5c00783/
+  garcia2025: https://w3id.org/claim-chain/doi10.1007-978-3-031-94575-5_12/
+  thelen2025b: https://w3id.org/claim-chain/doi10.1002-advs.202507302/
+  burgel2026: https://w3id.org/claim-chain/doi10.1039-d5fd00082c/
+  jain2026: https://w3id.org/claim-chain/doi10.1039-d5fd00092k/
+  li2025: https://w3id.org/claim-chain/doi10.1002-adma.202509610/
+  zhang2025b: https://w3id.org/claim-chain/doi10.1007-978-3-032-06118-8_6/
+  yu2025: https://w3id.org/claim-chain/doi10.1002-admi.202500680/
+  saksena2025: https://w3id.org/claim-chain/doi10.48550-arXiv.2510.09522/
 default_prefix: claimchain
 default_range: string
 imports:
