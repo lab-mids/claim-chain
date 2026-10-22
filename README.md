@@ -36,6 +36,7 @@ Every result comes in a machine-readable form (YAML, plus JSON Schema and RDF ex
 The website (a Jupyter Book in `docs/`) shows the tool at work on executable examples. It is published to GitHub Pages on every push to `main`:
 
 - **Live site:** <https://lab-mids.github.io/claim-chain/>
+- [SciLogic paper (PDF)](docs/scilogic_paper.pdf)
 - [Getting started](https://lab-mids.github.io/claim-chain/00-getting-started.html)
 - [Peer review with SciLogic](https://lab-mids.github.io/claim-chain/01-peer-review.html)
 - [Finding research opportunities](https://lab-mids.github.io/claim-chain/02-research-opportunities.html)
@@ -167,7 +168,7 @@ All scores are drafts. Claim roles in the Wang example and the test papers were 
 | `examples/zhang2013_mg_sfe/`: Zhang, Dou, Liu & Guo 2013, stacking fault energies in Mg alloys, Comput. Mater. Sci. 79, 564. Converted from Sepideh's paper logic map (not from the paper itself); shows aims, the golden thread, certainty drift and local checks | 45 | 0.55 | 0.54 | 0.55 | 0.00 (of 2) |
 | `test_papers/yaml/`: 10 arXiv papers from 21 October 2026, LLM drafts | 27–36 each | 0.36–0.93 | 0.37–0.91 | 0.38–0.71 | 0.25–1.00 |
 
-The examples illustrate the format only; the tool is meant for any paper. No PDFs are included.
+The examples illustrate the format only; the tool is meant for any paper. Source PDFs for the examples are not included.
 
 ## Status and next steps
 
