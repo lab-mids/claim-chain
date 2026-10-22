@@ -37,10 +37,12 @@ Every result comes in a machine-readable form (YAML, plus JSON Schema and RDF ex
 schema/claim_chain.yaml           LinkML schema: the format (v0.6)
 schema/claim_chain.schema.json    JSON Schema generated from it (e.g. for LLM structured output)
 scripts/render.py                 YAML -> readable chain, report, argument maps, one-page summary chart, scores, derived verdicts, golden thread, local checks per part, recomputed checks
+scripts/open_questions.py         several YAMLs -> one catalogue of open questions (assumptions, limitations, outlook, open proof obligations)
 examples/<paper>/                 encoded papers; generated/ holds the outputs
 test_papers/                      10 recent arXiv cond-mat.mtrl-sci papers to test on (BibTeX only; fetch PDFs yourself)
 test_papers/yaml/                 the 10 test papers encoded in the format (LLM drafts)
 docs/blackboard_2026-10-21/       photos and transcription of the team's blackboard discussion
+docs/research_ideas_2026-10-22/   open questions of the 10 test papers and research studies derived from them
 ideas/<name>/                     each team member's approaches and experiments
 .claude/skills/annotating-claim-chains/  skill for annotating a paper with an LLM: workflow, verdicts, review checklist
 ```
