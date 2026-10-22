@@ -1,0 +1,302 @@
+id: claimchain:chain/Ostergaard2024Coverage
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.jcat.2024.115570
+  title: "Coverage, repulsion, and reactivity of hydrogen on High-Entropy alloys"
+  authors: [Frederik C. Østergaard, Frank Abild-Pedersen, Jan Rossmeisl]
+  year: 2024
+  doi: 10.1016/j.jcat.2024.115570
+  url: https://doi.org/10.1016/j.jcat.2024.115570
+
+entities:
+  - {id: ent:HEA, label: "IrPdPtRhRu(111) high-entropy alloy surfaces (3x4x3 slabs)", entity_type: MATERIAL}
+  - {id: ent:PureMetals, label: "Ir, Pd, Pt, Rh, Ru (111) (3x3 slabs)", entity_type: MATERIAL}
+  - {id: ent:DFT, label: "DFT (GPAW, RPBE, 400 eV, 4x4x1 k-points)", entity_type: METHOD}
+  - {id: ent:Sampling, label: "sequential desorption/adsorption sampling of H coverage on 100 random slabs", entity_type: METHOD}
+  - {id: ent:Frumkin, label: Frumkin isotherm with generalized linear H-H repulsion, entity_type: CONCEPT}
+  - {id: ent:ProbModel, label: "Tafel reaction probability model p(U) = theta(U)^2 * r_p", entity_type: METHOD}
+  - {id: ent:BO, label: Bayesian optimization with Gaussian processes, entity_type: METHOD}
+  - {id: ent:Repulsion, label: H-H repulsion slope, entity_type: QUANTITY}
+  - {id: ent:Coverage, label: hydrogen coverage, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: ostergaard2024:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Hydrogen coverage changes the H adsorption energy on pure metals, for example by up to 0.2 eV on Pt(111) between 1/9 and 1 ML, because of repulsive adsorbate-adsorbate interactions.
+    evidence: [{evidence_kind: CITATION, references: ["12", "13", "16", "17"]}]
+  - id: ostergaard2024:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: High-entropy alloys offer a vast compositional space for electrocatalyst discovery, searched efficiently by Bayesian optimization.
+    evidence: [{evidence_kind: CITATION, references: ["3-7"]}]
+  - id: ostergaard2024:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Hydrogen coverage effects on HEA surfaces under electrocatalytic conditions have not been explored in depth.
+    evidence: [{evidence_kind: CITATION, references: ["8-11"]}]
+  - id: ostergaard2024:AIM1
+    statement_type: AIM
+    section: Abstract
+    paper_part: INTRODUCTION
+    text: Construct, from coverage-dependent H binding-energy distributions on IrPdPtRhRu(111), a framework that approximates the probability of H2 formation as a function of applied potential and use it to find optimal HER compositions.
+    about: [ent:ProbModel, ent:HEA]
+    author_certainty: DEMONSTRATED
+  - id: ostergaard2024:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3
+    paper_part: INTRODUCTION
+    text: Hydrogen coverage and a composition-dependent H-H repulsion, larger on HEAs than on pure metals, critically determine HER activity on HEA surfaces, and a coverage-aware reaction probability model identifies optimal HER compositions.
+    about: [ent:HEA, ent:Repulsion, ent:ProbModel]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "A coverage-resolved binding-energy data set and a consistent probability framework are built; the larger HEA repulsion and the hysteresis are partly sampling artefacts by the authors' own account, and the model ranking (Pd above Pt, HER from the Tafel step only, no barriers) is not validated against experiment."
+      missing_evidence:
+        - "Repulsion slopes of pure metals and HEA from the same cell size and sampling scheme"
+        - "Comparison of predicted optimal compositions with measured HER activities"
+      proof_obligations:
+        - text: "Show coverage-dependent binding-energy distributions on the HEA"
+          obligation_status: DISCHARGED
+          discharged_by: [ostergaard2024:OBS1, ostergaard2024:OBS2]
+        - text: "Show that repulsion is intrinsically larger on HEAs"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [ostergaard2024:OBS3]
+        - text: "Show that the model predicts HER activity"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: HER exchange current density or overpotential, unit: mA/cm2, method: "thin-film materials library of predicted compositions"}]
+
+  # ---------------- Methods ----------------
+  - id: ostergaard2024:METH1
+    statement_type: METHOD
+    section: Sec. 1.2, 1.3
+    paper_part: METHODS
+    text: For 100 random IrPdPtRhRu(111) 3x4x3 slabs (Dirichlet alpha = 1), H is removed one at a time from a full monolayer, always continuing from the lowest-energy structure, and likewise added one at a time to the clean slab, giving differential adsorption energies for each of 35 hollow-site compositions at every coverage.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 1.3, Fig. 1"
+        values:
+          - {symbol: nslab, quantity: number of slabs, value: 100}
+          - {symbol: nsite, quantity: sites per slab, value: 12}
+          - {symbol: nconf, quantity: stated number of simulated configurations, value: 15600}
+        derived_checks:
+          - {expression: "2 directions x 100 slabs x sum_{n=1}^{12} n", formula: "2*nslab*nsite*(nsite + 1)/2", result: 15600}
+    about: [ent:Sampling, ent:DFT]
+    scope: {sample_count: 100}
+  - id: ostergaard2024:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 1, 1.3
+    paper_part: METHODS
+    text: Only the three metal atoms forming the hollow site determine the H binding energy; long-range and subsurface effects and H migration are neglected.
+    evidence: [{evidence_kind: CITATION, references: ["18-20"]}]
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "How much of the binding-energy spread within one site type comes from the neglected subsurface layer?"
+  - id: ostergaard2024:ASM2
+    statement_type: ASSUMPTION
+    section: Sec. 1.5
+    paper_part: METHODS
+    text: Two adsorbed H atoms form H2 if the sum of their free energies is positive, without an activation barrier, with the probability of neighbouring H scaled by the squared coverage; only the Tafel step is considered.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does a Heyrovsky-inclusive or barrier-based model give the same optimal compositions?"
+  - id: ostergaard2024:METH2
+    statement_type: METHOD
+    section: Sec. 1.4, 1.5
+    paper_part: METHODS
+    text: Binding-energy distributions are centred at zero coverage by subtracting a mean shift per 1/12 ML, a linear repulsion term from the desorption-direction slope is added to build the Frumkin isotherm, and p(U) = theta(U)^2 r_p is evaluated by Monte Carlo and optimized by Bayesian optimization (150 steps) and a 0.05 grid search.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eqs. 6-8, Fig. 4"}]
+    about: [ent:Frumkin, ent:ProbModel, ent:BO]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The desorption-direction slope is chosen as the repulsion because it 'mimics' experiments starting from reducing potentials; the adsorption-direction slope differs.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: ostergaard2024:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 1, Fig. SI-2
+    paper_part: RESULTS
+    text: On a probe IrPdPtRhRu(111) surface with a full H monolayer, the adsorption energies of individual H atoms differ by up to 0.35 eV between sites, and removing the weakest-bound H stabilizes mainly its neighbours.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. SI-2", values: [{quantity: site-to-site spread, value: 0.35, unit: eV}]}]
+    about: [ent:HEA]
+  - id: ostergaard2024:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 1.4, 2
+    paper_part: RESULTS
+    text: Average integral adsorption energies of most of the 35 site types increase almost monotonically with coverage, with exceptions attributed to H rings and on-top binding on Ir, and the desorption- and adsorption-direction slopes differ.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2, Figs. SI-5, SI-10"}]
+    about: [ent:Frumkin, ent:Coverage]
+  - id: ostergaard2024:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 1.4
+    paper_part: RESULTS
+    text: The repulsion slope of the equimolar HEA isotherm is 0.35, whereas the pure (111) metals give slopes of 0.09 to 0.22 from 3x3 cells.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3b"
+        values:
+          - {symbol: s_hea, quantity: HEA repulsion slope, value: 0.35, unit: eV/ML}
+          - {symbol: s_min, quantity: pure-metal slope min, value: 0.09, unit: eV/ML}
+          - {symbol: s_max, quantity: pure-metal slope max, value: 0.22, unit: eV/ML}
+        derived_checks:
+          - {expression: "HEA slope / largest pure-metal slope", formula: "s_hea/s_max", result: 1.59}
+    about: [ent:Repulsion, ent:HEA, ent:PureMetals]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "HEA slopes come from 3x4 cells with the sequential lowest-energy scheme, pure-metal slopes from 3x3 cells with explicit coverages; pure-metal curves show cell-size artefacts by the caption's own admission.", priority: HIGH}
+  - id: ostergaard2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3
+    paper_part: RESULTS
+    text: H-H repulsion is larger on HEAs than on pure metals because ligand effects make H occupy electronically favourable sites rather than sites maximizing H-H distance.
+    about: [ent:Repulsion, ent:HEA]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "Sec. 1.4 states the stronger HEA repulsion arises 'in this simulation' because H fills sites by energy only; the conclusion presents it as an intrinsic HEA property.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "The slope difference is computed, but it is confounded by cell size and sampling scheme, and the authors themselves attribute part of it to the filling procedure."
+      missing_evidence:
+        - "Pure-metal slopes computed with the same 3x4 cell and sequential scheme"
+        - "Configurational sampling (e.g. Monte Carlo over H arrangements) on the HEA"
+  - id: ostergaard2024:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 1.4
+    paper_part: RESULTS
+    text: Explicit simulations of HEA adsorption at 1/12 to 11/12 ML lie close to the isotherm built from zero-coverage-centred distributions plus the general repulsion term.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3b (triangles)"}]
+    about: [ent:Frumkin]
+  - id: ostergaard2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Sec. 1.4, 2
+    paper_part: RESULTS
+    text: Separating a site-resolved ligand effect from a general linear repulsion term is valid for HEAs.
+    about: [ent:Frumkin]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The visual agreement with explicit simulations supports the separation for the equimolar composition; no quantitative error is given and other compositions are not tested."
+      missing_evidence:
+        - "RMS deviation between explicit and decomposed isotherms for several compositions"
+  - id: ostergaard2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Sec. 2, 3
+    paper_part: RESULTS
+    text: Different isotherm slopes for adsorption and desorption indicate a possible hysteresis of hydrogen adsorption specific to HEAs.
+    about: [ent:Frumkin, ent:HEA]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Sec. 2 calls the direction dependence 'an artifact of our proposed scheme and not purposely describing an observed trend', while the abstract says the slopes 'demonstrate a possible hysteresis'.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The slope difference is a consequence of the greedy path selection; no thermodynamic or kinetic argument shows that real HEA surfaces would follow these paths."
+      missing_evidence:
+        - "Experimental cyclic voltammetry of HUPD on HEAs showing hysteresis"
+        - "Kinetic Monte Carlo with H migration"
+  - id: ostergaard2024:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 6
+    paper_part: RESULTS
+    text: The model gives a decreasing reaction probability for the equimolar HEA as the potential approaches 0 V; pure Ir, Pd and Pt reach probability 1 at low negative potentials because of their discrete binding energies, and Rh and Ru are fully covered already at 0 V.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6a"}]
+    about: [ent:ProbModel, ent:PureMetals]
+  - id: ostergaard2024:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 6b, Fig. 7
+    paper_part: RESULTS
+    text: Bayesian optimization at four potentials yields binary or ternary optima (Pd13Pt7Ru80, Pd68Pt32, Pd79Pt21, Pd38Ru62) with much higher reaction probability than the equimolar quinary alloy, and grid searches find no other probability peaks.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6b, Fig. 7, Fig. SI-8"}]
+    about: [ent:BO, ent:ProbModel]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Optimization potentials are given as +0.20 to +0.05 V in the text and as -0.20 to -0.05 V in the Fig. 6b caption; the -0.20 V optimum is Pd13Pt7Ru80 in the caption but Pd13Pt7Rh80 in the hydride paragraph.", priority: MEDIUM}
+  - id: ostergaard2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 2, 3
+    paper_part: DISCUSSION
+    text: Optimizing alloy compositions for maximal Tafel reaction probability identifies promising HER catalyst candidates, such as Pd-Pt and Pd-Ru alloys, and the dominance of Pd and Pt supports the credibility of the model.
+    about: [ent:BO, ent:ProbModel]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "The model is validated only by recovering Pd and Pt, while it ranks Pd above Pt contrary to experiment, which the authors explain away as site probability not translating into activity.", priority: HIGH}
+      - {concern_type: OVERGENERALIZATION, description: "Optima lie at the edges of composition space (80 % Ru) where the HEA-sampled distributions are least representative, as the authors warn.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The optimization works within the model, but the model is barrier-free, Tafel-only and unvalidated against measured activities, and its pure-metal predictions conflict with the known Pt > Pd ordering."
+      missing_evidence:
+        - "Experimental HER activity of the predicted optimal compositions"
+        - "Model prediction for compositions with known measured activity"
+  - id: ostergaard2024:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: The model only accounts for the Tafel step, does not handle coverages above 1 ML, neglects OH adsorption and bulk hydride formation, and is not suited to alloys with high fractions of a single metal.
+    limitation_kind: METHOD
+  - id: ostergaard2024:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 2
+    paper_part: CONCLUSION
+    text: The same sampling and probability framework could be applied to 3d transition metals to find cheaper HER catalysts, which need not match Pt's intrinsic activity if HER on Pt is mass-transport limited.
+
+relations:
+  - {id: ostergaard2024:R1, subject: ostergaard2024:BG1, predicate: MOTIVATES, object: ostergaard2024:GAP1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R2, subject: ostergaard2024:BG2, predicate: MOTIVATES, object: ostergaard2024:AIM1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R3, subject: ostergaard2024:GAP1, predicate: MOTIVATES, object: ostergaard2024:HYP1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R4, subject: ostergaard2024:METH1, predicate: DEPENDS_ON, object: ostergaard2024:ASM1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R5, subject: ostergaard2024:METH2, predicate: DEPENDS_ON, object: ostergaard2024:ASM2, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R6, subject: ostergaard2024:METH2, predicate: DELIVERS, object: ostergaard2024:AIM1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R7, subject: ostergaard2024:OBS3, predicate: SUPPORTS, object: ostergaard2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Different cells and sampling schemes for HEA and pure metals"}}
+  - {id: ostergaard2024:R8, subject: ostergaard2024:METH1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: ostergaard2024:CLAIM1, asserted_by: AUTHORS, note: "Sec. 1.4: energy-only filling in the simulation causes part of the larger repulsion"}
+  - {id: ostergaard2024:R9, subject: ostergaard2024:OBS1, predicate: SUPPORTS, object: ostergaard2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ostergaard2024:R10, subject: ostergaard2024:OBS4, predicate: SUPPORTS, object: ostergaard2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ostergaard2024:R11, subject: ostergaard2024:OBS2, predicate: SUPPORTS, object: ostergaard2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ostergaard2024:R12, subject: ostergaard2024:OBS2, predicate: SUPPORTS, object: ostergaard2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Slope difference reflects the greedy sampling path"}}
+  - {id: ostergaard2024:R13, subject: ostergaard2024:METH1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: ostergaard2024:CLAIM3, asserted_by: AUTHORS, note: "Sec. 2 calls the direction dependence an artifact of the scheme"}
+  - {id: ostergaard2024:R14, subject: ostergaard2024:OBS6, predicate: SUPPORTS, object: ostergaard2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Model scores, not activities; edge compositions outside sampled distribution"}}
+  - {id: ostergaard2024:R15, subject: ostergaard2024:OBS5, predicate: UNDERCUTS, object: ostergaard2024:CLAIM4, asserted_by: AUTHORS, note: "Model ranks Pd above Pt and gives probability 1 for pure metals by artefact"}
+  - {id: ostergaard2024:R16, subject: ostergaard2024:ASM2, predicate: CONDITIONALLY_SUPPORTS, object: ostergaard2024:CLAIM4, asserted_by: ANNOTATOR, note: "Barrier-free Tafel-only probability must track HER activity"}
+  - {id: ostergaard2024:R17, subject: ostergaard2024:LIM1, predicate: QUALIFIES, object: ostergaard2024:CLAIM4, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R18, subject: ostergaard2024:CLAIM1, predicate: SUPPORTS, object: ostergaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ostergaard2024:R19, subject: ostergaard2024:CLAIM2, predicate: SUPPORTS, object: ostergaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ostergaard2024:R20, subject: ostergaard2024:CLAIM4, predicate: SUPPORTS, object: ostergaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: ostergaard2024:R21, subject: ostergaard2024:CLAIM3, predicate: SUPPORTS, object: ostergaard2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: ostergaard2024:R22, subject: ostergaard2024:OBS6, predicate: DELIVERS, object: ostergaard2024:AIM1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R23, subject: ostergaard2024:HYP1, predicate: ANSWERS, object: ostergaard2024:GAP1, asserted_by: AUTHORS}
+  - {id: ostergaard2024:R24, subject: ostergaard2024:CLAIM4, predicate: MOTIVATES, object: ostergaard2024:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A careful DFT data set of coverage-resolved H binding energies on 100
+    random IrPdPtRhRu(111) slabs and a transparent probability framework
+    combining binding-energy distributions with a Frumkin repulsion term.
+    The decomposition into ligand and repulsion effects is plausibly
+    validated against explicit simulations. The two headline physical
+    findings, larger repulsion on HEAs and a hysteresis, are partly
+    artefacts of the sampling scheme and cell sizes by the authors' own
+    statements, and the composition optimization rests on a barrier-free,
+    Tafel-only model that is not validated against measured activities and
+    ranks Pd above Pt.
+  key_limitations:
+    - "HEA and pure-metal repulsion slopes from different cells and schemes (OBS3, CLAIM1)."
+    - "Hysteresis follows from the greedy path selection, called an artifact in the text (CLAIM3)."
+    - "Reaction probability model is barrier-free and Tafel-only and unvalidated against experiment (ASM2, CLAIM4)."
+    - "Optimal compositions at the edges of composition space where distributions are least representative (OBS6)."
+    - "Sign and composition inconsistencies in the optimization results (OBS6)."
+  missing_evidence:
+    - "Measured HER activity of predicted Pd-Pt and Pd-Ru alloys."
+    - "Pure-metal repulsion computed with the same cell and sampling scheme."
+    - "Configurational or kinetic Monte Carlo of H arrangements including migration."

@@ -1,0 +1,250 @@
+id: claimchain:chain/Li2024Investigation
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/admi.202400772
+  title: "Investigation of Solid-State Interface Reactions Between the Compositionally Complex Solid Solution Noble Metal Alloy Ag-Au-Pd-Pt and Si"
+  authors: [Yujiao Li, Aleksander Kostka, Alan Savan, Alfred Ludwig]
+  year: 2024
+  doi: 10.1002/admi.202400772
+  url: https://doi.org/10.1002/admi.202400772
+
+entities:
+  - {id: ent:Film, label: "100 nm Ag25Au15Pd50Pt10 (nominal) co-sputtered fcc thin film", entity_type: MATERIAL}
+  - {id: ent:CPP, label: combinatorial processing platform (36 pre-sharpened Si microtips with native oxide), entity_type: METHOD}
+  - {id: ent:NativeOx, label: native Si oxide as reaction barrier, entity_type: MATERIAL}
+  - {id: ent:Silicide, label: "ternary (Pd,Pt)2Si silicide (Pd2Si-type, P-6m2)", entity_type: MATERIAL}
+  - {id: ent:AgAu, label: Ag-Au-rich fcc phase depleted in Pd and Pt, entity_type: MATERIAL}
+  - {id: ent:APT, label: atom probe tomography, entity_type: TECHNIQUE}
+  - {id: ent:TEM, label: "TEM / STEM-EDS / SAD", entity_type: TECHNIQUE}
+  - {id: ent:Anneal, label: "sequential vacuum annealing 200, 300, 400 C for 1 h each", entity_type: PROCESSING_STATE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: li2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The combinatorial processing platform deposits identical films on 36 Si microtips for APT and TEM after processing steps; above 600 C a diffusion barrier is needed because the native oxide is insufficient.
+    evidence: [{evidence_kind: CITATION, references: ["1-5"]}]
+  - id: li2024:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Ag-Si and Au-Si are immiscible while Pd-Si and Pt-Si form silicides, and little is known about ternary or more complex noble-metal silicides.
+    evidence: [{evidence_kind: CITATION, references: ["6-13"]}]
+  - id: li2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The onset temperature and atomic-scale mechanism of reactions between a noble-metal compositionally complex solid solution film and Si protected only by native oxide are unknown.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: li2024:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Determine the usage limit of native Si oxide for thermal stability studies of Ag-Au-Pd-Pt films and analyse the silicides formed and their formation mechanism by correlative APT and TEM.
+    about: [ent:Film, ent:NativeOx, ent:Silicide]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: li2024:METH1
+    statement_type: METHOD
+    section: Experimental Section
+    paper_part: METHODS
+    text: A 100 nm Ag-Au-Pd-Pt film is co-sputtered at room temperature onto a Si microtip array and flat reference, sequentially vacuum-annealed at 200, 300 and 400 C for 1 h each, and analysed by APT and by TEM of a lifted-out tip and a flat-region lamella, with standardless EDS and SAD phase identification.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Experimental Section, Fig. 1"}]
+    about: [ent:CPP, ent:Anneal, ent:APT, ent:TEM]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Number of APT tips analysed per state is not given; as-deposited tips fractured before reaching the oxide.", priority: MEDIUM}
+  - id: li2024:OBS1
+    statement_type: OBSERVATION
+    section: Results, Table 1
+    paper_part: RESULTS
+    text: The as-deposited film is dense fcc with composition Ag23-27, Au17-20, Pd45-49, Pt8-11 at.% depending on method (SEM-EDS, STEM-EDS, APT), against the nominal Ag25Au15Pd50Pt10.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1, Fig. 2"
+        values:
+          - {quantity: Pd APT, value: 49, unit: at.%}
+          - {quantity: Pt APT, value: 8, unit: at.%}
+          - {quantity: Pt STEM-EDS, value: 11, unit: at.%}
+    about: [ent:Film]
+
+  # ---------------- Results ----------------
+  - id: li2024:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 3
+    paper_part: RESULTS
+    text: After 300 C for 1 h APT shows a homogeneous film (24.86 Ag, 17.05 Au, 49.85 Pd, 8.25 Pt at.%) with only grain-boundary density differences and nanoscale modulation, and no loss of Pd or Pt.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3b"
+        values:
+          - {symbol: ag, quantity: Ag, value: 24.86, unit: at.%}
+          - {symbol: au, quantity: Au, value: 17.05, unit: at.%}
+          - {symbol: pd, quantity: Pd, value: 49.85, unit: at.%}
+          - {symbol: pt, quantity: Pt, value: 8.25, unit: at.%}
+        derived_checks:
+          - {expression: "composition sums to 100 at.%", formula: "ag + au + pd + pt", result: 100.01, unit: at.%}
+    about: [ent:Film, ent:APT]
+  - id: li2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusion
+    paper_part: RESULTS
+    text: Up to 300 C for 1 h the native Si oxide is a sufficient reaction barrier and the film remains an fcc solid solution, whereas after 400 C for 1 h it fails.
+    about: [ent:NativeOx, ent:Film]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "APT at 300 C shows unchanged composition and TEM/APT at 400 C show silicide formation; the onset is bracketed only between 300 and 400 C with 1 h steps."
+  - id: li2024:OBS3
+    statement_type: OBSERVATION
+    section: Results, Figs. 4-5
+    paper_part: RESULTS
+    text: After 400 C APT shows partial decomposition into Pd-rich and Ag-Au-rich regions, Pd and Pt diffused into the Si tip, a >10 nm oxide accumulation at the apex, and a silicide region of about Pd41Pt23Si36 with a (Pd+Pt)/Si ratio of 1.77 containing 0.05 at.% Ag and 0.30 at.% Au.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 4, 5"
+        values:
+          - {symbol: pd_s, quantity: Pd in silicide, value: 41, unit: at.%}
+          - {symbol: pt_s, quantity: Pt in silicide, value: 23, unit: at.%}
+          - {symbol: si_s, quantity: Si in silicide, value: 36, unit: at.%}
+          - {quantity: Ag in silicide, value: 0.05, unit: at.%}
+          - {quantity: Au in silicide, value: 0.30, unit: at.%}
+        derived_checks:
+          - {expression: "(Pd+Pt)/Si ratio (stated 1.77)", formula: "(pd_s + pt_s)/si_s", result: 1.78}
+    about: [ent:Silicide, ent:AgAu, ent:APT]
+  - id: li2024:OBS4
+    statement_type: OBSERVATION
+    section: Results, Table 2, Figs. 6-7
+    paper_part: RESULTS
+    text: TEM after 400 C shows Pd2Si-type silicide by SAD (D3, D5), Pd-rich EDS spots F4-F6 that underestimate Si because of peak overlaps, remaining fcc film with reduced Pd (26.5 and 13.3 at.%), and SAD from D4 indexed as Pt2Si-type; D2 matches both fcc and PtSi.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table 2, Fig. 7, Table S1", values: [{quantity: Pd in remaining film T5, value: 26.5, unit: at.%}, {quantity: Pd in remaining film F7, value: 13.3, unit: at.%}]}]
+    about: [ent:Silicide, ent:TEM]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "D4 is said to 'confirm the formation of Pt2Si-type silicide', but the discussion rules out P-6m2 Pt2Si and states that no I4/mmm Pt2Si pattern is observed.", priority: MEDIUM}
+      - {concern_type: REPRODUCIBILITY, description: "Standardless EDS with acknowledged Pt/Au and Ag/Pd peak overlaps; phase identification partly assigns EDS-Si deficits to overlap artefacts.", priority: MEDIUM}
+  - id: li2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusion
+    paper_part: RESULTS
+    text: The dominant silicide formed at 400 C is a ternary Pd-Pt-Si silicide with the Pd2Si crystal structure (P-6m2), in which Ag is virtually insoluble, and removal of Pd and Pt leaves a Ag-Au-rich fcc phase.
+    about: [ent:Silicide, ent:AgAu]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A silicide whose APT stoichiometry is near M2Si and whose SAD matches Pd2Si in the same specimen region has the Pd2Si structure.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "APT stoichiometry and several SAD patterns consistently support a Pd2Si-type (Pd,Pt)2Si and Ag-Au-rich remainders; the correlation is semi-correlative (APT region removed during TEM thinning), and one pattern assigned to Pt2Si-type is not reconciled."
+      proof_obligations:
+        - text: "Show silicide stoichiometry"
+          obligation_status: DISCHARGED
+          discharged_by: [li2024:OBS3]
+        - text: "Show silicide crystal structure in the same region"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [li2024:OBS4]
+  - id: li2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Discussion, Conclusion
+    paper_part: DISCUSSION
+    text: Formation of the ternary silicide is initiated by diffusion of Pd and Pt from the film through the native oxide into Si rather than by Si diffusing into the film.
+    about: [ent:Silicide, ent:NativeOx]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    evidence: [{evidence_kind: CITATION, references: ["29"]}]
+    assessment:
+      validity: PARTIAL
+      rationale: "Silicide below the oxide and Pd/Pt depletion of the film in APT and TEM agree with outward metal diffusion and cited literature; no marker or time series establishes the moving species."
+      missing_evidence:
+        - "Shorter anneals at 350-400 C to capture the initial stage"
+  - id: li2024:OBS5
+    statement_type: OBSERVATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: In the authors' earlier work, pure Pt on Si with native oxide did not react up to 400 C for 1 h and formed Pt2Si and PtSi only at 600 C.
+    evidence: [{evidence_kind: CITATION, references: ["4", "29"]}]
+  - id: li2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion, Conclusion
+    paper_part: CONCLUSION
+    text: Ag-Au-Pd-Pt reacts with Si at a lower temperature than pure Pt and Pd, indicating that thermal instability of the solid solution facilitates diffusion of Pd and Pt into Si.
+    about: [ent:Film, ent:Silicide]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Only pure Pt with native oxide is compared (from earlier work); no pure-Pd-on-native-oxide reference is shown, although the film is 50 % Pd and Pd silicides form at lower temperatures than Pt silicides.", priority: HIGH}
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The discussion offers two alternative explanations and says a dense-barrier experiment is needed to decide, but the conclusion states the instability explanation.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The lower onset relative to pure Pt is documented, but the comparison omits pure Pd, and the instability mechanism is one of two hypotheses the paper itself leaves untested."
+      missing_evidence:
+        - "Pure Pd and Pd-rich binary films on native-oxide Si annealed under the same protocol"
+        - "Annealing of the CCSS film on a dense diffusion barrier to test intrinsic decomposition"
+  - id: li2024:OUT1
+    statement_type: OUTLOOK
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: CPP-based knowledge of nanoscale interface reaction mechanisms could be used to design better diffusion barriers between metals and Si.
+
+  - id: li2024:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "The dominant silicide formed at 400 C is a ternary Pd-Pt-Si silicide with the Pd2Si crystal structure (P-6m2), in which Ag is virtually insoluble, and removal of Pd and Pt leaves a Ag-Au-rich fcc phase."
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM2 in the conclusion; verdict as there."
+
+relations:
+  - {id: li2024:R1, subject: li2024:BG1, predicate: MOTIVATES, object: li2024:GAP1, asserted_by: AUTHORS}
+  - {id: li2024:R2, subject: li2024:BG2, predicate: MOTIVATES, object: li2024:GAP1, asserted_by: AUTHORS}
+  - {id: li2024:R3, subject: li2024:GAP1, predicate: MOTIVATES, object: li2024:AIM1, asserted_by: AUTHORS}
+  - {id: li2024:R4, subject: li2024:METH1, predicate: DELIVERS, object: li2024:AIM1, asserted_by: AUTHORS}
+  - {id: li2024:R5, subject: li2024:OBS2, predicate: SUPPORTS, object: li2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: li2024:R6, subject: li2024:OBS3, predicate: SUPPORTS, object: li2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: li2024:R7, subject: li2024:OBS3, predicate: SUPPORTS, object: li2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: li2024:R8, subject: li2024:OBS4, predicate: SUPPORTS, object: li2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Semi-correlative; EDS overlaps; one Pt2Si-type pattern unreconciled"}}
+  - {id: li2024:R9, subject: li2024:OBS3, predicate: SUPPORTS, object: li2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2024:R10, subject: li2024:OBS5, predicate: SUPPORTS, object: li2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "No pure Pd reference; mechanism hypotheses not separated"}}
+  - {id: li2024:R11, subject: li2024:CLAIM1, predicate: SUPPORTS, object: li2024:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2024:R12, subject: li2024:BG2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: li2024:CLAIM4, asserted_by: ANNOTATOR_BACKGROUND, note: "Pd forms silicides at lower temperature than Pt; the Pd-rich film may simply behave like Pd"}
+  - {id: li2024:R13, subject: li2024:CLAIM2, predicate: DELIVERS, object: li2024:AIM1, asserted_by: AUTHORS}
+  - {id: li2024:R14, subject: li2024:CLAIM1, predicate: DELIVERS, object: li2024:AIM1, asserted_by: AUTHORS}
+  - {id: li2024:R15, subject: li2024:CLAIM1, predicate: ANSWERS, object: li2024:GAP1, asserted_by: AUTHORS}
+  - {id: li2024:R16, subject: li2024:CLAIM3, predicate: MOTIVATES, object: li2024:OUT1, asserted_by: AUTHORS}
+
+  - {id: li2024:R17, subject: li2024:CONC1, predicate: RESTATES, object: li2024:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A focused correlative APT/TEM study showing that native Si oxide protects
+    an Ag-Au-Pd-Pt film up to 300 C but not at 400 C, where Pd and Pt
+    diffuse into Si to form a (Pd,Pt)2Si silicide of Pd2Si type and leave
+    Ag-Au-rich fcc regions; the APT stoichiometry recomputes from the
+    reported composition. Weaker points are the semi-correlative structure
+    assignment with one unreconciled Pt2Si-type pattern and standardless
+    EDS with peak overlaps, and the headline conclusion that the alloy's
+    thermal instability lowers the reaction temperature, which compares
+    only with pure Pt and contradicts the paper's own call for a deciding
+    experiment.
+  key_limitations:
+    - "No pure-Pd reference under the same protocol; instability mechanism untested (CLAIM4)."
+    - "Pt2Si-type assignment for D4 contradicts the later exclusion of Pt2Si (OBS4)."
+    - "Semi-correlative APT/TEM with standardless, overlapping EDS (CLAIM2)."
+    - "Onset bracketed only by 1 h steps at 300 and 400 C (CLAIM1)."
+  missing_evidence:
+    - "Pure Pd and binary Pd-Pt films on native-oxide Si."
+    - "CCSS annealing on a dense diffusion barrier."
+    - "Finer temperature/time series around 350-400 C."

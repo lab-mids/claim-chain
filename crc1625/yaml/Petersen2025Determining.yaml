@@ -1,0 +1,212 @@
+id: claimchain:chain/Petersen2025Determining
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/adts.202500958
+  title: "Determining the Potential of Maximum Entropy from Ab Initio Molecular Dynamics"
+  authors: [Amanda S. Petersen, Thor K. Madsen, Theophilus K. Sarpey, Christian M. Schott, Elena L. Gubanova, Adrian V. Himmelreich, Aliaksandr S. Bandarenka, Jan Rossmeisl]
+  year: 2025
+  doi: 10.1002/adts.202500958
+  url: https://doi.org/10.1002/adts.202500958
+
+entities:
+  - {id: ent:AIMD, label: "AIMD of Pt(111) and Au(111) 3x4 slabs with 24 water molecules and 0-2 alkali cations", entity_type: METHOD}
+  - {id: ent:GCHE, label: "generalized computational hydrogen electrode interface Pourbaix analysis", entity_type: METHOD}
+  - {id: ent:WF, label: "work-function distribution from AIMD snapshots; its peak as candidate PME", entity_type: QUANTITY}
+  - {id: ent:PME, label: potential of maximum entropy, entity_type: QUANTITY}
+  - {id: ent:LICT, label: "literature LICT PME measurements on polycrystalline Pt and Au (Ding et al., Sarpey et al.)", entity_type: DATA_TYPE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: petersen2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1, Sec. 2.1
+    paper_part: INTRODUCTION
+    text: The PME, where interfacial water is maximally disordered, is measured by LICT and correlates with activity - closer PME to the equilibrium potential means faster reactions; on polycrystalline Pt alkali cations shift the PME and HER/ORR activity, and on Au the PME depends on pH and Na/K.
+    evidence: [{evidence_kind: CITATION, references: ["12", "25-31", "36", "53"]}]
+  - id: petersen2025:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: No first-principles framework predicts the PME, and no ab initio grand-canonical PME study has been reported.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: petersen2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Develop an AIMD + GCHE framework that predicts the PME and validate it against measured cation, pH and mixed-electrolyte PME shifts on Au and Pt.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: petersen2025:DEF1
+    statement_type: DEFINITION
+    section: Sec. 2
+    paper_part: METHODS
+    text: For each interface composition the peak of a normal distribution fitted to the AIMD work functions (last 1200 snapshots) is a candidate PME; it counts as a possible PME if it lies in the potential window where that composition is most stable in the GCHE interface Pourbaix diagram.
+    about: [ent:WF, ent:GCHE, ent:PME]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Identifying the most probable work function with the thermodynamic PME (zero of the entropy derivative probed by LICT) is argued from multiplicity of dipole states but not derived or benchmarked independently.", priority: MEDIUM}
+  - id: petersen2025:METH1
+    statement_type: METHOD
+    section: Sec. 2, SI S1-S2
+    paper_part: METHODS
+    text: Simulations use a 3x4 three-layer slab with 24 mobile and 6 fixed water molecules, n = -6 to 6 protons and x = 0-2 cations; cation energies are referenced to their most stable oxide; three-cation cells were unstable and only a 1:1 Na:K mixture was simulated.
+    about: [ent:AIMD]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Cell-size effects are explicitly not evaluated; the cation reference to the oxide is a pragmatic choice; and the number of snapshots is given as 1200 in one place and 1600 in another.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: petersen2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 3, Figs. S3-S6
+    paper_part: RESULTS
+    text: For Pt(111) and Au(111) with up to two alkali cations at pH 6, experimentally measured PMEs on polycrystalline electrodes fall near at least one computed work-function peak; the Pt PMEs vary linearly with cation hydration energy, and stable compositions near the PME contain two cations with a little *H (Pt) or *OH (Au).
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3c-d"}]
+    about: [ent:WF, ent:LICT]
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "Several candidate peaks exist per system and agreement is declared when the measured PME lies near at least one, without an error metric or a rule fixed before comparison.", priority: HIGH}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Single-crystal (111) simulations are compared with polycrystalline electrodes.", priority: MEDIUM}
+  - id: petersen2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 4
+    paper_part: RESULTS
+    text: For Au(111) at varying pH, the model assigns the Na+ PMEs to 2 Na+ + 1 *OH shifting to 3 *OH with pH, and for K+ a second stable distribution (2 K+ + 4 *OH) appears around pH 5, matching the abrupt experimental PME shift between pH 4 and 6; at some pH several distributions are stable, which the experiments do not show; sulfate adsorption was unstable in AIMD.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4"}]
+    about: [ent:GCHE, ent:WF]
+  - id: petersen2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.1-2.2, Sec. 3
+    paper_part: RESULTS
+    text: The AIMD + GCHE approach accurately reproduces experimental PME shifts with cation identity and pH for Au and Pt electrodes and provides a predictive tool for interface compositions at the PME.
+    about: [ent:AIMD, ent:GCHE, ent:PME]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A measured PME lying near a computed, thermodynamically allowed work-function peak validates the model.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "The model reproduces qualitative trends (cation ordering, the abrupt K+ shift with pH) but agreement is judged by proximity to one of several candidate peaks, extra stable states are not seen experimentally, and no quantitative error or out-of-sample prediction is given."
+      proof_obligations:
+        - text: "Quantify agreement with a pre-specified selection rule"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "mean absolute deviation between predicted and measured PME", unit: V, method: "Boltzmann-weighted single prediction per condition"}]
+        - text: "Show convergence with cell size and water count"
+          obligation_status: OPEN
+          priority: MEDIUM
+          requested_data: [{quantity: "work-function peak position vs cell size", unit: V, method: "AIMD with 4x4 or 6x6 cells"}]
+  - id: petersen2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.2
+    paper_part: DISCUSSION
+    text: "*OH adsorption, not sulfate, explains the abrupt PME shift in K2SO4, so K2SO4 and Na2SO4 cannot be treated as equivalent supporting electrolytes."
+    about: [ent:GCHE]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "Within the model *OH compositions reproduce the shift and sulfate configurations were unstable in short AIMD, but gas saturation effects noted experimentally are omitted and sulfate sampling is limited."
+  - id: petersen2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 5
+    paper_part: RESULTS
+    text: Reanalysing the two individual LICT sweeps of Sarpey et al. instead of their average, 1 M K+ at pH 8 shows two negative-to-positive zero crossings; computed peaks for 1:1 Na/K and pure-cation cells show Na+ leaving the interface as K+ increases, with 2 K+ + 3 *OH and 2 K+ + 4 *OH states, and small discrepancies near 25% K+.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5"}]
+    about: [ent:LICT, ent:WF]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text refers to Fig. 5b for the LICT sweep and Fig. 5c for computed distributions, while the caption assigns the sweep to (c) and separated PMEs to (b); the cation concentration is said to enter Equation 5, which is the LICT relation, not the GCHE energy (Equation 4).", priority: LOW}
+  - id: petersen2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, Sec. 3
+    paper_part: DISCUSSION
+    text: Mixed-cation (and some single-cation) systems can exhibit multiple PMEs corresponding to distinct stable interface configurations, only one of which coincides with the PZC, challenging the assumption of a single global PME.
+    about: [ent:PME]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The two experimental K+ PMEs come from two sweeps whose discrepancy the authors themselves suggest may reflect instability or measurement error; mixed-cation configurations were found less stable than pure ones, so multiple PMEs in mixtures are not shown by the simulations either.", priority: HIGH}
+      - {concern_type: UNTESTED_ASSERTION, description: "That one of the PMEs coincides with the PZC is stated in the conclusion without any PZC calculation or measurement in the paper.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Multiple candidate peaks are a model output and two crossings appear in a reanalysed sweep pair, but sweep-to-sweep scatter is not excluded and the PZC coincidence is not examined."
+      missing_evidence:
+        - "Repeated LICT sweeps with statistics for mixed electrolytes"
+        - "Computed or measured PZC for the same systems"
+  - id: petersen2025:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2, Sec. 2.3
+    paper_part: DISCUSSION
+    text: Accuracy depends on DFT identifying the stable composition; cell size limits cation ratios and intermediate *OH coverages; gas saturation and sulfate effects are omitted.
+  - id: petersen2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Multiple PME values exist in mixed-cation systems, supported by reanalysis of experimental data, each corresponding to a distinct stable configuration, one of which coincides with the PZC.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM3 with higher certainty."
+  - id: petersen2025:CONC2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: The robust AIMD + GCHE framework predicts PMEs, accurately quantifies interface compositions at measured PMEs and aligns with experiment.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM1."
+
+relations:
+  - {id: petersen2025:R1, subject: petersen2025:BG1, predicate: MOTIVATES, object: petersen2025:GAP1, asserted_by: AUTHORS}
+  - {id: petersen2025:R2, subject: petersen2025:GAP1, predicate: MOTIVATES, object: petersen2025:AIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R3, subject: petersen2025:DEF1, predicate: DELIVERS, object: petersen2025:AIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R4, subject: petersen2025:OBS1, predicate: DELIVERS, object: petersen2025:AIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R5, subject: petersen2025:CLAIM1, predicate: DELIVERS, object: petersen2025:AIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R6, subject: petersen2025:CONC2, predicate: DELIVERS, object: petersen2025:AIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R7, subject: petersen2025:DEF1, predicate: DEPENDS_ON, object: petersen2025:METH1, asserted_by: AUTHORS}
+  - {id: petersen2025:R8, subject: petersen2025:OBS1, predicate: SUPPORTS, object: petersen2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Proximity to one of several candidates; (111) vs polycrystalline; no error metric"}}
+  - {id: petersen2025:R9, subject: petersen2025:OBS2, predicate: SUPPORTS, object: petersen2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Reproduces the abrupt K+ shift; extra stable states not seen experimentally"}}
+  - {id: petersen2025:R10, subject: petersen2025:OBS2, predicate: QUALIFIES, object: petersen2025:CLAIM1, asserted_by: AUTHORS, note: "multiple stable distributions not supported by experiment"}
+  - {id: petersen2025:R11, subject: petersen2025:OBS2, predicate: SUPPORTS, object: petersen2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: petersen2025:R12, subject: petersen2025:OBS3, predicate: SUPPORTS, object: petersen2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Two sweeps; scatter not excluded; mixed-cation cells less stable"}}
+  - {id: petersen2025:R13, subject: petersen2025:LIM1, predicate: QUALIFIES, object: petersen2025:CLAIM3, asserted_by: AUTHORS}
+  - {id: petersen2025:R14, subject: petersen2025:LIM1, predicate: QUALIFIES, object: petersen2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: petersen2025:R15, subject: petersen2025:CONC1, predicate: RESTATES, object: petersen2025:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: petersen2025:R16, subject: petersen2025:CONC2, predicate: RESTATES, object: petersen2025:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: petersen2025:R17, subject: petersen2025:OBS3, predicate: SUPPORTS, object: petersen2025:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: petersen2025:R18, subject: petersen2025:OBS1, predicate: SUPPORTS, object: petersen2025:CONC2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: petersen2025:R19, subject: petersen2025:CLAIM1, predicate: ANSWERS, object: petersen2025:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper defines a computable PME as the most probable AIMD work
+    function of a thermodynamically stable interface composition and
+    compares it with literature LICT data for Pt and Au with alkali
+    cations, pH and Na/K mixtures. The framework is physically motivated
+    and reproduces qualitative trends such as the abrupt PME shift in
+    K2SO4 between pH 4 and 6. Validation is lenient: several candidate
+    peaks exist per system and agreement is declared when a measurement
+    lies near one of them, extra predicted states are not observed, cell
+    size is not tested, and single-crystal results are compared with
+    polycrystalline electrodes. The multiple-PME headline rests on two
+    individual sweeps whose discrepancy the authors partly attribute to
+    measurement instability, and the PZC coincidence is asserted without
+    analysis.
+  key_limitations:
+    - "Lenient matching of one of several candidate peaks (OBS1, CLAIM1)."
+    - "No cell-size convergence; snapshot count inconsistent (METH1)."
+    - "Multiple-PME claim from two sweeps; PZC link untested (CLAIM3)."
+    - "(111) simulations vs polycrystalline experiments (OBS1)."
+  missing_evidence:
+    - "Quantitative error statistics with a single prediction per condition."
+    - "Cell-size and water-count convergence tests."
+    - "Repeated mixed-electrolyte LICT measurements and PZC data."

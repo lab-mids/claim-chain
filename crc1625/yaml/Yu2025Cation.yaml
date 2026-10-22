@@ -1,0 +1,208 @@
+id: claimchain:chain/Yu2025Cation
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acscatal.5c05622
+  title: "Cation-Dependent Interfacial Properties Determine the Activity of Pt(111) Electrodes in Alkaline Media"
+  authors: [Haiting Yu, Song Xue, Elena L. Gubanova, Jian Zhou, Rodrigo Bautista, Adrian V. Himmelreich, Aliaksandr S. Bandarenka]
+  year: 2025
+  doi: 10.1021/acscatal.5c05622
+  url: https://doi.org/10.1021/acscatal.5c05622
+
+entities:
+  - {id: ent:Pt111, label: "Pt(111) single crystal in 0.1 M LiOH, NaOH, KOH, CsOH", entity_type: MATERIAL}
+  - {id: ent:EIS, label: "staircase impedance with CPE double layer and one adsorption branch", entity_type: TECHNIQUE}
+  - {id: ent:LICT, label: laser-induced current transients, entity_type: TECHNIQUE}
+  - {id: ent:pme, label: "potential(s) of maximum entropy", entity_type: QUANTITY}
+  - {id: ent:Act, label: "HER exchange current, HOR at 0.05 V, MOR at 0.6 V, EOR at 0.5 V, ORR at 0.9 V on Pt(111)", entity_type: QUANTITY}
+  - {id: ent:Hyd, label: alkali cation hydration energy, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: yu2025b:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Alkali cations modulate EDL structure and the activity of alkaline electrocatalytic reactions, and earlier work linked cation-dependent pme values to reaction kinetics on single-crystal and polycrystalline electrodes.
+    evidence: [{evidence_kind: CITATION, references: ["23-37", "68-71"]}]
+  - id: yu2025b:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Molecular-level insight into cation-dependent interfacial entropy and its relation to reaction kinetics under operando conditions is lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: yu2025b:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results
+    paper_part: INTRODUCTION
+    text: Interfacial entropy, expressed by the pme, is a robust and general descriptor of electrocatalytic kinetics - activity improves as the pme approaches the thermodynamic equilibrium potential of the respective reaction.
+    about: [ent:pme, ent:Act]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Near the pme the interfacial water is most disordered, lowering the reorganization energy of charge transfer (Marcus picture).", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: WEAK
+      rationale: "Five reaction activities correlate linearly with the pme across four cations on one surface, with the predicted sign for both cathodic (TEP 0 V) and anodic (TEP 1.23 V) cases; but pme, Cdl, OH adsorption and many other interfacial properties all vary monotonically with hydration energy, so four-point correlations cannot single out entropy as the cause or establish generality."
+      proof_obligations:
+        - text: "Separate the pme from other cation-dependent properties"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "activity vs pme at fixed cation (varied by anions, additives or surface structure)", method: "LICT and activity measurements on several surfaces/electrolytes"}]
+        - text: "Show statistical robustness of the correlations"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "regression uncertainty and repeat-measurement errors", method: "replicate LICT and activity measurements"}]
+  - id: yu2025b:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Quantify cation-dependent interfacial parameters (Cdl, E at Cdl minimum, pme) of Pt(111) in alkaline media by EIS and LICT and correlate them with the activity of several electrocatalytic reactions.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: yu2025b:METH1
+    statement_type: METHOD
+    section: Experimental Section
+    paper_part: METHODS
+    text: Flame-annealed Pt(111) is characterized by CV in HClO4 and 0.1 M AMOH (AM = Li, Na, K, Cs); EIS uses 300 kHz-1 Hz and 25 mV steps in non-Faradaic regions; LICT uses 532 nm ns pulses with 20 mV steps; MOR and ORR activities are taken from ref. 67.
+    about: [ent:EIS, ent:LICT, ent:Pt111]
+    scope: {sample_count: 4, scope_note: "four cations on one electrode orientation"}
+
+  # ---------------- Results ----------------
+  - id: yu2025b:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 1
+    paper_part: RESULTS
+    text: In alkaline CVs the Hupd and double-layer regions are nearly cation-independent, while the OH adsorption onset and peak shift negatively in the order Cs+ > K+ ≈ Na+ > Li+.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1b"}]
+    about: [ent:Pt111]
+  - id: yu2025b:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2
+    paper_part: RESULTS
+    text: Cdl increases from about 40 µF/cm2 (LiOH) to about 60 µF/cm2 (CsOH), and both Cdl,min and its potential (0.466 to 0.506 V) vary linearly with cation hydration energy.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2b-d"
+        values:
+          - {symbol: e_li, quantity: E at Cdl minimum LiOH, value: 0.466, unit: V}
+          - {symbol: e_cs, quantity: E at Cdl minimum CsOH, value: 0.506, unit: V}
+        derived_checks:
+          - {expression: "shift of the capacitance-minimum potential from Li+ to Cs+", formula: "e_cs - e_li", result: 0.040, unit: V}
+    about: [ent:EIS, ent:Hyd]
+  - id: yu2025b:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3, Fig. S3
+    paper_part: RESULTS
+    text: LICT charge densities are negative in the Hupd region and positive in the double-layer region, giving a first pme at the Hupd/double-layer transition and a second at the OH adsorption onset for every cation; both pme values vary linearly with hydration energy; transient relaxation times are about 0.16 µs.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3a-e"}]
+    about: [ent:LICT, ent:pme, ent:Hyd]
+  - id: yu2025b:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: The LICT transients are dominated by water reorientation, not Hupd or OH adsorption, so two distinct pme values reflect two water-dipole reorientation processes.
+    about: [ent:LICT, ent:pme]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The fast relaxation time and the sign argument for OH desorption make adsorption contributions less likely; Hupd kinetics on Pt are not uniformly slow, and the coincidence of the pme with adsorption-region boundaries leaves some ambiguity."
+  - id: yu2025b:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: HER exchange currents and HOR, MOR and EOR currents increase linearly as the pme values decrease (LiOH closest to 0 V), and ORR current at 0.9 V increases linearly as the pme values increase (CsOH closest to 1.23 V); MOR and ORR data come from the literature.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4a-e"}]
+    about: [ent:Act, ent:pme]
+    scope: {sample_count: 4, scope_note: "four cations per correlation, five reactions"}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Each linear fit has four points; no regression statistics, error bars or repeats are reported in the main text.", priority: HIGH}
+  - id: yu2025b:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: DISCUSSION
+    text: The consistent trends across five reactions establish the pme as a robust, universal descriptor that captures the solvent environment largely independent of specific adsorbates or reaction pathways.
+    about: [ent:pme, ent:Act]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "pme, Cdl, E(Cdl,min) and OH adsorption potential all scale with cation hydration energy, so any reaction with a monotonic cation trend correlates with the pme; the paper itself attributes the OH shift to noncovalent cation-OHad interactions, an alternative cause.", priority: HIGH}
+      - {concern_type: OVERGENERALIZATION, description: "'Universal' is concluded from four cations on a single Pt(111) surface.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The direction of the correlation matches the TEP rule for both cathodic and anodic reactions, which is non-trivial, but the evidence is correlational with four collinear points and no control varying the pme independently of the cation."
+  - id: yu2025b:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results
+    paper_part: DISCUSSION
+    text: Strongly hydrated cations (Li+) stabilize OHad through water-mediated noncovalent interactions and rigid H-bond networks (lower permittivity, smaller Cdl), while weakly hydrated cations (K+, Cs+) approach the surface and disrupt the network; site-blocking and specific adsorption are other points on a continuum.
+    about: [ent:Hyd, ent:Pt111]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Consistent with CV and Cdl trends and literature simulations, but no spectroscopic or computational evidence in the paper discriminates the proposed mechanisms."
+  - id: yu2025b:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: The activity of multiple reactions depends linearly on interfacial entropy and improves as the pme approaches the TEP, so interfacial entropy is a general descriptor of reaction activity.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM2."
+
+relations:
+  - {id: yu2025b:R1, subject: yu2025b:BG1, predicate: MOTIVATES, object: yu2025b:GAP1, asserted_by: AUTHORS}
+  - {id: yu2025b:R2, subject: yu2025b:GAP1, predicate: MOTIVATES, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R3, subject: yu2025b:BG1, predicate: MOTIVATES, object: yu2025b:HYP1, asserted_by: AUTHORS}
+  - {id: yu2025b:R4, subject: yu2025b:OBS2, predicate: DELIVERS, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R5, subject: yu2025b:OBS3, predicate: DELIVERS, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R6, subject: yu2025b:OBS4, predicate: DELIVERS, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R7, subject: yu2025b:CLAIM2, predicate: DELIVERS, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R8, subject: yu2025b:CONC1, predicate: DELIVERS, object: yu2025b:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025b:R9, subject: yu2025b:OBS3, predicate: SUPPORTS, object: yu2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: MET, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Relaxation-time and sign arguments; adsorption contribution not fully excluded"}}
+  - {id: yu2025b:R10, subject: yu2025b:OBS4, predicate: SUPPORTS, object: yu2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Four collinear points per reaction; pme covaries with all cation properties; one surface"}}
+  - {id: yu2025b:R11, subject: yu2025b:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: yu2025b:CLAIM2, asserted_by: ANNOTATOR, note: "Cdl and E(Cdl,min) correlate with hydration energy just like the pme"}
+  - {id: yu2025b:R12, subject: yu2025b:OBS1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: yu2025b:CLAIM2, asserted_by: ANNOTATOR, note: "cation-dependent OHad formation offers an adsorption-energy explanation"}
+  - {id: yu2025b:R13, subject: yu2025b:CLAIM1, predicate: SUPPORTS, object: yu2025b:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yu2025b:R14, subject: yu2025b:OBS1, predicate: SUPPORTS, object: yu2025b:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: yu2025b:R15, subject: yu2025b:OBS2, predicate: SUPPORTS, object: yu2025b:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: yu2025b:R16, subject: yu2025b:CLAIM2, predicate: SUPPORTS, object: yu2025b:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: yu2025b:R17, subject: yu2025b:CONC1, predicate: RESTATES, object: yu2025b:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: yu2025b:R18, subject: yu2025b:OBS4, predicate: SUPPORTS, object: yu2025b:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: yu2025b:R19, subject: yu2025b:HYP1, predicate: ANSWERS, object: yu2025b:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    EIS and LICT on Pt(111) in four alkali hydroxides give cation-
+    dependent Cdl, capacitance-minimum potentials and two pme values that
+    all scale linearly with hydration energy, and five literature or
+    measured reaction activities correlate with the pme in the direction
+    the TEP rule predicts for both cathodic and anodic reactions. The
+    interfacial data are carefully obtained, and the attribution of the
+    transients to water reorientation is reasonably argued. The headline
+    that interfacial entropy is a robust, universal descriptor rests on
+    four collinear points per reaction on one surface, without regression
+    statistics or error bars, and pme cannot be separated from other
+    hydration-energy-dependent properties, including the OHad shifts the
+    paper itself discusses.
+  key_limitations:
+    - "Four-point correlations without statistics (OBS4)."
+    - "pme collinear with other cation properties; causality not isolated (CLAIM2)."
+    - "Generality claimed from a single surface (HYP1, CLAIM2)."
+    - "Mechanism of cation-OHad interaction not tested (CLAIM3)."
+  missing_evidence:
+    - "Activity vs pme with pme varied at fixed cation (anions, surface structure, additives)."
+    - "Replicates and confidence intervals for pme and activities."
+    - "Same analysis on other facets or metals."

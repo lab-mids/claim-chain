@@ -1,0 +1,246 @@
+id: claimchain:chain/Kar2026Understanding
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of the preprint version 'Epitaxial Films as Model Platform for Understanding Compositionally Complex Electrocatalysts'; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d6mh00852f
+  title: "Understanding compositionally complex electrocatalysts using epitaxial films and correlative multi-scale characterization for structure-activity mapping"
+  authors: [Satyakam Kar, Alejandro E. Perez-Mendoza, Huixin Xiu, Miran Joo, Kirill V. Yusenko, Ulrich Hagemann, Christoph Somsen, Janine Pfetzing-Micklich, Christina Scheu, Corina Andronescu, Alfred Ludwig]
+  year: 2026
+  doi: 10.1039/d6mh00852f
+  url: https://doi.org/10.1039/d6mh00852f
+
+entities:
+  - {id: ent:CCSS, label: "near-equiatomic Ir-Pd-Pt-Rh-Ru film (Ir21Pd21Pt19Rh17Ru22 by STEM-EDS)", entity_type: MATERIAL}
+  - {id: ent:Epi, label: "(111) epitaxial CCSS film on Al2O3(0001) via Pt buffer, sputtered at 873 K", entity_type: PROCESSING_STATE}
+  - {id: ent:OR, label: "epitaxial orientation relations OR1 and OR2 of the film to sapphire", entity_type: CONCEPT}
+  - {id: ent:SECCM, label: "scanning electrochemical cell microscopy (85 nm pipette, 0.1 M HClO4, 47 x 34 grid)", entity_type: TECHNIQUE}
+  - {id: ent:Corr, label: "micro-indent navigation for co-localized AFM, EBSD and SECCM", entity_type: METHOD}
+  - {id: ent:TEM, label: "(S)TEM, SAD, HRTEM of FIB cross-section", entity_type: TECHNIQUE}
+  - {id: ent:HER, label: "hydrogen evolution reaction current at -0.4 V vs RHE", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: kar2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Compositionally complex solid solutions offer near-continuous adsorption-energy distributions tunable by composition, but most electrocatalysis studies use nanoparticles or polycrystalline films with heterogeneous surfaces that hinder study of surface atom arrangements.
+    evidence: [{evidence_kind: CITATION, references: ["1-28"]}]
+  - id: kar2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Epitaxial CCSS films have not been used for electrocatalysis and no general approach exists for epitaxial growth of catalytically relevant CCSS over a broad composition range.
+  - id: kar2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Establish sputtered (111) epitaxial Ir-Pd-Pt-Rh-Ru films on sapphire as a model platform with smooth, large-grained surfaces across a broad composition range.
+    author_certainty: DEMONSTRATED
+  - id: kar2026:AIM2
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Demonstrate correlative nanoscale structure-activity mapping on these films with micro-indent navigation, AFM, EBSD and SECCM.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: kar2026:METH1
+    statement_type: METHOD
+    section: Sec. 2, 4, Table S1
+    paper_part: METHODS
+    text: Films were co-sputtered from elemental targets on c-plane sapphire at 297-873 K, directly, in a two-step process, or on a 5 or 40 nm Pt buffer, and characterised by AFM, XRD (theta-2theta and {220} pole figures), EBSD and (S)TEM.
+    about: [ent:Epi, ent:TEM]
+  - id: kar2026:METH2
+    statement_type: METHOD
+    section: Sec. 2, 4
+    paper_part: METHODS
+    text: On one 100 nm film, a region of interest located by micro-indents was mapped by EBSD, AFM and single-barrel SECCM (47 x 34 points, 150 nm hop, CV at 2 V/s), and currents at -0.4 V vs RHE were grouped by orientation relation with 95% confidence intervals from mean +/- z x standard error.
+    about: [ent:Corr, ent:SECCM]
+    scope: {sample_count: 1}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Confidence intervals treat ~1600 pixels of one map on one film as independent samples; spatial correlation, pipette-to-pipette and film-to-film variance are not captured, so the CIs overstate precision.", priority: MEDIUM}
+
+  # ---------------- Results: growth ----------------
+  - id: kar2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 2a-d
+    paper_part: RESULTS
+    text: CCSS films grown directly on sapphire at 297 K, 873 K or in two steps are granular and polycrystalline FCC, with RMS roughness 0.83, 2.71 and 1.53 nm.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2a-d"}]
+    about: [ent:CCSS]
+  - id: kar2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 2e-h, Fig. 3a-c
+    paper_part: RESULTS
+    text: With a Pt buffer the CCSS films show only (111)/(222) reflections and pole-figure spots of {111}-twinned epitaxy, adopting the buffer's orientation relation (OR1 on 5 nm Pt, OR1+OR2 on 40 nm Pt); RMS roughness is 0.36 nm (60 nm film) and 0.85 nm (100 nm film), the latter with grains up to 4 um.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2-3"
+        values:
+          - {symbol: r_hot, quantity: RMS roughness direct deposition 873 K, value: 2.71, unit: nm}
+          - {symbol: r_buf, quantity: RMS roughness on 5 nm Pt buffer, value: 0.36, unit: nm}
+        derived_checks:
+          - {expression: "roughness reduction factor (stated 7.5 times)", formula: "r_hot/r_buf", result: 7.5}
+    about: [ent:Epi, ent:OR]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text cites Fig. 2f for the pure Pt film, but the caption assigns the Pt film to Fig. 2e and the buffered CCSS film to Fig. 2f.", priority: LOW}
+  - id: kar2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. S4
+    paper_part: RESULTS
+    text: The Pt-buffer route also gives epitaxial films for a Ru-free and a Ru-rich composition (Supporting Information).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. S4"}]
+    scope: {sample_count: 3}
+  - id: kar2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 4
+    paper_part: RESULTS
+    text: STEM-EDS shows a homogeneous Ir21Pd21Pt19Rh17Ru22 film with a coherent Pt-film interface, dislocations, {112} Sigma3 boundaries and 9R regions in both the CCSS film and the Pt buffer.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4"}]
+    about: [ent:CCSS, ent:TEM]
+
+  # ---------------- Results: correlative electrocatalysis ----------------
+  - id: kar2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 5, Fig. S8
+    paper_part: RESULTS
+    text: In the mapped region OR1 grains show higher HER current at -0.4 V vs RHE (-0.284 +/- 0.003 nA) than OR2 grains (-0.219 +/- 0.002 nA); OR1 regions are rougher (RMS 0.75 vs 0.53 nm), contain more {112} Sigma3 incoherent twin boundaries, and Auger spectroscopy gives similar composition in both.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5e-f, Fig. S6, S8"
+        values:
+          - {symbol: i1, quantity: mean HER current OR1, value: 0.284, unit: nA}
+          - {symbol: i2, quantity: mean HER current OR2, value: 0.219, unit: nA}
+          - {symbol: nx, quantity: grid points x, value: 47}
+          - {symbol: ny, quantity: grid points y, value: 34}
+          - {symbol: hop, quantity: hopping distance, value: 0.15, unit: um}
+        derived_checks:
+          - {expression: "relative activity increase OR1 vs OR2 (%)", formula: "100*(i1/i2 - 1)", result: 30}
+          - {expression: "map extent consistent with stated 4.95 x 6.90 um", formula: "abs((nx-1)*hop - 6.9) < 0.01 and abs((ny-1)*hop - 4.95) < 0.01", satisfied: true}
+    about: [ent:HER, ent:OR, ent:SECCM]
+    scope: {sample_count: 1}
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Currents are not normalised to wetted area; the OR1 regions are rougher, so part of the 30% difference may reflect meniscus contact area rather than intrinsic activity.", priority: MEDIUM}
+
+  # ---------------- Claims ----------------
+  - id: kar2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2-3
+    paper_part: DISCUSSION
+    text: A Pt buffer layer induces (111) epitaxial growth of smooth (RMS < 1 nm), micrometer-grained CCSS films on sapphire, and the approach is robust across a broad composition range.
+    about: [ent:Epi]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Epitaxy, smoothness and grain size are shown by XRD, pole figures, AFM and EBSD with a clear no-buffer control; 'broad composition range' rests on three compositions, two of them only in the SI."
+      missing_evidence: ["Epitaxy and roughness across a mapped composition-spread library"]
+  - id: kar2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: The 9R structure arises from the non-equilibrium film growth together with a low intrinsic stacking-fault energy of the CCSS, lowered by Pd and Ru.
+    about: [ent:CCSS]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    warrant: {rule: "9R forms by dissociation of incoherent Sigma3 boundaries in low-SFE FCC metals.", warrant_basis: CITATION}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No stacking-fault energy is measured or computed; 9R regions also occur in the pure Pt buffer, a high-SFE metal, which points to growth conditions rather than the CCSS chemistry."
+  - id: kar2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2-3
+    paper_part: DISCUSSION
+    text: Epitaxial films with micro-indent navigation enable direct nanoscale structure-activity mapping, showing that OR1 regions are more HER-active than OR2 regions.
+    about: [ent:Corr, ent:HER, ent:OR]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Co-localization of EBSD, AFM and SECCM is demonstrated and the current contrast follows the grain map; the activity difference comes from one region of one film without area normalisation or repeat maps, despite being called statistically robust."
+      missing_evidence: ["Repeat SECCM maps in other regions and films", "Current density normalised to droplet footprint from post-mortem imaging"]
+  - id: kar2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: Incoherent {112} Sigma3 twin boundaries, concentrated in OR1 regions, provide additional HER active sites and cause the higher OR1 activity.
+    about: [ent:HER, ent:OR]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    warrant: {rule: "Low-coordination and strained sites enhance HER on Pt-group surfaces.", warrant_basis: CITATION}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Correlation only: OR1 also differs in orientation domain and roughness; no boundary-resolved current analysis separates twin boundaries from grain interiors."
+      missing_evidence: ["Current profile across individual Sigma3 boundaries versus OR1 grain interiors"]
+  - id: kar2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Epitaxial films and navigation structures provide a model platform for scale-bridging, correlative structure-activity investigation of CCSS at the nanoscale and will accelerate rational catalyst design.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The platform is demonstrated once; acceleration of catalyst design is outlook."
+
+  - id: kar2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Use epitaxial films for fundamental studies of promising compositions identified in high-throughput exploration, including (EC-)STM and TEM correlative work.
+
+relations:
+  - {id: kar2026:R1, subject: kar2026:BG1, predicate: MOTIVATES, object: kar2026:GAP1, asserted_by: AUTHORS}
+  - {id: kar2026:R2, subject: kar2026:GAP1, predicate: MOTIVATES, object: kar2026:AIM1, asserted_by: AUTHORS}
+  - {id: kar2026:R3, subject: kar2026:GAP1, predicate: MOTIVATES, object: kar2026:AIM2, asserted_by: AUTHORS}
+  - {id: kar2026:R4, subject: kar2026:METH1, predicate: DELIVERS, object: kar2026:AIM1, asserted_by: AUTHORS}
+  - {id: kar2026:R5, subject: kar2026:CLAIM1, predicate: DELIVERS, object: kar2026:AIM1, asserted_by: AUTHORS}
+  - {id: kar2026:R6, subject: kar2026:METH2, predicate: DELIVERS, object: kar2026:AIM2, asserted_by: AUTHORS}
+  - {id: kar2026:R7, subject: kar2026:CLAIM3, predicate: DELIVERS, object: kar2026:AIM2, asserted_by: AUTHORS}
+  - {id: kar2026:R8, subject: kar2026:OBS2, predicate: SUPPORTS, object: kar2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "No-buffer controls given; composition generality from 3 compositions"}}
+  - {id: kar2026:R9, subject: kar2026:OBS1, predicate: SUPPORTS, object: kar2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, note: "control - without buffer films are polycrystalline", link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Direct control for the buffer effect"}}
+  - {id: kar2026:R10, subject: kar2026:OBS3, predicate: SUPPORTS, object: kar2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Two extra compositions do not establish a broad range"}}
+  - {id: kar2026:R11, subject: kar2026:OBS4, predicate: SUPPORTS, object: kar2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "9R imaged; SFE not determined"}}
+  - {id: kar2026:R12, subject: kar2026:OBS4, predicate: UNDERCUTS, object: kar2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "9R also in the Pt buffer, and Pt has a high intrinsic stacking-fault energy, so low CCSS SFE is not needed to explain it"}
+  - {id: kar2026:R13, subject: kar2026:OBS5, predicate: SUPPORTS, object: kar2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "One map on one film; composition checked but roughness/area not normalised"}}
+  - {id: kar2026:R14, subject: kar2026:METH2, predicate: SUPPORTS, object: kar2026:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW, note: "co-localization workflow itself is demonstrated"}
+  - {id: kar2026:R15, subject: kar2026:OBS5, predicate: SUPPORTS, object: kar2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Region-level correlation, no boundary-resolved activity"}}
+  - {id: kar2026:R16, subject: kar2026:OBS5, predicate: ALTERNATIVE_EXPLANATION_FOR, object: kar2026:CLAIM4, asserted_by: ANNOTATOR, note: "Higher roughness in OR1 increases wetted area and current without intrinsic site activity"}
+  - {id: kar2026:R17, subject: kar2026:METH2, predicate: QUALIFIES, object: kar2026:CLAIM3, asserted_by: ANNOTATOR, note: "CIs from pixels of a single map"}
+  - {id: kar2026:R18, subject: kar2026:CLAIM1, predicate: SUPPORTS, object: kar2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: kar2026:R19, subject: kar2026:CLAIM3, predicate: SUPPORTS, object: kar2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: kar2026:R20, subject: kar2026:CONC1, predicate: RESTATES, object: kar2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: kar2026:R21, subject: kar2026:CONC1, predicate: RESTATES, object: kar2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: kar2026:R22, subject: kar2026:CONC1, predicate: MOTIVATES, object: kar2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The growth part is well controlled: films grown without a buffer are
+    polycrystalline, while the Pt buffer yields (111) twinned epitaxy with
+    sub-nanometre roughness and micrometre grains, confirmed by XRD pole
+    figures, EBSD and TEM, and the reported numbers (7.5x roughness
+    reduction, SECCM grid extent) recompute. The breadth claim rests on
+    three compositions. The electrochemical showcase is a single SECCM map
+    on one film; the 30% higher HER current of OR1 regions is given with
+    pixel-based confidence intervals and is not normalised to wetted area,
+    although OR1 is rougher. Both mechanistic proposals (low stacking-fault
+    energy for 9R, twin boundaries as active sites) are untested, and 9R
+    also appears in the high-SFE Pt buffer. Draft annotation; figure-based
+    judgements rely on captions.
+  key_limitations:
+    - "Composition breadth from three compositions (OBS3, CLAIM1)."
+    - "Single-map SECCM, pixel-based CIs, no area normalisation (METH2, OBS5, CLAIM3)."
+    - "Twin-boundary active-site mechanism untested; roughness alternative (CLAIM4, R16)."
+    - "9R in Pt buffer undercuts low-SFE explanation (CLAIM2, R12)."
+  missing_evidence:
+    - "Repeat SECCM maps on further regions and films."
+    - "Boundary-resolved activity analysis."
+    - "Calculated or measured stacking-fault energy of the CCSS."

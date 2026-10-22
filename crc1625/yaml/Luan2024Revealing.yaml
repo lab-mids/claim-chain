@@ -1,0 +1,397 @@
+id: claimchain:chain/Luan2024Revealing
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acscatal.4c02792
+  title: "Revealing Dynamic Surface and Subsurface Reconstruction of High-Entropy Alloy Electrocatalysts during the Oxygen Evolution Reaction at the Atomic Scale"
+  authors: [Chenglong Luan, Daniel Escalera-López, Ulrich Hagemann, Aleksander Kostka, Guillaume Laplanche, Dongshuang Wu, Serhiy Cherevko, Tong Li]
+  year: 2024
+  doi: 10.1021/acscatal.4c02792
+  url: https://doi.org/10.1021/acscatal.4c02792
+
+entities:
+  - {id: ent:Cantor, label: "equiatomic CrMnFeCoNi Cantor alloy microelectrode, (001) grain, ~250 um grains", entity_type: MATERIAL}
+  - {id: ent:APT, label: atom probe tomography (LEAP 5000 XR), entity_type: TECHNIQUE}
+  - {id: ent:TEM, label: "(HR)TEM / aberration-corrected STEM with FFT", entity_type: TECHNIQUE}
+  - {id: ent:ICPMS, label: "online SFC-ICP-MS and offline ICP-MS dissolution", entity_type: TECHNIQUE}
+  - {id: ent:XPS, label: XPS (3p and O 1s), entity_type: TECHNIQUE}
+  - {id: ent:NiFeOOH, label: amorphous NiFe-rich (oxy)hydroxide, entity_type: MATERIAL}
+  - {id: ent:CrOx, label: Cr-rich (Cr2O3) subsurface oxide, entity_type: MATERIAL}
+  - {id: ent:ORich, label: oxygen-rich fcc subsurface layer, entity_type: MATERIAL}
+  - {id: ent:MnOx, label: "Mn-rich surface oxide (Mn3O4 or Mn2O3)", entity_type: MATERIAL}
+  - {id: ent:OER, label: OER activity (current at 1.63 V / overpotential at 1 mA cm-2), entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: luan2024:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: HEA electrocatalysts are reported to be highly active and stable for OER and ORR, rationalized by a near-continuous distribution of adsorption energies from multielement surfaces (high-entropy synergistic effect).
+    evidence: [{evidence_kind: CITATION, references: ["6-11"]}]
+  - id: luan2024:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: OER electrocatalysts undergo dynamic surface reconstruction into oxyhydroxides and continuous dissolution, as shown for Co and Ir by the authors' earlier APT work.
+    evidence: [{evidence_kind: CITATION, references: ["16-21"]}]
+  - id: luan2024:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: How multiple elements are redistributed, how surface and subsurface reconstruct and how elements dissolve on HEA electrocatalysts during the OER is unknown, because suitable atomic-scale analytical tools have not been applied.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: luan2024:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Characterize the temporal evolution of elemental distribution, composition and structure of the surface and subsurface of CrMnFeCoNi during the OER by APT, TEM and XPS, and correlate it with activity and dissolution from SFC-ICP-MS and offline ICP-MS.
+    about: [ent:Cantor, ent:APT, ent:ICPMS]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: luan2024:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: A recrystallized CrMnFeCoNi microelectrode is cycled between 0.98 and 1.63 V vs RHE at 10 mV/s in 0.1 M KOD/D2O for activity and APT/TEM; online SFC-ICP-MS uses 150 cycles at 100 mV/s in 0.05 M KOH, and offline ICP-MS samples the electrolyte after 5, 10, 150 and 6550 cycles at 100 mV/s in KOD.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Sec. 2.2-2.4"}]
+    about: [ent:Cantor, ent:ICPMS]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The longest offline run is 6650 cycles in Methods but 6550 cycles in Results and Table 1; offline ICP-MS is said to use the same protocol as the activity measurements, yet activity CVs are at 10 mV/s and offline cycling at 100 mV/s.", priority: MEDIUM}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Activity (KOD/D2O, 10 mV/s), online dissolution (KOH/H2O, 100 mV/s) and APT states are correlated by cycle number although cycle duration and electrolyte differ.", priority: HIGH}
+  - id: luan2024:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 3.3
+    paper_part: METHODS
+    text: An APT atomic M/O ratio of about 1 indicates oxyhydroxide (MO-OD) and about 1:0 indicates hydroxide, because MO-OD field-evaporates as OD and MO ions.
+    evidence: [{evidence_kind: CITATION, references: ["16", "17", "19", "48-50"]}]
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does the ratio hold when only Ni and Fe are counted while Cr, Mn and Co (19 at.%) also sit in the layer?"
+  - id: luan2024:DATA1
+    statement_type: DATA
+    section: Sec. 3.3
+    paper_part: METHODS
+    text: APT and TEM specimens are lifted out from the same [001]-oriented grain after 70, 150 and 2000 cycles; the number of APT specimens per state is not reported.
+    about: [ent:APT, ent:TEM]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Compositions in Table 2 carry counting errors only; specimen-to-specimen variation on one facet is not shown.", priority: HIGH}
+
+  # ---------------- Activity and dissolution ----------------
+  - id: luan2024:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Fig. 1
+    paper_part: RESULTS
+    text: The OER current at 1.63 V rises over the first 70 cycles to an optimal overpotential of about 360 mV at 1 mA/cm2, increases by about 30 mV after 1000 cycles, and after 2000 cycles the electrode shows pseudocapacitive behaviour without OER activity.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1a,b"
+        values:
+          - {quantity: overpotential at 1 mA/cm2, value: 360, unit: mV, condition: 70 cycles}
+          - {quantity: overpotential increase, value: 30, unit: mV, condition: 1000 cycles}
+    about: [ent:OER, ent:Cantor]
+  - id: luan2024:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Fig. 1b
+    paper_part: RESULTS
+    text: The overpotential rose from about 360 to 380 mV over about 500 cycles, stated to take about 3.5 h, whereas a Co microelectrode lost 20 mV within 0.5 h (about 70 cycles).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 3.2"
+        values:
+          - {symbol: n_cyc, quantity: cycles, value: 500}
+          - {symbol: dU, quantity: potential window, value: 0.65, unit: V}
+          - {symbol: rate, quantity: scan rate of activity CVs, value: 0.010, unit: V/s}
+          - {symbol: t_stated, quantity: stated duration, value: 3.5, unit: h}
+        derived_checks:
+          - {expression: "duration of 500 CV cycles at 10 mV/s over 0.98-1.63 V", formula: "n_cyc*2*dU/rate/3600", result: 18.1, unit: h, note: "18 h at 10 mV/s (1.8 h at 100 mV/s), not 3.5 h"}
+    about: [ent:OER]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "Neither scan rate used in the paper gives 3.5 h for 500 cycles, so the time-based stability comparison with Co is unreliable.", priority: MEDIUM}
+  - id: luan2024:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Fig. 2
+    paper_part: RESULTS
+    text: Online SFC-ICP-MS shows Cr, Mn, Co and Ni dissolution on electrolyte contact, a strong Cr and Mn dissolution peak at the onset of OER cycling decaying within a few cycles, and no resolvable Fe signal.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2b-g"}]
+    about: [ent:ICPMS]
+  - id: luan2024:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Table 1
+    paper_part: RESULTS
+    text: Offline cumulative mass losses after 5, 10, 150 and 6550 cycles are 141/210/316/431 ng/cm2 for Fe, 38/72/102/113 for Co, 109/227/291/275 for Ni, below detection/21/58/502 for Mn and 144/430/781/6914 for Cr.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1"
+        values:
+          - {symbol: ni150, quantity: cumulative Ni loss, value: 291, unit: ng/cm2, condition: 150 cycles}
+          - {symbol: ni6550, quantity: cumulative Ni loss, value: 275, unit: ng/cm2, condition: 6550 cycles}
+          - {quantity: cumulative Cr loss, value: 6914, unit: ng/cm2, condition: 6550 cycles}
+          - {quantity: cumulative Mn loss, value: 502, unit: ng/cm2, condition: 6550 cycles}
+          - {quantity: cumulative Fe loss, value: 431, unit: ng/cm2, condition: 6550 cycles}
+        derived_checks:
+          - {expression: "cumulative Ni loss does not decrease with cycling", formula: "ni6550 >= ni150", satisfied: false}
+    about: [ent:ICPMS]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "A cumulative quantity decreases (Ni 291 to 275 ng/cm2); the text says Ni dissolution 'nearly ceased after 10 cycles' in one place and 'ceases after 150 cycles' in another, while Table 1 increases from 109 to 291 between 5 and 150 cycles.", priority: MEDIUM}
+
+  # ---------------- Composition and structure ----------------
+  - id: luan2024:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Table 2, Fig. 3
+    paper_part: RESULTS
+    text: After 70 cycles APT resolves three layers - a ~5 nm hydrous surface oxide with 30.5 at.% Fe, 24.7 Ni, 25.7 O and depleted Cr/Mn/Co, a Cr-rich oxide (22.7 at.% Cr, 39.9 O) and an O-rich layer (24.2 O) enriched in Mn, Fe, Co, Ni - with D2O found only in the top 4-5 nm.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 2 (70 cycles)"
+        values:
+          - {symbol: cr, quantity: Cr hydrous oxide, value: 6.4, unit: at.%}
+          - {symbol: mn, quantity: Mn hydrous oxide, value: 5.3, unit: at.%}
+          - {symbol: fe, quantity: Fe hydrous oxide, value: 30.5, unit: at.%}
+          - {symbol: co, quantity: Co hydrous oxide, value: 7.4, unit: at.%}
+          - {symbol: ni, quantity: Ni hydrous oxide, value: 24.7, unit: at.%}
+          - {symbol: o, quantity: O hydrous oxide, value: 25.7, unit: at.%}
+        derived_checks:
+          - {expression: "composition sums to 100 at.%", formula: "cr + mn + fe + co + ni + o", result: 100.0, unit: at.%}
+          - {expression: "Fe/Ni ratio (text: Ni/Fe/O ~ 1:1.2:1)", formula: "fe/ni", result: 1.23}
+          - {expression: "total metal / O ratio of the layer", formula: "(cr + mn + fe + co + ni)/o", result: 2.89, note: "far from the 1:1 M/O ratio used to identify MO-OD when all metals are counted"}
+    about: [ent:APT, ent:NiFeOOH, ent:CrOx, ent:ORich]
+  - id: luan2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.3, 4
+    paper_part: RESULTS
+    text: The Cantor alloy surface is activated by forming an approximately 5 nm amorphous NiFe-rich oxyhydroxide rather than a high-entropy oxyhydroxide, after Cr, Mn and Co are depleted by dissolution on electrolyte contact.
+    about: [ent:NiFeOOH, ent:Cantor]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "An APT Ni/Fe/O ratio near 1:1:1 indicates (NiFe)O-OD; a Ni2+/Ni3+ redox pair confirms a Ni oxyhydroxide.", warrant_basis: AUTHOR_ARGUMENT}
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The M/O criterion is applied to Ni+Fe only; including Cr, Mn and Co gives M/O ~ 2.9, which does not match the stated oxyhydroxide signature.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "APT shows a Ni- and Fe-rich hydrous surface layer, TEM shows it is amorphous, the CV shows a Ni redox pair, and ICP-MS shows early Cr/Mn/Co loss; the oxyhydroxide identification rests on a selectively applied M/O ratio from one facet, and the link to activation is correlative."
+      missing_evidence:
+        - "Raman or XAS of the activated surface"
+        - "Several APT specimens per state"
+      proof_obligations:
+        - text: "Show a NiFe-rich hydrous surface layer at peak activity"
+          obligation_status: DISCHARGED
+          discharged_by: [luan2024:OBS5]
+        - text: "Identify the layer as oxyhydroxide"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [luan2024:OBS5]
+        - text: "Show that the layer causes the activation"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [luan2024:OBS1]
+  - id: luan2024:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Table 2
+    paper_part: RESULTS
+    text: In the surface hydrous oxide the Ni content falls from 24.7 to 18.7 at.% after 150 cycles while Fe goes from 30.5 to 29.3 at.%, and after 2000 cycles the surface holds 32.1 at.% Mn, 17.9 Fe and 10.4 Ni; the Cr-rich layer loses O (38.3 to 28.0 at.%) and gains Mn (8.4 to 14.3 at.%).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 2"
+        values:
+          - {symbol: fe70, quantity: Fe surface, value: 30.5, unit: at.%, condition: 70 cycles}
+          - {symbol: fe150, quantity: Fe surface, value: 29.3, unit: at.%, condition: 150 cycles}
+          - {symbol: ni150, quantity: Ni surface, value: 18.7, unit: at.%, condition: 150 cycles}
+          - {symbol: o150, quantity: O surface, value: 32.3, unit: at.%, condition: 150 cycles}
+          - {quantity: Mn surface, value: 32.1, unit: at.%, condition: 2000 cycles}
+        derived_checks:
+          - {expression: "surface Fe content increases from 70 to 150 cycles (as stated in Sec. 3.5)", formula: "fe150 > fe70", satisfied: false}
+          - {expression: "Ni/Fe ratio after 150 cycles (text: 0.5)", formula: "ni150/fe150", result: 0.64}
+    about: [ent:APT, ent:MnOx]
+  - id: luan2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3.3, 3.5, 4
+    paper_part: DISCUSSION
+    text: Dissolution and redeposition of Fe raise the Fe/Ni ratio of the surface oxyhydroxide, forming less active FeOOH and causing the slight activity decay after 150 cycles.
+    about: [ent:NiFeOOH, ent:OER]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "Sec. 3.5 says the Fe content increases, but Table 2 shows Fe decreasing slightly; the Ni/Fe ratio falls because Ni is lost, so the data do not show Fe redeposition.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The falling Ni/Fe ratio is measured, but it arises from Ni loss rather than Fe gain, no redeposition is observed directly, and FeOOH formation is inferred from literature."
+      missing_evidence:
+        - "Isotope-labelled Fe or electrolyte Fe spiking to show redeposition"
+        - "Phase identification of FeOOH after 150 cycles"
+  - id: luan2024:OBS7
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Fig. 4, Fig. S5
+    paper_part: RESULTS
+    text: TEM shows a ~5 nm amorphous surface layer and a ~3 nm layer whose FFT reflections fit corundum Cr2O3 after 70 cycles, an fcc O-rich layer with lattice parameter 0.371 nm versus 0.356 nm for the matrix, and after 2000 cycles loose oxide flakes and a surface oxide matching both Mn3O4 and Mn2O3 (whose reflections also fit Cr2O3).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, Fig. S5"
+        values:
+          - {symbol: a_o, quantity: O-rich layer lattice parameter, value: 0.371, unit: nm}
+          - {symbol: a_m, quantity: matrix lattice parameter, value: 0.356, unit: nm}
+        derived_checks:
+          - {expression: "lattice expansion of the O-rich layer", formula: "100*(a_o - a_m)/a_m", result: 4.2, unit: "%"}
+    about: [ent:TEM, ent:CrOx, ent:ORich, ent:MnOx]
+  - id: luan2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.5, 4
+    paper_part: DISCUSSION
+    text: The subsurface Cr-rich oxide and O-rich layers impede outward diffusion and dissolution of Mn, Fe, Co and Ni but not of Cr, and their collapse by steady Cr dissolution exfoliates the oxyhydroxide while fast-diffusing Mn segregates to form a Mn-rich oxide that deactivates the electrode.
+    about: [ent:CrOx, ent:ORich, ent:MnOx, ent:OER]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Barrier function, collapse and Mn segregation are inferred from three snapshots of composition; no time-resolved or controlled experiment (e.g. Cr-free alloy) isolates the mechanism.", priority: HIGH}
+      - {concern_type: UNTESTED_ASSERTION, description: "Mn diffusing six orders of magnitude faster than Cr, Fe and Ni at room temperature is extrapolated from 1073-1373 K data.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Compositional profiles, ICP-MS and TEM consistently show Cr loss, layer thinning and a Mn-rich surface at the deactivated state; the barrier and collapse mechanism and Mn segregation as cause of deactivation are a plausible narrative, not a tested mechanism, from single specimens per state."
+      missing_evidence:
+        - "Intermediate states between 150 and 2000 cycles"
+        - "Comparison with a Cr-free or Mn-free alloy"
+        - "Activity of a deliberately Mn-oxide-covered surface"
+      proof_obligations:
+        - text: "Show the layered subsurface structure"
+          obligation_status: DISCHARGED
+          discharged_by: [luan2024:OBS5, luan2024:OBS7]
+        - text: "Show that the layers block diffusion of Mn, Fe, Co, Ni"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [luan2024:OBS5]
+        - text: "Show that the Mn-rich oxide causes deactivation"
+          obligation_status: OPEN
+          priority: HIGH
+  - id: luan2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.4
+    paper_part: DISCUSSION
+    text: The Mn-rich surface oxide after 2000 cycles is most likely Mn3O4, because Mn3O4 is pseudocapacitive and less OER-active and its formation enthalpy (-1387 kJ/mol) is more favourable than that of Mn2O3 (-962 kJ/mol).
+    about: [ent:MnOx]
+    claim_modality: DESCRIPTIVE
+    author_certainty: SPECULATIVE
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 3.4, ref. 61"
+        values:
+          - {symbol: h34, quantity: formation enthalpy Mn3O4, value: -1387, unit: kJ/mol}
+          - {symbol: h23, quantity: formation enthalpy Mn2O3, value: -962, unit: kJ/mol}
+        derived_checks:
+          - {expression: "formation enthalpy per Mn atom, Mn3O4", formula: "h34/3", result: -462.3, unit: kJ/mol}
+          - {expression: "formation enthalpy per Mn atom, Mn2O3", formula: "h23/2", result: -481.0, unit: kJ/mol}
+    concerns:
+      - {concern_type: ARITHMETIC, description: "Enthalpies per formula unit are compared for formulas with different Mn content; per Mn atom Mn2O3 is the more favourable oxide, so the thermodynamic argument points the other way.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "TEM cannot distinguish Mn3O4 from Mn2O3, and the enthalpy argument is invalid as stated; the assignment rests on the pseudocapacitive CV alone."
+      missing_evidence:
+        - "Mn L-edge EELS or XAS to determine the Mn oxidation state"
+  - id: luan2024:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: The activated Cantor alloy reaches OER activity comparable to NiFe-type layered double hydroxides and higher current densities than Ni and Co microelectrodes, suggesting that multi-component HEAs promote OER activity compared with unary systems.
+    about: [ent:OER, ent:Cantor]
+    claim_modality: COMPARATIVE
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The paper concludes that the active surface is NiFe oxyhydroxide and that the high-entropy configuration is lost before OER, so the advantage over Fe-free Ni in Fe-free electrolyte reflects Fe in the layer, not a multi-component effect.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The comparison is measured but confounded: Ni without Fe is a poor OER catalyst, and the authors' own analysis attributes the activity to NiFeOOH; the LDH comparison mixes bulk and nanostructured catalysts, as acknowledged."
+      missing_evidence:
+        - "Comparison with a NiFe alloy microelectrode under identical conditions"
+  - id: luan2024:CLAIM6
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3.5, 4
+    paper_part: CONCLUSION
+    text: Concerted thermodynamically and kinetically driven processes destroy the high-entropy atomic configuration of HEA surfaces during the OER, so the high-entropy synergistic effect hypothesis requires verification by atomic-scale characterization.
+    about: [ent:Cantor]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "For the Cantor alloy the loss of equiatomic surface composition is directly shown; extension to HEAs 'regardless of their forms' rests on one bulk alloy and one facet."
+  - id: luan2024:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3.2, 3.5
+    paper_part: DISCUSSION
+    text: Improved stability of the Cantor alloy cannot be concluded because comparable dissolution data for unary to quaternary metals are scarce, and the reconstruction likely depends on potential range, scan rate, electrolyte, temperature and pH.
+    limitation_kind: SCOPE
+  - id: luan2024:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: The mechanistic insights may extend to other HEAs and enable optimization of surface compositions for OER performance.
+
+  - id: luan2024:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "The subsurface Cr-rich oxide and O-rich layers impede outward diffusion and dissolution of Mn, Fe, Co and Ni but not of Cr, and their collapse by steady Cr dissolution exfoliates the oxyhydroxide while fast-diffusing Mn segregates to form a Mn-rich oxide that deactivates the electrode."
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM3 in the conclusion; verdict as there."
+
+relations:
+  - {id: luan2024:R1, subject: luan2024:BG1, predicate: MOTIVATES, object: luan2024:GAP1, asserted_by: AUTHORS}
+  - {id: luan2024:R2, subject: luan2024:BG2, predicate: MOTIVATES, object: luan2024:GAP1, asserted_by: AUTHORS}
+  - {id: luan2024:R3, subject: luan2024:GAP1, predicate: MOTIVATES, object: luan2024:AIM1, asserted_by: AUTHORS}
+  - {id: luan2024:R4, subject: luan2024:METH1, predicate: DELIVERS, object: luan2024:AIM1, asserted_by: AUTHORS}
+  - {id: luan2024:R5, subject: luan2024:OBS5, predicate: SUPPORTS, object: luan2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Single facet, unreported specimen count; oxyhydroxide assignment via selective M/O ratio"}}
+  - {id: luan2024:R6, subject: luan2024:OBS3, predicate: SUPPORTS, object: luan2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: luan2024:R7, subject: luan2024:OBS1, predicate: SUPPORTS, object: luan2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: luan2024:R8, subject: luan2024:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: luan2024:CLAIM1, asserted_by: AUTHORS}
+  - {id: luan2024:R9, subject: luan2024:OBS6, predicate: SUPPORTS, object: luan2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: MEDIUM, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Ratio change from Ni loss, not Fe gain"}}
+  - {id: luan2024:R10, subject: luan2024:OBS6, predicate: CONTRADICTS, object: luan2024:CLAIM2, asserted_by: ANNOTATOR, note: "Table 2: surface Fe decreases from 30.5 to 29.3 at.%"}
+  - {id: luan2024:R11, subject: luan2024:OBS4, predicate: UNDERCUTS, object: luan2024:CLAIM2, asserted_by: ANNOTATOR, note: "Fe dissolves steadily (141 to 431 ng/cm2) without evidence of return"}
+  - {id: luan2024:R12, subject: luan2024:OBS6, predicate: SUPPORTS, object: luan2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: luan2024:R13, subject: luan2024:OBS7, predicate: SUPPORTS, object: luan2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: luan2024:R14, subject: luan2024:OBS4, predicate: SUPPORTS, object: luan2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "Steady Cr dissolution (6914 ng/cm2)"}
+  - {id: luan2024:R15, subject: luan2024:DATA1, predicate: QUALIFIES, object: luan2024:CLAIM3, asserted_by: ANNOTATOR, note: "Snapshots from single specimens per state"}
+  - {id: luan2024:R16, subject: luan2024:OBS7, predicate: SUPPORTS, object: luan2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: luan2024:R17, subject: luan2024:CLAIM4, predicate: SUPPORTS, object: luan2024:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: luan2024:R18, subject: luan2024:OBS1, predicate: SUPPORTS, object: luan2024:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: luan2024:R19, subject: luan2024:CLAIM1, predicate: CONTRADICTS, object: luan2024:CLAIM5, asserted_by: ANNOTATOR, note: "Activity attributed to NiFeOOH, not to a multi-component effect"}
+  - {id: luan2024:R20, subject: luan2024:CLAIM1, predicate: SUPPORTS, object: luan2024:CLAIM6, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: luan2024:R21, subject: luan2024:CLAIM3, predicate: SUPPORTS, object: luan2024:CLAIM6, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: luan2024:R22, subject: luan2024:METH1, predicate: QUALIFIES, object: luan2024:CLAIM3, asserted_by: ANNOTATOR, note: "Activity, dissolution and APT states from different electrolytes and scan rates"}
+  - {id: luan2024:R23, subject: luan2024:OBS2, predicate: QUALIFIES, object: luan2024:LIM1, asserted_by: ANNOTATOR, note: "Stated durations do not match cycle numbers"}
+  - {id: luan2024:R24, subject: luan2024:CLAIM6, predicate: ANSWERS, object: luan2024:GAP1, asserted_by: AUTHORS}
+  - {id: luan2024:R25, subject: luan2024:CLAIM6, predicate: MOTIVATES, object: luan2024:OUT1, asserted_by: AUTHORS}
+  - {id: luan2024:R26, subject: luan2024:CLAIM3, predicate: DELIVERS, object: luan2024:AIM1, asserted_by: AUTHORS}
+
+  - {id: luan2024:R27, subject: luan2024:CONC1, predicate: RESTATES, object: luan2024:CLAIM3, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A rich correlative study combining APT, TEM, XPS and online/offline
+    ICP-MS on a well-defined CrMnFeCoNi microelectrode. It convincingly
+    shows early Cr/Mn/Co dissolution, a Ni/Fe-rich hydrous surface layer
+    at peak activity, a layered Cr-rich/O-rich subsurface, and a Mn-rich
+    surface after deactivation, which together refute a persistent
+    high-entropy surface. Mechanistic steps are weaker: Fe redeposition
+    contradicts the paper's own Table 2, the Mn3O4 assignment rests on a
+    flawed enthalpy comparison, cumulative Ni loss decreases, durations do
+    not match cycle numbers, and activity, dissolution and APT states come
+    from different electrolytes and scan rates with single specimens per
+    state.
+  key_limitations:
+    - "Fe redeposition claimed although surface Fe decreases in Table 2 (CLAIM2, OBS6)."
+    - "Mechanism of barrier collapse and Mn-driven deactivation from three snapshots on one facet (CLAIM3, DATA1)."
+    - "Mn3O4 vs Mn2O3 decided by an enthalpy comparison per formula unit (CLAIM4)."
+    - "Inconsistent dissolution data and time scales (OBS2, OBS4, METH1)."
+    - "HEA-over-unary activity claim conflicts with the NiFeOOH attribution (CLAIM5)."
+  missing_evidence:
+    - "Repeated APT specimens and intermediate cycle states."
+    - "Spectroscopic phase identification (Raman, XAS, EELS) of surface oxides."
+    - "Control alloys (NiFe, Cr-free) under identical electrolyte and scan rate."

@@ -1,0 +1,195 @@
+id: claimchain:chain/Shi2025CoCu
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text; minus signs of potentials were lost in text extraction and are restored from context)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/ceur.202500333
+  title: "Co-Cu Materials Library Screening for Discovering Electrocatalysts for the Co-Reduction of CO2 and Nitrate to Urea"
+  authors: [Jialin Shi, Geovane Arruda de Oliveira, Xin Wang, Jian Zhang, Ieva Cechanaviciute, Jill Fortmann, Alfred Ludwig, Wolfgang Schuhmann]
+  year: 2025
+  doi: 10.1002/ceur.202500333
+  url: https://doi.org/10.1002/ceur.202500333
+
+entities:
+  - {id: ent:ML, label: "co-sputtered Co-Cu thin-film materials library (Co10Cu90 to Co73Cu27 along one line)", entity_type: MATERIAL}
+  - {id: ent:Powder, label: "spray-pyrolysis Co13Cu87, Co67Cu33 and Cu100 powders on gas diffusion electrodes", entity_type: MATERIAL}
+  - {id: ent:SECCM, label: "long-range SECCM with switchable Ar/CO2 atmosphere, LSVs in KNO3/KHCO3", entity_type: TECHNIQUE}
+  - {id: ent:Flow, label: "flow-through GDE electrolyzer with product quantification (NO2-, NH3, urea)", entity_type: TECHNIQUE}
+  - {id: ent:Urea, label: "urea production rate and Faradaic efficiency", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: shi2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Electrochemical urea synthesis by co-reducing CO2 and nitrate requires matched CO2RR and NO3RR kinetics; Cu reduces nitrate mainly to nitrite and couples CO, while Co accelerates nitrite reduction to NHx intermediates in Co-Cu cascades.
+    evidence: [{evidence_kind: CITATION, references: ["5-19"]}]
+  - id: shi2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Use SECCM screening of a Co-Cu materials library under Ar and CO2 to find the composition most promising for urea synthesis and verify it as a powder catalyst in a flow electrolyzer.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: shi2025:METH1
+    statement_type: METHOD
+    section: Sec. 2.1, SI
+    paper_part: METHODS
+    text: SECCM LSVs are recorded along a Cu-rich to Co-rich line of the library in KNO3 + 0.1 M KHCO3 with Ar or CO2 in the gas chamber; 200 mM KNO3 is chosen because 50 mM gives no Ar/CO2 difference and 500 mM gives higher currents in Ar than in CO2.
+    about: [ent:SECCM, ent:ML]
+  - id: shi2025:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 2.1
+    paper_part: METHODS
+    text: An increase in SECCM current and additional LSV features under CO2 relative to Ar indicate concurrent CO2RR/NO3RR and potential C-N coupling.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "CO2 saturation acidifies the bicarbonate droplet and enables CO2RR and HER changes; the current increase is not specific to C-N coupling and no products are detected in SECCM.", priority: HIGH}
+  - id: shi2025:METH2
+    statement_type: METHOD
+    section: Sec. 2.2-2.3, SI
+    paper_part: METHODS
+    text: Co13Cu87, Co67Cu33 and Cu100 powders are made by hydrazine reduction, spray coating, calcination at 600 °C and H2 reduction at 350 °C, drop-cast on GDEs and tested at -0.35, -0.5 and -0.65 V vs RHE in 0.2 M KNO3/0.1 M KHCO3 with and without CO2; gaseous products are not analysed.
+    about: [ent:Powder, ent:Flow]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The urea quantification method, isotope-labelling or nitrate-free/CO2-free controls, and the number of repeats are not described in the main text.", priority: HIGH}
+
+  # ---------------- Results ----------------
+  - id: shi2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 1b
+    paper_part: RESULTS
+    text: In 200 mM KNO3 all compositions show higher current under CO2 than Ar; Cu-rich compositions (Co10Cu90-Co27Cu73) show a step-type NO3-to-NO2- wave near -0.25 V and only minor CO2-induced changes, increasing Co shifts NO3RR to higher overpotential, and differences between Ar and CO2 become pronounced from Co33Cu67 on.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1b, Figs. S4-S5"}]
+    about: [ent:SECCM]
+  - id: shi2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.1
+    paper_part: RESULTS
+    text: The text states that Co13Cu87 and Co67Cu33 both show a convoluted three-step LSV reflecting combined urea synthesis, NO3RR, CO2RR and HER, and later that Co13Cu87 was chosen as reference because no significant change was seen between Ar and CO2.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Sec. 2.1"}]
+    about: [ent:SECCM]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Co13Cu87 is described both as showing a complex CO2-dependent three-step response and as showing no significant Ar/CO2 difference, which undermines the selection logic.", priority: MEDIUM}
+  - id: shi2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Sec. 2.1
+    paper_part: DISCUSSION
+    text: Higher Co content raises the NO3RR overpotential toward that of CO2RR on Cu, so Co-rich compositions such as Co67Cu33 allow N and C intermediates to coexist for C-N coupling.
+    about: [ent:ML]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "The NO3RR wave shift with Co is visible in the LSVs, but coexistence of intermediates and C-N coupling are inferred from current differences without product or intermediate detection."
+  - id: shi2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2, Figs. S6-S10
+    paper_part: RESULTS
+    text: Powders match the intended compositions (EDX Co66Cu34 and Co12Cu88, consistent with ICP-MS) but are phase-separated, with Co, Cu, CoO and Cu2O in XRD and Co nano-islands on Cu particles, more pronounced for Co13Cu87.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2, Figs. S7-S10"}]
+    about: [ent:Powder]
+  - id: shi2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 3, Figs. S12-S16
+    paper_part: RESULTS
+    text: In the flow cell both Co-Cu catalysts give higher current with CO2 than without, nitrite production drops with CO2 (more for Co67Cu33), Co13Cu87 gives more NH3 with CO2, and Co67Cu33 reaches 0.25 µmol/min urea with 43% FE at -0.5 V, 11 times the rate of Cu100; FE balances are incomplete because gases were not analysed.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3, Fig. S15"
+        values:
+          - {symbol: r_cocu, quantity: urea rate Co67Cu33 at -0.5 V, value: 0.25, unit: umol min-1}
+          - {symbol: fe_urea, quantity: urea Faradaic efficiency Co67Cu33, value: 0.43}
+          - {symbol: gain, quantity: stated enhancement over Cu100, value: 11}
+        derived_checks:
+          - {expression: "implied urea rate of Cu100", formula: "r_cocu/gain", result: 0.023, unit: umol min-1}
+          - {expression: "current needed for 0.25 µmol/min urea at 43% FE (16 e- per urea)", formula: "r_cocu*1e-6/60*16*96485/fe_urea*1000", result: 14.96, unit: mA}
+    about: [ent:Flow, ent:Urea]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Urea rates are given per electrode without area or loading normalization or error bars, and no 15N/13C labelling or blank experiments confirm the urea origin.", priority: HIGH}
+  - id: shi2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, Sec. 3
+    paper_part: RESULTS
+    text: Co67Cu33 identified by SECCM screening is the most promising Co-Cu composition for urea synthesis, giving 43% FE and an 11-fold higher urea rate than pure Cu, comparing favourably with literature catalysts.
+    about: [ent:Powder, ent:Urea]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Only two compositions plus Cu were tested in the electrolyzer, so 'among all investigated binary compositions' rests on SECCM current differences, not urea measurements.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Among the three powders Co67Cu33 gives the most urea, but no other library compositions were tested for urea, urea origin is not confirmed by labelling or blanks, and the rates are not normalized or repeated."
+      proof_obligations:
+        - text: "Confirm that urea originates from co-reduction of CO2 and nitrate"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "15N- and 13C-labelled urea fraction", method: "isotope labelling with NMR detection"}]
+        - text: "Show that the SECCM-selected composition outperforms neighbouring compositions"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "urea FE and rate of Co33-Co80 powders", unit: "%", method: "flow-cell tests"}]
+  - id: shi2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Long-range SECCM with switchable atmosphere efficiently finds optimal compositions and potentials for complex co-reduction reactions, and the urea improvement arises from suppressing nitrate-to-nitrite reduction and promoting C-N coupling, consistent with the SECCM predictions.
+    about: [ent:SECCM]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The screened films are presumably single-phase alloys, while the tested powders are phase-separated metal/oxide mixtures with different surface areas, so SECCM-to-electrolyzer transfer is not a test of the same material.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The SECCM selection is qualitative and only two compositions were transferred; the mechanistic attribution rests on nitrite decrease and urea increase without intermediate detection."
+  - id: shi2025:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.3
+    paper_part: DISCUSSION
+    text: Partial currents for NO3RR, CO2RR, HER and urea cannot be separated in SECCM, gaseous products were not analysed, and cell configuration and mass transfer differ between SECCM and the flow cell.
+
+relations:
+  - {id: shi2025:R1, subject: shi2025:BG1, predicate: MOTIVATES, object: shi2025:AIM1, asserted_by: AUTHORS}
+  - {id: shi2025:R2, subject: shi2025:METH1, predicate: DELIVERS, object: shi2025:AIM1, asserted_by: AUTHORS}
+  - {id: shi2025:R3, subject: shi2025:OBS4, predicate: DELIVERS, object: shi2025:AIM1, asserted_by: AUTHORS}
+  - {id: shi2025:R4, subject: shi2025:CLAIM2, predicate: DELIVERS, object: shi2025:AIM1, asserted_by: AUTHORS}
+  - {id: shi2025:R5, subject: shi2025:CLAIM3, predicate: DELIVERS, object: shi2025:AIM1, asserted_by: AUTHORS}
+  - {id: shi2025:R6, subject: shi2025:METH1, predicate: DEPENDS_ON, object: shi2025:ASM1, asserted_by: AUTHORS}
+  - {id: shi2025:R7, subject: shi2025:OBS1, predicate: SUPPORTS, object: shi2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Current differences only; pH change under CO2 not controlled"}}
+  - {id: shi2025:R8, subject: shi2025:OBS2, predicate: UNDERCUTS, object: shi2025:CLAIM1, asserted_by: ANNOTATOR, note: "contradictory description of the Co13Cu87 response"}
+  - {id: shi2025:R9, subject: shi2025:OBS4, predicate: SUPPORTS, object: shi2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Three powders; no labelling, blanks or repeats; unnormalized rates"}}
+  - {id: shi2025:R10, subject: shi2025:OBS1, predicate: SUPPORTS, object: shi2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: shi2025:R11, subject: shi2025:OBS3, predicate: QUALIFIES, object: shi2025:CLAIM3, asserted_by: AUTHORS, note: "powders phase-separated unlike the thin films"}
+  - {id: shi2025:R12, subject: shi2025:OBS4, predicate: SUPPORTS, object: shi2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: shi2025:R13, subject: shi2025:CLAIM1, predicate: SUPPORTS, object: shi2025:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: shi2025:R14, subject: shi2025:LIM1, predicate: QUALIFIES, object: shi2025:CLAIM3, asserted_by: AUTHORS}
+  - {id: shi2025:R15, subject: shi2025:ASM1, predicate: QUALIFIES, object: shi2025:CLAIM1, asserted_by: ANNOTATOR_BACKGROUND, note: "CO2 lowers droplet pH; current rise not specific to C-N coupling"}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    SECCM along a Co-Cu library with switchable Ar/CO2 atmosphere shows
+    composition-dependent nitrate-reduction waves and CO2-induced current
+    changes, and a Co67Cu33 powder selected from them gives more urea
+    (43% FE, 11 times Cu100) than Co13Cu87 and Cu in a flow cell. The
+    screening-to-catalyst chain is thin: selection rests on qualitative
+    current differences that CO2-induced pH changes could also cause,
+    Co13Cu87 is described inconsistently, only two compositions were
+    transferred, the powders are phase-separated metal/oxide mixtures
+    unlike the films, and urea origin is not confirmed by isotope
+    labelling or blanks, with unnormalized, unrepeated rates.
+  key_limitations:
+    - "No isotope labelling or blank controls for urea (OBS4, CLAIM2)."
+    - "Only two library compositions tested for urea (CLAIM2)."
+    - "SECCM current rise not specific to C-N coupling (ASM1, CLAIM1)."
+    - "Powders differ structurally from the screened films (OBS3, CLAIM3)."
+    - "Contradictory description of the reference composition (OBS2)."
+  missing_evidence:
+    - "15N/13C labelling with NMR quantification of urea."
+    - "Flow-cell tests across more library compositions."
+    - "Area- or mass-normalized rates with repeats and full FE balance."

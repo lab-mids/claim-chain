@@ -1,0 +1,233 @@
+id: claimchain:chain/PerezMendoza2026Evaluation
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/smsc.70378
+  title: "Evaluation of the Potential of Zero Charge of Thin-Film (111) Platinum at the Nanoscale Using Scanning Electrochemical Cell Microscopy"
+  authors: [Alejandro E. Perez-Mendoza, Moonjoo Kim, Rico Zehl, Emmanuel Batsa Tetteh, Ellen Suhr, Alfred Ludwig, Wolfgang Schuhmann, Corina Andronescu]
+  year: 2026
+  doi: 10.1002/smsc.70378
+  url: https://doi.org/10.1002/smsc.70378
+
+entities:
+  - {id: ent:Pt111, label: "150 nm sputtered Pt film annealed 24 h at 900 C - strong (111) fibre texture, grains up to micrometres, Sq 0.63 nm", entity_type: MATERIAL}
+  - {id: ent:SECCM, label: "single-barrel SECCM with 1140, 490 and 240 nm pipettes in 1 or 10 mM HClO4 under humidified Ar", entity_type: TECHNIQUE}
+  - {id: ent:Proto, label: "two-step approach protocol - surface height from a first Faradaic approach, then Z-limited approaches at six potentials", entity_type: METHOD}
+  - {id: ent:PZC, label: "potential of zero charge from the zero crossing of transient charge versus approach potential", entity_type: QUANTITY}
+  - {id: ent:Cond, label: "potentiostatic conditioning potential (0.10, 0.32, 0.50/0.52 V vs SHE)", entity_type: PROCESSING_STATE}
+  - {id: ent:HER, label: "local HER current and transfer coefficient from LSV fit with transport-kinetic model", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: perezmendoza2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The PZC of Pt depends on method, electrolyte and surface structure (reported 0.3-1.1 V vs SHE for Pt(111); 0.65-0.70 V by SECCM on polycrystalline Pt), and SECCM-based PZC has been limited to pipettes above 1 um because charging transients near the PZC fall below the approach stop threshold.
+    evidence: [{evidence_kind: CITATION, references: ["4-23"]}]
+  - id: perezmendoza2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Establish a robust SECCM protocol for PZC mapping on Pt(111) with submicron pipettes (~500 and ~250 nm) by decoupling the stop criterion from the charging current.
+    author_certainty: DEMONSTRATED
+  - id: perezmendoza2026:AIM2
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Identify how gas atmosphere, electrolyte pH and preconditioning affect the SECCM-measured PZC of Pt and relate PZC to local HER activity.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: perezmendoza2026:METH1
+    statement_type: METHOD
+    section: Sec. 2, 4.2
+    paper_part: METHODS
+    text: A first approach at a HER potential fixes the surface height; subsequent approaches are limited to a quarter pipette diameter below it, each preceded by 500 ms conditioning; the charge of each transient (integrated to 3 tau) at six approach potentials (0.169-0.469 V vs SHE) is fitted linearly and the zero crossing taken as PZC; spots with R2 < 0.95 are discarded from 14 x 10 grids.
+    about: [ent:Proto, ent:SECCM, ent:PZC]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 4.2, Fig. 3-4 captions"
+        values:
+          - {symbol: ngrid, quantity: spots per map, value: 140}
+          - {symbol: nkept, quantity: spots retained (1140 nm pipette), value: 96}
+        derived_checks:
+          - {expression: "fraction of spots discarded by the R2 filter (%)", formula: "100*(1 - nkept/ngrid)", result: 31}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "About 30% of spots are discarded by an R2 > 0.95 filter; how the excluded spots are distributed and whether exclusion biases the PZC distribution is not reported.", priority: MEDIUM}
+  - id: perezmendoza2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3, 4.2
+    paper_part: METHODS
+    text: HER LSVs after the PZC sequence are fitted with an SECCM transport-kinetic model with ohmic correction estimated from the limiting current, giving transfer coefficient alpha and exchange current i0.
+    about: [ent:HER]
+
+  # ---------------- Results ----------------
+  - id: perezmendoza2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 2, S8
+    paper_part: RESULTS
+    text: With >1 um pipettes the PZC shifts positive as the Ar flow is lowered from 260 to 99 mL/min, with more negative charges and O2-reduction features at low flow; 198 and 260 mL/min give similar results.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2, S8"}]
+    about: [ent:PZC]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text describes the Ar-flow experiment as done in 1 mM HClO4, the Fig. 2 caption in 10 mM HClO4.", priority: LOW}
+  - id: perezmendoza2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 3
+    paper_part: RESULTS
+    text: With the 1140 nm pipette the PZC is 0.299 +/- 0.002 V vs SHE in 1 mM and 0.341 +/- 0.004 V in 10 mM HClO4 (n = 96-97); charges deviate from linearity at 0.169 (and 0.229) V, and the specific capacitance is 20-30 uF/cm2 with a minimum near 0.30 V.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3"}]
+    about: [ent:PZC, ent:Pt111]
+  - id: perezmendoza2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. S9
+    paper_part: RESULTS
+    text: Conditioning in the H-adsorption region (0.10 V vs SHE) lowers the measured PZC to 0.19 V, conditioning in the OH region (0.50 V) raises it to 0.48 V.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. S9"}]
+    about: [ent:PZC, ent:Cond]
+  - id: perezmendoza2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 4, S12-S15, Table S2
+    paper_part: RESULTS
+    text: With 490 and 240 nm pipettes the PZC distribution broadens (SD 0.0113 to 0.0254 V) and the median shifts from 0.299 to 0.337 V; for 240 nm, transients near the PZC are often below ~2 pA, apparent specific capacitance rises to 131 +/- 20 uF/cm2 (85 and 25 for 490 and 1140 nm), and instrumental capacitance is 0.025 pF versus 0.069 pF in contact.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, S13, S15, Table S2"
+        values:
+          - {symbol: Cin, quantity: instrumental capacitance 240 nm pipette, value: 0.025, unit: pF}
+          - {symbol: Ctot, quantity: total capacitance in contact 240 nm pipette, value: 0.069, unit: pF}
+          - {symbol: rtip, quantity: 240 nm pipette radius, value: 1.2e-5, unit: cm}
+        derived_checks:
+          - {expression: "instrumental capacitance per tip area (uF/cm2, stated ~54)", formula: "Cin*1e-12/(pi*rtip**2)*1e6", result: 55}
+          - {expression: "interfacial capacitance after subtracting instrument, per tip area (uF/cm2)", formula: "(Ctot - Cin)*1e-12/(pi*rtip**2)*1e6", result: 97}
+    about: [ent:PZC, ent:SECCM]
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "After subtracting the stated instrumental capacitance, the 240 nm interfacial capacitance is still ~97 uF/cm2, about four times the 1140 nm value, so instrument capacitance does not explain the excess; the authors list further possible causes without testing them.", priority: MEDIUM}
+  - id: perezmendoza2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 5, Table S5
+    paper_part: RESULTS
+    text: Across the three conditioning potentials, lower PZC goes with higher HER current at -0.330 V vs SHE and higher fitted alpha (~1 after 0.10 V conditioning versus ~0.85 otherwise); within one conditioning potential PZC and HER current do not vary appreciably.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5, Table S5"}]
+    about: [ent:HER, ent:PZC, ent:Cond]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The Methods say the ohmic-corrected alpha of ~1 agrees with the Heyrovsky step as rate-determining, while the Results state that Heyrovsky RDS implies alpha = 1.5 and that intermediate values indicate a mixed regime.", priority: LOW}
+
+  # ---------------- Claims ----------------
+  - id: perezmendoza2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.2, 3
+    paper_part: DISCUSSION
+    text: The protocol enables PZC measurement on Pt(111) with submicron pipettes, and reliable determination is feasible down to ~250 nm, with values consistent with macroscale results (~0.30 V vs SHE).
+    about: [ent:Proto, ent:PZC]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Submicron measurements are made without pipette crashes and the current polarity change is detected; but for 240 nm the median shifts by +38 mV, the spread doubles, transients near the PZC are at the noise floor and the potential step needed for detection exceeds 0.08 V, so 'reliable' and 'consistent with ~0.30 V' fit the 490 nm data better than the 240 nm data."
+      proof_obligations:
+        - {text: "Show that submicron PZC values agree with the micrometre value within uncertainty", obligation_status: PARTIALLY_DISCHARGED, discharged_by: [perezmendoza2026:OBS4], priority: HIGH}
+        - {text: "Map PZC on grains or features resolved by the smaller pipettes (co-located EBSD)", obligation_status: OPEN, priority: MEDIUM, requested_data: [{quantity: "PZC per grain orientation or step density", unit: V, method: "SECCM with co-located EBSD/AFM"}]}
+  - id: perezmendoza2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 2.1, 3
+    paper_part: DISCUSSION
+    text: Under sufficient Ar flow, 1 mM HClO4 (pH 3) and double-layer conditioning, the SECCM-measured PZC reflects purely capacitive charging, is distinguished from the PZTC, and agrees with literature values (~0.3 V vs SHE).
+    about: [ent:PZC]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Agreement with ~0.3 V and the capacitance minimum near 0.30 V are shown; but the authors state in Sec. 2.1 that the method cannot separate free and adsorption charge, and conditioning alone moves the value by 290 mV, so 'solely capacitive' and 'distinguished from PZTC' are asserted rather than demonstrated."
+  - id: perezmendoza2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.1
+    paper_part: DISCUSSION
+    text: Atmosphere (residual O2), electrolyte concentration (H adsorption at pH 2) and conditioning potential (residual H or OH) systematically shift the SECCM-measured PZC of Pt.
+    about: [ent:PZC, ent:Cond]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Each factor was varied directly with otherwise fixed protocol and produced clear shifts (Fig. 2, Fig. 3, Fig. S9) with supporting voltammetric or charge-linearity evidence."
+  - id: perezmendoza2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, 3
+    paper_part: DISCUSSION
+    text: Preconditioning potential shifts PZC and HER activity together, reflecting a correlation between both properties governed by surface adsorption state, with pre-adsorbed hydrogen enhancing HER kinetics.
+    about: [ent:HER, ent:PZC, ent:Cond]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Co-variation of PZC and HER with conditioning is measured, but it rests on three conditioning groups with a common cause and no within-group correlation; the kinetic interpretation leans on alpha (0.85 vs ~1), while wetted area, which changes ik, is not measured."
+  - id: perezmendoza2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3
+    paper_part: CONCLUSION
+    text: The work establishes a robust experimental protocol for PZC mapping at the submicron scale using SECCM, with reliable PZC determination below ~240 nm requiring improved instrumentation.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Robust at ~1 um and ~500 nm; at ~250 nm the method reaches its stated precision limit."
+  - id: perezmendoza2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.1-2.3
+    paper_part: DISCUSSION
+    text: The SECCM method cannot separate free and adsorption charge, the film is polycrystalline with finite grains, and the effective wetted area is not determined independently, so absolute capacitance and ik are uncertain.
+    limitation_kind: METHOD
+
+relations:
+  - {id: perezmendoza2026:R1, subject: perezmendoza2026:BG1, predicate: MOTIVATES, object: perezmendoza2026:AIM1, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R2, subject: perezmendoza2026:BG1, predicate: MOTIVATES, object: perezmendoza2026:AIM2, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R3, subject: perezmendoza2026:METH1, predicate: DELIVERS, object: perezmendoza2026:AIM1, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R4, subject: perezmendoza2026:CLAIM1, predicate: DELIVERS, object: perezmendoza2026:AIM1, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R5, subject: perezmendoza2026:CLAIM3, predicate: DELIVERS, object: perezmendoza2026:AIM2, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R6, subject: perezmendoza2026:CLAIM4, predicate: DELIVERS, object: perezmendoza2026:AIM2, asserted_by: AUTHORS}
+  - {id: perezmendoza2026:R7, subject: perezmendoza2026:OBS4, predicate: SUPPORTS, object: perezmendoza2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "240 nm median off by 38 mV, transients at noise floor"}}
+  - {id: perezmendoza2026:R8, subject: perezmendoza2026:METH1, predicate: SUPPORTS, object: perezmendoza2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW, note: "protocol avoids pipette crashes by design"}
+  - {id: perezmendoza2026:R9, subject: perezmendoza2026:OBS2, predicate: SUPPORTS, object: perezmendoza2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Agreement with literature; charge type not separated"}}
+  - {id: perezmendoza2026:R10, subject: perezmendoza2026:OBS3, predicate: QUALIFIES, object: perezmendoza2026:CLAIM2, asserted_by: ANNOTATOR, note: "290 mV shift from conditioning shows strong adsorption contributions to the measured value"}
+  - {id: perezmendoza2026:R11, subject: perezmendoza2026:LIM1, predicate: UNDERCUTS, object: perezmendoza2026:CLAIM2, asserted_by: ANNOTATOR, note: "The authors themselves state that free and adsorption charge cannot be separated"}
+  - {id: perezmendoza2026:R12, subject: perezmendoza2026:OBS1, predicate: SUPPORTS, object: perezmendoza2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Ar flow varied in one map"}}
+  - {id: perezmendoza2026:R13, subject: perezmendoza2026:OBS2, predicate: SUPPORTS, object: perezmendoza2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Concentration varied"}}
+  - {id: perezmendoza2026:R14, subject: perezmendoza2026:OBS3, predicate: SUPPORTS, object: perezmendoza2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Conditioning varied"}}
+  - {id: perezmendoza2026:R15, subject: perezmendoza2026:OBS5, predicate: SUPPORTS, object: perezmendoza2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Three groups, common cause; wetted area unknown"}}
+  - {id: perezmendoza2026:R16, subject: perezmendoza2026:LIM1, predicate: QUALIFIES, object: perezmendoza2026:CLAIM4, asserted_by: AUTHORS, note: "wetted area may vary with conditioning"}
+  - {id: perezmendoza2026:R17, subject: perezmendoza2026:CLAIM1, predicate: SUPPORTS, object: perezmendoza2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: perezmendoza2026:R18, subject: perezmendoza2026:CLAIM3, predicate: SUPPORTS, object: perezmendoza2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: perezmendoza2026:R19, subject: perezmendoza2026:CONC1, predicate: RESTATES, object: perezmendoza2026:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A careful methods paper: the surface-height-first protocol avoids pipette
+    crashes, and the systematic tests of Ar flow, electrolyte concentration
+    and conditioning potential convincingly show how each shifts the
+    SECCM-measured PZC of textured Pt(111), with ~0.30 V vs SHE recovered at
+    pH 3 and the micrometre pipette. The headline submicron claim holds best
+    for ~500 nm; at ~250 nm the median moves by +38 mV, transients near the
+    PZC are at the noise floor, the precision is limited to steps above 80 mV,
+    and the excess apparent capacitance remains about four times too large
+    even after instrument subtraction. The conclusion that the measured value
+    reflects purely capacitive charge contradicts the paper's own statement
+    that free and adsorption charge cannot be separated. The PZC-HER
+    correlation rests on three conditioning groups with a common cause.
+    Draft annotation; SI tables were not inspected.
+  key_limitations:
+    - "240 nm results at the detection limit and offset from 0.30 V (OBS4, CLAIM1)."
+    - "'Purely capacitive' claim not separable by the method (CLAIM2, LIM1)."
+    - "PZC-HER correlation from three groups, wetted area unknown (CLAIM4)."
+    - "~30% of spots removed by an R2 filter (METH1)."
+  missing_evidence:
+    - "Co-located EBSD to test structure sensitivity at submicron scale."
+    - "Wetted-area measurement per contact (post-mortem imaging)."
+    - "Independent PZTC/PZFC separation (e.g. CO displacement) on the same film."

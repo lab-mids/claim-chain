@@ -1,0 +1,295 @@
+id: claimchain:chain/Schott2025Revealing
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acscatal.5c00783
+  title: "Revealing Catalytic Properties of Palladium/Gold Systems toward Hydrogen Evolution, Oxidation, and Absorption with Scanning Electrochemical Microscopy"
+  authors: [Christian M. Schott, Julia Holl, Raul Zazpe, Michael Kopp, Ondřej Man, Sitaramanjaneya M. Thalluri, Jhonatan Rodriguez-Pereira, Peter M. Schneider, Kun-Ting Song, Emre Keles, Pekka Peljo, Jerzy J. Jasielec, Elena L. Gubanova, Jan M. Macak, Aliaksandr S. Bandarenka]
+  year: 2025
+  doi: 10.1021/acscatal.5c00783
+  url: https://doi.org/10.1021/acscatal.5c00783
+
+entities:
+  - {id: ent:PdML, label: "UPD Pd sub-monolayer on half of a Au(pc) substrate (and on Au(111) for LICT)", entity_type: MATERIAL}
+  - {id: ent:PdALD, label: "ALD Pd nanopillars on Au(pc) after 600, 1000, 1600 cycles (14, 21, 26 nm diameter)", entity_type: MATERIAL}
+  - {id: ent:SGTC, label: "SECM sample-generation tip-collection mode (25 µm Pt tip, 10 µm distance)", entity_type: TECHNIQUE}
+  - {id: ent:RC, label: "redox-competition SECM pulse mode for HOR/H absorption", entity_type: TECHNIQUE}
+  - {id: ent:LICT, label: "laser-induced current transients giving the potential of maximum entropy (PME)", entity_type: TECHNIQUE}
+  - {id: ent:Border, label: "Pd/Au border sites with strain- and ligand-shifted d-band", entity_type: CONCEPT}
+  - {id: ent:Cation, label: "alkali cation in 0.1 M AMOH (Li, Na, K, Rb, Cs)", entity_type: PROCESSING_STATE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: schott2025b:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Thin Pd on Au alters hydrogen adsorption through strain and ligand effects, and noise EC-STM located the most HER-active sites at the boundary between two-dimensional Pd clusters and Au.
+    evidence: [{evidence_kind: CITATION, references: ["10-14"]}]
+  - id: schott2025b:BG2
+    statement_type: BACKGROUND
+    section: Introduction, Results
+    paper_part: INTRODUCTION
+    text: On bulk Pd the HER activity in 0.1 M AMOH increases with decreasing cation size, whereas on Au it increases with increasing cation size, attributed to cation effects on rate-limiting water dissociation on Au.
+    evidence: [{evidence_kind: CITATION, references: ["45", "51", "52"]}]
+  - id: schott2025b:BG3
+    statement_type: BACKGROUND
+    section: Introduction, Results
+    paper_part: INTRODUCTION
+    text: The closer the PME lies to the equilibrium potential of a reaction, the more active the reaction tends to be, although no fundamental theory links the two.
+    evidence: [{evidence_kind: CITATION, references: ["42-44", "54"]}]
+  - id: schott2025b:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Spatially and temporally resolved HER/HOR activity of Pd/Au systems and the influence of alkali cations on their HOR activity have not been reported; RC-SECM has not been applied to the HOR.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: schott2025b:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Map the local HER activity at a Pd sub-monolayer/Au border with SG-TC SECM.
+    author_certainty: DEMONSTRATED
+  - id: schott2025b:AIM2
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Develop RC-SECM for the HOR, including a quantification of the activity maps, and use it to determine the cation dependence of HOR/H absorption on ALD Pd/Au samples, validated by LICT.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: schott2025b:METH1
+    statement_type: METHOD
+    section: Sec. 2.4-2.7
+    paper_part: METHODS
+    text: A Pd sub-monolayer is UPD-deposited on half of a Au(pc) substrate and scanned in SG-TC mode in air-saturated 0.1 M HClO4 (tip 0.04 V, sample 0.015 V vs RHE, 12.5 µm steps); ALD Pd nanopillars are scanned in RC mode over the same area while the electrolyte is exchanged in sequence.
+    about: [ent:SGTC, ent:RC, ent:PdML, ent:PdALD]
+  - id: schott2025b:METH2
+    statement_type: METHOD
+    section: Results, SI
+    paper_part: METHODS
+    text: RC-SECM activity is quantified by integrating the tip HOR current over each 100 x 150 µm map, normalized by the number of H2 molecules generated in the third pulse; a smaller integral means higher sample HOR/H absorption activity.
+    about: [ent:RC]
+  - id: schott2025b:METH3
+    statement_type: METHOD
+    section: Sec. 2.8
+    paper_part: METHODS
+    text: LICT on UPD Pd monolayers on Au(pc) and Au(111) gives the PME from linear fits of transient charge vs potential, measured three times in each sweep direction.
+    about: [ent:LICT, ent:PdML]
+    scope: {sample_count: 2, scope_note: "two UPD samples; not the ALD samples used for RC-SECM"}
+
+  # ---------------- Results ----------------
+  - id: schott2025b:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 1c
+    paper_part: RESULTS
+    text: The SG-TC tip current is highest within about 200 µm of the Pd/Au border and decreases with distance from it; the Pd layer shows circular surface defects.
+    evidence:
+      - evidence_kind: DATA_QUALITATIVE
+        locator: "Fig. 1c"
+        values:
+          - {symbol: w_zone, quantity: width of the high-activity zone, value: 200, unit: um}
+          - {symbol: d_tip, quantity: tip diameter, value: 25, unit: um}
+        derived_checks:
+          - {expression: "high-activity zone width in tip diameters", formula: "w_zone/d_tip", result: 8}
+    about: [ent:SGTC, ent:Border]
+  - id: schott2025b:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: RESULTS
+    text: Pd atoms at the Pd/Au border have improved HER kinetics, in agreement with noise EC-STM.
+    about: [ent:Border]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A higher tip collection current near the macroscopic deposition edge reflects atomic-scale Pd/Au boundary sites.", warrant_basis: UNSTATED}
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The border sites in the cited EC-STM work are atomic-scale cluster edges; a 200 µm zone at the edge of a half-covered macroscopic substrate measured with a 25 µm tip cannot resolve them, and the authors themselves invoke diffusion broadening.", priority: HIGH}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Coverage gradients at the deposition edge, edge diffusion geometry and H2 from the Pd half spreading over the border are not excluded; only one sample and one line scan region are shown.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The map shows enhanced collection near the edge, but SECM at this resolution cannot attribute it to atomic Pd/Au boundary sites, and no control (e.g. full Pd coverage edge, tip-distance variation) is given."
+      missing_evidence:
+        - "Same scan over the edge of a fully Pd-covered region or of a Pd film thicker than a monolayer"
+        - "Coverage map of the UPD layer across the edge"
+  - id: schott2025b:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2a, Fig. S1
+    paper_part: RESULTS
+    text: ALD gives Pd nanopillars of 14 ± 3, 21 ± 4 and 26 ± 6 nm diameter (n ≥ 30) after 600, 1000 and 1600 cycles; XPS gives about 25% and 45% surface Pd for 600 and 1000 cycles; the 1600-cycle sample has a continuous porous Pd layer of about 45 nm with protruding pillars.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2a, Fig. 5, Tables S1-S2"}]
+    about: [ent:PdALD]
+  - id: schott2025b:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3
+    paper_part: RESULTS
+    text: RC-SECM maps of the 26 nm sample show active spots that expand and merge over the first milliseconds as H2 is consumed; the most active spots in 0.1 M LiOH lie at different positions than in 0.1 M HClO4, with only one region common to both.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3, Figs. S4-S10"}]
+    about: [ent:RC]
+  - id: schott2025b:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: The integrated, normalized RC-SECM signal gives HOR/H absorption activity Li < Na < K < Rb < Cs for the 14 and 21 nm samples and Li < K < Na < Rb < Cs for the 26 nm sample.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4"}]
+    about: [ent:RC, ent:Cation]
+    scope: {sample_count: 3, scope_note: "three samples, one sequence of electrolytes each, no repeats or error bars described"}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "No repeats, error bars or randomized electrolyte order are reported; the electrolytes were measured sequentially on the same area, so time-dependent changes are confounded with the cation.", priority: HIGH}
+  - id: schott2025b:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: RESULTS
+    text: HOR/H absorption activity of the Pd/Au samples increases with cation size (decreasing hydration energy), Li < Na < K < Rb < Cs.
+    about: [ent:Cation, ent:PdALD]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Sequential electrolyte exchange on the same spot; spots shift between electrolytes (OBS3), so reconstruction over time could produce a monotonic trend.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Consistent across two of three samples and qualitatively matched by LICT, but there are no repeats or uncertainties, the order of electrolytes is confounded with time, and the signal mixes HOR and H absorption."
+      proof_obligations:
+        - text: "Show the trend is independent of measurement order and reproducible"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "integrated normalized tip current per cation with standard deviation", method: "repeat RC-SECM with reversed or randomized electrolyte order on fresh areas"}]
+        - text: "Independent confirmation of the cation trend"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [schott2025b:OBS6]
+  - id: schott2025b:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results, Conclusions
+    paper_part: DISCUSSION
+    text: The cation trend opposite to bulk Pd arises from highly active Pd at Pd/Au borders whose d-band centre is shifted by the Au lattice; for the 26 nm sample the border influence weakens and the Na/K order follows bulk Pd.
+    about: [ent:Border, ent:Cation]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The d-band shift is not measured or computed; the analogy relies on HER trends of Au and Pd transferred to the HOR.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Consistent with coverage ordering but no measurement isolates border Pd; with 55-75% of the surface being Au, a direct Au contribution is an equally simple explanation."
+  - id: schott2025b:OBS5
+    statement_type: OBSERVATION
+    section: Results, Fig. 5c, Figs. S14-S15
+    paper_part: RESULTS
+    text: Post-mortem EBSD of the 1600-cycle sample, using only high-confidence data, shows a strong (111) texture for both Au and Au + Pd crystallites.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 5c, Figs. S14-S15"}]
+    about: [ent:PdALD]
+  - id: schott2025b:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Introduction, Results
+    paper_part: RESULTS
+    text: RC-SECM did not cause significant reconstruction of the Pd nanopillars, because local short H2 pulses minimize hydride formation.
+    about: [ent:RC, ent:PdALD]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Bulk crystallographic texture from EBSD (with much data discarded) does not probe nanometre surface reconstruction; no pre/post comparison of the same area is shown, and the shifting active spots point to surface change.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Texture alignment is compatible with no reconstruction but insensitive to the surface changes in question."
+  - id: schott2025b:OBS6
+    statement_type: OBSERVATION
+    section: Results, Fig. 6, Figs. S16-S20
+    paper_part: RESULTS
+    text: For UPD Pd monolayers on Au(pc) and Au(111) the PME shifts negative (closer to the HER/HOR equilibrium) with increasing cation size from Li to Cs.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6"}]
+    about: [ent:LICT, ent:Cation]
+  - id: schott2025b:CLAIM5
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: DISCUSSION
+    text: LICT predictions align perfectly with the RC-SECM cation trend and confirm and validate the RC-SECM approach.
+    about: [ent:LICT, ent:RC]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A PME closer to the equilibrium potential implies higher activity.", warrant_basis: EMPIRICAL_CORRELATION}
+    concerns:
+      - {concern_type: OVERCLAIM, description: "LICT is done on UPD monolayers, not on the ALD nanopillar samples, and the PME-activity link is empirical; the 26 nm sample does not follow the predicted order.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "Same ordering of five cations on a different system via an empirical descriptor supports consistency, not validation; 'perfect' alignment ignores the Na/K inversion."
+  - id: schott2025b:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Independent LICT measurements show the same cation dependence and confirm the RC-SECM results, and quantifying the localized measurements allows accurate comparison of activities in different electrolytes.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM5 and CLAIM2; 'accurately' has no uncertainty behind it."
+  - id: schott2025b:CONC2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Local SG-TC SECM suggests enhanced HER activity of Pd in proximity to the Pd/Au border.
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM1 with softer wording ('suggests')."
+
+relations:
+  - {id: schott2025b:R1, subject: schott2025b:BG1, predicate: MOTIVATES, object: schott2025b:GAP1, asserted_by: AUTHORS}
+  - {id: schott2025b:R2, subject: schott2025b:GAP1, predicate: MOTIVATES, object: schott2025b:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025b:R3, subject: schott2025b:GAP1, predicate: MOTIVATES, object: schott2025b:AIM2, asserted_by: AUTHORS}
+  - {id: schott2025b:R4, subject: schott2025b:METH1, predicate: DELIVERS, object: schott2025b:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025b:R5, subject: schott2025b:OBS1, predicate: DELIVERS, object: schott2025b:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025b:R6, subject: schott2025b:CLAIM1, predicate: DELIVERS, object: schott2025b:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025b:R7, subject: schott2025b:METH2, predicate: DELIVERS, object: schott2025b:AIM2, asserted_by: AUTHORS}
+  - {id: schott2025b:R8, subject: schott2025b:OBS4, predicate: DELIVERS, object: schott2025b:AIM2, asserted_by: AUTHORS}
+  - {id: schott2025b:R9, subject: schott2025b:CLAIM2, predicate: DELIVERS, object: schott2025b:AIM2, asserted_by: AUTHORS}
+  - {id: schott2025b:R10, subject: schott2025b:CLAIM5, predicate: DELIVERS, object: schott2025b:AIM2, asserted_by: AUTHORS}
+  - {id: schott2025b:R11, subject: schott2025b:OBS1, predicate: SUPPORTS, object: schott2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "200 µm tip-resolved zone vs atomic-scale border sites; one sample; no edge control"}}
+  - {id: schott2025b:R12, subject: schott2025b:BG1, predicate: SUPPORTS, object: schott2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "agreement with noise EC-STM is invoked as support"}
+  - {id: schott2025b:R13, subject: schott2025b:OBS4, predicate: SUPPORTS, object: schott2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: MET, criteria_note: "No repeats; electrolyte order confounded with time; HOR and H absorption not separated"}}
+  - {id: schott2025b:R14, subject: schott2025b:OBS6, predicate: SUPPORTS, object: schott2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "PME on UPD monolayers is an empirical activity proxy on a different system"}}
+  - {id: schott2025b:R15, subject: schott2025b:OBS3, predicate: UNDERCUTS, object: schott2025b:CLAIM2, asserted_by: ANNOTATOR, note: "active spots move between electrolytes, indicating surface change during the sequence"}
+  - {id: schott2025b:R16, subject: schott2025b:BG2, predicate: SUPPORTS, object: schott2025b:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: schott2025b:R17, subject: schott2025b:OBS2, predicate: SUPPORTS, object: schott2025b:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, note: "more border regions at lower coverage"}
+  - {id: schott2025b:R18, subject: schott2025b:CLAIM2, predicate: SUPPORTS, object: schott2025b:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: schott2025b:R19, subject: schott2025b:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: schott2025b:CLAIM3, asserted_by: ANNOTATOR_BACKGROUND, note: "25-45% Pd surface leaves mostly Au exposed; Au's own cation trend could dominate"}
+  - {id: schott2025b:R20, subject: schott2025b:OBS5, predicate: SUPPORTS, object: schott2025b:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Bulk texture, no pre/post surface comparison"}}
+  - {id: schott2025b:R21, subject: schott2025b:OBS3, predicate: UNDERCUTS, object: schott2025b:CLAIM4, asserted_by: AUTHORS, note: "authors list reconstruction as a possible cause of shifted spots"}
+  - {id: schott2025b:R22, subject: schott2025b:OBS6, predicate: SUPPORTS, object: schott2025b:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Different sample type; empirical descriptor"}}
+  - {id: schott2025b:R23, subject: schott2025b:OBS4, predicate: QUALIFIES, object: schott2025b:CLAIM5, asserted_by: ANNOTATOR, note: "26 nm sample shows Na > K, against the LICT prediction"}
+  - {id: schott2025b:R24, subject: schott2025b:CONC1, predicate: RESTATES, object: schott2025b:CLAIM5, asserted_by: ANNOTATOR}
+  - {id: schott2025b:R25, subject: schott2025b:CONC2, predicate: RESTATES, object: schott2025b:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: schott2025b:R26, subject: schott2025b:CLAIM2, predicate: ANSWERS, object: schott2025b:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper applies SG-TC and redox-competition SECM to Pd/Au model
+    systems and reports a cation trend in HOR/H absorption activity,
+    with LICT on Pd monolayers giving the same ordering. Sample
+    preparation and characterization are described in detail, and the
+    temporal evolution of active spots is an interesting use of RC-SECM.
+    However, the 200 µm enhanced zone at a macroscopic deposition edge
+    cannot be attributed to atomic Pd/Au border sites; the cation trend
+    rests on single sequential measurements per electrolyte without
+    uncertainties, with spot positions shifting between electrolytes;
+    the d-band mechanism is not tested against a direct Au contribution;
+    and the LICT 'validation' uses different samples and an empirical
+    descriptor.
+  key_limitations:
+    - "Border enhancement inferred at 25 µm resolution without edge controls (CLAIM1)."
+    - "No repeats or uncertainties; electrolyte order confounded with time (CLAIM2, OBS4)."
+    - "Mechanism (d-band shift at borders) untested; Au contribution not excluded (CLAIM3)."
+    - "LICT on UPD monolayers, not the ALD samples (CLAIM5)."
+    - "EBSD texture cannot exclude surface reconstruction (CLAIM4)."
+  missing_evidence:
+    - "Repeat RC-SECM with randomized electrolyte order and error bars."
+    - "Bare Au(pc) and full Pd film references in the same RC-SECM protocol."
+    - "LICT or PME on the ALD samples themselves."

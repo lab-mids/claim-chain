@@ -1,0 +1,205 @@
+id: claimchain:chain/Schott2025Scanning
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.electacta.2024.145533
+  title: "Scanning impedance microscopy under oxygen reduction reaction conditions. Proof of the concept"
+  authors: [Christian Schott, Luis Hofbauer, Elena Gubanova, Peter Schneider, Aliaksandr S. Bandarenka]
+  year: 2025
+  doi: 10.1016/j.electacta.2024.145533
+  url: https://doi.org/10.1016/j.electacta.2024.145533
+
+entities:
+  - {id: ent:LEIS, label: SECM-based localized impedance spectroscopy with sample under potential control, entity_type: TECHNIQUE}
+  - {id: ent:AuQCM, label: "polycrystalline Au QCM film (~42 nm grains) as SECM sample", entity_type: MATERIAL}
+  - {id: ent:AuDisk, label: polished 1 cm Au(pc) disk for global EIS, entity_type: MATERIAL}
+  - {id: ent:Tip, label: 25 um Pt microelectrode tip at 5 um distance, entity_type: METHOD}
+  - {id: ent:EEC, label: simplified equivalent circuit (R_U + tip CPE + sample C/Rct/Warburg), entity_type: METHOD}
+  - {id: ent:Cdl, label: double-layer capacitance minimum and pzc, entity_type: QUANTITY}
+  - {id: ent:kapp, label: "apparent ORR rate coefficient k_app = sqrt(2D) A_W / R_ct", entity_type: QUANTITY}
+  - {id: ent:SGTC, label: sample-generation/tip-collection H2O2 detection, entity_type: TECHNIQUE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: schott2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Global EIS averages interfacial parameters over the whole electrode, which is ambiguous for polycrystalline and non-uniform materials, and earlier SECM-based LEIS measured samples only at open circuit potential.
+    evidence: [{evidence_kind: CITATION, references: ["12-39"]}]
+  - id: schott2025:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Whether physicochemical parameters can be reliably estimated by LEIS with the sample under potential control, and how they compare with classical EIS, is unknown.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: schott2025:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Demonstrate SECM-based LEIS on a potentiostatted Au(pc) sample, validate local pzc and Cdl minimum against global EIS, and extract local ORR kinetic parameters (k_app).
+    about: [ent:LEIS, ent:AuQCM, ent:kapp]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: schott2025:METH1
+    statement_type: METHOD
+    section: Experimental methods
+    paper_part: METHODS
+    text: A 25 um Pt tip held at 5 um above an Au QCM film in 1 mM HClO4 is perturbed with 30 mV amplitude (100 kHz-270 Hz) while the sample is stepped in 50 mV increments (213-663 mV under Ar, 65-215 mV in air); 5 x 5 (Ar) and 5 x 3 (air) arrays with 50 um spacing are recorded and fitted with a simplified circuit; global EIS uses a separate polished 1 cm Au disk with 20 mV steps and 10 mV amplitude.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Sec. 2, Fig. 1, Fig. 2"}]
+    about: [ent:LEIS, ent:EEC, ent:AuDisk]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Local and global measurements use different Au samples (sputtered QCM film vs. polished disk), different amplitudes and potential steps.", priority: HIGH}
+  - id: schott2025:ASM1
+    statement_type: ASSUMPTION
+    section: Results
+    paper_part: METHODS
+    text: Under sample potential control the probed sample area equals the Pt disk area of the tip (491 um2), not the glass sheath area assumed in earlier OCP studies.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Is the probed area independently verifiable, or is it chosen because it makes local and global capacitances agree?"
+
+  # ---------------- Results: EDL ----------------
+  - id: schott2025:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 3
+    paper_part: RESULTS
+    text: Averaged over all positions, the local Cdl shows a bell shape with a minimum of 32.2 +- 1.1 uF/cm2 at 463 mV vs RHE, and local minima vary between 31.56 and 33 uF/cm2 across positions.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3", values: [{symbol: c_loc, quantity: local Cdl minimum, value: 32.2, unit: uF/cm2}, {symbol: e_loc, quantity: local pzc, value: 463, unit: mV}]}]
+    about: [ent:Cdl, ent:LEIS]
+    scope: {sample_count: 25}
+  - id: schott2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: Global EIS on the Au disk gives a Cdl minimum of 23.5 +- 0.1 uF/cm2 at about 428 mV vs RHE (four measurements).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4c"
+        values:
+          - {symbol: c_glob, quantity: global Cdl minimum, value: 23.5, unit: uF/cm2}
+          - {symbol: e_glob, quantity: global pzc, value: 428, unit: mV}
+          - {symbol: c_loc, quantity: local Cdl minimum, value: 32.2, unit: uF/cm2}
+          - {symbol: i_meas, quantity: measured Fe(CN)6 tip current, value: 17.3, unit: nA}
+          - {symbol: i_theo, quantity: theoretical tip current, value: 15.6, unit: nA}
+        derived_checks:
+          - {expression: "ratio local/global Cdl minimum", formula: "c_loc/c_glob", result: 1.37}
+          - {expression: "local Cdl corrected by the area excess implied by the tip current (area ~ radius^2)", formula: "c_loc/(i_meas/i_theo)**2", result: 26.2, unit: uF/cm2, note: "still 11 % above the global value"}
+    about: [ent:Cdl, ent:AuDisk]
+  - id: schott2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: Potential-controlled SECM-based LEIS determines the local pzc and Cdl minimum accurately, as validated by agreement with conventional global EIS.
+    about: [ent:LEIS, ent:Cdl]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The local Cdl minimum is 37 % higher than the global one but described as 'slightly' different; the pzc differs by 35 mV, attributed to step size.", priority: HIGH}
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "Absolute capacitances depend on the assumed probed area (ASM1), which is selected on the basis of the comparison itself.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The bell-shaped Cdl curve and a pzc within ~35 mV of the global value are reproduced, so the method captures the qualitative EDL response; quantitative agreement is poor (37 % in Cdl) and validated against a different Au sample with an assumed probing area."
+      missing_evidence:
+        - "Local and global EIS on the same Au sample"
+        - "Independent determination of the probed area (e.g. distance-dependence or simulation)"
+      proof_obligations:
+        - text: "Show qualitative Cdl(E) shape and pzc"
+          obligation_status: DISCHARGED
+          discharged_by: [schott2025:OBS1]
+        - text: "Show quantitative agreement with global EIS on the same surface"
+          obligation_status: OPEN
+          priority: HIGH
+
+  # ---------------- Results: ORR ----------------
+  - id: schott2025:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 5
+    paper_part: RESULTS
+    text: In air-saturated electrolyte SG/TC shows H2O2 production on Au rising to a maximum near 0.25 V vs RHE and then decreasing while the ORR current keeps increasing to the diffusion limit; LEIS at 65-215 mV gives Cdl of about 16-20 uF/cm2 and k_app values that decrease linearly from 215 to 115 mV and change little to 65 mV, with outliers at some positions due to large Rct errors.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 5c, Table S1"}]
+    about: [ent:kapp, ent:SGTC]
+    scope: {sample_count: 15}
+  - id: schott2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: LEIS yields local ORR kinetic parameters, and the potential dependence of k_app aligns with the kinetics of the 2-electron reduction of O2 to H2O2 on Au.
+    about: [ent:kapp, ent:LEIS]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The authors state that why the model detects predominantly the 2-electron path is 'not entirely clear'; the alignment is a qualitative similarity of two decreasing curves at four potentials.", priority: MEDIUM}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Transfer coefficient, electron number and oxygen concentration are not independently determined, so k_app is model-dependent.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "k_app maps are obtained, but their interpretation as the 2-electron rate rests on a qualitative trend match with SG/TC at four potentials and an admittedly unexplained model selectivity."
+  - id: schott2025:LIM1
+    statement_type: LIMITATION
+    section: Experimental methods, Results
+    paper_part: DISCUSSION
+    text: A 30 mV perturbation is used instead of the usual 10 mV for signal-to-noise, pzc resolution is limited by 50 mV steps, and one measurement series takes about 13 h.
+    limitation_kind: METHOD
+  - id: schott2025:OUT1
+    statement_type: OUTLOOK
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: SECM-based LEIS can be used to probe local kinetics of heterogeneous samples with different structures or materials.
+
+  - id: schott2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Potential-controlled SECM-based LEIS determines the local pzc and Cdl minimum accurately, as validated by agreement with conventional global EIS."
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM1 in the conclusion; verdict as there."
+
+relations:
+  - {id: schott2025:R1, subject: schott2025:BG1, predicate: MOTIVATES, object: schott2025:GAP1, asserted_by: AUTHORS}
+  - {id: schott2025:R2, subject: schott2025:GAP1, predicate: MOTIVATES, object: schott2025:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R3, subject: schott2025:METH1, predicate: DELIVERS, object: schott2025:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R4, subject: schott2025:OBS1, predicate: SUPPORTS, object: schott2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: schott2025:R5, subject: schott2025:OBS2, predicate: SUPPORTS, object: schott2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Different Au sample; 37 % Cdl mismatch"}}
+  - {id: schott2025:R6, subject: schott2025:OBS2, predicate: UNDERCUTS, object: schott2025:CLAIM1, asserted_by: ANNOTATOR, note: "Local Cdl minimum 37 % above global"}
+  - {id: schott2025:R7, subject: schott2025:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: schott2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R8, subject: schott2025:OBS3, predicate: SUPPORTS, object: schott2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Four potentials; selectivity of the model unexplained"}}
+  - {id: schott2025:R9, subject: schott2025:CLAIM1, predicate: SUPPORTS, object: schott2025:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: schott2025:R10, subject: schott2025:LIM1, predicate: QUALIFIES, object: schott2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R11, subject: schott2025:METH1, predicate: QUALIFIES, object: schott2025:CLAIM1, asserted_by: ANNOTATOR, note: "Different samples for local and global"}
+  - {id: schott2025:R12, subject: schott2025:CLAIM1, predicate: DELIVERS, object: schott2025:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R13, subject: schott2025:CLAIM2, predicate: DELIVERS, object: schott2025:AIM1, asserted_by: AUTHORS}
+  - {id: schott2025:R14, subject: schott2025:CLAIM1, predicate: ANSWERS, object: schott2025:GAP1, asserted_by: AUTHORS}
+  - {id: schott2025:R15, subject: schott2025:CLAIM2, predicate: MOTIVATES, object: schott2025:OUT1, asserted_by: AUTHORS}
+
+  - {id: schott2025:R16, subject: schott2025:CONC1, predicate: RESTATES, object: schott2025:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A proof-of-concept that SECM-based localized impedance spectroscopy can
+    be performed with the sample under potential control: the local
+    double-layer capacitance shows the expected bell shape, the local pzc
+    lies within 35 mV of a global measurement, and ORR rate-coefficient
+    maps are obtained. Quantitative validation is weak: the local Cdl
+    minimum is 37 % above the global one (still ~11 % after correcting for
+    tip area), the comparison uses a different Au sample, the probed area
+    is an assumption, and the link between k_app and the 2-electron ORR
+    rests on a qualitative trend at four potentials that the authors
+    themselves cannot fully explain.
+  key_limitations:
+    - "Local vs global Cdl differ by 37 %; different Au samples (OBS2, CLAIM1)."
+    - "Probed area assumed (ASM1)."
+    - "k_app interpretation qualitative and model-dependent (CLAIM2)."
+    - "30 mV amplitude and 50 mV potential steps (LIM1)."
+  missing_evidence:
+    - "Same-sample local and global EIS."
+    - "Distance-dependent LEIS or FEM simulation defining the probed area."
+    - "Microkinetic model linking k_app to the 2e/4e ORR pathways."

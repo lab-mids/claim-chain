@@ -1,0 +1,201 @@
+id: claimchain:chain/Akbarnejad2026Thermally
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.48550/arXiv.2609.08363
+  title: "A thermally grown SiO2 diffusion barrier enabling high-temperature investigation of Ag-Au-Pd-Pt thin films"
+  authors: [Elaheh Akbarnejad, Aleksander Kostka, Advika Chesetti, Alan Savan, Georg Fritz, Kamen Kozhuharov, Matthias Karl Klein, Yujiao Li, Alfred Ludwig]
+  year: 2026
+  doi: 10.48550/arXiv.2609.08363
+  url: https://arxiv.org/abs/2609.08363
+  arxiv: "2609.08363"
+
+entities:
+  - {id: ent:CCSS, label: "~50 nm sputtered Ag-Au-Pd-Pt film (~Ag24Au18Pd50Pt8 by APT), nanocrystalline fcc", entity_type: MATERIAL}
+  - {id: ent:CPP, label: "combinatorial processing platform - 36-tip Si microtip array coated with the film for direct APT", entity_type: METHOD}
+  - {id: ent:Native, label: "Si tips with ~2 nm native oxide", entity_type: PROCESSING_STATE}
+  - {id: ent:Thermal, label: "Si tips with 25 nm thermally grown SiO2 (1080 C, 4 min)", entity_type: PROCESSING_STATE}
+  - {id: ent:APT, label: "atom probe tomography (LEAP 5000 XR)", entity_type: TECHNIQUE}
+  - {id: ent:TEM, label: "TEM/STEM-EDS and SAD of FIB-thinned APT tips", entity_type: TECHNIQUE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: akbarnejad2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Si microtip CPPs allow APT of combinatorial films without FIB preparation, but Pd and Pt react with Si; native oxide fails for Pt above ~400 C, ALD Al2O3 works to 600 C but degrades APT yield, and 20-50 nm thermal SiO2 protected pure Pt up to 800 C.
+    evidence: [{evidence_kind: CITATION, references: ["6-18", "27"]}]
+  - id: akbarnejad2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Whether thermal SiO2 remains an effective barrier for multicomponent CCSS films containing both silicide-forming and non-forming elements is unresolved.
+  - id: akbarnejad2026:AIM1
+    statement_type: AIM
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Compare 25 nm thermal SiO2 with native oxide as diffusion barriers for Ag-Au-Pd-Pt films on Si CPPs during annealing up to 600 C using APT and TEM, and determine whether thermal SiO2 suppresses substrate-induced modification of the film.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: akbarnejad2026:METH1
+    statement_type: METHOD
+    section: Materials and methods
+    paper_part: METHODS
+    text: Identical ~50 nm films were sputtered on one native-oxide and one thermally oxidised microtip array, annealed in vacuum for 1 h steps from 100 to 600 C with cooling and APT/TEM sampling after each step; tips were FIB-thinned for TEM, and STEM-EDS was standardless and normalised to 100%.
+    about: [ent:CPP, ent:Native, ent:Thermal, ent:APT, ent:TEM]
+    scope: {sample_count: 2}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The number of APT tips analysed per state is not reported, and each barrier type is a single array annealed sequentially, so the 600 C state also carries the 100-500 C history.", priority: MEDIUM}
+
+  # ---------------- Results: native oxide ----------------
+  - id: akbarnejad2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 2
+    paper_part: RESULTS
+    text: On native oxide, APT after 300 C shows a homogeneous film (~24 Ag, 18 Au, 8 Pt, 50 Pd at.%) with only isolated Pd enrichment; after 400 C, Pd and Pt are found in the Si tip (~41 Pd, 22 Pt, 35 Si at.%) and the film separates into Ag-Au-rich and Pd-Pt-rich zones.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2d-e"
+        values:
+          - {symbol: pd, quantity: Pd in intermixed region, value: 41, unit: at.%}
+          - {symbol: pt, quantity: Pt in intermixed region, value: 22, unit: at.%}
+          - {symbol: si, quantity: Si in intermixed region, value: 35, unit: at.%}
+        derived_checks:
+          - {expression: "(Pd+Pt):Si ratio (stated 1.8)", formula: "(pd + pt)/si", result: 1.8}
+    about: [ent:Native, ent:APT]
+  - id: akbarnejad2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 5a-f, Table 1
+    paper_part: RESULTS
+    text: On native oxide after 600 C, needle-like crystals cover the tip, the shank film thins from 50 to ~18 nm, and STEM-EDS/SAD identify an Ag-Au-rich phase and a Pd-Pt silicide (region F - 44.8 Pd, 10.4 Pt, 40.8 Si, 3.1 O at.%), indexed by SAD as PdSi and described from composition as (Pd-Pt)2Si.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5, Table 1"
+        values:
+          - {symbol: fpd, quantity: Pd in region F, value: 44.8, unit: at.%}
+          - {symbol: fpt, quantity: Pt in region F, value: 10.4, unit: at.%}
+          - {symbol: fsi, quantity: Si in region F, value: 40.8, unit: at.%}
+        derived_checks:
+          - {expression: "region F metal:Si ratio close to 2 as for (Pd-Pt)2Si", formula: "abs((fpd + fpt)/fsi - 2) < 0.3", satisfied: false}
+    about: [ent:Native, ent:TEM]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Region F is labelled PdSi (SAD, Fig. 5f) and (Pd-Pt)2Si (composition) in the same paragraph; its metal:Si ratio of 1.35 lies between the two stoichiometries.", priority: LOW}
+
+  # ---------------- Results: thermal SiO2 ----------------
+  - id: akbarnejad2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3-4
+    paper_part: RESULTS
+    text: With 25 nm thermal SiO2, APT shows no intermixing across film/SiO2/Si after 300 C or 600 C and no Ag, Au, Pd or Pt peaks in the SiO2 mass spectrum; after 600 C a Pt-enriched phase (Zone I ~22 Pt, 53 Pd, 8 Ag, 9 Au at.%) forms in a matrix of ~4 Pt, 47 Pd, 30 Ag, 17 Au at.%.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3d-e, Fig. 4"
+        values:
+          - {symbol: z1pt, quantity: Pt in Pt-enriched zone, value: 22, unit: at.%}
+          - {symbol: z1pd, quantity: Pd in Pt-enriched zone, value: 53, unit: at.%}
+          - {symbol: z1ag, quantity: Ag in Pt-enriched zone, value: 8, unit: at.%}
+          - {symbol: z1au, quantity: Au in Pt-enriched zone, value: 9, unit: at.%}
+        derived_checks:
+          - {expression: "reported metal contents of the Pt-enriched zone sum to ~100 at.%", formula: "abs(z1pt + z1pd + z1ag + z1au - 100) < 3", satisfied: false}
+    about: [ent:Thermal, ent:APT]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The four metals of the Pt-enriched zone sum to only ~92 at.%; the remaining ~8 at.% (O, C, Si?) are not identified, which matters for the 'no interdiffusion' argument. The detection limit of the SiO2 mass-spectrum check (12.65 nm cylinder) is not stated.", priority: LOW}
+  - id: akbarnejad2026:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 5g-l, Table 1
+    paper_part: RESULTS
+    text: TEM of the thermal-SiO2 tip after 600 C shows unchanged 50 nm film and 25 nm SiO2 thicknesses, grain growth from ~15 to ~60 nm, only fcc reflections, and STEM-EDS compositions at apex and shank (e.g. 44.6 Pd, 32.9 Ag, 5.1 Pt, 17.4 Au at.%) close to the as-deposited values; the Pt-enriched phase is not resolved by STEM-EDS.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5g-l, Table 1"}]
+    about: [ent:Thermal, ent:TEM]
+
+  # ---------------- Claims ----------------
+  - id: akbarnejad2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Summary
+    paper_part: DISCUSSION
+    text: Native Si oxide prevents detectable film-substrate interaction up to 300 C, but at 400 C Pd and Pt diffuse into Si and form silicides, depleting the film and causing substrate-induced decomposition, with extensive needle-shaped silicide formation at 600 C.
+    about: [ent:Native]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Direct APT detection of Pd/Pt in the Si tip at 400 C with recomputed M:Si ratio, plus TEM/SAD of silicides and film thinning at 600 C."
+  - id: akbarnejad2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Summary
+    paper_part: DISCUSSION
+    text: A 25 nm thermally grown SiO2 layer suppresses film-substrate reactions up to 600 C and retains the CCSS composition, extending Si-based CPPs to at least 600 C.
+    about: [ent:Thermal]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Side-by-side comparison with the native-oxide array under the same anneals; APT and STEM-EDS show no Si uptake and preserved composition at 600 C. Tip counts per state are not reported."
+  - id: akbarnejad2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Summary
+    paper_part: DISCUSSION
+    text: The Pt-enriched phase formed at 600 C on thermal SiO2 is intrinsic to the Ag-Au-Pd-Pt film and not caused by interaction with the Si substrate.
+    about: [ent:CCSS, ent:Thermal]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Absence of interdiffusion and preserved overall composition exclude substrate-driven depletion; the 8 at.% unaccounted for in the Pt-rich zone and the unstated SiO2 detection limit leave small room for interfacial contributions, and the phase is not confirmed by a second technique."
+  - id: akbarnejad2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Summary
+    paper_part: CONCLUSION
+    text: Thermally grown SiO2 is a robust barrier that broadens the temperature range over which composition and phase constitution of silicide-forming CCSS thin films can be reliably characterised by APT and TEM on Si CPPs.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Shown for one alloy and one barrier thickness up to 600 C; generalisation to other silicide-forming CCSS is reasonable but untested."
+
+relations:
+  - {id: akbarnejad2026:R1, subject: akbarnejad2026:BG1, predicate: MOTIVATES, object: akbarnejad2026:GAP1, asserted_by: AUTHORS}
+  - {id: akbarnejad2026:R2, subject: akbarnejad2026:GAP1, predicate: MOTIVATES, object: akbarnejad2026:AIM1, asserted_by: AUTHORS}
+  - {id: akbarnejad2026:R3, subject: akbarnejad2026:METH1, predicate: DELIVERS, object: akbarnejad2026:AIM1, asserted_by: AUTHORS}
+  - {id: akbarnejad2026:R4, subject: akbarnejad2026:CLAIM1, predicate: DELIVERS, object: akbarnejad2026:AIM1, asserted_by: AUTHORS}
+  - {id: akbarnejad2026:R5, subject: akbarnejad2026:CLAIM2, predicate: DELIVERS, object: akbarnejad2026:AIM1, asserted_by: AUTHORS}
+  - {id: akbarnejad2026:R6, subject: akbarnejad2026:OBS1, predicate: SUPPORTS, object: akbarnejad2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Direct APT of Si uptake"}}
+  - {id: akbarnejad2026:R7, subject: akbarnejad2026:OBS2, predicate: SUPPORTS, object: akbarnejad2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "TEM/SAD of silicides"}}
+  - {id: akbarnejad2026:R8, subject: akbarnejad2026:OBS3, predicate: SUPPORTS, object: akbarnejad2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Tip counts unreported"}}
+  - {id: akbarnejad2026:R9, subject: akbarnejad2026:OBS4, predicate: SUPPORTS, object: akbarnejad2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Independent TEM confirmation"}}
+  - {id: akbarnejad2026:R10, subject: akbarnejad2026:OBS1, predicate: SUPPORTS, object: akbarnejad2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, note: "native-oxide control"}
+  - {id: akbarnejad2026:R11, subject: akbarnejad2026:OBS3, predicate: SUPPORTS, object: akbarnejad2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Exclusion argument; unidentified 8 at.%"}}
+  - {id: akbarnejad2026:R12, subject: akbarnejad2026:OBS4, predicate: SUPPORTS, object: akbarnejad2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: akbarnejad2026:R13, subject: akbarnejad2026:CLAIM2, predicate: SUPPORTS, object: akbarnejad2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: akbarnejad2026:R14, subject: akbarnejad2026:CONC1, predicate: RESTATES, object: akbarnejad2026:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: "YES"
+  summary: >-
+    A focused, well-controlled comparison: identical Ag-Au-Pd-Pt films on
+    native-oxide and 25 nm thermal-SiO2 microtip arrays were annealed
+    together and analysed by APT and TEM. Native oxide failure at 400 C (Pd
+    and Pt in the Si tip, metal:Si of 1.8 recomputes) and extensive
+    silicides at 600 C contrast clearly with preserved composition, intact
+    barrier and absent Si uptake on thermal SiO2 at 600 C, so the main
+    claims are supported. Minor issues: tip counts per state are not given,
+    the 600 C silicide is labelled both PdSi and (Pd-Pt)2Si with a measured
+    ratio between the two, and the Pt-enriched zone composition sums to only
+    ~92 at.%. Its Pt-rich phase composition (~22 at.% Pt) differs from the
+    ~40 at.% reported for the same alloy at 600 C in the companion nanolab
+    paper (Li2026Hidden), a cross-paper point outside this paper's internal
+    logic. Draft annotation.
+  key_limitations:
+    - "Tip counts per state not reported; single array per barrier (METH1)."
+    - "Silicide stoichiometry assignment inconsistent (OBS2)."
+    - "Unaccounted ~8 at.% in Pt-enriched zone (OBS3, CLAIM3)."
+  missing_evidence:
+    - "Number of tips per state and replicate arrays."
+    - "APT detection limit for metals in the SiO2 ROI."

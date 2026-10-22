@@ -1,0 +1,262 @@
+id: claimchain:chain/ArrudadeOliveira2024Controlling
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d4sc04407j
+  title: "Controlling surface wetting in high-alkaline electrolytes for single facet Pt oxygen evolution electrocatalytic activity mapping by scanning electrochemical cell microscopy"
+  authors: [Geovane Arruda de Oliveira, Moonjoo Kim, Carla Santana Santos, Ndrina Limani, Taek Dong Chung, Emmanuel Batsa Tetteh, Wolfgang Schuhmann]
+  year: 2024
+  doi: 10.1039/d4sc04407j
+  url: https://doi.org/10.1039/d4sc04407j
+
+entities:
+  - {id: ent:SECCM, label: scanning electrochemical cell microscopy (hopping mode), entity_type: TECHNIQUE}
+  - {id: ent:PVP, label: polyvinylpyrrolidone additive (0.02-0.1 % w/v) in 1 M KOH, entity_type: MATERIAL}
+  - {id: ent:KOH, label: 1 M KOH electrolyte (pH 13.8), entity_type: MATERIAL}
+  - {id: ent:Pt, label: polycrystalline Pt with large grains, entity_type: MATERIAL}
+  - {id: ent:FEM, label: finite element simulations (COMSOL) of SECCM voltammetry, entity_type: METHOD}
+  - {id: ent:EBSD, label: electron backscatter diffraction, entity_type: TECHNIQUE}
+  - {id: ent:WF, label: "wetting factor = wetted spot diameter / tip diameter", entity_type: QUANTITY}
+  - {id: ent:OER, label: OER current density at 1.8 V vs RHE, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: arrudadeoliveira2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: SECCM maps local electrocatalytic activity of facets and particles, with resolution set by the droplet, but concentrated alkaline electrolytes spread on the surface, so earlier work lowered KOH to 0.01-0.05 M, silanized pipettes, used oil layers or gels.
+    evidence: [{evidence_kind: CITATION, references: ["1-16"]}]
+  - id: arrudadeoliveira2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: A strategy to stop droplet spreading in concentrated alkaline electrolyte without altering the electrolyte chemistry, needed for SECCM of alkaline electrocatalysis, is lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: arrudadeoliveira2024:AIM1
+    statement_type: AIM
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Characterize droplet spreading in 1 M KOH with a redox probe and FEM, mitigate it by adding a small amount of redox-inactive PVP to the capillary electrolyte, and demonstrate facet-resolved OER mapping on polycrystalline Pt.
+    about: [ent:PVP, ent:SECCM, ent:Pt]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Spreading without PVP ----------------
+  - id: arrudadeoliveira2024:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 1
+    paper_part: RESULTS
+    text: With a ~900 nm silanized quartz tip in 1 M KOH + 1 mM Fc(MeOH)2, landing spots on Pt have a diameter of 6.7 +- 1.0 um (42 spots), and consecutive CVs at one spot grow in current and change from sigmoidal to peak-shaped; the same occurs with K3[Fe(CN)6] (WF 5) and without redox probe.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1D,E, Figs. S3, S4"
+        values:
+          - {symbol: d_spot, quantity: spot diameter without PVP, value: 6.7, unit: um}
+          - {symbol: d_tip, quantity: tip diameter, value: 0.9, unit: um}
+        derived_checks:
+          - {expression: "wetting factor without PVP (stated ~7)", formula: "d_spot/d_tip", result: 7.4}
+    about: [ent:WF, ent:KOH]
+    scope: {sample_count: 42}
+  - id: arrudadeoliveira2024:OBS2
+    statement_type: OBSERVATION
+    section: Results, Figs. 2-3
+    paper_part: RESULTS
+    text: FEM simulations show that increasing the wetting factor turns the SECCM voltammogram from sigmoidal (spherical diffusion along the tip) to peak-shaped (thin-layer cell under the spread meniscus), with peak current depending on tip semi-angle, wetting factor and droplet thickness.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 2, 3, S5-S7"}]
+    about: [ent:FEM]
+  - id: arrudadeoliveira2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: RESULTS
+    text: Concentrated alkaline electrolyte causes uncontrolled spreading of the SECCM droplet, independent of the redox probe, which turns the cell into a thin-layer geometry and makes the wetted area irreproducible.
+    about: [ent:KOH, ent:WF]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "SEM spot sizes, evolving CV shapes with two probes and without probe, and FEM simulations consistently show spreading."
+
+  # ---------------- PVP ----------------
+  - id: arrudadeoliveira2024:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: With 0.02, 0.06 and 0.1 % PVP, spots shrink to 2.27 +- 0.11, 2.05 +- 0.15 and 1.11 +- 0.06 um, consecutive CVs stay stable and sigmoidal with about five times lower current, contact angles increase with PVP concentration, and pH stays at 13.8.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4H, Fig. S9A, Table S2"
+        values:
+          - {symbol: d002, quantity: spot diameter 0.02 % PVP, value: 2.27, unit: um}
+          - {symbol: d006, quantity: spot diameter 0.06 % PVP, value: 2.05, unit: um}
+          - {symbol: d01, quantity: spot diameter 0.1 % PVP, value: 1.11, unit: um}
+          - {symbol: d_tip, quantity: tip diameter, value: 0.9, unit: um}
+        derived_checks:
+          - {expression: "WF 0.02 % PVP (stated 2.5)", formula: "d002/d_tip", result: 2.52}
+          - {expression: "WF 0.06 % PVP (stated 2.3)", formula: "d006/d_tip", result: 2.28}
+          - {expression: "WF 0.1 % PVP (stated 1.2)", formula: "d01/d_tip", result: 1.23}
+    about: [ent:PVP, ent:WF]
+  - id: arrudadeoliveira2024:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 4G, Table S3
+    paper_part: RESULTS
+    text: Randles-Sevcik analysis on a Pt macroelectrode gives a Fc(MeOH)2 diffusion coefficient of 1.04e-6 cm2/s without PVP and 1.72e-7 cm2/s with 0.06 % PVP, nearly unchanged between 0.02 and 0.1 % PVP; FEM with these values reproduces the lower SECCM current at fixed geometry.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4G, Table S3"
+        values:
+          - {symbol: D0, quantity: D without PVP, value: 1.04e-6, unit: cm2/s}
+          - {symbol: Dp, quantity: D with 0.06 % PVP, value: 1.72e-7, unit: cm2/s}
+        derived_checks:
+          - {expression: "reduction factor of D (stated ~5)", formula: "D0/Dp", result: 6.0}
+    about: [ent:PVP]
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "A five- to six-fold drop in D from 0.02 % polymer that does not change with concentration is not explained by viscosity, as the authors note; adsorption of PVP on Pt blocking the electrode would also lower the Randles-Sevcik-derived apparent D.", priority: HIGH}
+  - id: arrudadeoliveira2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: RESULTS
+    text: Adding a small amount of PVP to 1 M KOH in the capillary increases the electrolyte surface tension, prevents droplet spreading and enables stable, reproducible SECCM operation in concentrated alkaline electrolyte without disturbing the electrolyte chemistry.
+    about: [ent:PVP, ent:SECCM]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Surface tension is never measured; only contact angles on Pt are reported. PVP is surface-active and generally lowers the surface tension of water.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Smaller, reproducible spots and stable CVs with PVP are shown clearly; the surface-tension mechanism is untested, and 'not disturbing the chemistry' is undermined by the unexplained five-fold drop in apparent diffusion coefficient."
+      missing_evidence:
+        - "Surface tension measurement of 1 M KOH with and without PVP"
+        - "Pt CVs in supporting electrolyte with and without PVP to test PVP adsorption"
+      proof_obligations:
+        - text: "Show reduced and reproducible wetted area with PVP"
+          obligation_status: DISCHARGED
+          discharged_by: [arrudadeoliveira2024:OBS3]
+        - text: "Show that PVP does not alter the electrode reaction"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "Pt hydrogen/oxide region charge with and without PVP", unit: uC/cm2, method: cyclic voltammetry}]
+  - id: arrudadeoliveira2024:ASM1
+    statement_type: ASSUMPTION
+    section: Introduction
+    paper_part: METHODS
+    text: PVP at 0.06 % is redox-inactive and does not adsorb on or modify the activity of the Pt surface.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does PVP adsorb facet-selectively on Pt, as it does as a capping agent in nanoparticle synthesis, and change the OER ranking of facets?"
+    note: "Implicit; the paper justifies PVP by its alkaline stability and ionic mobility only."
+
+  # ---------------- OER mapping ----------------
+  - id: arrudadeoliveira2024:OBS5
+    statement_type: OBSERVATION
+    section: Results, Fig. 5
+    paper_part: RESULTS
+    text: OER mapping on polycrystalline Pt with a 770 nm tip and 1 M KOH + 0.06 % PVP over 200 x 152 um with 4 um hops gives spots of 2.24 +- 0.19 um (WF ~2.9, a 58 % reduction), and mean current densities at 1.8 V vs RHE of the five largest grains decrease from (110) and (111) to (100).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5A-F"
+        values:
+          - {symbol: d_oer, quantity: spot diameter, value: 2.24, unit: um}
+          - {symbol: d_tip2, quantity: tip diameter, value: 0.77, unit: um}
+          - {symbol: wf0, quantity: WF without PVP, value: 7}
+        derived_checks:
+          - {expression: "WF in OER map (stated ~2.9)", formula: "d_oer/d_tip2", result: 2.91}
+          - {expression: "reduction of WF versus polymer-free (stated 58 %)", formula: "100*(1 - (d_oer/d_tip2)/wf0)", result: 58.4, unit: "%"}
+    about: [ent:Pt, ent:EBSD, ent:OER]
+    scope: {sample_count: 5}
+  - id: arrudadeoliveira2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: RESULTS
+    text: In 1 M KOH the OER activity of Pt is highest on (110) and (111) and lower on (100), opposite to the trend in acidic electrolyte, so optimal OER active sites depend on pH.
+    about: [ent:Pt, ent:OER]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The acidic trend is taken from literature macro-electrode studies, while the alkaline trend is measured by SECCM with PVP present; PVP adsorption could differ between facets.", priority: HIGH}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Five grains in one map on one sample; no repeat on another sample or statistical test between grains.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Grain-resolved current differences are measured with standard deviations; the pH-dependence conclusion compares with literature under different methods, and a facet-dependent PVP effect is not excluded."
+      missing_evidence:
+        - "Same-grain SECCM mapping in acid with and without PVP"
+        - "Repeat maps on a second Pt sample"
+  - id: arrudadeoliveira2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: SECCM measurements in strongly alkaline electrolytes had not been feasible until now, and the PVP approach applies generally to acidic and alkaline electrolytes.
+    about: [ent:SECCM, ent:PVP]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The introduction cites SECCM with 0.1 M KOH/NaOH under oil or on HOPG; generality to acid rests on one 1 M HClO4 test.", priority: LOW}
+    assessment:
+      validity: PARTIAL
+      rationale: "Feasibility at 1 M KOH is new; 'not feasible until now' and general applicability are broader than shown."
+  - id: arrudadeoliveira2024:OUT1
+    statement_type: OUTLOOK
+    section: Introduction, Conclusions
+    paper_part: CONCLUSION
+    text: Stable alkaline SECCM enables activity mapping of transition-metal electrocatalysts that cannot be studied in acid.
+
+  - id: arrudadeoliveira2024:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Adding a small amount of PVP to 1 M KOH in the capillary increases the electrolyte surface tension, prevents droplet spreading and enables stable, reproducible SECCM operation in concentrated alkaline electrolyte without disturbing the electrolyte chemistry."
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM2 in the conclusion; verdict as there."
+
+relations:
+  - {id: arrudadeoliveira2024:R1, subject: arrudadeoliveira2024:BG1, predicate: MOTIVATES, object: arrudadeoliveira2024:GAP1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R2, subject: arrudadeoliveira2024:GAP1, predicate: MOTIVATES, object: arrudadeoliveira2024:AIM1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R3, subject: arrudadeoliveira2024:OBS1, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: arrudadeoliveira2024:R4, subject: arrudadeoliveira2024:OBS2, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: arrudadeoliveira2024:R5, subject: arrudadeoliveira2024:OBS3, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: LOW, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Spreading suppression shown directly; surface tension and chemical inertness not tested"}}
+  - {id: arrudadeoliveira2024:R6, subject: arrudadeoliveira2024:OBS4, predicate: UNDERCUTS, object: arrudadeoliveira2024:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Unexplained D drop is consistent with PVP adsorption on Pt, contradicting chemical inertness"}
+  - {id: arrudadeoliveira2024:R7, subject: arrudadeoliveira2024:OBS4, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM2, asserted_by: AUTHORS, note: "Explains the lower SECCM current", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: arrudadeoliveira2024:R8, subject: arrudadeoliveira2024:OBS5, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Five grains, one sample; acid comparison from literature"}}
+  - {id: arrudadeoliveira2024:R9, subject: arrudadeoliveira2024:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: arrudadeoliveira2024:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: arrudadeoliveira2024:R10, subject: arrudadeoliveira2024:ASM1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: arrudadeoliveira2024:OBS5, asserted_by: ANNOTATOR_BACKGROUND, note: "If assumption fails, facet-selective PVP adsorption could produce the facet trend"}
+  - {id: arrudadeoliveira2024:R11, subject: arrudadeoliveira2024:CLAIM2, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: arrudadeoliveira2024:R12, subject: arrudadeoliveira2024:OBS5, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: arrudadeoliveira2024:R13, subject: arrudadeoliveira2024:CLAIM2, predicate: SUPPORTS, object: arrudadeoliveira2024:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: arrudadeoliveira2024:R14, subject: arrudadeoliveira2024:BG1, predicate: UNDERCUTS, object: arrudadeoliveira2024:CLAIM4, asserted_by: ANNOTATOR, note: "Cited prior alkaline SECCM at 0.1 M"}
+  - {id: arrudadeoliveira2024:R15, subject: arrudadeoliveira2024:CLAIM2, predicate: DELIVERS, object: arrudadeoliveira2024:AIM1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R16, subject: arrudadeoliveira2024:CLAIM3, predicate: DELIVERS, object: arrudadeoliveira2024:AIM1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R17, subject: arrudadeoliveira2024:CLAIM2, predicate: ANSWERS, object: arrudadeoliveira2024:GAP1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R18, subject: arrudadeoliveira2024:CLAIM4, predicate: MOTIVATES, object: arrudadeoliveira2024:OUT1, asserted_by: AUTHORS}
+  - {id: arrudadeoliveira2024:R19, subject: arrudadeoliveira2024:CLAIM1, predicate: MOTIVATES, object: arrudadeoliveira2024:CLAIM2, asserted_by: AUTHORS}
+
+  - {id: arrudadeoliveira2024:R20, subject: arrudadeoliveira2024:CONC1, predicate: RESTATES, object: arrudadeoliveira2024:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A clear methods paper: droplet spreading in 1 M KOH is convincingly
+    documented by spot sizes, evolving redox-probe voltammograms and FEM,
+    and PVP reproducibly confines the droplet, with all stated wetting
+    factors recomputing from the spot sizes. The interpretation is weaker:
+    the surface-tension mechanism is not measured, and an unexplained
+    five-fold drop in apparent diffusion coefficient at 0.02 % PVP points
+    to PVP adsorption on Pt, which is not tested and could also affect the
+    facet-dependent OER ranking that is compared with acidic literature
+    data from five grains of one sample.
+  key_limitations:
+    - "PVP inertness on Pt not tested; unexplained D drop (ASM1, OBS4)."
+    - "Surface-tension mechanism asserted, only contact angles measured (CLAIM2)."
+    - "Facet trend from five grains of one sample compared with literature acid data (CLAIM3)."
+    - "Novelty and generality claims broader than shown (CLAIM4)."
+  missing_evidence:
+    - "Surface tension measurements with PVP."
+    - "Pt blank CVs with and without PVP; OER on single crystals with PVP."
+    - "Same-sample facet mapping in acid with PVP."

@@ -1,0 +1,227 @@
+id: claimchain:chain/Zhang2026Word2Vec
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2603.08881v1; figures judged from captions and tables)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/aidi.70158
+  title: "From Word2Vec to Transformers: Text-Derived Composition Embeddings for Filtering Combinatorial Electrocatalysts"
+  authors: [Lei Zhang, Markus Stricker]
+  year: 2026
+  doi: 10.1002/aidi.70158
+  url: https://doi.org/10.1002/aidi.70158
+  arxiv: "2603.08881"
+
+entities:
+  - {id: ent:Libs, label: "combinatorial electrocatalyst libraries (HER Ag-Au-Pd-Pt-Rh/Ru, ORR Ag-Pd-Pt(-Ru), Ag-Pd-Ru, OER oxides and Ni-Pd-Pt-Ru)", entity_type: MATERIAL}
+  - {id: ent:W2V, label: "Word2Vec skip-gram embeddings trained on an electrocatalysis abstract corpus, linear mixing of element vectors", entity_type: METHOD}
+  - {id: ent:TF, label: "MatSciBERT and Qwen embeddings, element-wise mixing or full-composition prompts, inference only", entity_type: METHOD}
+  - {id: ent:Pareto, label: "dual Pareto-front filter in (S_dielectric, S_conductivity) cosine-similarity space", entity_type: METHOD}
+  - {id: ent:Metrics, label: "retained fraction and relative error of best current density (subset vs full library)", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zhang2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: Combinatorial libraries contain hundreds to thousands of compositions; supervised models need abundant consistent labels, while text embeddings encode community knowledge linking composition to property concepts and could rank candidates without labels.
+    evidence: [{evidence_kind: CITATION, references: ["1-18"]}]
+  - id: zhang2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. I
+    paper_part: INTRODUCTION
+    text: Evaluate a label-free filter that embeds compositions with Word2Vec, MatSciBERT or Qwen (element-wise or full prompts), maps them onto similarity to 'conductivity' and 'dielectric', and selects a dual Pareto subset, measuring candidate reduction versus retention of the best current across 15 libraries.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: zhang2026:METH1
+    statement_type: METHOD
+    section: Sec. II
+    paper_part: METHODS
+    text: Composition vectors are concentration-weighted sums of element embeddings (W2V, MatSciBERT, Qwen) or encodings of 'material composition - Ag = 0.50, Pd = 0.50' prompts; cosine similarities to two concept vectors define a 2D space, and the union of the two opposite-direction Pareto fronts is the selected subset.
+    about: [ent:W2V, ent:TF, ent:Pareto]
+  - id: zhang2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. II.D
+    paper_part: METHODS
+    text: Similarity to the two concepts 'conductivity' and 'dielectric' is a useful, reaction-agnostic descriptor space for electrocatalyst ranking.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: No other concept pairs or sensitivity to concept choice are tested.
+  - id: zhang2026:METH2
+    statement_type: METHOD
+    section: Sec. III, Tables I-II
+    paper_part: METHODS
+    text: Performance is assessed per library at one overpotential by the retained fraction and by the relative deviation of the best current in the subset from the best in the full library; no random-subset or other baseline is reported.
+    about: [ent:Metrics]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Without a random-selection baseline of equal subset size, it is unknown how often a near-best composition (within a few percent) would be retained by chance in these smooth composition-gradient libraries.", priority: HIGH}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The text speaks of 15 libraries, but Tables I-II list 14 material systems, one of which (Ni-Pd-Pt-Ru, 4026 compositions) is not a single 342-area library; several figure and table references are broken ('Fig. ??', 'Table ??').", priority: LOW}
+
+  # ---------------- Results ----------------
+  - id: zhang2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. III.A, Table I
+    paper_part: RESULTS
+    text: Element-wise W2V retains 2.8-39.5% of compositions with best-current errors of 0-5.7% in all systems except Ag-Pd-Pt (23.4%); MatSciBERT retains up to 89.5% in oxide libraries and misses the best Ni-Pd-Pt-Ru composition (81% error); Qwen retains 18-85% with up to 38.5% error (Co-Ni-La).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table I"
+        values:
+          - {symbol: n_rh, quantity: Ag-Au-Pd-Pt-Rh library size, value: 327}
+          - {symbol: k_rh, quantity: W2V subset size Ag-Au-Pd-Pt-Rh, value: 9}
+          - {symbol: n_ni, quantity: Ni-Pd-Pt-Ru set size, value: 4026}
+          - {symbol: k_ni, quantity: W2V subset size Ni-Pd-Pt-Ru, value: 391}
+          - {symbol: e_agpdpt, quantity: W2V best-current error Ag-Pd-Pt, value: 23.4, unit: "%"}
+        derived_checks:
+          - {expression: "W2V retained fraction Ag-Au-Pd-Pt-Rh (%)", formula: "100*k_rh/n_rh", result: 2.8}
+          - {expression: "W2V retained fraction Ni-Pd-Pt-Ru (%)", formula: "100*k_ni/n_ni", result: 9.7}
+          - {expression: "W2V best-current error within ~6% for all libraries, as stated in Sec. III.C", formula: "e_agpdpt <= 6", satisfied: false}
+          - {expression: "chance that a random subset of 9 of 327 contains the single best composition (%)", formula: "100*k_rh/n_rh", result: 2.8}
+    about: [ent:W2V, ent:TF, ent:Metrics]
+    scope: {sample_count: 14}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Sec. III.C states that W2V maintains errors within ~6% for all libraries and retains typically 3-16%, but Table I gives 23.4% error for Ag-Pd-Pt and 39.5% retention for Cr-Mn-Fe-Co-Ni-O-500C-Per3.", priority: MEDIUM}
+  - id: zhang2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. III.B-C, Table II
+    paper_part: RESULTS
+    text: Composition-prompt models retain about 3-24% with errors mostly below 10%, but 25% for Mg-Co-Ni-Cu-O-Per3 (both) and 14% for Qwen Full on Ag-Pd-Pt; MatSciBERT Full reduces the Ni-Pd-Pt-Ru error from 81% to 9% relative to element-wise MatSciBERT.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table II, Fig. 1-3"}]
+    about: [ent:TF, ent:Metrics]
+  - id: zhang2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. III.E, IV
+    paper_part: RESULTS
+    text: Pareto subsets are spread across the library rather than clustered, and elemental interquartile ranges are comparable to or broader than those of the full libraries; the authors describe the filter as favouring compositions with extreme descriptor values.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Sec. III.E, IQR tables (not rendered)"}]
+    about: [ent:Pareto]
+
+  # ---------------- Claims ----------------
+  - id: zhang2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. IV-V
+    paper_part: DISCUSSION
+    text: Text-derived composition embeddings with a two-concept similarity map and dual Pareto filter provide a practical, label-free way to reduce combinatorial electrocatalyst libraries substantially while retaining high-performing candidates across HER, ORR and OER.
+    about: [ent:Pareto, ent:Libs]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Subsets do often contain a near-best composition, but no random or composition-geometry baseline is given, so it is not shown that text knowledge rather than chance or selection of extreme compositions produces the retention; several method-library pairs fail badly (errors 23-81%)."
+      proof_obligations:
+        - {text: "Beat a random subset of equal size", obligation_status: OPEN, priority: CRITICAL, requested_data: [{quantity: "distribution of best-current error for random subsets of the same retained fraction", unit: "%", method: "Monte Carlo resampling per library"}]}
+        - {text: "Beat a text-free geometric baseline selecting extreme compositions", obligation_status: OPEN, priority: HIGH, requested_data: [{quantity: "best-current error for convex-hull/corner selection of equal size", unit: "%", method: "geometric selection in composition space"}]}
+  - id: zhang2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. IV-V
+    paper_part: DISCUSSION
+    text: The lightweight Word2Vec baseline with linear element mixing often achieves the largest candidate reductions while staying close to the best measured performance, matching or exceeding transformer embeddings.
+    about: [ent:W2V]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Table I supports the smallest retained fractions for W2V and small errors in 13 of 14 systems; the text overstates it ('within ~6% for all libraries') against the 23.4% Ag-Pd-Pt error, and without a random baseline small subsets with small errors are hard to interpret."
+  - id: zhang2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. IV
+    paper_part: DISCUSSION
+    text: Coarse text-derived representations capture fuzzy correlations mappable to electrocatalytic performance, with corpus statistics and concept choice the dominant factors and transformer capacity secondary.
+    about: [ent:W2V, ent:TF]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Neither corpus nor concepts were varied, so their dominance is not tested; with linear mixing, cosine similarity to a fixed concept is a smooth function of composition and the dual Pareto front selects library extremes regardless of semantic content."
+  - id: zhang2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. IV-V
+    paper_part: DISCUSSION
+    text: Full-composition prompts can improve robustness in specific systems (e.g. Ni-Pd-Pt-Ru) but are not uniformly superior to element-wise mixing.
+    about: [ent:TF]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Directly read from Tables I-II: improvement for MatSciBERT on Ni-Pd-Pt-Ru and Ag-Pd-Pt, deterioration for Qwen Full on Mg-Co-Ni-Cu-O-Per3."
+  - id: zhang2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. IV
+    paper_part: DISCUSSION
+    text: The filter acts as a point-wise selector that preserves compositional diversity in the retained subset, which is attractive for exploratory screening.
+    about: [ent:Pareto]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported by IQR comparisons and the Ag-Pd-Pt spatial example, but the IQR tables and figure are not rendered in this version (broken references)."
+  - id: zhang2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. V
+    paper_part: CONCLUSION
+    text: Simple text-based embeddings can serve as part of an effective filtering strategy that narrows experimental search spaces across HER, ORR and OER while keeping compositional diversity, with screening performance governed by embedding model and stoichiometry representation.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM1-2; 'effective' remains unbenchmarked against chance."
+  - id: zhang2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. IV
+    paper_part: DISCUSSION
+    text: Only two concept directions, one overpotential and the best current per library are used; corpus, prompts and hyperparameters are fixed; subset size cannot be tuned and no uncertainty estimates or guarantees are given.
+    limitation_kind: SCOPE
+
+relations:
+  - {id: zhang2026:R1, subject: zhang2026:BG1, predicate: MOTIVATES, object: zhang2026:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R2, subject: zhang2026:METH1, predicate: DELIVERS, object: zhang2026:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R3, subject: zhang2026:METH2, predicate: DELIVERS, object: zhang2026:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R4, subject: zhang2026:CLAIM1, predicate: DELIVERS, object: zhang2026:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R5, subject: zhang2026:CLAIM2, predicate: DELIVERS, object: zhang2026:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R6, subject: zhang2026:OBS1, predicate: SUPPORTS, object: zhang2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "No random or geometric baseline"}}
+  - {id: zhang2026:R7, subject: zhang2026:OBS2, predicate: SUPPORTS, object: zhang2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Same missing baseline"}}
+  - {id: zhang2026:R8, subject: zhang2026:METH2, predicate: UNDERCUTS, object: zhang2026:CLAIM1, asserted_by: ANNOTATOR, note: "No chance baseline for retaining a near-best composition"}
+  - {id: zhang2026:R9, subject: zhang2026:OBS3, predicate: ALTERNATIVE_EXPLANATION_FOR, object: zhang2026:CLAIM1, asserted_by: ANNOTATOR, note: "With linear mixing the dual Pareto front picks extreme compositions; if best performers sit at library extremes, retention follows without semantic content"}
+  - {id: zhang2026:R10, subject: zhang2026:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: zhang2026:CLAIM1, asserted_by: AUTHORS, support_strength: WEAK, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Concept choice not justified or varied"}}
+  - {id: zhang2026:R11, subject: zhang2026:OBS1, predicate: SUPPORTS, object: zhang2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Comparison across models is fair; absolute value unbenchmarked"}}
+  - {id: zhang2026:R12, subject: zhang2026:OBS1, predicate: QUALIFIES, object: zhang2026:CLAIM2, asserted_by: ANNOTATOR, note: "W2V error 23.4% on Ag-Pd-Pt contradicts 'within ~6% for all libraries'"}
+  - {id: zhang2026:R13, subject: zhang2026:OBS1, predicate: SUPPORTS, object: zhang2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Corpus and concepts never varied"}}
+  - {id: zhang2026:R14, subject: zhang2026:OBS2, predicate: SUPPORTS, object: zhang2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Read directly from paired tables"}}
+  - {id: zhang2026:R15, subject: zhang2026:OBS3, predicate: SUPPORTS, object: zhang2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zhang2026:R16, subject: zhang2026:LIM1, predicate: QUALIFIES, object: zhang2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: zhang2026:R17, subject: zhang2026:CLAIM1, predicate: SUPPORTS, object: zhang2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: zhang2026:R18, subject: zhang2026:CLAIM2, predicate: SUPPORTS, object: zhang2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zhang2026:R19, subject: zhang2026:CONC1, predicate: RESTATES, object: zhang2026:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper transparently compares five text-embedding variants feeding
+    the same two-concept, dual-Pareto filter over 14 tabulated library sets,
+    and the comparative findings between embedding choices (W2V smallest
+    subsets, prompts helping in some systems, failure cases such as
+    MatSciBERT on Ni-Pd-Pt-Ru) are read straight from the tables and
+    recompute. The central claim that the filter is a practical label-free
+    screening tool is not established, because no random-subset or
+    text-free geometric baseline is reported: with linear element mixing the
+    Pareto union selects extreme compositions, which may retain near-best
+    performers in smooth gradient libraries regardless of semantics. Concept
+    choice is never varied, the text overstates W2V robustness against its
+    own Table I (23.4% error on Ag-Pd-Pt), and the library count (15 vs 14)
+    and several references are inconsistent in this version. Draft
+    annotation.
+  key_limitations:
+    - "No random or geometric baseline (METH2, R8, R9)."
+    - "Concept directions fixed and unjustified (ASM1, CLAIM3)."
+    - "W2V robustness overstated relative to Table I (OBS1, R12)."
+    - "Single overpotential and best-current metric only (LIM1)."
+  missing_evidence:
+    - "Random-subset baseline distributions per library."
+    - "Sensitivity to concept terms, corpus and prompt formulations."
+    - "Prospective test on a library not used during method development."

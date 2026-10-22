@@ -1,0 +1,227 @@
+id: claimchain:chain/Zerdoumi2026Surface
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/admi.70660
+  title: "Surface Segregation in Compositionally Complex Ag-Au-Pd-Pt Solid Solutions: Insights From High-Throughput Experimentation and Atomistic Simulations"
+  authors: [Ridha Zerdoumi, Felix Thelen, Quentin Bizot, Aleksander Kostka, Rico Zehl, Florian Lourens, Yanyan Liang, Matous Mrovec, Ralf Drautz, Wolfgang Schuhmann, Alfred Ludwig]
+  year: 2026
+  doi: 10.1002/admi.70660
+  url: https://doi.org/10.1002/admi.70660
+
+entities:
+  - {id: ent:ML, label: "two co-sputtered Ag-Au-Pd-Pt thin-film materials libraries on sapphire (Ag12-55 Au7-50 Pd6-60 Pt7-58, ~128 nm, 342 MAs each, permuted cathodes)", entity_type: MATERIAL}
+  - {id: ent:EDX, label: "EDX volume composition at 684 MAs", entity_type: TECHNIQUE}
+  - {id: ent:XPS, label: "ex-situ XPS near-surface composition (5-10 nm information depth) at nine MAs per library", entity_type: TECHNIQUE}
+  - {id: ent:MDMC, label: "hybrid MD/MC with GRACE/FS potential, 5880-atom (111) slabs at 300 K for 1 ns", entity_type: METHOD}
+  - {id: ent:Seg, label: "near-surface segregation (XPS minus EDX composition)", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zerdoumi2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Surface segregation changes the catalytic properties of alloys; in vacuum it follows surface energies, while in ambient conditions oxidation and adsorbates also matter, and in CCSS segregation of each element is modulated non-additively by all others.
+    evidence: [{evidence_kind: CITATION, references: ["11-22"]}]
+  - id: zerdoumi2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Systematic experimental quantification of surface segregation across a full quaternary noble-metal composition space, validated against MLIP atomistic simulations, has not been reported.
+  - id: zerdoumi2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Map near-surface versus volume composition across Ag-Au-Pd-Pt materials libraries by EDX and XPS and compare with MD/MC simulations to disentangle thermodynamic from kinetic and environmental influences on segregation.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: zerdoumi2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1-2.2
+    paper_part: METHODS
+    text: Two libraries were sputtered at room temperature (ML-2 with permuted cathodes); EDX was measured at all 342 MAs per library, XPS at nine MAs per library along the composition gradients (quantification uncertainty stated as +/-0.1-0.5 at.%), plus XRD, TEM-EDX of one MA and AFM at five MAs per library.
+    about: [ent:ML, ent:EDX, ent:XPS]
+    scope: {sample_count: 18}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "XPS quantification uncertainty of +/-0.1-0.5 at.% from sensitivity factors is far below typical relative uncertainties of standardless RSF quantification, and ex-situ air exposure with unquantified O 1s/C 1s means oxide formation and overlayer attenuation are not accounted for.", priority: MEDIUM}
+  - id: zerdoumi2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3
+    paper_part: METHODS
+    text: MD/MC simulations with the GRACE/FS MLIP at the EDX compositions of the XPS areas used 5880-atom fcc slabs with free (111) surfaces at 300 K for 1 ns with species swaps, representing idealised vacuum equilibrium.
+    about: [ent:MDMC]
+  - id: zerdoumi2026:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 3
+    paper_part: METHODS
+    text: Because surface and volume contents correlate linearly per element over nine areas, XPS compositions can be extrapolated to all 342 MAs of each library.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: Element-wise linear fits ignore the non-additive multi-element effects the introduction emphasises.
+
+  # ---------------- Results ----------------
+  - id: zerdoumi2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. S2-S5
+    paper_part: RESULTS
+    text: XRD shows only fcc reflections; TEM-EDX of one area shows a homogeneous 128 nm film with Ta confined to the interface; AFM gives Ra 0.50-1.09 nm and Rq 0.63-1.53 nm over ten areas.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. S2-S5"
+        values:
+          - {symbol: depth, quantity: lower bound of XPS information depth, value: 5, unit: nm}
+          - {symbol: rqmax, quantity: maximum Rq roughness, value: 1.53, unit: nm}
+        derived_checks:
+          - {expression: "roughness more than one order of magnitude below XPS information depth (as stated)", formula: "depth/rqmax > 10", satisfied: false}
+    about: [ent:ML]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "Rq up to 1.53 nm (Ra up to 1.09 nm) is only 3-5 times smaller than the 5 nm lower bound of the XPS depth, not 'consistently more than one order of magnitude'; the conclusion that roughness does not matter is probably still fine.", priority: LOW}
+  - id: zerdoumi2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 2-4
+    paper_part: RESULTS
+    text: In both libraries XPS shows Ag near-surface enrichment of up to ~8 at.% and Pt depletion of similar magnitude, slight Pd depletion and Au within about +/-2 at.% of the volume value; the trends are the same for ML-1 and ML-2.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2-4"}]
+    about: [ent:Seg, ent:XPS]
+    scope: {sample_count: 18}
+  - id: zerdoumi2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 5-6, S8
+    paper_part: RESULTS
+    text: Simulations show Ag and Au co-segregating into a (111) surface monolayer, Pt and Pd depleted, and Pt forming nanoclusters inside an Ag-Au-Pd matrix for all simulated compositions (7-58 at.% Pt).
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5-6, S8, Table S2"}]
+    about: [ent:MDMC, ent:Seg]
+
+  # ---------------- Claims ----------------
+  - id: zerdoumi2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3-4
+    paper_part: DISCUSSION
+    text: Across the Ag-Au-Pd-Pt composition space, Ag segregates to the near-surface region (up to 8 at.%), Pt is depleted, Pd slightly depleted and Au nearly unchanged, reproducibly in two libraries.
+    about: [ent:Seg]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The trend is measured at 18 areas in two independently arranged libraries, which supports it within that sample; the maps 'across 684 compositions' are linear extrapolations from nine points per library, and air exposure with unquantified oxide may contribute to the measured Ag enrichment."
+      proof_obligations:
+        - {text: "Measure surface composition beyond nine points per library or validate the extrapolation", obligation_status: OPEN, priority: MEDIUM, requested_data: [{quantity: "XPS composition at held-out MAs", unit: at.%, method: XPS}]}
+        - {text: "Exclude air-induced oxidation as a driver of Ag enrichment", obligation_status: OPEN, priority: HIGH, requested_data: [{quantity: "Ag 3d/O 1s chemical-state analysis or in-situ-transfer XPS", method: XPS}]}
+  - id: zerdoumi2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The segregation order follows the elemental surface energies (Ag < Au < Pd < Pt).
+    about: [ent:Seg]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "The lowest-surface-energy component enriches at the surface to minimise total free energy.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: PARTIAL
+      rationale: "Ag, Pd and Pt follow the order, but Au with the second-lowest surface energy shows no enrichment, which the surface-energy rule does not predict; the samples were measured after air exposure, where the rule is not expected to hold alone."
+  - id: zerdoumi2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3, 4
+    paper_part: DISCUSSION
+    text: The close qualitative agreement between experiment and MLIP simulations confirms that surface segregation in Ag-Au-Pd-Pt is primarily governed by thermodynamic factors (surface energy and phase stability), with kinetics and environment modifying individual elements such as Au.
+    about: [ent:MDMC, ent:Seg]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Simulations and experiment agree on Ag, Pd and Pt directions, but disagree on Au and predict Pt phase separation that is not observed; the Au mismatch is attributed post hoc to ambient adsorbates, kinetics and model limits without any test, so the agreement cannot confirm a thermodynamic origin."
+      missing_evidence: ["Simulations with O/OH adsorbates or experiments with UHV-transferred samples", "Annealed libraries to test the kinetic-trapping explanation"]
+  - id: zerdoumi2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The sputtered films are kinetically trapped single-phase solid solutions that have not reached the Pt-clustered equilibrium predicted by simulation.
+    about: [ent:ML]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "XRD and one TEM-EDX map show no Pt-rich domains, consistent with metastability; nanometre Pt clusters as in the simulations would be hard to detect with either method, and no annealing test is made."
+  - id: zerdoumi2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: Limited Au mobility and partial surface passivation make Au a chemically inert, surface-stabilising component in compositionally complex noble-metal electrocatalysts, and the segregation will strongly influence catalytic activity, selectivity and durability.
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No electrochemical or stability measurements are reported; the statement is outlook."
+  - id: zerdoumi2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Combined EDX and XPS on two libraries reveal pronounced Ag surface enrichment and strong Pt depletion while Au stays near its volume content, and MLIP simulations validate the trends, showing segregation is mainly governed by surface energy and phase stability.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates CLAIM1 (partly supported) and CLAIM3 (weakly supported)."
+  - id: zerdoumi2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.3, 3
+    paper_part: DISCUSSION
+    text: Simulations assume clean flat (111) surfaces in vacuum equilibrium with few layers and cannot capture the kinetically trapped, air-exposed, polycrystalline experimental films.
+    limitation_kind: METHOD
+
+relations:
+  - {id: zerdoumi2026:R1, subject: zerdoumi2026:BG1, predicate: MOTIVATES, object: zerdoumi2026:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R2, subject: zerdoumi2026:GAP1, predicate: MOTIVATES, object: zerdoumi2026:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R3, subject: zerdoumi2026:METH1, predicate: DELIVERS, object: zerdoumi2026:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R4, subject: zerdoumi2026:CLAIM1, predicate: DELIVERS, object: zerdoumi2026:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R5, subject: zerdoumi2026:CLAIM3, predicate: DELIVERS, object: zerdoumi2026:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R6, subject: zerdoumi2026:OBS2, predicate: SUPPORTS, object: zerdoumi2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Ex-situ XPS on 18 areas; second library as replication"}}
+  - {id: zerdoumi2026:R7, subject: zerdoumi2026:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: zerdoumi2026:CLAIM1, asserted_by: AUTHORS, note: "Maps across 684 compositions depend on linear extrapolation", support_strength: WEAK, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Nine fit points per library, no held-out validation"}}
+  - {id: zerdoumi2026:R8, subject: zerdoumi2026:OBS1, predicate: SUPPORTS, object: zerdoumi2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, note: "single phase and smooth surfaces needed for the comparison"}
+  - {id: zerdoumi2026:R9, subject: zerdoumi2026:OBS2, predicate: SUPPORTS, object: zerdoumi2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Order holds except for Au"}}
+  - {id: zerdoumi2026:R10, subject: zerdoumi2026:OBS2, predicate: QUALIFIES, object: zerdoumi2026:CLAIM2, asserted_by: ANNOTATOR, note: "Au, second-lowest surface energy, is not enriched"}
+  - {id: zerdoumi2026:R11, subject: zerdoumi2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: zerdoumi2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Air exposure drives oxidation-induced segregation of the more oxophilic Ag and Pd; Ag enrichment can arise from oxide/sulfide formation rather than vacuum surface energy"}
+  - {id: zerdoumi2026:R12, subject: zerdoumi2026:OBS3, predicate: SUPPORTS, object: zerdoumi2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Agreement for 3 of 4 elements; vacuum vs air"}}
+  - {id: zerdoumi2026:R13, subject: zerdoumi2026:OBS3, predicate: UNDERCUTS, object: zerdoumi2026:CLAIM3, asserted_by: ANNOTATOR, note: "Simulations predict Au enrichment and Pt clustering, neither observed"}
+  - {id: zerdoumi2026:R14, subject: zerdoumi2026:LIM1, predicate: QUALIFIES, object: zerdoumi2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R15, subject: zerdoumi2026:OBS1, predicate: SUPPORTS, object: zerdoumi2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "XRD/EDX insensitive to nm clusters"}}
+  - {id: zerdoumi2026:R16, subject: zerdoumi2026:OBS3, predicate: MOTIVATES, object: zerdoumi2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: zerdoumi2026:R17, subject: zerdoumi2026:CLAIM1, predicate: SUPPORTS, object: zerdoumi2026:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zerdoumi2026:R18, subject: zerdoumi2026:CLAIM1, predicate: SUPPORTS, object: zerdoumi2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zerdoumi2026:R19, subject: zerdoumi2026:CLAIM3, predicate: SUPPORTS, object: zerdoumi2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: zerdoumi2026:R20, subject: zerdoumi2026:CONC1, predicate: RESTATES, object: zerdoumi2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: zerdoumi2026:R21, subject: zerdoumi2026:CONC1, predicate: RESTATES, object: zerdoumi2026:CLAIM3, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The experimental core is sound: two libraries with permuted cathodes,
+    single-phase fcc and smooth surfaces, and XPS at 18 areas consistently
+    show Ag near-surface enrichment and Pt depletion against EDX volume
+    composition. The breadth claim ('maps across 684 compositions') rests on
+    element-wise linear extrapolation from nine XPS points per library,
+    which sits awkwardly with the paper's own emphasis on non-additive
+    multi-element effects. The XPS was ex situ, with oxygen not quantified
+    and an implausibly small quantification uncertainty, so oxidation-driven
+    Ag segregation in air is a live alternative to the vacuum surface-energy
+    explanation. Simulations agree for three elements but predict Au
+    enrichment and Pt clustering that are not seen, so they cannot 'confirm'
+    a thermodynamic origin. The roughness argument overstates the margin.
+    Draft annotation; figure-based judgements rely on captions.
+  key_limitations:
+    - "Surface maps extrapolated from nine XPS points per library (ASM1, R7)."
+    - "Ex-situ XPS; oxidation not quantified (METH1, R11)."
+    - "Simulation agreement partial, Au mismatch explained post hoc (CLAIM3, R13)."
+    - "Catalysis implications not tested (CLAIM5)."
+  missing_evidence:
+    - "XPS at held-out MAs or full-library XPS mapping."
+    - "Chemical-state analysis (Ag/Pd oxides) or UHV-transfer XPS / LEIS."
+    - "Simulations including adsorbates or annealing experiments."

@@ -1,0 +1,291 @@
+id: claimchain:chain/Baha2026Deposition
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of the accepted manuscript; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acscatal.6c03586
+  title: "From Deposition Stress to Surface Reactivity: Strain-Dependent Hydrogen Evolution on Sputtered Platinum Thin Films"
+  authors: [Sabrina Baha, Alejandro E. Perez Mendoza, Leonardo H. Morais, Aleksander Kostka, Shivam Shukla, Ellen Suhr, André Olean-Oliveira, Annika Gatzki, Henrik H. Kristoffersen, Jan Rossmeisl, Corina Andronescu, Alfred Ludwig]
+  year: 2026
+  doi: 10.1021/acscatal.6c03586
+  url: https://doi.org/10.1021/acscatal.6c03586
+
+entities:
+  - {id: ent:PtFilm, label: "RF-sputtered (111)-textured Pt films (~60 nm on 10 nm Ta) deposited at Ar pressures 0.13-3.33 Pa", entity_type: MATERIAL}
+  - {id: ent:Strain, label: "residual biaxial in-plane strain from cantilever curvature (DHM, Stoney equation, M111 = 337 GPa)", entity_type: QUANTITY}
+  - {id: ent:LatStrain, label: "lattice strain from XRD Pt(111) peak and cross-sectional SAED", entity_type: QUANTITY}
+  - {id: ent:SDC, label: "scanning droplet cell HER LSV in 0.1 M HClO4, ECSA from Hupd (210 uC/cm2)", entity_type: TECHNIQUE}
+  - {id: ent:DFT, label: "RPBE/GPAW Pt(111) 3x3x5 slab with +/-0.5 and 1% biaxial strain, CHE model with fitted prefactor", entity_type: METHOD}
+  - {id: ent:Eta10, label: "potential at -10 mA/cm2 (ECSA-normalised)", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: baha2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Lattice strain shifts the Pt d-band and hydrogen adsorption energy, tensile strain strengthening and compressive strain weakening H binding on Pt(111), and sputter pressure controls intrinsic growth stress in thin films.
+    evidence: [{evidence_kind: CITATION, references: ["8-30"]}]
+  - id: baha2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: A systematic, quantitative correlation between deposition-induced residual strain and electrocatalytic activity of sputtered films has not been established.
+  - id: baha2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Tune residual strain in sputtered Pt films via Ar pressure, quantify it by curvature, XRD and SAED, and correlate it with ECSA-normalised HER activity and DFT hydrogen adsorption energetics to establish a multiscale link from growth conditions to activity.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: baha2026:METH1
+    statement_type: METHOD
+    section: Experimental Methods, Table 1
+    paper_part: METHODS
+    text: Eleven Pt films were sputtered at 60 W RF and 0.13-3.33 Pa Ar on Ta-coated Si/SiO2 and on Si cantilever chips; residual stress was obtained from cantilever curvature with the Stoney equation and converted to strain with M111 = 337 GPa; films were characterised by AFM, XRD, and TEM/SAED for six samples.
+    about: [ent:PtFilm, ent:Strain, ent:LatStrain]
+    scope: {sample_count: 11}
+  - id: baha2026:METH2
+    statement_type: METHOD
+    section: Experimental Methods
+    paper_part: METHODS
+    text: HER was measured with a scanning droplet cell (0.0019 cm2 opening) by LSV at 100 mV/s, stopped at 50 uA (~26 mA/cm2 geometric) to avoid bubbles; currents were normalised to Hupd-derived ECSA and iR-corrected.
+    about: [ent:SDC]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Experimental Methods"
+        values:
+          - {symbol: istop, quantity: LSV stop current, value: 5.0e-5, unit: A}
+          - {symbol: Ageo, quantity: SDC opening area, value: 0.0019, unit: cm2}
+          - {symbol: rf, quantity: ECSA increase factor at high pressure (lower bound), value: 3}
+        derived_checks:
+          - {expression: "geometric current density at stop criterion (mA/cm2)", formula: "istop/Ageo*1000", result: 26.3}
+          - {expression: "ECSA-normalised current at stop reaches 10 mA/cm2 for films with 3x ECSA", formula: "istop/(rf*Ageo)*1000 >= 10", satisfied: false}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "For films with three to four times the geometric ECSA, the 50 uA stop corresponds to only ~6.6-8.8 mA/cm2 per ECSA, so the potential at -10 mA/cm2 reported for these samples cannot have been reached under the stated protocol; how it was obtained is not described.", priority: HIGH}
+  - id: baha2026:METH3
+    statement_type: METHOD
+    section: Experimental Methods
+    paper_part: METHODS
+    text: DFT (RPBE, GPAW) on a 3x3x5 Pt(111) slab with biaxial strain of +/-0.5% and +/-1% gives hydrogen adsorption free energies at fcc hollow sites and coverage-dependent free energies; polarisation curves are modelled with an exponential in |Delta G_H| and a scaling constant A = -0.01 chosen to reproduce experimental trends.
+    about: [ent:DFT]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The prefactor A of the theoretical polarisation curves is chosen to reproduce experimental trends, so agreement of the modelled curves with experiment is partly by construction.", priority: MEDIUM}
+
+  # ---------------- Results: strain and structure ----------------
+  - id: baha2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 1
+    paper_part: RESULTS
+    text: Curvature-derived residual stress changes from compressive (-429 MPa, reported as -0.034% strain) at low pressure to a tensile maximum of 481 MPa (reported as 0.119%) at 1.07 Pa and partly relaxes at higher pressure (0.049% at 3.33 Pa), a reported strain range of ~0.15%.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1, Results"
+        values:
+          - {symbol: sc, quantity: compressive residual stress, value: -429, unit: MPa}
+          - {symbol: st, quantity: maximum tensile residual stress, value: 481, unit: MPa}
+          - {symbol: M, quantity: biaxial modulus Pt(111), value: 337000, unit: MPa}
+          - {symbol: ec, quantity: reported compressive strain, value: -0.034, unit: "%"}
+          - {symbol: et, quantity: reported tensile strain, value: 0.119, unit: "%"}
+        derived_checks:
+          - {expression: "compressive strain = stress / M111 matches reported -0.034%", formula: "abs(100*sc/M - ec) < 0.01", satisfied: false}
+          - {expression: "tensile strain = stress / M111 matches reported 0.119%", formula: "abs(100*st/M - et) < 0.01", satisfied: false}
+    about: [ent:Strain, ent:PtFilm]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "With the stated relation strain = stress/M111 and M111 = 337 GPa, -429 MPa and 481 MPa give -0.127% and +0.143%, not -0.034% and +0.119%; the compressive value is off by almost a factor of four.", priority: HIGH}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The -0.034% film is called both the 0.27 Pa film (Results, Fig. 1) and the 0.13 Pa film p1 (HER section); the introduction states a residual-strain variation of ~0.7%, the results ~0.15%; the HER text calls the 0.119% tensile state 'increasingly compressive'.", priority: MEDIUM}
+  - id: baha2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2-3, 6b
+    paper_part: RESULTS
+    text: Roughness rises from Ra 0.63 nm (0.27 Pa) to 1.80 nm (3.33 Pa) with columnar, laterally disconnected growth above ~1.6 Pa, and ECSA rises three- to fourfold above ~1 Pa; the Pt(111) XRD peak shifts from 39.76 deg (p1) to 40.09 deg (p8) and back slightly at higher pressure, with a weak (200) peak and less texture above 0.53 Pa.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2-3, 6b"
+        values:
+          - {symbol: lam, quantity: Cu K-alpha wavelength, value: 0.15406, unit: nm}
+          - {symbol: d0, quantity: stress-free Pt(111) spacing, value: 0.2265, unit: nm}
+          - {symbol: tt8, quantity: Pt(111) 2-theta for p8, value: 40.09, unit: deg}
+          - {symbol: rr, quantity: "(111) biaxial Poisson ratio 2(C11+2C12-2C44)/(C11+2C12+4C44)", value: 1.205}
+        derived_checks:
+          - {expression: "in-plane strain implied by the p8 XRD peak (%) via the (111) biaxial relation", formula: "-100*((lam/(2*sin(radians(tt8/2))) - d0)/d0)/rr", result: 0.65}
+    about: [ent:LatStrain, ent:PtFilm]
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The p8 XRD peak implies ~0.78% out-of-plane contraction, i.e. ~0.65% in-plane tensile strain, about five times the curvature-derived 0.119-0.143%; the XRD and curvature strains are described as 'in good agreement' without comparing magnitudes.", priority: HIGH}
+  - id: baha2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 4-5, Table S1
+    paper_part: RESULTS
+    text: SAED lattice parameters of six cross-sections all exceed bulk Pt (0.39237 nm) and decrease from 0.395 nm (0.13-0.27 Pa) to 0.394 (0.93-1.60 Pa) and 0.393 nm (3.33 Pa), with an uncertainty of +/-0.002 nm; TEM shows increasingly open columnar structure and a 40% thinner p25 film.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4-5, Table S1"}]
+    about: [ent:LatStrain]
+    scope: {sample_count: 6}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The total SAED trend (0.002 nm) equals the stated uncertainty, and SAED shows out-of-plane expansion for all films, including p8 where XRD shows contraction; FIB relaxation is acknowledged.", priority: MEDIUM}
+
+  # ---------------- Results: HER ----------------
+  - id: baha2026:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 6a, 7, 8a
+    paper_part: RESULTS
+    text: The potential at -10 mA/cm2 (ECSA) is -11.3 mV for the lowest-pressure film, -26.1 mV at 1.07 Pa and -48.8 mV at 3.33 Pa; activity falls monotonically with pressure while residual strain is non-monotonic; Hupd desorption peaks D1/D2 (step sites) grow with pressure.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 7-8a"
+        values:
+          - {symbol: e1, quantity: potential at -10 mA/cm2 p1, value: -11.3, unit: mV}
+          - {symbol: e8, quantity: potential at -10 mA/cm2 p8, value: -26.1, unit: mV}
+          - {symbol: e25, quantity: potential at -10 mA/cm2 p25, value: -48.8, unit: mV}
+        derived_checks:
+          - {expression: "overpotential variation across pressures (stated ~77%)", formula: "100*(1 - e1/e25)", result: 77}
+    about: [ent:Eta10, ent:SDC]
+    scope: {sample_count: 11}
+
+  # ---------------- Results: DFT ----------------
+  - id: baha2026:OBS5
+    statement_type: OBSERVATION
+    section: Results, Fig. 8b-9
+    paper_part: RESULTS
+    text: DFT gives Delta G_H = -0.032 eV on unstrained Pt(111), -0.056 and -0.059 eV at 0.5 and 1% tensile and -0.025 and -0.007 eV at 0.5 and 1% compressive strain; coverage-dependent fits give stronger H-H repulsion and weaker binding under compression.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Results, Fig. 9"
+        values:
+          - {symbol: g0, quantity: Delta G_H unstrained, value: -0.032, unit: eV}
+          - {symbol: gc1, quantity: Delta G_H at 1% compression, value: -0.007, unit: eV}
+          - {symbol: de, quantity: measured residual strain range, value: 0.153, unit: "%"}
+        derived_checks:
+          - {expression: "Delta G_H shift expected over the measured strain range (eV), linear in compression", formula: "(gc1 - g0)*de", result: 0.004}
+    about: [ent:DFT]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The fit parameter beta is said to equal the zero-coverage adsorption free energy of eq. 3, yet its values (about -0.53 eV unstrained) are an order of magnitude larger than Delta G_H = -0.032 eV; the normalisation of G0(theta) is not explained, and several signs appear lost in the text.", priority: LOW}
+
+  # ---------------- Claims ----------------
+  - id: baha2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusions
+    paper_part: DISCUSSION
+    text: Sputter pressure tunes the residual strain of Pt films non-monotonically, from compressive (atomic peening) to a tensile maximum near 1 Pa followed by relaxation via columnar growth, while also roughening the films.
+    about: [ent:Strain, ent:PtFilm]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The compressive-to-tensile-to-relaxed trend and roughening are measured by curvature, XRD direction and AFM; the strain magnitudes do not follow from the stated conversion and disagree with the XRD-derived strain by about a factor of five."
+  - id: baha2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Results, Conclusions
+    paper_part: DISCUSSION
+    text: At low sputter pressure, where ECSA and roughness are nearly constant, variations in HER activity can be attributed primarily to residual strain, with compressive strain giving the highest activity.
+    about: [ent:Strain, ent:Eta10]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Activity and strain co-vary over 0.13-1.07 Pa, but texture also weakens and step-site Hupd features grow there; the DFT-predicted Delta G_H shift over the measured ~0.15% strain is only ~4 meV, too small to account for a 15 mV change in potential; strain magnitudes are themselves inconsistent."
+      missing_evidence: ["Activity of films with matched texture and roughness but different strain (e.g. substrate bending or annealing)", "Kinetic model translating 4 meV Delta G_H shifts into expected overpotential changes"]
+  - id: baha2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results
+    paper_part: DISCUSSION
+    text: The monotonic nanoscale lattice-strain trend from SAED, rather than the macroscopic residual strain, matches the monotonic decrease of HER activity, showing that the catalytic response is governed by local surface-sensitive strain.
+    about: [ent:LatStrain, ent:Eta10]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The SAED trend lies within its stated uncertainty, probes cross-sections (possibly relaxed by FIB) rather than the surface, and shows out-of-plane expansion where XRD shows contraction; matching a monotonic trend to a monotonic activity decline with one more variable is post hoc."
+  - id: baha2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: DISCUSSION
+    text: DFT shows that lattice strain alters hydrogen adsorption energetics and coverage on Pt(111), compressive strain shifting Delta G_H toward zero, which provides a mechanistic explanation for the observed activity trends.
+    about: [ent:DFT]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The DFT trend (compression weakens binding) is computed and agrees in sign with the low-pressure data; as an explanation it fails in magnitude, since the computed strains (0.5-1%) are several times the measured residual strains and the modelled curves use a fitted prefactor."
+  - id: baha2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusions
+    paper_part: DISCUSSION
+    text: At higher sputter pressures, microstructural changes and roughness dominate, so HER activity in sputtered Pt films is governed by the interplay of residual strain, microstructure and hydrogen coverage.
+    about: [ent:PtFilm, ent:Eta10]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Activity falls as roughness, ECSA and openness increase, which supports a microstructure role; the decline at high ECSA is also expected from ECSA normalisation of porous films with transport-limited HER, and the -10 mA/cm2 values for these films are not reachable under the stated stop criterion."
+  - id: baha2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Strain across multiple length scales and pressure-induced microstructure jointly determine HER activity of sputtered Pt films, establishing strain as a key parameter in thin-film electrocatalysis.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM2-5; the 'key parameter' status of strain is not separated from texture and microstructure."
+
+relations:
+  - {id: baha2026:R1, subject: baha2026:BG1, predicate: MOTIVATES, object: baha2026:GAP1, asserted_by: AUTHORS}
+  - {id: baha2026:R2, subject: baha2026:GAP1, predicate: MOTIVATES, object: baha2026:AIM1, asserted_by: AUTHORS}
+  - {id: baha2026:R3, subject: baha2026:METH1, predicate: DELIVERS, object: baha2026:AIM1, asserted_by: AUTHORS}
+  - {id: baha2026:R4, subject: baha2026:METH2, predicate: DELIVERS, object: baha2026:AIM1, asserted_by: AUTHORS}
+  - {id: baha2026:R5, subject: baha2026:CLAIM2, predicate: DELIVERS, object: baha2026:AIM1, asserted_by: AUTHORS}
+  - {id: baha2026:R6, subject: baha2026:CLAIM4, predicate: DELIVERS, object: baha2026:AIM1, asserted_by: AUTHORS}
+  - {id: baha2026:R7, subject: baha2026:OBS1, predicate: SUPPORTS, object: baha2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "Trend robust; magnitudes do not recompute"}}
+  - {id: baha2026:R8, subject: baha2026:OBS2, predicate: SUPPORTS, object: baha2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "XRD direction agrees, magnitude does not"}}
+  - {id: baha2026:R9, subject: baha2026:OBS2, predicate: UNDERCUTS, object: baha2026:CLAIM1, asserted_by: ANNOTATOR, note: "XRD-implied in-plane strain ~0.65% vs curvature 0.12-0.14% for p8"}
+  - {id: baha2026:R10, subject: baha2026:OBS4, predicate: SUPPORTS, object: baha2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Texture and step density co-vary with strain; one film per pressure"}}
+  - {id: baha2026:R11, subject: baha2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: baha2026:CLAIM2, asserted_by: ANNOTATOR, note: "Weakening (111) texture and growing step-site Hupd features over the same pressure range"}
+  - {id: baha2026:R12, subject: baha2026:OBS5, predicate: UNDERCUTS, object: baha2026:CLAIM2, asserted_by: ANNOTATOR, note: "Computed Delta G_H shift over the measured strain range is ~4 meV"}
+  - {id: baha2026:R13, subject: baha2026:OBS1, predicate: SUPPORTS, object: baha2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Strain values themselves inconsistent"}}
+  - {id: baha2026:R14, subject: baha2026:OBS3, predicate: SUPPORTS, object: baha2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Bulk cross-section, trend within uncertainty"}}
+  - {id: baha2026:R15, subject: baha2026:OBS2, predicate: CONTRADICTS, object: baha2026:CLAIM3, asserted_by: ANNOTATOR, note: "XRD shows out-of-plane contraction for p8 while SAED shows expansion for all films"}
+  - {id: baha2026:R16, subject: baha2026:OBS5, predicate: SUPPORTS, object: baha2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "Sign agrees; strains 3-7x larger than measured and fitted prefactor"}}
+  - {id: baha2026:R17, subject: baha2026:METH3, predicate: QUALIFIES, object: baha2026:CLAIM4, asserted_by: ANNOTATOR, note: "Prefactor chosen to reproduce experimental trends"}
+  - {id: baha2026:R18, subject: baha2026:OBS4, predicate: SUPPORTS, object: baha2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Activity drop with roughness; normalisation issues"}}
+  - {id: baha2026:R19, subject: baha2026:OBS2, predicate: SUPPORTS, object: baha2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: baha2026:R20, subject: baha2026:METH2, predicate: UNDERCUTS, object: baha2026:CLAIM5, asserted_by: ANNOTATOR, note: "-10 mA/cm2 per ECSA not reachable for 3-4x ECSA films before the 50 uA stop"}
+  - {id: baha2026:R21, subject: baha2026:OBS4, predicate: ALTERNATIVE_EXPLANATION_FOR, object: baha2026:CLAIM5, asserted_by: ANNOTATOR_BACKGROUND, note: "HER on Pt is near H2 mass-transport limits; normalising to a porous film's full Hupd area lowers apparent activity without intrinsic change"}
+  - {id: baha2026:R22, subject: baha2026:CLAIM1, predicate: SUPPORTS, object: baha2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: baha2026:R23, subject: baha2026:CLAIM2, predicate: SUPPORTS, object: baha2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: baha2026:R24, subject: baha2026:CLAIM5, predicate: SUPPORTS, object: baha2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: baha2026:R25, subject: baha2026:CONC1, predicate: RESTATES, object: baha2026:CLAIM5, asserted_by: ANNOTATOR}
+  - {id: baha2026:R26, subject: baha2026:CONC1, predicate: RESTATES, object: baha2026:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The deposition series is systematic (eleven pressures, thickness
+    controlled) and the qualitative stress evolution from compressive to
+    tensile to relaxed, together with roughening and ECSA growth at high
+    pressure, is well documented. The quantitative strain link does not hold:
+    stress-to-strain conversion with the stated modulus does not reproduce
+    the reported strains (factor ~4 for the compressive film), the XRD peak
+    shift implies about five times the curvature strain, SAED trends sit
+    within their uncertainty and contradict XRD in sign for p8, and the
+    paper quotes ~0.7% and ~0.15% as the strain range in different places.
+    The DFT shift over the measured strain is a few meV, too small for the
+    observed 15 mV change, so the 'mechanistic explanation' holds in sign
+    only. For rough films the -10 mA/cm2 metric is not reachable under the
+    stated stop criterion. Draft annotation; figures and SI were judged from
+    text.
+  key_limitations:
+    - "Strain magnitudes inconsistent between conversion, XRD and SAED (OBS1, OBS2, OBS3)."
+    - "Strain confounded with texture and step density (CLAIM2, R11)."
+    - "DFT magnitude insufficient, fitted prefactor (OBS5, METH3, CLAIM4)."
+    - "-10 mA/cm2 metric unreachable for high-ECSA films (METH2, R20)."
+  missing_evidence:
+    - "Consistent strain values with a documented conversion and XRD sin2psi analysis."
+    - "Strain variation at fixed microstructure (e.g. bending of a single film)."
+    - "Description of how -10 mA/cm2 potentials were obtained for rough films."

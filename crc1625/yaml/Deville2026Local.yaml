@@ -1,0 +1,193 @@
+id: claimchain:chain/Deville2026Local
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/smtd.202502169
+  title: "Local Activity and Selectivity Hotspots in Cu-Pt Model Thin-Film Electrocatalysts for Oxygen Reduction"
+  authors: [Lewin V. Deville, Rico Zehl, Luca Saluta, Qingdian Liao, Peter M. Schneider, Tobias Piotrowiak, Benedikt Kohnen, Ellen Suhr, Alfred Ludwig, Aliaksandr S. Bandarenka]
+  year: 2026
+  doi: 10.1002/smtd.202502169
+  url: https://doi.org/10.1002/smtd.202502169
+
+entities:
+  - {id: ent:Film, label: "co-sputtered Pt77Cu23 film annealed 24 h at 900 °C, electrochemically dealloyed and annealed at 600 K in Ar/H2", entity_type: MATERIAL}
+  - {id: ent:nSTM, label: "noise electrochemical STM (n-EC-STM) with reaction ON/OFF potential switching and FWHM activity profiles", entity_type: TECHNIQUE}
+  - {id: ent:Char, label: "SEM, XRD with Thermo-Calc, XPS before and after electrochemistry", entity_type: TECHNIQUE}
+  - {id: ent:Sites, label: "surface features - (111) terraces, monatomic steps, grain boundaries", entity_type: CONCEPT}
+  - {id: ent:Path, label: "four-electron (H2O) vs two-electron (H2O2) ORR pathway", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: deville2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Cu-Pt alloys are highly active and four-electron-selective ORR catalysts, and noise EC-STM can locate active sites by tunnelling-current fluctuations that appear only when a reaction is switched on.
+    evidence: [{evidence_kind: CITATION, references: ["45-61"]}]
+  - id: deville2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Direct experimental evidence on whether Cu-Pt active sites are low-coordination defects or specific facets is scarce.
+    evidence: [{evidence_kind: CITATION, references: ["53"]}]
+  - id: deville2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Identify ORR active sites on a Cu-Pt model thin film by n-EC-STM and how they change between the four-electron and peroxide-forming regimes.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods / characterization ----------------
+  - id: deville2026:METH1
+    statement_type: METHOD
+    section: Sec. 2-3
+    paper_part: METHODS
+    text: A Pt77Cu23 film (EDX) is annealed at 900 °C, dealloyed by cycling 0.06-0.8 V in air-saturated 0.1 M HClO4 and annealed at 600 K; n-EC-STM images are recorded in air-saturated 0.1 M HClO4 with OFF at 1075 mV and ON at 881, 781, 181, 81 and 31 mV vs RHE.
+    about: [ent:Film, ent:nSTM]
+    scope: {sample_count: 1, scope_note: "one film, a few imaged regions"}
+  - id: deville2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 1, Fig. 2a
+    paper_part: RESULTS
+    text: SEM shows 200-400 nm mostly (111)-oriented grains; XRD shows a dominant fcc Cu-Pt solid solution with a weak broad (003) reflection of intermetallic CuPt, while Thermo-Calc predicts the intermetallic as majority phase at equilibrium.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1, Fig. 2a"}]
+    about: [ent:Char, ent:Film]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The text concludes that the intermetallic can be excluded from the EC-STM results because STM is localized; locality does not exclude imaging an intermetallic region, and no local phase identification is made.", priority: MEDIUM}
+  - id: deville2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 2b-d, Fig. 3
+    paper_part: RESULTS
+    text: Initial CVs show an irreversible Cu dissolution peak at 0.3-0.5 V that vanishes, after which Pt-like Hupd and OH features appear; XPS gives a (sub)surface Pt:Cu ratio of about 8:1 after Ar sputtering and about 13:1 after electrochemistry, with metallic Cu in both.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3, Sec. 3"
+        values:
+          - {symbol: x_cu_edx, quantity: bulk Cu fraction from EDX, value: 0.229}
+          - {symbol: ptcu_sput, quantity: XPS Pt:Cu after sputtering, value: 8}
+          - {symbol: ptcu_ec, quantity: XPS Pt:Cu after electrochemistry, value: 13}
+        derived_checks:
+          - {expression: "Cu fraction in the XPS volume after sputtering", formula: "1/(ptcu_sput + 1)", result: 0.111}
+          - {expression: "Cu fraction in the XPS volume after electrochemistry", formula: "1/(ptcu_ec + 1)", result: 0.071}
+    about: [ent:Char, ent:Film]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The sputter-cleaned state used as 'initial' already has half the bulk Cu fraction (11% vs 23%), consistent with preferential sputtering of Cu, so it does not represent the pre-electrochemistry surface.", priority: LOW}
+  - id: deville2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: RESULTS
+    text: Electrochemical dealloying leaves a stable Pt-rich overlayer on a Cu-containing Pt-Cu solid solution.
+    about: [ent:Film]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Vanishing dissolution peak, Pt-like CV and lower XPS Cu support Cu depletion at the surface; the overlayer thickness and stability are not measured directly."
+
+  # ---------------- n-EC-STM results ----------------
+  - id: deville2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 4
+    paper_part: RESULTS
+    text: At 881 and 781 mV noise appears evenly distributed over terraces, with no enhanced FWHM at small steps and none at a grain boundary; no noise is seen at 1075 mV.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4a-d"}]
+    about: [ent:nSTM, ent:Sites]
+  - id: deville2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3, Sec. 4
+    paper_part: RESULTS
+    text: For the four-electron ORR the (111) terraces are the main active sites, while steps and grain boundaries show no enhanced activity.
+    about: [ent:Sites, ent:Path]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "ON/OFF switching shows potential-dependent noise spread over terraces in one region; one sample and few images limit generality, and noise amplitude is not calibrated to turnover."
+  - id: deville2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. 5-6
+    paper_part: RESULTS
+    text: At 31 mV noise lines follow small steps, with weaker noise on some terraces and none at a grain boundary; at 181 mV and 81 mV activity peaks at a step and decays over several nanometres into the upper terrace.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 5-6"}]
+    about: [ent:nSTM, ent:Sites]
+  - id: deville2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3, Sec. 4
+    paper_part: DISCUSSION
+    text: When H2O2 formation starts (below about 200 mV), the most active centres shift from terraces to step defects, so the nature of active sites depends on whether the product is H2O or H2O2 (activity and selectivity hotspots).
+    about: [ent:Sites, ent:Path]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Below about 200 mV vs RHE the ORR on Pt-based surfaces in air-saturated acid forms H2O2, so noise appearing there reflects peroxide formation.", warrant_basis: CITATION}
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "No product (RRDE) measurement on this film identifies H2O2; at 31-181 mV hydrogen underpotential deposition, which prefers Pt steps, and incipient HER in air-saturated electrolyte would also produce step-localized noise.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "Step-localized noise at low potentials is observed, but attributing it to two-electron ORR rather than Hupd/HER at steps is not supported by any selectivity measurement; 'selectivity hotspots' is inferred from potential alone."
+      proof_obligations:
+        - text: "Show that the low-potential noise is linked to H2O2 formation"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "H2O2 yield vs potential on the same film", unit: "%", method: "RRDE or SECM tip-collection"}, {quantity: "noise at 31-181 mV in Ar-saturated electrolyte", method: "n-EC-STM without O2"}]
+  - id: deville2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: At low potentials four-electron ORR continues and overlaps with peroxide formation, so terrace noise may stem from the four-electron reaction; theoretical pathway literature is inconsistent.
+  - id: deville2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: The ORR occurs primarily on terraces for the four-electron pathway; where H2O2 formation is possible the most active sites become steps; grain boundaries do not contribute; this can guide nanoparticle shape design.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM2 and CLAIM3; the design implication rests on the untested H2O2 assignment."
+
+relations:
+  - {id: deville2026:R1, subject: deville2026:BG1, predicate: MOTIVATES, object: deville2026:GAP1, asserted_by: AUTHORS}
+  - {id: deville2026:R2, subject: deville2026:GAP1, predicate: MOTIVATES, object: deville2026:AIM1, asserted_by: AUTHORS}
+  - {id: deville2026:R3, subject: deville2026:METH1, predicate: DELIVERS, object: deville2026:AIM1, asserted_by: AUTHORS}
+  - {id: deville2026:R4, subject: deville2026:OBS3, predicate: DELIVERS, object: deville2026:AIM1, asserted_by: AUTHORS}
+  - {id: deville2026:R5, subject: deville2026:CLAIM3, predicate: DELIVERS, object: deville2026:AIM1, asserted_by: AUTHORS}
+  - {id: deville2026:R6, subject: deville2026:CONC1, predicate: DELIVERS, object: deville2026:AIM1, asserted_by: AUTHORS}
+  - {id: deville2026:R7, subject: deville2026:OBS2, predicate: SUPPORTS, object: deville2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "CV and XPS support Cu depletion; overlayer not imaged"}}
+  - {id: deville2026:R8, subject: deville2026:OBS3, predicate: SUPPORTS, object: deville2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "ON/OFF control; one sample, few regions"}}
+  - {id: deville2026:R9, subject: deville2026:OBS4, predicate: SUPPORTS, object: deville2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Product not measured; Hupd/HER at steps not excluded"}}
+  - {id: deville2026:R10, subject: deville2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: deville2026:CLAIM3, asserted_by: ANNOTATOR_BACKGROUND, note: "Hupd features at 0.03-0.3 V; H adsorption favours Pt step sites"}
+  - {id: deville2026:R11, subject: deville2026:LIM1, predicate: QUALIFIES, object: deville2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: deville2026:R12, subject: deville2026:OBS1, predicate: QUALIFIES, object: deville2026:CLAIM2, asserted_by: ANNOTATOR, note: "possible intermetallic regions not identified locally"}
+  - {id: deville2026:R13, subject: deville2026:CONC1, predicate: RESTATES, object: deville2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: deville2026:R14, subject: deville2026:OBS4, predicate: SUPPORTS, object: deville2026:CONC1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deville2026:R15, subject: deville2026:CLAIM1, predicate: SUPPORTS, object: deville2026:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    A dealloyed, annealed Pt77Cu23 film is characterized by SEM, XRD,
+    CALPHAD and XPS and imaged by noise EC-STM with reaction ON/OFF
+    potential switching. The surface preparation is well documented, and
+    potential-dependent noise evenly spread over terraces at 781-881 mV
+    supports terrace-dominated four-electron ORR in the imaged region.
+    The headline that active sites shift to steps when H2O2 forms rests on
+    potential alone: no peroxide is measured on this film, Hupd and
+    incipient HER at 31-181 mV would also produce step-localized noise,
+    and an O2-free control is missing. Results come from one sample and a
+    few images, and the dismissal of intermetallic regions because STM is
+    local is not justified.
+  key_limitations:
+    - "H2O2 pathway assigned without product detection (CLAIM3)."
+    - "Hupd/HER at steps not excluded; no O2-free control (CLAIM3)."
+    - "One sample, few images, uncalibrated noise metric (CLAIM2)."
+    - "Possible intermetallic regions not identified locally (OBS1)."
+  missing_evidence:
+    - "RRDE peroxide yield vs potential on the same film."
+    - "n-EC-STM at low potentials in Ar-saturated electrolyte."
+    - "Statistics over several films and regions."

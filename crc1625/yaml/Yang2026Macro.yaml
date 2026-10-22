@@ -1,0 +1,194 @@
+id: claimchain:chain/Yang2026Macro
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2510.01042v1; figures and SM judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1103/5hh2-wypm
+  title: "Macro-Dipole-Constrained Learning of Atomic Charges for Accurate Electrostatic Potentials at Electrochemical Interfaces"
+  authors: [Jing Yang, Bingxin Li, Samuel Mattoso, Ahmed Abdelkawy, Mira Todorova, Jörg Neugebauer]
+  year: 2026
+  doi: 10.1103/5hh2-wypm
+  url: https://doi.org/10.1103/5hh2-wypm
+
+entities:
+  - {id: ent:SMILE, label: "SMILE-CP - ML charge/dipole model constrained so that summed local dipoles equal (1 + chi) times the total cell dipole", entity_type: METHOD}
+  - {id: ent:MLWC, label: "local ACE model trained on Wannier-centre positions of water", entity_type: METHOD}
+  - {id: ent:Systems, label: "nanoconfined water between charged Ne electrodes, Mg2+ in confined water, Mg(12-35) vicinal surface under anodic bias", entity_type: MATERIAL}
+  - {id: ent:Phi, label: "planar-averaged electrostatic potential phi(z)", entity_type: QUANTITY}
+  - {id: ent:Chi, label: "electronic susceptibility chi = eps_inf - 1", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: yang2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Local ML interatomic potentials miss long-range electrostatics; current long-range schemes learn local charge partitions (Hirshfeld charges, Wannier centres) rather than the electrostatic potential, which cannot easily enter a loss function.
+    evidence: [{evidence_kind: CITATION, references: ["5-33"]}]
+  - id: yang2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusion
+    paper_part: INTRODUCTION
+    text: ML models trained only on local charge partitions fail to reproduce the macroscopic field at electrochemical interfaces because the field-induced signal is about two orders of magnitude smaller than thermal dipole fluctuations, and constraining the summed local dipoles to the total cell dipole (with an electronic-polarization correction) restores accurate long-range electrostatics.
+    about: [ent:SMILE, ent:MLWC]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The signal-to-noise argument recomputes (0.016 eÅ per molecule, 0.002 Å Wannier-centre shift) and three benchmarks show the constrained model matches DFT potentials where the unconstrained one fails; generality to 'all' local-charge models rests on one ACE model, and chi is fitted."
+      proof_obligations:
+        - text: "Show the failure for other local-charge MLIP architectures"
+          obligation_status: OPEN
+          priority: MEDIUM
+          requested_data: [{quantity: "phi(z) error of DP-long-range or 4G-HDNNP charges under field", unit: V, method: "same nanoconfined water benchmark"}]
+        - text: "Show predictive MD with the charge-aware potential"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "phi(z), capacitance and dynamics from ML-driven MD vs AIMD", method: "MLIP molecular dynamics under bias"}]
+
+  # ---------------- Results ----------------
+  - id: yang2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 1
+    paper_part: RESULTS
+    text: For water between Ne electrodes at 0.2 V/Å, Wannier centres reproduce the DFT potential, Bader charges fail to reproduce the macro dipole, and an ACE model predicting Wannier centres with 0.004 Å RMSE gives a potential offset and an internal field nearly twice the DFT value.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1b-c"}]
+    about: [ent:MLWC, ent:Phi]
+  - id: yang2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2
+    paper_part: RESULTS
+    text: The summed z dipole of 64 water molecules grows linearly with applied field while individual molecular dipole distributions are essentially unchanged; a 1 eÅ change in total dipole corresponds to 0.016 eÅ per molecule and 0.002 Å Wannier-centre shift.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2, Results"
+        values:
+          - {symbol: dmu_tot, quantity: change in total dipole, value: 1.0, unit: e angstrom}
+          - {symbol: n_w, quantity: number of water molecules, value: 64}
+          - {symbol: n_e, quantity: valence electrons per water in the dipole definition, value: 8}
+          - {symbol: chi_dft, quantity: DFT bulk electronic susceptibility, value: 0.96}
+        derived_checks:
+          - {expression: "average per-molecule dipole change (stated 0.016 eÅ)", formula: "dmu_tot/n_w", result: 0.0156, unit: e angstrom}
+          - {expression: "Wannier-centre shift per molecule (stated 0.002 Å)", formula: "dmu_tot/n_w/n_e", result: 0.00195, unit: angstrom}
+          - {expression: "high-frequency dielectric constant (stated about 2)", formula: "1 + chi_dft", result: 1.96}
+    about: [ent:MLWC]
+  - id: yang2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: Strictly local ML models generically fail to capture macroscopic electrostatics because the field response is buried in thermal noise and electronic polarization is not encoded in local descriptors; this applies to all ML models using local charges.
+    about: [ent:MLWC]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Shown for one ACE Wannier-centre model on one system; other architectures are not tested.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The quantitative signal-to-noise argument and the factor-two field error matching eps_inf support the mechanism for this model; 'all models' is an extrapolation."
+  - id: yang2026:METH1
+    statement_type: METHOD
+    section: Results, Eqs. 1-6
+    paper_part: METHODS
+    text: SMILE learns per-molecule dipoles or per-atom charges from local descriptors subject to sum(mu_i) = (1 + chi) mu_tot, with chi chosen by minimizing the RMSE of predicted versus Wannier-centre dipoles.
+    about: [ent:SMILE, ent:Chi]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "chi is a fitted parameter (optimum about 1.2 vs DFT bulk 0.96) chosen against Wannier-centre reference dipoles, so the method does rely on a charge partition for calibration despite the claim of avoiding any partitioning step.", priority: MEDIUM}
+  - id: yang2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3
+    paper_part: RESULTS
+    text: For Mg2+ in confined water, the dipole-constrained model without polarization (chi = 0) predicts a valley-shaped potential and mean molecular dipole 0.38 eÅ, while SMILE with chi about 1.2 reproduces the flat screened DFT potential and the Wannier-centre mean dipole of 0.61 eÅ, with RMSE 0.046 eÅ (macro dipole) and 0.056 eÅ (molecular dipoles).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3b-d"
+        values:
+          - {symbol: mu_smile0, quantity: mean water dipole SMILE0, value: 0.38, unit: e angstrom}
+          - {symbol: mu_wc, quantity: mean water dipole Wannier centres, value: 0.61, unit: e angstrom}
+          - {symbol: chi_opt, quantity: optimal chi, value: 1.2}
+    about: [ent:SMILE, ent:Systems]
+  - id: yang2026:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: For a Mg(12-35)/water interface with 5 ps open circuit followed by 45 ps ramped to 4 V anodic bias, one charge-based SMILE model reproduces the DFT potential profiles in both regimes, including an average 0.15 V/Å field in water under bias.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4c"}]
+    about: [ent:SMILE, ent:Systems]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Training/test split, training-set size and errors for the Mg system are not given in the main text, so 'transferability across potentials' cannot be judged.", priority: MEDIUM}
+  - id: yang2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: SMILE-CP preserves both the global field and local potentials using only coordinates and the total dipole, without any explicit charge partitioning, and eliminates the qualitative errors of unconstrained charge decompositions in all three benchmarks.
+    about: [ent:SMILE]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The polarization correction requires chi, tuned against Wannier-centre (i.e. partitioned) dipoles, contradicting 'without invoking any explicit charge-partitioning scheme'.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The benchmarks show the constrained model matches DFT potentials where unconstrained models fail; calibration of chi uses partitioned reference data and the Mg benchmark lacks reported split and errors."
+  - id: yang2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Conclusion
+    paper_part: CONCLUSION
+    text: The method is computationally inexpensive, data-efficient, works with any descriptor and architecture, and opens the door to bias-controlled nanosecond-scale simulations with charge-aware ML potentials.
+    about: [ent:SMILE]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PREDICTED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No cost or data-efficiency numbers, no second architecture and no ML-driven MD are shown; this is an outlook."
+  - id: yang2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: The macro-dipole constraint restores the correct field while preserving local charge accuracy, avoids ambiguous charge partitioning and reproduces the full Poisson solution from scalar charges alone.
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM2."
+
+relations:
+  - {id: yang2026:R1, subject: yang2026:BG1, predicate: MOTIVATES, object: yang2026:HYP1, asserted_by: AUTHORS}
+  - {id: yang2026:R2, subject: yang2026:OBS1, predicate: SUPPORTS, object: yang2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "One model and system; 'all local models' extrapolated"}}
+  - {id: yang2026:R3, subject: yang2026:OBS2, predicate: SUPPORTS, object: yang2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Quantitative signal-to-noise analysis recomputes"}}
+  - {id: yang2026:R4, subject: yang2026:OBS3, predicate: SUPPORTS, object: yang2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "chi tuned on the same reference"}}
+  - {id: yang2026:R5, subject: yang2026:OBS4, predicate: SUPPORTS, object: yang2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "No split or error statistics reported"}}
+  - {id: yang2026:R6, subject: yang2026:METH1, predicate: UNDERCUTS, object: yang2026:CLAIM2, asserted_by: ANNOTATOR, note: "chi calibrated against Wannier-centre dipoles"}
+  - {id: yang2026:R7, subject: yang2026:CLAIM1, predicate: SUPPORTS, object: yang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: yang2026:R8, subject: yang2026:CLAIM2, predicate: SUPPORTS, object: yang2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: yang2026:R9, subject: yang2026:CLAIM2, predicate: MOTIVATES, object: yang2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: yang2026:R10, subject: yang2026:CONC1, predicate: RESTATES, object: yang2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: yang2026:R11, subject: yang2026:OBS3, predicate: SUPPORTS, object: yang2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The letter shows convincingly that a local ML model of water Wannier
+    centres, though accurate to 4 pm, misses the field response because
+    the per-molecule signal (0.016 eÅ, 0.002 Å) is two orders below
+    thermal fluctuations, and that electronic polarization is absent from
+    local descriptors (field error factor about eps_inf). The proposed
+    macro-dipole constraint with a polarization factor reproduces DFT
+    potentials in three benchmarks. The claim of avoiding charge
+    partitioning is undercut by calibrating chi against Wannier-centre
+    dipoles, the Mg benchmark lacks reported training/test details,
+    generality to all local-charge models is inferred from one
+    architecture, and the cost, data-efficiency and nanosecond-MD claims
+    are outlook rather than results.
+  key_limitations:
+    - "chi fitted against partitioned reference dipoles (METH1, CLAIM2)."
+    - "Mg benchmark without split or error statistics (OBS4)."
+    - "Generality and MD capability not demonstrated (CLAIM1, CLAIM3)."
+  missing_evidence:
+    - "Comparison with other long-range MLIP charge schemes."
+    - "ML-driven MD under bias validated against AIMD."
+    - "Transferability of a single chi across interfaces with errors."

@@ -1,0 +1,238 @@
+id: claimchain:chain/Ngoipala2024Hydride
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/adma.202410951
+  title: "Hydride-Induced Reconstruction of Pd Electrode Surfaces: A Combined Computational and Experimental Study"
+  authors: [Apinya Ngoipala, Christian Schott, Valentin Briega-Martos, Minaam Qamar, Matous Mrovec, Sousa Javan Nikkhah, Thorsten O. Schmidt, Lewin Deville, Andrea Capogrosso, Lilian Moumaneix, Tanja Kallio, Arnaud Viola, Frédéric Maillard, Ralf Drautz, Aliaksandr S. Bandarenka, Serhiy Cherevko, Matthias Vandichel, Elena L. Gubanova]
+  year: 2025
+  doi: 10.1002/adma.202410951
+  url: https://doi.org/10.1002/adma.202410951
+
+entities:
+  - {id: ent:Pd, label: "Pd(111), Pd(110), Pd(100) single crystals in 0.1 M HClO4", entity_type: MATERIAL}
+  - {id: ent:PdNP, label: 4 nm and 14 nm Pd/C nanoparticles, entity_type: MATERIAL}
+  - {id: ent:ECSTM, label: electrochemical scanning tunnelling microscopy, entity_type: TECHNIQUE}
+  - {id: ent:SFCICPMS, label: online scanning flow cell ICP-MS dissolution, entity_type: TECHNIQUE}
+  - {id: ent:MD, label: "large-scale MD with ACE (PBE-D3) Pd-H potential, 8 ns at 300 K", entity_type: METHOD}
+  - {id: ent:Hydride, label: "beta-PdHx subsurface hydride and alpha/beta interface", entity_type: MATERIAL}
+  - {id: ent:Roughness, label: surface roughness (modified RMS from STM; RMS in MD), entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: ngoipala2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: High hydrogen coverage reconstructs Pd(110) into pairing- or missing-row structures in UHV, but H-induced reconstruction of Pd under electrochemical conditions in aqueous electrolyte has rarely been studied.
+    evidence: [{evidence_kind: CITATION, references: ["10-21"]}]
+  - id: ngoipala2024:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The authors' previous EC-STM/DFT work showed that hydrogen absorption during cycling alters Pd surfaces, leaving the role of subsurface hydride formation, plastic deformation and extended defects unresolved.
+    evidence: [{evidence_kind: CITATION, references: ["22"]}]
+  - id: ngoipala2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Whether Pd surface restructuring during H insertion is caused by dissolution/redeposition or by hydride-induced reconstruction, and by which atomistic mechanisms, is unknown.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: ngoipala2024:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusion
+    paper_part: INTRODUCTION
+    text: The roughening of low-index Pd surfaces during cathodic cycling arises solely from hydride-induced reconstruction, driven by strain relaxation, defect formation and phase transformations during subsurface beta-hydride formation, not from Pd dissolution.
+    about: [ent:Pd, ent:Hydride, ent:Roughness]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "EC-STM shows roughening, ICP-MS convincingly excludes dissolution in the H insertion range, and MD shows roughening from pre-inserted hydride; 'solely' extends beyond excluding dissolution, and the MD imposes a large artificial initial hydride and clamped lateral cell rather than modelling hydride growth."
+      missing_evidence:
+        - "MD of hydrogen ingress from a flat surface at experimentally relevant loading rates"
+        - "Quantitative roughness comparison between STM and MD for all three facets"
+      proof_obligations:
+        - text: "Show surface roughening during cycling"
+          obligation_status: DISCHARGED
+          discharged_by: [ngoipala2024:OBS2, ngoipala2024:OBS3]
+        - text: "Exclude Pd dissolution/redeposition"
+          obligation_status: DISCHARGED
+          discharged_by: [ngoipala2024:OBS4]
+        - text: "Show that hydride formation produces the observed roughening"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [ngoipala2024:OBS5]
+
+  # ---------------- Methods ----------------
+  - id: ngoipala2024:METH1
+    statement_type: METHOD
+    section: Experimental Section
+    paper_part: METHODS
+    text: Freshly annealed Pd single crystals are cycled between -0.18 and 0.52 V vs RHE in 0.1 M HClO4 and imaged by EC-STM (150 x 150 nm) at a double-layer potential between cycles; online SFC-ICP-MS applies a matching potential-step protocol and 10 mV/s CVs to single crystals and 4/14 nm Pd/C, with a detection limit of about 1e-4 ng/(s cm2).
+    evidence: [{evidence_kind: ARGUMENT, locator: "Experimental Section, Tables S1-S2"}]
+    about: [ent:ECSTM, ent:SFCICPMS]
+  - id: ngoipala2024:METH2
+    statement_type: METHOD
+    section: Experimental Section - MD simulations
+    paper_part: METHODS
+    text: MD slabs (Pd11520H5760 for (111), Pd10752H5376 for (110), Pd10240H5120 for (100)) carry a full H adlayer and a fully hydrided upper half, are clamped laterally to the fcc Pd lattice constant of 3.891 A, and are run for 8 ns at 300 K (NVT) without electrolyte or applied potential using an ACE potential whose details are deferred to a follow-up study.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Experimental Section"
+        values:
+          - {symbol: n111, quantity: Pd atoms per layer (111), value: 576}
+          - {symbol: L111, quantity: layers (111), value: 20}
+          - {symbol: pd111, quantity: Pd atoms (111) slab, value: 11520}
+          - {symbol: n110, quantity: Pd atoms per layer (110), value: 384}
+          - {symbol: L110, quantity: layers (110), value: 28}
+          - {symbol: pd110, quantity: Pd atoms (110) slab, value: 10752}
+          - {symbol: n100, quantity: Pd atoms per layer (100), value: 512}
+          - {symbol: L100, quantity: layers (100), value: 20}
+          - {symbol: pd100, quantity: Pd atoms (100) slab, value: 10240}
+        derived_checks:
+          - {expression: "Pd(111) slab size", formula: "n111*L111 == pd111", satisfied: true}
+          - {expression: "Pd(110) slab size", formula: "n110*L110 == pd110", satisfied: true}
+          - {expression: "Pd(100) slab size", formula: "n100*L100 == pd100", satisfied: true}
+    about: [ent:MD, ent:Hydride]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The ACE potential's parametrization and benchmarks are deferred to a follow-up study; only bulk validation is in the SI.", priority: MEDIUM}
+  - id: ngoipala2024:ASM1
+    statement_type: ASSUMPTION
+    section: Experimental Section - MD simulations
+    paper_part: METHODS
+    text: Starting from a pre-formed beta-hydride in half the slab with laterally clamped dimensions captures the roughening mechanism of electrochemical hydride formation, and solvent and potential do not affect it.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Does gradual hydride growth from the surface, as in cycling, produce the same defect types and roughening ranking as the abrupt pre-inserted hydride?"
+
+  # ---------------- Results ----------------
+  - id: ngoipala2024:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 1
+    paper_part: RESULTS
+    text: HER activity of Pd(111) and Pd(110) declines rapidly after five and seven cycles respectively, and Pd(100), initially stable, shows hills, grooves and dimples by optical microscopy after four cycles.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1b, Fig. S1"}]
+    about: [ent:Pd]
+  - id: ngoipala2024:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2
+    paper_part: RESULTS
+    text: EC-STM shows initially flat terraces that develop multi-atomic holes, steps and islands on all three facets with cycling, with islands growing laterally and in height to several tenths of nanometres.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2, Figs. S2-S4"}]
+    about: [ent:ECSTM, ent:Pd]
+  - id: ngoipala2024:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 3
+    paper_part: RESULTS
+    text: On Pd(111) after 34 cycles two steps of 1.6 and 2.8 nm converge into a ~5 nm deep hole, angstrom-scale spikes appear, and a modified RMS roughness increases with cycle number in two distinct patterns.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3", values: [{quantity: hole depth, value: 5, unit: nm}]}]
+    about: [ent:Roughness]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Quantitative roughness evolution is reported for Pd(111) only, from one imaged area with drift.", priority: MEDIUM}
+  - id: ngoipala2024:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 4
+    paper_part: RESULTS
+    text: SFC-ICP-MS detects no Pd dissolution from single crystals for step and CV protocols down to -0.18 V, while 4 and 14 nm Pd/C show small dissolution near the 0.52 V upper limit; the detection limit corresponds to less than 0.1 % of a monolayer.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4, Figs. S5-S6", values: [{quantity: detection limit, value: 1.0e-4, unit: ng/(s cm2)}]}]
+    about: [ent:SFCICPMS, ent:PdNP]
+  - id: ngoipala2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.3, Conclusion
+    paper_part: RESULTS
+    text: Pd dissolution and redeposition are ruled out as the primary cause of the morphological changes observed by EC-STM.
+    about: [ent:Pd, ent:SFCICPMS]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "No dissolution above a sub-0.1 %-monolayer detection limit for matching protocols, with nanoparticle controls proving the setup's sensitivity."
+  - id: ngoipala2024:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Figs. 5-6
+    paper_part: RESULTS
+    text: In MD, all three surfaces roughen within the first nanosecond to RMS values of about 1.53 A (111), 0.94 A (110) and 0.27 A (100) at 8 ns; (111) forms adatoms, islands and steps with a sharp beta/alpha interface held by a planar Shockley-partial network, (110) undergoes missing-row reconstruction with diagonal dislocations, and (100) expands normal to the surface without dislocations; significant roughening on (111) needs more than four hydrogen sublayers.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5d, Fig. 6, Fig. S9"
+        values:
+          - {quantity: RMS roughness (111), value: 1.53, unit: A}
+          - {quantity: RMS roughness (110), value: 0.94, unit: A}
+          - {quantity: RMS roughness (100), value: 0.27, unit: A}
+    about: [ent:MD, ent:Hydride, ent:Roughness]
+  - id: ngoipala2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 2.4, Conclusion
+    paper_part: DISCUSSION
+    text: Surface restructuring of Pd during hydride formation results from relaxation of lateral residual stress through defects (misfit dislocations, stacking faults) and phase transformations at the alpha/beta interface, with facet-dependent mechanisms that also govern H mobility.
+    about: [ent:Hydride, ent:MD]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The large lateral stress is created by clamping a fully hydrided half-slab to the Pd lattice; its magnitude relative to cycling conditions is not established.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Defect structures and strain relaxation are clearly resolved in the simulations and agree qualitatively with STM roughening; the initial configuration is chosen to induce stress, so the simulations show what can happen, not that the experimental roughening proceeds this way."
+  - id: ngoipala2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 2.4
+    paper_part: DISCUSSION
+    text: Pd(111) roughens most because of its close-packed structure, higher coordination and the lowest surface formation energy of the PdH/Pd(111) system, while (110) and (100) transform towards (111) facets.
+    about: [ent:Roughness, ent:Pd]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Why a lower surface formation energy and the most stable termination should roughen most is not explained; the argument appears to point the other way.", priority: LOW}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The facet ranking is from one simulation per facet with an artificial initial state; the explanation is not tested."
+  - id: ngoipala2024:OUT1
+    statement_type: OUTLOOK
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Understanding H-induced reconstruction of Pd surfaces is a prerequisite for designing active and selective Pd-based electrocatalysts.
+
+relations:
+  - {id: ngoipala2024:R1, subject: ngoipala2024:BG1, predicate: MOTIVATES, object: ngoipala2024:GAP1, asserted_by: AUTHORS}
+  - {id: ngoipala2024:R2, subject: ngoipala2024:BG2, predicate: MOTIVATES, object: ngoipala2024:GAP1, asserted_by: AUTHORS}
+  - {id: ngoipala2024:R3, subject: ngoipala2024:GAP1, predicate: MOTIVATES, object: ngoipala2024:HYP1, asserted_by: AUTHORS}
+  - {id: ngoipala2024:R4, subject: ngoipala2024:METH2, predicate: DEPENDS_ON, object: ngoipala2024:ASM1, asserted_by: AUTHORS}
+  - {id: ngoipala2024:R5, subject: ngoipala2024:OBS4, predicate: SUPPORTS, object: ngoipala2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: ngoipala2024:R6, subject: ngoipala2024:CLAIM1, predicate: SUPPORTS, object: ngoipala2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true}
+  - {id: ngoipala2024:R7, subject: ngoipala2024:OBS2, predicate: SUPPORTS, object: ngoipala2024:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ngoipala2024:R8, subject: ngoipala2024:OBS3, predicate: SUPPORTS, object: ngoipala2024:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ngoipala2024:R9, subject: ngoipala2024:OBS5, predicate: SUPPORTS, object: ngoipala2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Pre-inserted hydride and clamped cell; one run per facet"}}
+  - {id: ngoipala2024:R10, subject: ngoipala2024:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: ngoipala2024:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: ngoipala2024:R11, subject: ngoipala2024:CLAIM2, predicate: SUPPORTS, object: ngoipala2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ngoipala2024:R12, subject: ngoipala2024:OBS5, predicate: SUPPORTS, object: ngoipala2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: ngoipala2024:R13, subject: ngoipala2024:OBS1, predicate: SUPPORTS, object: ngoipala2024:HYP1, asserted_by: AUTHORS, note: "Activity degradation consistent with restructuring", support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: ngoipala2024:R14, subject: ngoipala2024:HYP1, predicate: ANSWERS, object: ngoipala2024:GAP1, asserted_by: AUTHORS}
+  - {id: ngoipala2024:R15, subject: ngoipala2024:HYP1, predicate: MOTIVATES, object: ngoipala2024:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A well-designed combination of EC-STM, sensitive online dissolution
+    measurements and large-scale ML-potential MD. The exclusion of Pd
+    dissolution in the hydrogen insertion range is convincing, with
+    nanoparticle controls demonstrating sensitivity, and the slab sizes in
+    the MD recompute. The atomistic mechanism is shown under an artificial
+    initial state (pre-inserted beta-hydride, laterally clamped cell, no
+    electrolyte), the ACE potential is not documented in this paper,
+    quantitative STM roughness is given for Pd(111) only, and the
+    facet-ranking explanation is untested; 'solely' hydride-induced goes
+    somewhat beyond excluding dissolution.
+  key_limitations:
+    - "MD initial state imposes a full beta-hydride and lateral clamping (ASM1, CLAIM2)."
+    - "ACE potential details deferred to a follow-up study (METH2)."
+    - "Quantitative roughness only for Pd(111), single imaged area (OBS3)."
+    - "Facet-ranking explanation untested and partly contradictory (CLAIM3)."
+  missing_evidence:
+    - "MD of hydride growth from the surface under realistic H fluxes."
+    - "Roughness statistics for all facets and several areas."
+    - "Published ACE potential and validation for surfaces and interfaces."

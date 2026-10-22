@@ -1,0 +1,283 @@
+id: claimchain:chain/Zerdoumi2024Integration
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acs.analchem.4c00149
+  title: "Integration of Scanning Electrochemical Microscopy and Scanning Electrochemical Cell Microscopy in a Bifunctional Nanopipette toward Simultaneous Mapping of Activity and Selectivity in Electrocatalysis"
+  authors: [Ridha Zerdoumi, Thomas Quast, Emmanuel Batsa Tetteh, Moonjoo Kim, Lejing Li, Stefan Dieckhöfer, Wolfgang Schuhmann]
+  year: 2024
+  doi: 10.1021/acs.analchem.4c00149
+  url: https://doi.org/10.1021/acs.analchem.4c00149
+
+entities:
+  - {id: ent:DualProbe, label: "dual SECCM-SECM probe (theta capillary, open electrolyte barrel + pyrolytic carbon barrel with GIS-deposited Pt tip)", entity_type: METHOD}
+  - {id: ent:SECCM, label: scanning electrochemical cell microscopy, entity_type: TECHNIQUE}
+  - {id: ent:SECM, label: scanning electrochemical microscopy (generator-collector), entity_type: TECHNIQUE}
+  - {id: ent:FIB, label: focused ion beam milling and gas injection system Pt deposition, entity_type: METHOD}
+  - {id: ent:PtStrip, label: "GIS-deposited Pt microstrip (120 x 30 um, ~16 % Ga) on Au", entity_type: MATERIAL}
+  - {id: ent:Au, label: Au substrate, entity_type: MATERIAL}
+  - {id: ent:ORR, label: oxygen reduction reaction current, entity_type: QUANTITY}
+  - {id: ent:H2O2, label: H2O2 oxidation current at the Pt tip, entity_type: QUANTITY}
+  - {id: ent:Selectivity, label: ORR selectivity (H2O vs H2O2), entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zerdoumi2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Scanning electrochemical probe techniques (SICM, SECM, SECCM) give local insight into electrode/electrolyte interfaces, and SECCM confines the measurement to a droplet cell whose wetted area sets the resolution.
+    evidence: [{evidence_kind: CITATION, references: ["3-26"]}]
+  - id: zerdoumi2024:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Integrated SECCM-SECM has so far been realized only with a quad-probe of two electrolyte barrels and two porous carbon electrodes controlled in a five-electrode setup.
+    evidence: [{evidence_kind: CITATION, references: ["39"]}]
+  - id: zerdoumi2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: A simpler and more robust SECCM-SECM probe for simultaneous mapping of electrocatalytic activity and selectivity is lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: zerdoumi2024:AIM1
+    statement_type: AIM
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Develop a simple fabrication route for a bifunctional SECCM-SECM nanopipette in which a Pt tip electrode is embedded in the SECCM droplet.
+    about: [ent:DualProbe]
+    author_certainty: DEMONSTRATED
+  - id: zerdoumi2024:AIM2
+    statement_type: AIM
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Demonstrate simultaneous mapping of ORR activity and H2O2 production (selectivity) on a Pt microstrip on Au with the dual probe.
+    about: [ent:PtStrip, ent:ORR, ent:H2O2]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: zerdoumi2024:METH1
+    statement_type: METHOD
+    section: Experimental Section
+    paper_part: METHODS
+    text: Quartz theta capillaries are laser-pulled, one barrel is filled with pyrolytic carbon from propane/butane under Ar, and Pt is deposited on the carbon barrel end by FIB-GIS followed by FIB cutting; the open barrel holds electrolyte and an Ag-wire quasi-reference counter electrode.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 2, Fig. S1"}]
+    about: [ent:DualProbe, ent:FIB]
+  - id: zerdoumi2024:METH2
+    statement_type: METHOD
+    section: Results and Discussion
+    paper_part: METHODS
+    text: Substrate and Pt-tip potentials are controlled against ground in a bipotentiostat configuration with the QRCE at ground; in ORR mapping the Au substrate is swept from 1 to -1.5 V while the Pt tip is held at 0.6 V to oxidize H2O2 in 0.05 M KOH.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 3"}]
+    about: [ent:SECCM, ent:SECM]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Potentials are given against an Ag quasi-reference without conversion to RHE or a drift check, so ORR onset and the H2O2 collection potential cannot be compared with literature.", priority: MEDIUM}
+  - id: zerdoumi2024:ASM1
+    statement_type: ASSUMPTION
+    section: Results and Discussion
+    paper_part: METHODS
+    text: The anodic current at the Pt tip held at 0.6 V measures H2O2 produced by ORR at the substrate within the same droplet.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Which fraction of the produced H2O2 reaches the tip (collection efficiency), and do other species contribute to the tip current?"
+    note: "Implicit in the interpretation; not stated as an assumption by the authors."
+
+  # ---------------- Results ----------------
+  - id: zerdoumi2024:OBS1
+    statement_type: OBSERVATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: In 1 mM Fc(MeOH)2 the Pt tip shows the ferrocene redox response in air, and after droplet contact the Au substrate oxidizes Fc(MeOH)2 while the tip simultaneously reduces the generated Fc+(MeOH)2.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3a,b, Fig. S4"}]
+    about: [ent:DualProbe, ent:Au]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The collection efficiency is called 'relatively small' but not reported, neither for the typical nor for the close-proximity case.", priority: HIGH}
+  - id: zerdoumi2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: The Pt tip electrode is confined within the SECCM droplet cell and works as a generator-collector SECM tip.
+    about: [ent:DualProbe]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Simultaneous substrate oxidation and tip reduction of a reversible mediator imply that both electrodes share the electrolyte volume.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: "YES"
+      rationale: "The mediator experiment shows substrate generation and tip collection in one droplet; the missing collection efficiency limits quantitative use but not the qualitative claim."
+  - id: zerdoumi2024:OBS2
+    statement_type: OBSERVATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: Proper electrochemical responses were obtained at nearly 100 % of landing sites with a semicircle-cut probe, about 33 % with a V-cut and less than 10 % with a flat cut; a small Pt disk deposit led to droplet instability and short circuits.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, Figs. S2, S5, S6"
+        values:
+          - {quantity: success rate, value: 100, unit: "%", condition: "semicircle cut (nearly)"}
+          - {quantity: success rate, value: 33, unit: "%", condition: V cut}
+          - {quantity: success rate, value: 10, unit: "%", condition: "flat cut (upper bound)"}
+    about: [ent:FIB, ent:DualProbe]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Number of probes and landing sites per geometry are not given; the shown semicircle example is one 5 x 5 array.", priority: MEDIUM}
+  - id: zerdoumi2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Results and Discussion, Conclusions
+    paper_part: RESULTS
+    text: The semicircle FIB cut gives the optimal geometry because it embeds the Pt surface within a confined, stable droplet that is protected during approach, retraction and lateral movement.
+    about: [ent:FIB, ent:DualProbe]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The success-rate ranking supports the semicircle cut as best among three tested geometries; the droplet-confinement mechanism is argued, not imaged or modelled, and probe-to-probe statistics are missing."
+      missing_evidence:
+        - "Success rates over several probes per geometry"
+        - "Droplet footprint imaging after landing for each geometry"
+  - id: zerdoumi2024:OBS3
+    statement_type: OBSERVATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: At one landing spot the substrate ORR current and the tip H2O2 oxidation current increase together during the LSV, and maps at -0.5 V over a 100 x 100 um area show a region of high ORR and high H2O2 oxidation current coinciding with the Pt microstrip.
+    evidence:
+      - {evidence_kind: DATA_QUALITATIVE, locator: "Fig. 5h,j,k, Movies M1, M2"}
+    about: [ent:PtStrip, ent:ORR, ent:H2O2]
+  - id: zerdoumi2024:OBS4
+    statement_type: OBSERVATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: The mapping uses a 5 um hopping distance, and the authors state that five scan lines correspond to the 30 um width of the Pt microstrip.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Results and Discussion"
+        values:
+          - {symbol: hop, quantity: hopping distance, value: 5, unit: um}
+          - {symbol: nlines, quantity: number of high-current scan lines, value: 5}
+          - {symbol: width, quantity: Pt strip width, value: 30, unit: um}
+        derived_checks:
+          - {expression: "width covered by five lines at 5 um spacing", formula: "nlines*hop", result: 25, unit: um, note: "25 um (or 20 um between outer line centres) versus the stated 30 um strip"}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The ORR mapping is first described with a 20 um hopping distance and later with 5 um for the same 100 x 100 um area.", priority: MEDIUM}
+      - {concern_type: ARITHMETIC, description: "Five lines at 5 um spacing span 20-25 um, not 30 um; the correspondence is approximate at best.", priority: LOW}
+  - id: zerdoumi2024:OBS5
+    statement_type: OBSERVATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: EDX shows that the GIS-deposited microstrip is a Pt-Ga alloy with about 16 % Ga from the Ga+ ion source.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5b-e", values: [{quantity: Ga content, value: 16, unit: "%"}]}]
+    about: [ent:PtStrip]
+  - id: zerdoumi2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results and Discussion
+    paper_part: RESULTS
+    text: The Ga content alters the electronic properties of the Pt microstrip, which explains its higher ORR and H2O2 currents compared with the Au surface.
+    about: [ent:PtStrip]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No Ga-free Pt reference or Pt-Ga reference electrode is measured; the explanation is not tested.", priority: MEDIUM}
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The text itself says Au should be more selective to H2O2 than Pt, yet the strip gives higher H2O2 current; higher H2O2 current from higher ORR current is not higher selectivity, and no current ratio is shown.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The Ga content is measured, but its effect on activity and H2O2 yield is not isolated; the higher strip currents may reflect area, roughness or simply higher ORR activity."
+      missing_evidence:
+        - "Control strip deposited without Ga incorporation or a bulk Pt reference spot"
+        - "Ratio of tip to substrate current (H2O2 fraction) on strip and Au"
+  - id: zerdoumi2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: The dual SECCM-SECM probe enables simultaneous localized mapping of electrocatalytic activity and selectivity (ORR and H2O2 production) of electrocatalyst surfaces.
+    about: [ent:DualProbe, ent:Selectivity]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Only raw ORR and tip currents are mapped; selectivity (H2O2 yield or electron number) requires a calibrated collection efficiency, which is not reported.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Simultaneous activity and H2O2 current maps are demonstrated on one Pt-Ga strip; mapping of selectivity in a quantitative sense is not shown because collection efficiency and H2O2 fractions are missing."
+      missing_evidence:
+        - "Collection efficiency calibration of the tip within the droplet"
+        - "H2O2 yield or electron-transfer number maps derived from both currents"
+        - "Benchmark against RRDE on the same materials"
+      proof_obligations:
+        - text: "Show a working dual probe embedded in the SECCM droplet"
+          obligation_status: DISCHARGED
+          discharged_by: [zerdoumi2024:OBS1, zerdoumi2024:OBS2]
+        - text: "Show simultaneous activity and product maps"
+          obligation_status: DISCHARGED
+          discharged_by: [zerdoumi2024:OBS3]
+        - text: "Convert the tip current into a quantitative selectivity"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: collection efficiency and H2O2 yield, unit: "%", method: "mediator calibration and RRDE comparison"}]
+  - id: zerdoumi2024:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results and Discussion
+    paper_part: DISCUSSION
+    text: Owing to droplet confinement in the semicircle cut, oxygen diffuses rapidly into the droplet and mitigates the oxygen depletion known from generator-collector SECM, while the sample avoids prolonged immersion and polarization.
+    about: [ent:DualProbe]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Presented as 'most importantly', but no oxygen-depletion comparison or repeated-LSV test is shown.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible from droplet geometry, but no data compare oxygen supply with a conventional SECM experiment."
+      missing_evidence:
+        - "Repeated LSVs or chronoamperometry showing absence of O2 depletion compared with bulk SECM"
+  - id: zerdoumi2024:OUT1
+    statement_type: OUTLOOK
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: The dual probe can be extended to other electrochemical reactions in which intermediates or products are generated and detected simultaneously, for post-screening of electrocatalytic materials.
+
+relations:
+  - {id: zerdoumi2024:R1, subject: zerdoumi2024:BG1, predicate: MOTIVATES, object: zerdoumi2024:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R2, subject: zerdoumi2024:BG2, predicate: MOTIVATES, object: zerdoumi2024:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R3, subject: zerdoumi2024:GAP1, predicate: MOTIVATES, object: zerdoumi2024:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R4, subject: zerdoumi2024:GAP1, predicate: MOTIVATES, object: zerdoumi2024:AIM2, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R5, subject: zerdoumi2024:METH1, predicate: DELIVERS, object: zerdoumi2024:AIM1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R6, subject: zerdoumi2024:OBS1, predicate: SUPPORTS, object: zerdoumi2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: zerdoumi2024:R7, subject: zerdoumi2024:OBS2, predicate: SUPPORTS, object: zerdoumi2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Success rate measures the outcome, not droplet confinement; counts per probe not reported"}}
+  - {id: zerdoumi2024:R8, subject: zerdoumi2024:CLAIM1, predicate: SUPPORTS, object: zerdoumi2024:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW, essential: true}
+  - {id: zerdoumi2024:R9, subject: zerdoumi2024:CLAIM2, predicate: SUPPORTS, object: zerdoumi2024:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zerdoumi2024:R10, subject: zerdoumi2024:OBS3, predicate: SUPPORTS, object: zerdoumi2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Raw tip current is a proxy for selectivity; one sample, one strip; no collection efficiency"}}
+  - {id: zerdoumi2024:R11, subject: zerdoumi2024:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: zerdoumi2024:CLAIM4, asserted_by: ANNOTATOR, note: "Selectivity mapping requires the tip current to quantify substrate-generated H2O2"}
+  - {id: zerdoumi2024:R12, subject: zerdoumi2024:OBS3, predicate: DELIVERS, object: zerdoumi2024:AIM2, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R13, subject: zerdoumi2024:OBS5, predicate: SUPPORTS, object: zerdoumi2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Composition is shown; its effect on currents is not tested"}}
+  - {id: zerdoumi2024:R14, subject: zerdoumi2024:OBS3, predicate: SUPPORTS, object: zerdoumi2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zerdoumi2024:R15, subject: zerdoumi2024:OBS4, predicate: QUALIFIES, object: zerdoumi2024:OBS3, asserted_by: ANNOTATOR, note: "Hopping distance and strip-width correspondence are inconsistent"}
+  - {id: zerdoumi2024:R16, subject: zerdoumi2024:OBS1, predicate: UNDERCUTS, object: zerdoumi2024:CLAIM4, asserted_by: ANNOTATOR, note: "Unreported, admittedly small collection efficiency limits quantitative selectivity"}
+  - {id: zerdoumi2024:R17, subject: zerdoumi2024:CLAIM2, predicate: SUPPORTS, object: zerdoumi2024:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zerdoumi2024:R18, subject: zerdoumi2024:CLAIM4, predicate: ANSWERS, object: zerdoumi2024:GAP1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R19, subject: zerdoumi2024:CLAIM4, predicate: MOTIVATES, object: zerdoumi2024:OUT1, asserted_by: AUTHORS}
+  - {id: zerdoumi2024:R20, subject: zerdoumi2024:CLAIM4, predicate: RESTATES, object: zerdoumi2024:AIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A short methods paper that convincingly shows a working dual SECCM-SECM
+    nanopipette: the mediator experiment proves that the Pt tip sits in the
+    droplet, and a semicircle FIB cut gives reliable landings. Simultaneous
+    ORR and H2O2 oxidation current maps are shown on one Pt-Ga microstrip.
+    The headline 'selectivity mapping' is not quantified because the
+    collection efficiency is not reported and only raw currents are mapped;
+    the Ga-based explanation of the strip currents and the oxygen-depletion
+    advantage are untested, and the hopping distance is reported
+    inconsistently.
+  key_limitations:
+    - "No collection efficiency or H2O2 yield, so selectivity is not quantified (OBS1, CLAIM4)."
+    - "Single demonstration sample and strip; success rates without probe counts (OBS2, OBS3)."
+    - "Ga effect and oxygen-depletion advantage asserted without controls (CLAIM3, CLAIM5)."
+    - "Potentials against an Ag quasi-reference without RHE conversion (METH2)."
+    - "Hopping distance 20 um vs 5 um and 30 um strip vs five lines (OBS4)."
+  missing_evidence:
+    - "Collection efficiency calibration and H2O2 yield maps."
+    - "Benchmark against RRDE or conventional SECM on the same catalyst."
+    - "Ga-free Pt reference spot and repeated probes per cut geometry."

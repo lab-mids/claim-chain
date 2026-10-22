@@ -1,0 +1,205 @@
+id: claimchain:chain/Pukhareva2025Compositional
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acselectrochem.5c00406
+  title: "Compositional and Structural Impact on the Hydrogen Evolution Reaction Activity across Noble-Metal-Based Compositionally Complex Solid Solutions Thin Film Libraries"
+  authors: [Natalia Pukhareva, Moonjoo Kim, Felix Thelen, Geovane Arruda de Oliveira, Rico Zehl, Wolfgang Schuhmann, Alfred Ludwig]
+  year: 2026
+  doi: 10.1021/acselectrochem.5c00406
+  url: https://doi.org/10.1021/acselectrochem.5c00406
+
+entities:
+  - {id: ent:Libs, label: "Ir-Pd-Pt-Rh-Ru, Ag-Au-Pd-Pt-Ru and Ag-Au-Cu-Pd-Pt co-sputtered thin-film libraries (342 areas each, several copies)", entity_type: MATERIAL}
+  - {id: ent:EDX, label: "EDX volume composition (1-2 µm probe depth)", entity_type: TECHNIQUE}
+  - {id: ent:XPSGP, label: "XPS at 10-13 areas per library extrapolated to all areas by multi-output Gaussian process regression", entity_type: METHOD}
+  - {id: ent:SECCM, label: "long-range SECCM HER voltammetry in 0.1 M HClO4 + 0.1 M LiClO4, current at -0.2 V vs RHE", entity_type: TECHNIQUE}
+  - {id: ent:Seg, label: "surface segregation (XPS minus EDX composition)", entity_type: QUANTITY}
+  - {id: ent:XRD, label: "high-throughput XRD phase mapping and Vegard fits", entity_type: TECHNIQUE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: pukhareva2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Noble-metal CCSS such as IrPdPtRhRu nanoparticles show high HER activity, and crystal structure (fcc vs hcp) and surface segregation driven by surface-energy differences can change surface composition and activity.
+    evidence: [{evidence_kind: CITATION, references: ["4-19"]}]
+  - id: pukhareva2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The interplay between volume composition, surface segregation, crystal structure and HER activity in CCSS electrocatalysts is insufficiently understood.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: pukhareva2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Determine composition-structure-segregation-HER activity relationships across three noble-metal CCSS libraries sharing Pd and Pt, using EDX, XRD, GP-assisted XPS and long-range SECCM.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: pukhareva2026:METH1
+    statement_type: METHOD
+    section: Experimental Section
+    paper_part: METHODS
+    text: Libraries are sputtered at room temperature on sapphire with Ti or Ta adhesion layers; EDX and XRD map all 342 areas; XPS measures 10-13 areas and a GP model trained on the volume map predicts surface compositions elsewhere; for two systems SECCM and XPS are done on different library copies, in one case from different deposition runs.
+    about: [ent:EDX, ent:XPSGP, ent:Libs]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Surface compositions correlated with SECCM activity come from GP extrapolation of 10-13 XPS points measured on another library copy (for Ag-Au-Cu-Pd-Pt from a different deposition run), so run-to-run differences enter the correlation.", priority: MEDIUM}
+  - id: pukhareva2026:METH2
+    statement_type: METHOD
+    section: Experimental Section, Results
+    paper_part: METHODS
+    text: SECCM uses about 500 nm pipettes, three cleaning CVs at 5 V/s and HER CVs at 1 V/s at 2x2 hopping positions per area; outliers with large standard deviation are excluded; activity is the current density at -0.2 V vs RHE, stated to lie in the kinetically controlled region and to avoid hydrogen absorption in Pd.
+    about: [ent:SECCM]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The voltammograms show sigmoidal limiting-current behaviour and currents of several A/cm2, so -0.2 V may be partly mass-transport limited; and more negative potentials favour rather than avoid hydrogen absorption in Pd.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: pukhareva2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Figs. S1-S3
+    paper_part: RESULTS
+    text: More than 97% of compositions are single-phase fcc; hcp reflections appear only in Ru-Rh-rich Ir-Pd-Pt-Rh-Ru areas (3%); lattice parameters vary linearly with composition (R2 0.94, 0.99, 0.95), with a step-like pattern from strong (111) texture in the two Ag-containing libraries.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. S1-S3"}]
+    about: [ent:XRD]
+  - id: pukhareva2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2
+    paper_part: RESULTS
+    text: In Ir-Pd-Pt-Rh-Ru, Pd (up to +7 at.%) and Pt (up to +6) enrich at the surface, Rh and Ru follow the volume (±1-2) and Ir is depleted (down to -9); in Ag-Au-Pd-Pt-Ru, Ag enriches (+4 to +12), Pd enriches (up to +9), Pt (-1 to -5) and Ru are depleted and Au is locally depleted; in Ag-Au-Cu-Pd-Pt, Ag enriches (+5 to +10), Pt (down to -8) and Pd (down to -8) are depleted and Cu is mostly depleted.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2, Fig. S5"}]
+    about: [ent:Seg, ent:XPSGP]
+  - id: pukhareva2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: Surface segregation is primarily governed by elemental surface energy (Ag lowest enriches; Ru and Pt, with the highest surface energy, occupy the volume) and modified by competitive interactions; Ir's depletion despite intermediate surface energy points to electronic or strain effects.
+    about: [ent:Seg]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Elements with lower surface energy enrich at the surface (surface energy order Ag < Au < Pd < Cu < Pt < Rh < Ir < Ru).", warrant_basis: CITATION}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "By the paper's own surface-energy order Ir is the second-highest element, so its depletion is expected rather than 'unexpected', and Pt is intermediate, not among the highest; Pt also enriches in Ir-Pd-Pt-Rh-Ru, contrary to the summary that Pt occupies the volume.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Ag enrichment and Ru/Ir depletion fit the surface-energy rule, but the summary mislabels the positions of Ir and Pt in the stated order, and the segregation values rest on GP extrapolation of a few XPS points, partly after air exposure."
+  - id: pukhareva2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Figs. 3-4, Table S1
+    paper_part: RESULTS
+    text: Mean HER current densities at -0.2 V are 3.2 ± 0.4 (Ir-Pd-Pt-Rh-Ru), 1.1 ± 0.4 (Ag-Au-Pd-Pt-Ru) and 0.12 ± 0.04 A/cm2 (Ag-Au-Cu-Pd-Pt); the most active area is Ir10Pd15Pt46Rh12Ru17 (surface Ir6Pd17Pt50Rh11Ru16); in Ir-Pd-Pt-Rh-Ru activity rises with Pt, in the two Ag-containing libraries the Pd-rich rather than the Pt-rich region is most active, Ag, Au and Cu lower activity, and no hcp-related trend is seen.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 3-4"
+        values:
+          - {symbol: j1, quantity: mean current density Ir-Pd-Pt-Rh-Ru, value: 3.2, unit: A cm-2}
+          - {symbol: j2, quantity: mean current density Ag-Au-Pd-Pt-Ru, value: 1.1, unit: A cm-2}
+          - {symbol: j3, quantity: mean current density Ag-Au-Cu-Pd-Pt, value: 0.12, unit: A cm-2}
+        derived_checks:
+          - {expression: "activity ratio between best and worst library", formula: "j1/j3", result: 26.7}
+    about: [ent:SECCM, ent:Libs]
+  - id: pukhareva2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results
+    paper_part: RESULTS
+    text: Ir10Pd15Pt46Rh12Ru17 (surface Ir6Pd17Pt50Rh11Ru16) is the most active volume composition for HER among the three libraries, and library activity follows Ir-Pd-Pt-Rh-Ru > Ag-Au-Pd-Pt-Ru > Ag-Au-Cu-Pd-Pt, partly consistent with the intrinsic activity of the constituents.
+    about: [ent:SECCM]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The library ordering is clear (26-fold range); the single best area is a maximum of averaged hopping points without stated repeat statistics, and the potential used may be partly transport-limited."
+  - id: pukhareva2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: HER trends are governed not only by the intrinsic activity of the constituents but also by unexpected synergistic effects, e.g. Pd rather than Pt raising activity in the Ag-containing libraries and Ag-rich regions outperforming Cu-rich regions, while surface segregation modulates the accessibility of Pt and Pd.
+    about: [ent:Seg, ent:SECCM]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Deviations from single-element activity trends are labelled synergy without separating them from surface segregation (Ag, Au, Cu covering Pt), which the paper itself documents, or from transport limitation at A/cm2 currents.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The activity maps and segregation data are correlated qualitatively; 'synergy' is inferred from departures from intrinsic trends without a model or control that excludes the segregation explanation offered in the same section."
+      missing_evidence:
+        - "Activity normalized to the predicted surface Pt+Pd fraction to test whether segregation alone explains the trends"
+  - id: pukhareva2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: No phase-dependent HER trend is observed, implying a dominant role of composition over crystal structure.
+    about: [ent:XRD, ent:SECCM]
+    claim_modality: COMPARATIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "With hcp present in only 3% of areas as a minor phase, the data cannot test a structure effect, as the authors partly concede."
+  - id: pukhareva2026:LIM1
+    statement_type: LIMITATION
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: The fcc/hcp phase boundary is not resolved, two libraries were air-exposed before XPS, and including non-noble metals will add oxide formation and larger surface-energy differences.
+  - id: pukhareva2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: High-throughput study of numerous compositions revealed unexpected behaviours from complex synergistic interactions, and surface segregation driven by surface energy modulates the surface accessibility of Pt and Pd.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM3."
+
+relations:
+  - {id: pukhareva2026:R1, subject: pukhareva2026:BG1, predicate: MOTIVATES, object: pukhareva2026:GAP1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R2, subject: pukhareva2026:GAP1, predicate: MOTIVATES, object: pukhareva2026:AIM1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R3, subject: pukhareva2026:OBS2, predicate: DELIVERS, object: pukhareva2026:AIM1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R4, subject: pukhareva2026:OBS3, predicate: DELIVERS, object: pukhareva2026:AIM1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R5, subject: pukhareva2026:CLAIM3, predicate: DELIVERS, object: pukhareva2026:AIM1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R6, subject: pukhareva2026:CONC1, predicate: DELIVERS, object: pukhareva2026:AIM1, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R7, subject: pukhareva2026:OBS2, predicate: SUPPORTS, object: pukhareva2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "GP extrapolation from 10-13 XPS points; some air exposure"}}
+  - {id: pukhareva2026:R8, subject: pukhareva2026:OBS2, predicate: QUALIFIES, object: pukhareva2026:CLAIM1, asserted_by: ANNOTATOR, note: "Pt enriches in Ir-Pd-Pt-Rh-Ru; Ir's depletion fits its high surface energy"}
+  - {id: pukhareva2026:R9, subject: pukhareva2026:OBS3, predicate: SUPPORTS, object: pukhareva2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: MET, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Hundreds of areas; potential possibly transport-affected"}}
+  - {id: pukhareva2026:R10, subject: pukhareva2026:METH2, predicate: QUALIFIES, object: pukhareva2026:CLAIM2, asserted_by: ANNOTATOR, note: "limiting-current shape at A/cm2"}
+  - {id: pukhareva2026:R11, subject: pukhareva2026:OBS3, predicate: SUPPORTS, object: pukhareva2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Departure from intrinsic trends not separated from segregation"}}
+  - {id: pukhareva2026:R12, subject: pukhareva2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: pukhareva2026:CLAIM3, asserted_by: ANNOTATOR, note: "Ag/Au/Cu surface enrichment hides Pt; explains Pd>Pt trends without synergy"}
+  - {id: pukhareva2026:R13, subject: pukhareva2026:OBS1, predicate: SUPPORTS, object: pukhareva2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: pukhareva2026:R14, subject: pukhareva2026:LIM1, predicate: QUALIFIES, object: pukhareva2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: pukhareva2026:R15, subject: pukhareva2026:METH1, predicate: QUALIFIES, object: pukhareva2026:CLAIM3, asserted_by: ANNOTATOR, note: "surface compositions from another library copy"}
+  - {id: pukhareva2026:R16, subject: pukhareva2026:CONC1, predicate: RESTATES, object: pukhareva2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: pukhareva2026:R17, subject: pukhareva2026:OBS3, predicate: SUPPORTS, object: pukhareva2026:CONC1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Three noble-metal CCSS libraries were mapped by EDX, XRD, GP-assisted
+    XPS and long-range SECCM, giving a large, openly shared dataset. The
+    single-phase fcc character, the library activity ordering and the
+    main segregation trends (Ag enrichment, Ru/Ir depletion) are well
+    supported. The interpretation is looser: the surface-energy summary
+    mislabels where Ir and Pt sit in the paper's own order, 'synergistic
+    effects' are inferred from departures from single-element trends
+    without separating them from the segregation the paper documents,
+    surface compositions come from GP extrapolation of 10-13 XPS points on
+    other library copies, and the HER metric at -0.2 V may be partly
+    transport limited.
+  key_limitations:
+    - "Synergy not separated from segregation (CLAIM3)."
+    - "Surface-energy labels inconsistent with the stated order (CLAIM1)."
+    - "Surface compositions extrapolated from few points on other copies (METH1)."
+    - "Possible mass-transport limitation at the comparison potential (METH2)."
+    - "Too little hcp to test structure effects (CLAIM4)."
+  missing_evidence:
+    - "Activity normalized to surface Pt+Pd and compared with a segregation-only model."
+    - "Kinetic analysis at lower current densities."
+    - "XPS and SECCM on the same library copy."

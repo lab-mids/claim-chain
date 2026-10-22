@@ -1,0 +1,243 @@
+id: claimchain:chain/Gai2026Lateral
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI tables judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acs.jpcc.6c03229
+  title: "Lateral Size Governs Hydrogen Evolution Reaction Mechanisms and Kinetics of Ultrathin Pd Nanosheets in Acidic and Alkaline Electrolytes"
+  authors: [Huiyu Gai, Hengrui Ma, Christian M. Schott, Elena L. Gubanova, Haiting Yu, Xiaomeng Xu, Eva Kolibalova, Moritz Gruber, Peter M. Schneider, Jian Zhou, Jan M. Macak, Zhaoxiong Xie, Aliaksandr S. Bandarenka]
+  year: 2026
+  doi: 10.1021/acs.jpcc.6c03229
+  url: https://doi.org/10.1021/acs.jpcc.6c03229
+
+entities:
+  - {id: ent:PdNS, label: "ultrathin Pd nanosheets (~2 nm, {111} basal, {110} sides) of lateral size ~44, ~16 and ~11 nm on Vulcan carbon (~20 wt%)", entity_type: MATERIAL}
+  - {id: ent:Size, label: "nanosheet lateral size", entity_type: QUANTITY}
+  - {id: ent:EIS, label: "electrochemical impedance spectroscopy with two-pathway (VH + VT) equivalent circuit", entity_type: TECHNIQUE}
+  - {id: ent:RDE, label: "RDE HER measurements in H2-saturated 0.1 M HClO4 and 0.1 M LiOH, 1600 rpm", entity_type: TECHNIQUE}
+  - {id: ent:Rct, label: "charge-transfer resistances Rct,VH and Rct,VT and adsorption resistance Ra", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: gai2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: HER proceeds via Volmer-Heyrovsky or Volmer-Tafel pathways, slower in alkaline media; smaller Pd particles are often more active, but in nanoparticles size changes are coupled to ECSA, facet and morphology changes.
+    evidence: [{evidence_kind: CITATION, references: ["1-20"]}]
+  - id: gai2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The intrinsic role of lateral size in HER kinetics of Pd has not been isolated from thickness, facet and surface-area effects.
+  - id: gai2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Title, Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Lateral size of ultrathin Pd nanosheets, as an independent geometric descriptor, governs HER mechanisms and kinetics in both acidic and alkaline electrolytes.
+    about: [ent:Size, ent:PdNS]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Size-dependent activity and EIS parameters are measured, and the 11 nm sheets are best in both electrolytes; but only three sizes are tested, the trends are non-monotonic (16 nm worst in alkaline, Rct ratio non-monotonic in acid), and surface oxidation and citric-acid amount co-vary with size, so 'governs' and 'independent descriptor' are not established."
+      proof_obligations:
+        - {text: "Show that lateral size is the only structural variable", obligation_status: PARTIALLY_DISCHARGED, discharged_by: [gai2026:OBS1, gai2026:OBS2], priority: CRITICAL}
+        - {text: "Show a systematic (monotonic or modelled) dependence on size", obligation_status: OPEN, priority: HIGH, requested_data: [{quantity: "HER activity and EIS parameters", method: "at least five sizes with repeat syntheses"}]}
+  - id: gai2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Build a Pd-nanosheet model system with only lateral size varied (44 to 11 nm) and use activity measurements and EIS to determine how lateral size regulates HER kinetics in acid and alkali.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: gai2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.2-2.6
+    paper_part: METHODS
+    text: Nanosheets were made by a CO-mediated wet synthesis in which the citric-acid amount (10, 90, 170 mg) sets the size, loaded on pretreated Vulcan carbon, characterised by TEM (150 sheets per size), HRTEM, XRD, XPS, TGA and CO stripping, and tested by RDE polarisation, Tafel analysis and EIS (Kramers-Kronig RMSD < 2%).
+    about: [ent:PdNS, ent:RDE, ent:EIS]
+    scope: {sample_count: 3}
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Error bars are from 'different measurements' without stating the number of electrodes or whether independent syntheses were made per size.", priority: MEDIUM}
+
+  # ---------------- Results: structure ----------------
+  - id: gai2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Fig. 1-2, S1-S2
+    paper_part: RESULTS
+    text: All three samples are 9-12 atomic layers (1.9-2.4 nm) thick with {111} basal and {110}-type side facets and no XRD peak shift; smaller sheets show more irregular edges.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 1-2, S1-S2"}]
+    about: [ent:PdNS]
+  - id: gai2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.1-3.2, Fig. S3-S4
+    paper_part: RESULTS
+    text: The Pd2+ fraction in XPS increases systematically with decreasing size, while mass-normalised ECSA is similar (35.3, 38.4 and 37.6 m2/g for 44, 16 and 11 nm).
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. S3-S4"}]
+    about: [ent:PdNS]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Surface oxidation state and the citric-acid amount used in synthesis (possible residues) co-vary with lateral size, so size is not the only variable, contrary to the 'independent descriptor' framing.", priority: HIGH}
+
+  # ---------------- Results: acid ----------------
+  - id: gai2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Fig. 4a-c, Table S1
+    paper_part: RESULTS
+    text: In 0.1 M HClO4 at -20 mV vs RHE, activity follows 11 > 16 > 44 nm (MA 51.8, 27.9, 22.6 mA/mgPd; SA 137.5, 72.1, 64.0 uA/cm2), Tafel slopes are 62-64 mV/dec for all, and j0 follows the same order in geometric and ECSA normalisation.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4b, Table S1, Fig. S4"
+        values:
+          - {symbol: SA11, quantity: specific activity 11 nm, value: 137.5, unit: uA/cm2}
+          - {symbol: SA16, quantity: specific activity 16 nm, value: 72.1, unit: uA/cm2}
+          - {symbol: SA44, quantity: specific activity 44 nm, value: 64.0, unit: uA/cm2}
+          - {symbol: SSA11, quantity: specific surface area 11 nm, value: 37.6, unit: m2/g}
+          - {symbol: SSA16, quantity: specific surface area 16 nm, value: 38.4, unit: m2/g}
+          - {symbol: SSA44, quantity: specific surface area 44 nm, value: 35.3, unit: m2/g}
+          - {symbol: MA11, quantity: mass activity 11 nm, value: 51.8, unit: mA/mg}
+          - {symbol: MA16, quantity: mass activity 16 nm, value: 27.9, unit: mA/mg}
+          - {symbol: MA44, quantity: mass activity 44 nm, value: 22.6, unit: mA/mg}
+        derived_checks:
+          - {expression: "MA = SA x SSA, 11 nm (mA/mg)", formula: "SA11*SSA11*0.01", result: 51.7}
+          - {expression: "MA = SA x SSA, 16 nm (mA/mg)", formula: "SA16*SSA16*0.01", result: 27.7}
+          - {expression: "MA = SA x SSA, 44 nm (mA/mg)", formula: "SA44*SSA44*0.01", result: 22.6}
+    about: [ent:RDE, ent:Size]
+  - id: gai2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Fig. 4d-f, Table S2
+    paper_part: RESULTS
+    text: EIS fits with parallel VH and VT branches give Rct,VH of about 15-29 Ohm with little size dependence and Rct,VT of about 187-485 Ohm decreasing 44 > 16 > 11 nm; the Rct,VT/Rct,VH ratio is lowest for 11 nm, highest for 16 nm and intermediate for 44 nm.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4e-f, Table S2"}]
+    about: [ent:EIS, ent:Rct]
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "Kramers-Kronig tests validate the spectra, not the choice of a two-pathway circuit with CPE, Ra/Ca and Warburg elements; no comparison with simpler circuits or parameter uncertainties is reported in the main text.", priority: MEDIUM}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Resistances are compared in Ohm without normalisation to electrode ECSA, although Pd loadings (19-22 wt%) and SSA differ slightly.", priority: LOW}
+
+  # ---------------- Results: alkaline ----------------
+  - id: gai2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Fig. 5, Table S3
+    paper_part: RESULTS
+    text: In 0.1 M LiOH, activity follows 11 > 44 > 16 nm in both mass and ECSA normalisation, Tafel slopes are 127-157 mV/dec, and fitted Ra is 1.3-3.0 kOhm for 11 nm versus 5.6-29.6 kOhm for 16 and 44 nm, two to three orders above Rct,VH.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5, S8-S10, Table S3"}]
+    about: [ent:EIS, ent:Rct, ent:Size]
+
+  # ---------------- Claims ----------------
+  - id: gai2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.1
+    paper_part: RESULTS
+    text: The nanosheets form a well-defined platform in which lateral size is the main tunable parameter, independent of thickness, surface area, facets and lattice strain.
+    about: [ent:PdNS, ent:Size]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Thickness, facets, lattice parameter and SSA are shown to be comparable; surface oxidation varies systematically with size and the synthesis differs in citric-acid amount, so other surface variables are not excluded."
+  - id: gai2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.3, 4
+    paper_part: DISCUSSION
+    text: In acid, HER on all sheets follows a common Volmer-Heyrovsky-dominated mechanism with a parallel Volmer-Tafel pathway whose relative contribution depends on lateral size; the smallest sheets are most active owing to better intrinsic kinetics and a stronger Volmer-Tafel contribution.
+    about: [ent:Rct, ent:Size]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Similar Tafel slopes indicate the same rate-determining step; fitted Rct of each EEC branch measures the kinetics of that pathway.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: PARTIAL
+      rationale: "The activity order and lower Rct,VT for smaller sheets are measured and SA normalisation excludes area effects; the mechanism assignment depends on the chosen two-pathway circuit, the 62-64 mV/dec slope does not match any ideal value, and the non-monotonic Rct ratio means size does not map onto pathway contribution in a systematic way."
+  - id: gai2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3.3
+    paper_part: DISCUSSION
+    text: The faster Volmer-Tafel kinetics of smaller sheets arise from their higher density of low-coordinated edge sites, which facilitate H-H recombination.
+    about: [ent:Rct]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    warrant: {rule: "Edge and corner sites of Pd facilitate H-H recombination and H2 desorption (atomistic study on Pd nanoparticles).", warrant_basis: CITATION}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Edge-site density is not quantified and Rct,VT does not scale smoothly with size; the 16 nm sheets have the largest Rct,VT/Rct,VH ratio, and oxidation state co-varies with edge fraction."
+  - id: gai2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.4, 4
+    paper_part: DISCUSSION
+    text: In alkaline electrolyte, HER kinetics are dominated by adsorption-related interfacial processes, and the minimised adsorption resistance of the 11 nm sheets accounts for their superior activity.
+    about: [ent:Rct, ent:Size]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Ra exceeds Rct,VH by orders of magnitude and is lowest for the most active sample; Ra is similar for 16 and 44 nm although their activities differ, so Ra alone does not explain the 44 > 16 order, and dropping the VT branch in alkali is assumed rather than tested."
+  - id: gai2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Lateral size is an effective parameter for regulating hydrogen evolution kinetics on ultrathin Pd nanosheets in acidic and alkaline electrolytes and gives practical design guidance for 2D metal electrocatalysts.
+    about: [ent:Size]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates HYP1; three sizes with non-monotonic behaviour do not yet give design rules."
+  - id: gai2026:Q1
+    statement_type: QUESTION
+    section: Sec. 3.4
+    paper_part: DISCUSSION
+    text: What atomistic role do edge sites play in water dissociation and in handling OH-containing intermediates in alkaline HER on Pd?
+    priority: MEDIUM
+
+relations:
+  - {id: gai2026:R1, subject: gai2026:BG1, predicate: MOTIVATES, object: gai2026:GAP1, asserted_by: AUTHORS}
+  - {id: gai2026:R2, subject: gai2026:GAP1, predicate: MOTIVATES, object: gai2026:AIM1, asserted_by: AUTHORS}
+  - {id: gai2026:R3, subject: gai2026:METH1, predicate: DELIVERS, object: gai2026:AIM1, asserted_by: AUTHORS}
+  - {id: gai2026:R4, subject: gai2026:CLAIM2, predicate: DELIVERS, object: gai2026:AIM1, asserted_by: AUTHORS}
+  - {id: gai2026:R5, subject: gai2026:CLAIM4, predicate: DELIVERS, object: gai2026:AIM1, asserted_by: AUTHORS}
+  - {id: gai2026:R6, subject: gai2026:OBS1, predicate: SUPPORTS, object: gai2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Thickness and facets shown equal; surface chemistry not controlled"}}
+  - {id: gai2026:R7, subject: gai2026:OBS2, predicate: UNDERCUTS, object: gai2026:CLAIM1, asserted_by: ANNOTATOR, note: "Pd2+ fraction rises with decreasing size; synthesis differs in citric-acid amount"}
+  - {id: gai2026:R8, subject: gai2026:OBS3, predicate: SUPPORTS, object: gai2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "SA normalisation removes area; three sizes, repeats unspecified"}}
+  - {id: gai2026:R9, subject: gai2026:OBS4, predicate: SUPPORTS, object: gai2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: MET, criteria_note: "Pathway split rests on the chosen EEC; no alternative circuit compared"}}
+  - {id: gai2026:R10, subject: gai2026:OBS4, predicate: SUPPORTS, object: gai2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Edge-site density not measured"}}
+  - {id: gai2026:R11, subject: gai2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: gai2026:CLAIM3, asserted_by: ANNOTATOR, note: "Surface oxidation or synthesis residues co-vary with size and could alter VT kinetics"}
+  - {id: gai2026:R12, subject: gai2026:CLAIM1, predicate: SUPPORTS, object: gai2026:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: gai2026:R13, subject: gai2026:OBS5, predicate: SUPPORTS, object: gai2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Ra trend matches 11 nm only; 16 vs 44 nm unexplained"}}
+  - {id: gai2026:R14, subject: gai2026:CLAIM1, predicate: SUPPORTS, object: gai2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: gai2026:R15, subject: gai2026:CLAIM2, predicate: SUPPORTS, object: gai2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: gai2026:R16, subject: gai2026:CLAIM4, predicate: SUPPORTS, object: gai2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: gai2026:R17, subject: gai2026:OBS5, predicate: QUALIFIES, object: gai2026:HYP1, asserted_by: ANNOTATOR, note: "Alkaline order 11 > 44 > 16 nm is non-monotonic in size"}
+  - {id: gai2026:R18, subject: gai2026:CONC1, predicate: RESTATES, object: gai2026:HYP1, asserted_by: ANNOTATOR}
+  - {id: gai2026:R19, subject: gai2026:CLAIM4, predicate: MOTIVATES, object: gai2026:Q1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The study measures HER activity and impedance on three Pd nanosheet sizes
+    with comparable thickness, facets and lattice parameter, and its
+    normalisations are internally consistent (mass activity equals specific
+    activity times specific surface area for all three samples). The
+    smallest sheets are clearly the most active in both electrolytes. The
+    broader claims rest on less: only three sizes, trends that are
+    non-monotonic (16 nm worst in alkali, Rct ratio non-monotonic in acid),
+    surface oxidation and synthesis chemistry that co-vary with size, and
+    pathway assignments that depend on one multi-element equivalent circuit
+    without comparison to alternatives. Edge-site mechanisms are argued from
+    the literature, not measured. Draft annotation; SI tables and Nyquist
+    plots were not inspected.
+  key_limitations:
+    - "Three sizes, non-monotonic behaviour (OBS4, OBS5, HYP1)."
+    - "Size not the only variable: Pd2+ fraction and citric-acid amount co-vary (OBS2, R7)."
+    - "Mechanism inferred from a single EEC model (OBS4, CLAIM2)."
+    - "Edge-site attribution not measured (CLAIM3)."
+  missing_evidence:
+    - "More sizes and repeat syntheses per size."
+    - "Comparison of EEC models with parameter uncertainties."
+    - "Quantified edge-site fraction and surface-cleanliness checks (e.g. residual citrate/CO)."

@@ -1,0 +1,287 @@
+id: claimchain:chain/Plenge2025Electrochemical
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1007/s44210-025-00057-3
+  title: "Electrochemical Dissolution: Paths in High-Entropy Alloy Composition Space"
+  authors: [Mads K. Plenge, Jack K. Pedersen, Luis A. Cipriano, Jan Rossmeisl]
+  year: 2025
+  doi: 10.1007/s44210-025-00057-3
+  url: https://doi.org/10.1007/s44210-025-00057-3
+
+entities:
+  - {id: ent:HEA, label: "Ag-Au-Cu-Ir-Pd-Pt-Rh-Ru high-entropy alloy nanoparticles (4 nm truncated octahedra)", entity_type: MATERIAL}
+  - {id: ent:DFT, label: "DFT dissolution energies of surface atoms (CN 3-9) in 6000 HEA slabs from 100 compositions", entity_type: METHOD}
+  - {id: ent:Reg, label: "per-metal linear regression on CN and neighbour identities", entity_type: METHOD}
+  - {id: ent:Sim, label: "iterative dissolution simulation with particle relaxation at fixed potential (0.8 V vs RHE)", entity_type: METHOD}
+  - {id: ent:Sd, label: "stability parameter Sd = N111(final)/N111(initial)", entity_type: QUANTITY}
+  - {id: ent:Udiss, label: "atomic dissolution potential Udiss = dE/(ne) + U_M(1e-6 M)", entity_type: QUANTITY}
+  - {id: ent:CoreShell, label: core-shell particles formed by dissolution, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: plenge2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: HEA nanoparticles are promising ORR catalysts, but dissolution under acidic ORR conditions degrades Pt-based catalysts, and Pt-M particles are known to form Pt-skeleton core-shell structures.
+    evidence: [{evidence_kind: CITATION, references: ["17", "22", "59-63"]}]
+  - id: plenge2025:GAP1
+    statement_type: GAP
+    section: Introduction, Conclusion
+    paper_part: INTRODUCTION
+    text: Fundamental theoretical insight into the electrochemical stability of complex multi-metallic systems such as HEAs is lacking, and no framework simulates their dissolution across composition space.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: plenge2025:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Develop a framework that simulates atom-by-atom dissolution of HEA nanoparticles from DFT-trained dissolution potentials and use it to map stability and surface-composition evolution in the octo-metallic Ag-Au-Cu-Ir-Pd-Pt-Rh-Ru space.
+
+  # ---------------- Methods ----------------
+  - id: plenge2025:ASM1
+    statement_type: ASSUMPTION
+    section: Methods
+    paper_part: METHODS
+    text: Each surface atom dissolves directly to a soluble ion (fixed oxidation state per metal), at a constant ion concentration of 1e-6 M for all metals; oxides, adsorbates, electrolyte ions, kinetics, re-deposition and diffusion are ignored.
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The 1e-6 M concentration acts as a proxy for dissolution rate and shifts all Udiss by -0.355/n V; the authors note it may change trends for metals near the applied potential (e.g. Pd at 0.77 V vs 0.8 V).", priority: MEDIUM}
+  - id: plenge2025:METH1
+    statement_type: METHOD
+    section: Methods, Table 1
+    paper_part: METHODS
+    text: Dissolution potentials are Udiss = dE/(ne) + U_M, with U_M the reduction potential corrected to 1e-6 M (e.g. Ag 0.80 to 0.45 V, Cu2+ 0.34 to 0.16 V, Pt2+ 1.18 to 1.00 V, Pd2+ 0.95 to 0.77 V).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1"
+        values:
+          - {symbol: kT, quantity: thermal energy at 298 K, value: 0.025693, unit: eV}
+          - {symbol: U_Ag0, quantity: standard potential Ag+, value: 0.80, unit: V}
+          - {symbol: U_Ag, quantity: Ag+ potential at 1e-6 M, value: 0.45, unit: V}
+          - {symbol: U_Pt0, quantity: standard potential Pt2+, value: 1.18, unit: V}
+          - {symbol: U_Pt, quantity: Pt2+ potential at 1e-6 M, value: 1.00, unit: V}
+          - {symbol: U_Au30, quantity: standard potential Au3+, value: 1.50, unit: V}
+          - {symbol: U_Au3, quantity: Au3+ potential at 1e-6 M, value: 1.38, unit: V}
+        derived_checks:
+          - {expression: "Nernst-corrected Ag+ potential (n=1)", formula: "U_Ag0 + kT*log(1e-6)", result: 0.445, unit: V}
+          - {expression: "Nernst-corrected Pt2+ potential (n=2)", formula: "U_Pt0 + kT/2*log(1e-6)", result: 1.002, unit: V}
+          - {expression: "Nernst-corrected Au3+ potential (n=3)", formula: "U_Au30 + kT/3*log(1e-6)", result: 1.382, unit: V}
+    about: [ent:Udiss]
+  - id: plenge2025:METH2
+    statement_type: METHOD
+    section: Methods, Fig. 2
+    paper_part: METHODS
+    text: DFT dissolution energies for CN 3-9 surface sites in 6000 structures from 100 compositions train a per-metal linear regression on one-hot CN and neighbour-identity counts.
+    about: [ent:DFT, ent:Reg]
+  - id: plenge2025:OBS1
+    statement_type: OBSERVATION
+    section: Methods, Figs. S6-S7
+    paper_part: METHODS
+    text: Leave-one-out cross validation gives MAE 0.140 eV and RMSE 0.193 eV for energies, MAE 0.08 V for dissolution potentials (larger residuals at low Udiss), and 0.95 accuracy in classifying atoms as dissolving vs stable at 0.8 V.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. Methods, Figs. S6, S7"
+        values:
+          - {symbol: mae_E, quantity: energy MAE, value: 0.140, unit: eV}
+          - {symbol: rmse_E, quantity: energy RMSE, value: 0.193, unit: eV}
+          - {symbol: acc, quantity: classification accuracy at 0.8 V, value: 0.95}
+    about: [ent:Reg]
+  - id: plenge2025:METH3
+    statement_type: METHOD
+    section: Methods
+    paper_part: METHODS
+    text: Particles are iteratively dissolved in batches by removing surface atoms with Udiss < U or CN < 3, followed by a relaxation in which atoms hop to unoccupied fcc sites that increase CN; stability is Sd = N111(final)/N111(initial), with N111 counted as atoms with CN = 9.
+    about: [ent:Sim, ent:Sd]
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The relaxation assumes higher CN always lowers energy, equal benefit per CN step and negligible barriers; batch removal assumes equal dissolution rates. These choices are acknowledged but their impact on Sd trends is only partly tested (Fig. S8).", priority: MEDIUM}
+  - id: plenge2025:METH4
+    statement_type: METHOD
+    section: Methods, Results
+    paper_part: METHODS
+    text: Simulation parameters (4 nm, equal (111)/(100) energies, 10 particles per composition) were chosen from equimolar particles at 0.8 V, giving a standard error below 0.01 on Sd and about 3 at.% on the final (111) composition; the composition space is gridded in 6.25 at.% steps.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. S9-S19"}]
+    about: [ent:Sim]
+
+  # ---------------- Results ----------------
+  - id: plenge2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 3a, Table S5
+    paper_part: RESULTS
+    text: Across the 8-metal grid there are no Sd maxima disconnected from the stable metals Au, Ir, Pt (U_M > U); excluding them, an internal maximum appears at Pd81.25Rh12.5Ru6.25.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3a, Table S5"}]
+    about: [ent:Sd, ent:HEA]
+  - id: plenge2025:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3b,d,e
+    paper_part: RESULTS
+    text: In Au-Cu-Pt, adding Pt or Au to Cu stabilizes the particle at a similar rate, and dissolution produces PtCu@Pt core-shell particles.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3b,d,e"}]
+    about: [ent:CoreShell]
+  - id: plenge2025:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 3c,f,g, Fig. S21
+    paper_part: RESULTS
+    text: Mixing fully stable Pt and Au lowers Sd by up to 6%, whereas mixing fully soluble Pd with about 25 at.% Ru yields partly dissolved PdRu@Pd particles that persist; Pt25Ru75 also forms a core-shell structure with slightly higher stability.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3c, f, g; Fig. S21"}]
+    about: [ent:CoreShell, ent:Sd]
+  - id: plenge2025:OBS5
+    statement_type: OBSERVATION
+    section: Results, Fig. 2b, Fig. S5
+    paper_part: RESULTS
+    text: The fitted neighbour parameters correlate with relative surface energies and show a zero-sum-like pattern - a neighbour that stabilizes atom A is destabilized by it.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2b, Fig. S5"}]
+    about: [ent:Reg]
+  - id: plenge2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Results, Conclusion
+    paper_part: RESULTS
+    text: Two alloying strategies stabilize HEA nanoparticles - adding metals with reduction potential above the applied potential, which form a protective shell, and adding high-surface-energy metals (e.g. Ru), which stabilize surface atoms from the subsurface.
+    about: [ent:HEA, ent:Sd]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Trends in simulated Sd across composition space reflect trends in real nanoparticle dissolution stability.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "The trends follow consistently from the model and its neighbour parameters, and the noble-shell mechanism matches literature on Pt-M particles; the subsurface high-surface-energy mechanism is a model prediction without experimental test, and Sd depends on the ad hoc concentration and relaxation rules."
+      missing_evidence:
+        - "Dissolution experiments (e.g. SFC-ICP-MS) on PdRu or PtRu particles compared with pure Pd and Pt"
+      proof_obligations:
+        - text: "Show experimentally that subsurface Ru stabilizes surface Pd or Pt atoms"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "dissolved Pd vs Ru content at 0.8 V vs RHE", method: "online ICP-MS on PdRu nanoparticles"}]
+        - text: "Show that Sd trends are robust to the chosen ion concentration"
+          obligation_status: OPEN
+          priority: MEDIUM
+          requested_data: [{quantity: "Sd maps at 1e-4 to 1e-8 M", method: "rerun of the grid simulations"}]
+  - id: plenge2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: Dissolution proceeds until a stable layer forms; noble metals constitute the shell and occupy low-coordinated sites, and the predicted core-shell structures agree with experiments on Pt-alloys and PtRu.
+    about: [ent:CoreShell]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Qualitative agreement with cited experiments on binary Pt alloys; no quantitative comparison (shell thickness, dissolved amounts) is made and no HEA experiment is used."
+  - id: plenge2025:OBS6
+    statement_type: OBSERVATION
+    section: Results, Fig. 4, Table S6
+    paper_part: RESULTS
+    text: For ten equimolar octo-metallic particles, the dissolved composition is first dominated by Cu, Rh and Ru and later enriched in stable elements; (111) surface paths converge only roughly; below the top layer the composition is preserved, and CN 7-9 sites have similar compositions with Au substituting Ir.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4, Figs. S22-S23, Table S6"}]
+    about: [ent:HEA]
+  - id: plenge2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Results, Conclusion
+    paper_part: RESULTS
+    text: Surface composition changes substantially and follows traceable paths during dissolution, the dissolved composition is a promising experimental (ICP) observable, and a large part of composition space may be unretainable as a surface composition (e.g. Au-Cu-Pd-Pt surfaces collapse to Au-Pd-Pt).
+    about: [ent:HEA]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "Holds within the model and is shown for one quaternary subspace and equimolar particles; whether real surfaces follow the paths depends on omitted diffusion, segregation and oxide formation."
+  - id: plenge2025:OBS7
+    statement_type: OBSERVATION
+    section: Results, Figs. S24-S25
+    paper_part: RESULTS
+    text: Replacing Pd sites with CN at most 6, 7 or 8 by Au raises the minimum dissolution potential of Pd-Au particles from 0.77 V to 0.89, 0.94 and 1.14 V, whereas alloying with increasing Au gives Sd < 1 at 0.8 V.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. S24, S25"
+        values:
+          - {symbol: u0, quantity: minimum Udiss of Pd particle, value: 0.77, unit: V}
+          - {symbol: u8, quantity: minimum Udiss after replacing CN<=8 Pd by Au, value: 1.14, unit: V}
+        derived_checks:
+          - {expression: "gain in minimum dissolution potential", formula: "u8 - u0", result: 0.37, unit: V}
+    about: [ent:Udiss]
+  - id: plenge2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: Galvanic replacement of low-coordinated surface atoms by Au is a more effective and Au-efficient stabilization strategy than alloying with Au.
+    about: [ent:Udiss]
+    claim_modality: COMPARATIVE
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The replacement case is an idealized site-selective substitution without relaxation or diffusion, compared with randomly alloyed particles; the model also omits Au outward diffusion, which the authors note underestimates Au-alloy stability.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Within the model the comparison favours replacement, but the alloy case is handicapped by the missing diffusion acknowledged by the authors."
+  - id: plenge2025:LIM1
+    statement_type: LIMITATION
+    section: Model Limitations, Conclusion
+    paper_part: DISCUSSION
+    text: The model has no time dependence, equal dissolution rates, a simplified relaxation restricted to fcc sites, no diffusion, oxides, adsorbates, detachment or coalescence, and the authors state that predictions beyond trends likely have little validity.
+  - id: plenge2025:OUT1
+    statement_type: OUTLOOK
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Combine the stability model with activity models in multi-objective optimization, add kinetics and ML force fields for relaxation, and test experimentally that subsurface high-surface-energy elements stabilize surface atoms.
+
+  - id: plenge2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Two alloying strategies stabilize HEA nanoparticles - adding metals with reduction potential above the applied potential, which form a protective shell, and adding high-surface-energy metals (e.g. Ru), which stabilize surface atoms from the subsurface."
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM1 in the conclusion; verdict as there."
+
+relations:
+  - {id: plenge2025:R1, subject: plenge2025:BG1, predicate: MOTIVATES, object: plenge2025:GAP1, asserted_by: AUTHORS}
+  - {id: plenge2025:R2, subject: plenge2025:GAP1, predicate: MOTIVATES, object: plenge2025:AIM1, asserted_by: AUTHORS}
+  - {id: plenge2025:R3, subject: plenge2025:METH2, predicate: DELIVERS, object: plenge2025:OBS1, asserted_by: AUTHORS}
+  - {id: plenge2025:R4, subject: plenge2025:METH3, predicate: DEPENDS_ON, object: plenge2025:METH1, asserted_by: AUTHORS}
+  - {id: plenge2025:R5, subject: plenge2025:METH1, predicate: DEPENDS_ON, object: plenge2025:ASM1, asserted_by: AUTHORS}
+  - {id: plenge2025:R6, subject: plenge2025:METH3, predicate: DEPENDS_ON, object: plenge2025:METH2, asserted_by: AUTHORS}
+  - {id: plenge2025:R7, subject: plenge2025:OBS1, predicate: SUPPORTS, object: plenge2025:METH3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "accuracy near the applied potential is what matters for the discrete dissolution rule"}
+  - {id: plenge2025:R8, subject: plenge2025:OBS2, predicate: SUPPORTS, object: plenge2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: plenge2025:R9, subject: plenge2025:OBS3, predicate: SUPPORTS, object: plenge2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: plenge2025:R10, subject: plenge2025:OBS4, predicate: SUPPORTS, object: plenge2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Simulation-only; the subsurface mechanism follows from fitted neighbour parameters and is not tested experimentally"}}
+  - {id: plenge2025:R11, subject: plenge2025:OBS5, predicate: SUPPORTS, object: plenge2025:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: plenge2025:R12, subject: plenge2025:BG1, predicate: SUPPORTS, object: plenge2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "literature Pt-skeleton and PtRu core-shell observations"}
+  - {id: plenge2025:R13, subject: plenge2025:OBS3, predicate: SUPPORTS, object: plenge2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: plenge2025:R14, subject: plenge2025:OBS6, predicate: SUPPORTS, object: plenge2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: plenge2025:R15, subject: plenge2025:OBS7, predicate: SUPPORTS, object: plenge2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: plenge2025:R16, subject: plenge2025:LIM1, predicate: QUALIFIES, object: plenge2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: plenge2025:R17, subject: plenge2025:LIM1, predicate: QUALIFIES, object: plenge2025:CLAIM3, asserted_by: AUTHORS}
+  - {id: plenge2025:R18, subject: plenge2025:LIM1, predicate: UNDERCUTS, object: plenge2025:CLAIM4, asserted_by: AUTHORS, note: "missing Au diffusion underestimates the alloyed-Au reference"}
+  - {id: plenge2025:R19, subject: plenge2025:CLAIM1, predicate: DELIVERS, object: plenge2025:AIM1, asserted_by: AUTHORS}
+  - {id: plenge2025:R20, subject: plenge2025:CLAIM3, predicate: DELIVERS, object: plenge2025:AIM1, asserted_by: AUTHORS}
+  - {id: plenge2025:R21, subject: plenge2025:CLAIM1, predicate: MOTIVATES, object: plenge2025:OUT1, asserted_by: AUTHORS}
+
+  - {id: plenge2025:R22, subject: plenge2025:CONC1, predicate: RESTATES, object: plenge2025:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A computational framework that combines a DFT-trained linear regression
+    of surface-atom dissolution energies with a Nernst-type dissolution
+    potential and an iterative removal/relaxation scheme to simulate HEA
+    nanoparticle dissolution. The Nernst corrections in Table 1 recompute
+    correctly, and the regression accuracy near the applied potential is
+    adequate for the discrete rule. The derived stability trends, core-shell
+    formation and composition paths follow consistently from the model and
+    agree qualitatively with literature on binary Pt alloys, but no
+    experiment on the studied HEAs is reported, and results depend on an
+    ad hoc 1e-6 M concentration, equal dissolution rates and a simplified
+    relaxation. The authors themselves restrict validity to trends.
+  key_limitations:
+    - "No experimental validation on HEA particles; agreement only qualitative with binary Pt-alloy literature (CLAIM2)."
+    - "Fixed 1e-6 M concentration and equal-rate batch dissolution shape Sd (ASM1, METH3)."
+    - "Relaxation and missing diffusion bias comparisons involving Au (CLAIM4)."
+  missing_evidence:
+    - "Online ICP-MS dissolution of selected compositions (e.g. PdRu, PtRu, equimolar octo-metallic)."
+    - "Sensitivity of Sd maps to concentration and relaxation choices."

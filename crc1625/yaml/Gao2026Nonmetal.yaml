@@ -1,0 +1,223 @@
+id: claimchain:chain/Gao2026Nonmetal
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures, Extended Data and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41929-026-01544-5
+  title: "Non-metal-hybridized platinum-based compositionally complex alloys for efficient oxygen reduction reaction in fuel cells"
+  authors: [Pengyu Gao, Xuyao Li, De Zhang, Junjian Li, Li Zhong, Min Liu, Carlo Franke, Zongyan Gao, Lina Zhou, Guangfeng Wei, Tong Li, Hao Liu, Yongxin Cheng, Lihan Zhang, Pengfei Yan, Zhan Shi, Tao Liu]
+  year: 2026
+  doi: 10.1038/s41929-026-01544-5
+  url: https://doi.org/10.1038/s41929-026-01544-5
+
+entities:
+  - {id: ent:CCA, label: "carbon-supported 3-5 nm PtCuNiCoX compositionally complex alloys (X = F, N, B, FN, FNB) and related series", entity_type: MATERIAL}
+  - {id: ent:Synth, label: "solvothermal synthesis (160 °C, DMF) with non-metal precursors, 400 °C H2/Ar anneal and HNO3 leach", entity_type: METHOD}
+  - {id: ent:Char, label: "HAADF/iDPC-STEM, EDS, APT, XPS, EXAFS, NMR, UV-Vis", entity_type: TECHNIQUE}
+  - {id: ent:ORR, label: "ORR mass and specific activity at 0.9 V (RDE) and MEA fuel-cell tests", entity_type: TECHNIQUE}
+  - {id: ent:DFT, label: "DFT/neural-network surface models of Pt, PtCuNiCo and PtCuNiCoN (111)", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: gao2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Interstitial light non-metals (F, N, B) in Pt alloys can improve ORR activity and corrosion resistance, but have been limited to binary alloys with single dopants made by harsh routes (F plasma, NH3 annealing up to 80 bar).
+    evidence: [{evidence_kind: CITATION, references: ["14-25"]}]
+  - id: gao2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: No generic, mild method incorporates multiple types of non-metal into single-phase Pt-based compositionally complex alloys.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: gao2026:AIM1
+    statement_type: AIM
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Develop a solvothermal method to incorporate F, N and B into interstitial sites of Pt-based CCAs, explain the synthesis mechanism, and evaluate the materials as fuel-cell ORR catalysts.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Synthesis and structure ----------------
+  - id: gao2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Figs. 1-2, Supplementary Figs. 2-10
+    paper_part: RESULTS
+    text: The method yields 3-5 nm single-phase fcc particles with tunable metal fractions (about 5-50 at.%) and homogeneous EDS maps including F/N/B signals (also for support-free particles); APT confirms N in particle cores but cannot identify F or B; iDPC-STEM shows N at tetrahedral and F/B at tetrahedral and octahedral sites, with not all non-metal columns visible; XPS and EXAFS show metal-F/N/B bonding.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 1-2, Supplementary Figs. 2-10"}]
+    about: [ent:CCA, ent:Char]
+  - id: gao2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: The facile, generic solvothermal method incorporates single, binary or ternary non-metals (F, N, B) into interstitial sites of single-phase Pt-based CCAs with excellent compositional tunability.
+    about: [ent:Synth, ent:CCA]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "'Unequivocally demonstrates' interstitial incorporation for all three non-metals, although APT cannot identify F or B and iDPC shows only some non-metal columns; F/B evidence rests on EDS (weak for B), XPS and EXAFS.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "N incorporation is supported by APT, iDPC, XPS and EXAFS and composition control by ICP; F and B incorporation and their sites are supported by weaker, indirect evidence, and 'generic' rests on the metal series tested."
+  - id: gao2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Figs. 3-4, Extended Data Figs. 3-5
+    paper_part: RESULTS
+    text: During synthesis Pt is reduced first (Pt-Pt at 80 °C) and 3d metals at 80-160 °C; omitting or reducing Pt causes segregation; N is incorporated into binary Pt-3d alloys but not neat Pt, its content tunable from 1 to about 15% via Ni; Ni2+ and Co2+ complex strongly with the N precursor; only aromatic-anchored amines (not pyridine-type rings or urea) incorporate N, consistent with DFT-computed C-NH2 bond weakening upon Ni coordination.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 3-4, Extended Data Figs. 3-5"}]
+    about: [ent:Synth]
+  - id: gao2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: Three factors govern the synthesis - preformed Pt clusters catalysing 3d-metal reduction, 3d-metal-ion coordination activating the non-metal precursor, and selection of aromatic-anchored amine (or analogous) functional groups.
+    about: [ent:Synth]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Controls (no Pt, Pt-only, precursor variation) and stage-resolved EXAFS/XPS support the roles of Pt seeds, 3d ions and amine groups for N; the activation mechanism rests on DFT bond energies and is shown mainly for N, not for F and B."
+
+  # ---------------- Electrocatalysis ----------------
+  - id: gao2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 5a-e, Extended Data Fig. 6
+    paper_part: RESULTS
+    text: In RDE tests (triplicates) the optimal PtCuNiCoX-1 catalysts reach MA/SA of 3.8/6.0 (F), 7.8/12.5 (N), 3.1/5.4 (B), 7.3/11.3 (FN) and 6.9/10.1 (FNB) A/mgPt / mA/cm2, retain about 80-90% after 30,000 cycles (6.0-6.3 A/mgPt for the N-containing ones), versus 38.9% for non-hybridized PtCuNiCo-1 and 17.6% for TKK Pt/C.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5a-c"
+        values:
+          - {symbol: ma_n, quantity: MA PtCuNiCoN-1, value: 7.8, unit: A mg-1}
+          - {symbol: sa_n, quantity: SA PtCuNiCoN-1, value: 12.5, unit: mA cm-2}
+          - {symbol: ma_n_eot, quantity: MA PtCuNiCoN-1 after 30k cycles (lower bound of stated range), value: 6.3, unit: A mg-1}
+        derived_checks:
+          - {expression: "implied ECSA of PtCuNiCoN-1 from MA/SA", formula: "ma_n*1000/(sa_n*1e-3)/1e4", result: 62.4, unit: m2 g-1}
+          - {expression: "MA retention of PtCuNiCoN-1 after 30k cycles", formula: "ma_n_eot/ma_n", result: 0.81}
+    about: [ent:ORR, ent:CCA]
+  - id: gao2026:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 5f-i, Extended Data Fig. 7
+    paper_part: RESULTS
+    text: In MEAs PtCuNiCoN-1 gives H2-O2 mass activities of 1.15 and 1.10 A/mgPt (0.05 and 0.09 mgPt/cm2 cathode), 1.06 W/cm2 rated power at 0.67 V with 0.1 mgPt/cm2 total (10.6 kW/gPt), 70.4% MA retention and 22 mV loss at 0.8 A/cm2 after the 30,000-cycle DOE AST, and 0.0428%/h decay over 100 h at about 1.1 A/cm2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5g-i, Extended Data Fig. 7"
+        values:
+          - {symbol: ma_mea, quantity: MEA mass activity, value: 1.15, unit: A mg-1}
+          - {symbol: doe, quantity: DOE 2025 MA target, value: 0.44, unit: A mg-1}
+          - {symbol: p_rated, quantity: rated power density, value: 1.06, unit: W cm-2}
+          - {symbol: pt_tot, quantity: total Pt loading, value: 0.1, unit: mg cm-2}
+        derived_checks:
+          - {expression: "MEA MA relative to DOE target (stated about 2.5x)", formula: "ma_mea/doe", result: 2.61}
+          - {expression: "specific power (stated 10.6 kW/gPt)", formula: "p_rated/pt_tot", result: 10.6, unit: kW g-1}
+    about: [ent:ORR]
+  - id: gao2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: Selected non-metal-hybridized Pt-based CCAs (PtCuNiCoN-1, PtCuNiCoFN-1, PtCuNiCoFNB-1) show exceptional ORR activity and durability surpassing state-of-the-art benchmarks, translating to MEA level.
+    about: [ent:ORR, ent:CCA]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "RDE triplicates, an internal non-hybridized control and commercial Pt/C under the same protocol, and MEA tests under DOE protocols with ICP-verified loadings support the activity and durability claims; comparisons with literature catalysts are cross-lab but consistent with the internal benchmarks."
+  - id: gao2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: Interstitial non-metals boost activity and especially stability, with interstitial N particularly effective (about double the activity of F and B series), and higher-component alloys are generally more active, highlighting the benefit of compositional complexity.
+    about: [ent:CCA]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The paper reports that the N precursor also forms M-N single-atom sites on the carbon support; their possible ORR contribution and the different precursors' effects on support chemistry are not separated from the interstitial-N effect. 'More components, more activity' compares alloys that also differ in composition.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The hybridized vs non-hybridized comparison isolates the precursor addition, and stability gains are clear; attributing activity to interstitial N rather than co-formed M-N-C sites, and generalizing a complexity benefit, are not fully controlled."
+  - id: gao2026:OBS5
+    statement_type: OBSERVATION
+    section: Results, Fig. 6, Extended Data Fig. 10
+    paper_part: RESULTS
+    text: DFT on (111) surface models finds the largest ORR step decreasing from Pt to PtCuNiCo to PtCuNiCoN, interstitial N stabilizing *OH/*OOH through N-metal-O hybridization and shifting the rate-determining step, PtPtNi active sites, and higher Pt vacancy formation energies with N.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6, Extended Data Fig. 10, Supplementary Figs. 21-34"}]
+    about: [ent:DFT]
+  - id: gao2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results
+    paper_part: DISCUSSION
+    text: Interstitial N enhances intrinsic activity by charge redistribution and N 2p-metal d hybridization that optimize intermediate binding and partially break scaling relations, and enhances corrosion resistance by stabilizing surface Pt against vacancy formation.
+    about: [ent:DFT]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "DFT trends are consistent with the experimental activity and stability order, but rest on selected surface models and sites; no experimental probe of N-adsorbate interaction or vacancy formation is provided."
+  - id: gao2026:LIM1
+    statement_type: LIMITATION
+    section: Results, Methods
+    paper_part: DISCUSSION
+    text: APT cannot definitively identify F and B because of mass overlaps and boron under-measurement, local Pt or 3d-metal enrichment exists, and not all non-metal columns are visible in iDPC.
+  - id: gao2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Integrating non-metal hybridization with compositional complexity in a single system is a promising strategy to develop electrocatalysts with exceptional activity-stability synergy.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates CLAIM3 and CLAIM4; strongly supported for N-containing PtCuNiCo, broader strategy claim extrapolated."
+
+relations:
+  - {id: gao2026:R1, subject: gao2026:BG1, predicate: MOTIVATES, object: gao2026:GAP1, asserted_by: AUTHORS}
+  - {id: gao2026:R2, subject: gao2026:GAP1, predicate: MOTIVATES, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R3, subject: gao2026:OBS1, predicate: DELIVERS, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R4, subject: gao2026:CLAIM1, predicate: DELIVERS, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R5, subject: gao2026:CLAIM2, predicate: DELIVERS, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R6, subject: gao2026:CLAIM3, predicate: DELIVERS, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R7, subject: gao2026:CONC1, predicate: DELIVERS, object: gao2026:AIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R8, subject: gao2026:OBS1, predicate: SUPPORTS, object: gao2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Direct evidence strong for N, indirect for F/B; support-free controls"}}
+  - {id: gao2026:R9, subject: gao2026:LIM1, predicate: QUALIFIES, object: gao2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: gao2026:R10, subject: gao2026:OBS2, predicate: SUPPORTS, object: gao2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Controls for N; F/B mechanisms less studied"}}
+  - {id: gao2026:R11, subject: gao2026:OBS3, predicate: SUPPORTS, object: gao2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Triplicates; internal and commercial benchmarks; 30k-cycle AST"}}
+  - {id: gao2026:R12, subject: gao2026:OBS4, predicate: SUPPORTS, object: gao2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "MEA with DOE protocols and ICP-verified loadings"}}
+  - {id: gao2026:R13, subject: gao2026:OBS3, predicate: SUPPORTS, object: gao2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: MET, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "M-N-C sites on support not separated"}}
+  - {id: gao2026:R14, subject: gao2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: gao2026:CLAIM4, asserted_by: ANNOTATOR, note: "M-N single-atom sites formed on the carbon support during synthesis"}
+  - {id: gao2026:R15, subject: gao2026:OBS5, predicate: SUPPORTS, object: gao2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Selected surface models and sites"}}
+  - {id: gao2026:R16, subject: gao2026:CONC1, predicate: RESTATES, object: gao2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: gao2026:R17, subject: gao2026:OBS4, predicate: SUPPORTS, object: gao2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: gao2026:R18, subject: gao2026:CLAIM1, predicate: ANSWERS, object: gao2026:GAP1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A solvothermal route produces carbon-supported 3-5 nm Pt-based
+    compositionally complex alloys with interstitial F, N and/or B, and
+    the N-containing PtCuNiCo catalysts show very high RDE activity
+    (7.8 A/mgPt, triplicates), 80-90% retention after 30,000 cycles
+    against internal non-hybridized and commercial controls, and strong
+    MEA performance under DOE protocols; all checked numbers recompute.
+    The synthesis mechanism is supported by stage-resolved spectroscopy
+    and control syntheses for N. Weaker points are the indirect evidence
+    for F and B incorporation (APT cannot identify them), the
+    unseparated possible contribution of M-N single-atom sites formed on
+    the carbon support to the activity attributed to interstitial N, a
+    complexity benefit inferred across differing compositions, and a DFT
+    mechanism based on selected surface models.
+  key_limitations:
+    - "Indirect evidence for F/B interstitial incorporation (CLAIM1, LIM1)."
+    - "M-N-C sites on the support not excluded as activity contributors (CLAIM4)."
+    - "Mechanistic DFT based on selected models (CLAIM5)."
+  missing_evidence:
+    - "ORR activity of the support treated with N precursor and 3d metals but without Pt."
+    - "Quantitative F and B content by an independent bulk method."
+    - "Operando evidence of N-adsorbate interaction."
