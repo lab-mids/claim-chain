@@ -34,9 +34,9 @@ Every result comes in a machine-readable form (YAML, plus JSON Schema and RDF ex
 ## Repository layout
 
 ```
-schema/claim_chain.yaml           LinkML schema: the format (v0.4)
+schema/claim_chain.yaml           LinkML schema: the format (v0.5)
 schema/claim_chain.schema.json    JSON Schema generated from it (e.g. for LLM structured output)
-scripts/render.py                 YAML -> readable chain, report, argument maps, scores, recomputed checks
+scripts/render.py                 YAML -> readable chain, report, argument maps, one-page summary chart, scores, derived verdicts, recomputed checks
 examples/<paper>/                 encoded papers; generated/ holds the outputs
 test_papers/                      10 recent arXiv cond-mat.mtrl-sci papers to test on (BibTeX only; fetch PDFs yourself)
 test_papers/yaml/                 the 10 test papers encoded in the format (LLM drafts)
@@ -70,15 +70,17 @@ Each person's approach is in `ideas/<name>/`. The first versions were written fr
 - **Relations** say:
   - who asserts them: the authors, the annotator, or the annotator using background knowledge
   - how they support: qualitatively, quantitatively or logically
-  - how strongly they support: strong, intermediate or weak
+  - how strongly they support: strong, intermediate, weak or unsupported, tested on five **link criteria** (directness, sufficiency, controls, alternatives, scope match; Soroush's approach)
+  - whether the link is **essential**: the claim cannot hold without it
   - how uncertain they are
   - optionally the warrant behind the step
-- Every **claim and hypothesis** gets an **assessment** by the annotator: a validity verdict, a rationale, the missing evidence, and **proof obligations** with status, priority and the data that would discharge them. The authors' own stance stays separate in `author_certainty`.
+- Every **claim and hypothesis** gets an **assessment** by the annotator: a validity verdict (YES, PARTIAL, WEAK, INCONCLUSIVE, NO), a rationale, the missing evidence, and **proof obligations** with status, priority and the data that would discharge them. The authors' own stance stays separate in `author_certainty`.
 - The **paper assessment** holds the overall verdict, key limitations and missing evidence.
 
 **Scores (draft):**
-- **Logic score:** the mean over all claims and hypotheses of YES = 1, PARTIAL = 0.5, INCONCLUSIVE = 0.25, NO = 0.
+- **Logic score:** the mean over all claims and hypotheses of YES = 1, PARTIAL = 0.5, WEAK = 0.375, INCONCLUSIVE = 0.25, NO = 0.
 - **Weighted logic score:** the same, with main conclusions weighted 3, counter-claims 0 and all other claims 1.
+- **Derived score:** the logic score over verdicts that `render.py` derives from the links instead of the annotator's verdicts. A contradiction gives NO; otherwise the strongest support link decides; qualifying or undercutting links cap at PARTIAL; and a claim is no stronger than its weakest essential link (weakest-link rule). The report lists every claim where the derived verdict differs from the annotator's.
 - **Obligation coverage:** the share of proof obligations discharged, with partially discharged ones counting half.
 
 None of these weightings is agreed yet.
@@ -101,6 +103,7 @@ for f in test_papers/yaml/*.yaml; do python scripts/render.py $f /tmp/out/; done
 # test papers: PDFs are not in the repo, each user fetches them individually
 (cd test_papers && ./fetch_papers.sh)
 # optional diagram: npx @mermaid-js/mermaid-cli -i $E/generated/wang2026_lattice_genome_core.mmd -o $E/generated/wang2026_lattice_genome_core.png
+# *_summary.mmd is a one-page chart for non-experts: thesis, main conclusions, verdict in words, bottom line
 ```
 
 `render.py` exits with `checks ok: False` and prints the offending item if a relation points to an unknown id or a derived check does not recompute.
@@ -130,17 +133,17 @@ result.valid, result.issues, result.usage # validation outcome, token counts
 open("paper.yaml", "w").write(result.yaml_text)
 ```
 
-The prompt (`src/claimchain/prompts/`) contains the annotation instructions and the review checklist from the `annotating-claim-chains` skill. The installed package ships with the schema and two reference examples: Wang (style) and Zhuang (v0.4 features). The command does not compute scores or run the derived checks; run `scripts/render.py` on its output for that. For the RDF export, add the paper's prefix to `schema/claim_chain.yaml`, as you would for a hand-encoded paper. Run the offline tests with `pytest`. GitHub Actions (`.github/workflows/tests.yml`) runs them on Python 3.10–3.13 for every push to `main` and every pull request. They use a fake client, so CI needs no API key.
+The prompt (`src/claimchain/prompts/`) contains the annotation instructions and the review checklist from the `annotating-claim-chains` skill. The installed package ships with the schema and two reference examples: Wang (style) and Zhuang (v0.4 and v0.5 features). The command does not compute scores or run the derived checks; run `scripts/render.py` on its output for that. For the RDF export, add the paper's prefix to `schema/claim_chain.yaml`, as you would for a hand-encoded paper. Run the offline tests with `pytest`. GitHub Actions (`.github/workflows/tests.yml`) runs them on Python 3.10–3.13 for every push to `main` and every pull request. They use a fake client, so CI needs no API key.
 
 ## Examples
 
 All scores are drafts. Claim roles in the Wang example and the test papers were assigned afterwards from the claim text and section.
 
-| Paper | Statements | Score | Weighted | Obligations discharged |
-|---|---|---|---|---|
-| `examples/wang2026_lattice_genome/`: Wang et al. 2026, "Lattice genome", arXiv:2606.09611, encoded by hand | 64 | 0.46 | 0.46 | 0.25 (of 10) |
-| `examples/zhuang2017_d019_mgal/`: Zhuang, Chen & Carter 2017, D0₁₉ Mg₃Al, MSMSE 25, 075002. Converted from Jan's encoding (`zhuang2017_d019_mgal.yaml`, with his Pydantic model, graph explorer and notebook in the same folder); shows warrants and recomputed checks | 21 | 0.75 | 0.68 | 0.50 (of 8) |
-| `test_papers/yaml/`: 10 arXiv papers from 21 October 2026, LLM drafts | 27–36 each | 0.36–0.93 | 0.37–0.91 | 0.25–1.00 |
+| Paper | Statements | Score | Weighted | Derived | Obligations discharged |
+|---|---|---|---|---|---|
+| `examples/wang2026_lattice_genome/`: Wang et al. 2026, "Lattice genome", arXiv:2606.09611, encoded by hand | 64 | 0.46 | 0.46 | 0.55 | 0.25 (of 10) |
+| `examples/zhuang2017_d019_mgal/`: Zhuang, Chen & Carter 2017, D0₁₉ Mg₃Al, MSMSE 25, 075002. Converted from Jan's encoding (`zhuang2017_d019_mgal.yaml`, with his Pydantic model, graph explorer and notebook in the same folder); shows warrants, recomputed checks and link criteria | 21 | 0.75 | 0.68 | 0.72 | 0.50 (of 8) |
+| `test_papers/yaml/`: 10 arXiv papers from 21 October 2026, LLM drafts | 27–36 each | 0.36–0.93 | 0.37–0.91 | 0.38–0.71 | 0.25–1.00 |
 
 The examples illustrate the format only; the tool is meant for any paper. No PDFs are included.
 
@@ -150,8 +153,9 @@ The examples illustrate the format only; the tool is meant for any paper. No PDF
 - [x] Schema v0.3: team approaches added (paper parts, support strength, proof obligations).
 - [x] All 10 test papers encoded (LLM drafts).
 - [x] Schema v0.4: Jan's additions (derived checks, warrants, claim roles, author certainty, requested data, cited works).
+- [x] Schema v0.5: Soroush's approach (five link criteria, UNSUPPORTED strength, WEAK verdict, essential links, derived verdicts, summary chart). Replaces the per-claim criteria draft.
 - [ ] Each team member refines their `ideas/` folder.
-- [x] Annotation skill (`.claude/skills/annotating-claim-chains/`), updated for v0.4.
+- [x] Annotation skill (`.claude/skills/annotating-claim-chains/`), updated for v0.5.
 - [x] LLM extraction: paper → YAML instance validated against the schema (`claimchain` command, first version).
 - [ ] Evaluate the `claimchain` output against hand-checked chains (e.g. the ten test papers).
 - [ ] Agree on the scoring. Weighting by claim role hardly separates the test papers (most main conclusions are PARTIAL too), so the verdict scale may need more levels or a link to obligation coverage.
@@ -172,9 +176,9 @@ The examples illustrate the format only; the tool is meant for any paper. No PDF
 ## To discuss on 22 October
 
 1. **Sepideh's and Soroush's input.** How do paper-part sub-scores and support strength feed into the score?
-2. **Headline score.** Which score is the result: the plain logic score, the role-weighted one, or the graded rubric score? Do we need more verdict levels, or a link to obligation coverage?
-3. **Criteria rubric** (draft in the schema and `render.py`). Do we adopt the six questions, and should the `claimchain` prompt ask the model to fill them in?
-4. **Reliability.** Re-assessing the same claims agrees well (83 % of verdicts), but a fresh extraction finds about twice as many claims and lowers the score by about 0.1 (`docs/reliability_2026-10-21/`). Options: fix claim granularity in the prompt, make number checks mandatory, average 2-3 runs.
+2. **Headline score.** Which score is the result: the plain logic score, the role-weighted one, or the graded rubric score? Do we need more verdict levels, or a link to obligation coverage? *v0.5 adds a WEAK level and a derived score (verdicts computed from the links).*
+3. **Criteria rubric** (draft in the schema and `render.py`). Do we adopt the six questions, and should the `claimchain` prompt ask the model to fill them in? *v0.5 replaces them with Soroush's five criteria per link, which the prompt now asks for.*
+4. **Reliability.** Re-assessing the same claims agrees well (83 % of verdicts), but a fresh extraction finds about twice as many claims and lowers the score by about 0.1 (`docs/reliability_2026-10-21/`). Options: fix claim granularity in the prompt, make number checks mandatory, average 2-3 runs. *The derived score moves less between extraction and re-run (0.41 vs 0.38 and 0.38 vs 0.32) than the annotator's score (0.53 vs 0.42 and 0.40 vs 0.31).*
 5. **Contested verdicts.** Who decides when a verdict is debatable, e.g. the near-stoichiometric window of c-BAs in 2610.26996? Do we need a second reviewer or a flag for "contested"?
 6. **Evaluate `claimchain` end to end.** Run it on the ten test papers (needs an API key, budget and the PDFs) and compare with the existing drafts.
 7. **One place for scoring.** Move the derived checks and scores from `scripts/render.py` into the package (e.g. `claimchain score`), so CLI output is scored the same way.

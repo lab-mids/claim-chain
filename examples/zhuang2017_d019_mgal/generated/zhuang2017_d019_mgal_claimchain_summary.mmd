@@ -1,0 +1,26 @@
+flowchart TB
+  P["`**The paper sets out to show**
+A sufficiently large kinetic barrier may prevent D0 19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure.`"]:::idea
+  C0("`**C1**
+D0 19 Mg3Al is at least metastable.`"):::claim
+  V0["`**Partly true**
+Local mechanical and dynamical stability are shown, and the structure is energetically competitive.`"]:::partly
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**C2**
+D0 19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the …`"):::claim
+  V1["`**Partly true**
+Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0 19 > …`"]:::partly
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  BL["`**Bottom line**
+Overall: Partly true. The computational core is sound and checkable: local dynamical and mechanical stability and the favourable ductility descriptors versus hcp Mg follow from the paper's own numbers, and every reported derived value recomputes.`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

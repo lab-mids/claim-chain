@@ -4,7 +4,7 @@
 # Verdicts and proof obligations were added during the conversion and are
 # based on Jan's encoding, not on a fresh reading of the PDF.
 id: claimchain:chain/zhuang2017
-schema_version: 0.4.0
+schema_version: 0.5.0
 annotator: Jan Janssen (encoding); converted to v0.4 and assessed by Claude
 annotation_date: '2026-10-21'
 publication:
@@ -491,9 +491,29 @@ relations:
   - {id: zhuang2017:R1, subject: zhuang2017:C5, predicate: MOTIVATES, object: zhuang2017:C1.1, asserted_by: AUTHORS}
   - {id: zhuang2017:R2, subject: zhuang2017:A5.1, predicate: SUPPORTS, object: zhuang2017:C5, asserted_by: ANNOTATOR, note: premise of the search}
   - {id: zhuang2017:R3, subject: zhuang2017:A5.2, predicate: SUPPORTS, object: zhuang2017:C5, asserted_by: ANNOTATOR, note: premise of the search}
-  - {id: zhuang2017:R4, subject: zhuang2017:C1.1, predicate: SUPPORTS, object: zhuang2017:C1, asserted_by: AUTHORS, support_strength: INTERMEDIATE}
-  - {id: zhuang2017:R5, subject: zhuang2017:C1.2, predicate: SUPPORTS, object: zhuang2017:C1, asserted_by: AUTHORS, support_strength: STRONG}
-  - {id: zhuang2017:R6, subject: zhuang2017:C1.3, predicate: SUPPORTS, object: zhuang2017:C1, asserted_by: AUTHORS, support_strength: STRONG}
+  - id: zhuang2017:R4
+    subject: zhuang2017:C1.1
+    predicate: SUPPORTS
+    object: zhuang2017:C1
+    asserted_by: AUTHORS
+    support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "A low formation energy relative to other Mg3Al structures is a proxy for metastability, not a test of it."}
+  - id: zhuang2017:R5
+    subject: zhuang2017:C1.2
+    predicate: SUPPORTS
+    object: zhuang2017:C1
+    asserted_by: AUTHORS
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Phonon spectrum without imaginary modes is the standard test of dynamical stability."}
+  - id: zhuang2017:R6
+    subject: zhuang2017:C1.3
+    predicate: SUPPORTS
+    object: zhuang2017:C1
+    asserted_by: AUTHORS
+    support_strength: STRONG
+    essential: true
+    link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Born criteria recompute from the reported elastic constants."}
   - id: zhuang2017:R7
     subject: zhuang2017:C1.4
     predicate: QUALIFIES
@@ -521,6 +541,7 @@ relations:
     object: zhuang2017:C2
     asserted_by: AUTHORS
     support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Pugh ratio is an empirical proxy for ductility. Computed for the ideal crystal only, not tested mechanically."}
     warrant:
       rule: A larger B/G is empirically associated with greater ductility (Pugh criterion).
       warrant_basis: EMPIRICAL_CORRELATION
@@ -532,6 +553,7 @@ relations:
     object: zhuang2017:C2
     asserted_by: AUTHORS
     support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Fault energies are proxies for the ease of slip and twinning. Computed for the ideal crystal only, not tested mechanically."}
     warrant:
       rule: Lower unstable stacking and twinning fault energies mean lower energy barriers for the corresponding deformation mechanisms.
       warrant_basis: DOMAIN_CONVENTION
@@ -542,6 +564,7 @@ relations:
     object: zhuang2017:C2
     asserted_by: AUTHORS
     support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Slip anisotropy is an argued, not measured, link to ductility. Computed for the ideal crystal only, not tested mechanically."}
     warrant:
       rule: Lower slip anisotropy favours ductility because deformation is less confined to one slip system.
       warrant_basis: AUTHOR_ARGUMENT
@@ -552,6 +575,7 @@ relations:
     object: zhuang2017:C2
     asserted_by: AUTHORS
     support_strength: INTERMEDIATE
+    link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "APB energies are low against hcp Mg, but D0_19 is higher than L1_2. Computed for the ideal crystal only, not tested mechanically."}
     warrant:
       rule: Low APB energies mean less extra resistance to partial-dislocation motion through an ordered phase.
       warrant_basis: CITATION

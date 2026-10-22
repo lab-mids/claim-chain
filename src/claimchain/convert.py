@@ -44,7 +44,7 @@ def system_prompt() -> list[dict]:
         "# LinkML schema (claim_chain.yaml)\n\n```yaml\n" + schema_path().read_text(encoding="utf-8") + "```",
         "# Reference example of a complete, validated chain (style)\n\n```yaml\n"
         + data_path("example.yaml").read_text(encoding="utf-8") + "```",
-        "# Reference example of the v0.4 features (warrants, derived checks, claim roles, "
+        "# Reference example of the v0.4 and v0.5 features (warrants, derived checks, link criteria, claim roles, "
         "author certainty, prioritized obligations, cited works)\n\n```yaml\n"
         + data_path("example_v04.yaml").read_text(encoding="utf-8") + "```",
     ])

@@ -1,6 +1,7 @@
 """Render a claim-chain argument-chain YAML into Markdown and Mermaid views,
 compute the logic score, and write the three-part report (logic, limitations,
-missing evidence).
+missing evidence). Also derives each claim's verdict from its support links
+(weakest-link rule) and draws a one-page summary chart.
 
 Usage: python scripts/render.py examples/<paper>/<paper>.yaml examples/<paper>/generated/
 Also checks that every relation points to a known statement or entity, and
@@ -43,11 +44,12 @@ SECTIONS = [
     ("Outlook", {"OUTLOOK"}),
 ]
 # Draft weighting of verdicts for the logic score.
-VALIDITY_SCORE = {"YES": 1.0, "PARTIAL": 0.5, "INCONCLUSIVE": 0.25, "NO": 0.0}
-VALIDITY_MARK = {"YES": "✓", "PARTIAL": "◐", "INCONCLUSIVE": "?", "NO": "✗"}
-MERMAID_MARK = {"YES": "✓", "PARTIAL": "(partial)", "INCONCLUSIVE": "?", "NO": "✗"}  # ◐ is missing from the default font
+# WEAK sits halfway between PARTIAL and INCONCLUSIVE, so v0.4 scores are unchanged.
+VALIDITY_SCORE = {"YES": 1.0, "PARTIAL": 0.5, "WEAK": 0.375, "INCONCLUSIVE": 0.25, "NO": 0.0}
+VALIDITY_MARK = {"YES": "✓", "PARTIAL": "◐", "WEAK": "◔", "INCONCLUSIVE": "?", "NO": "✗"}
+MERMAID_MARK = {"YES": "✓", "PARTIAL": "(partial)", "WEAK": "(weak)", "INCONCLUSIVE": "?", "NO": "✗"}  # ◐ is missing from the default font
 SCORED_TYPES = {"CLAIM", "HYPOTHESIS"}
-SCORE_METHOD = ("mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, "
+SCORE_METHOD = ("mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, WEAK=0.375, "
                 "INCONCLUSIVE=0.25, NO=0 (draft weighting)")
 # Draft weights by claim_role for the weighted score; statements without a role weigh 1.
 ROLE_WEIGHT = {"MAIN_CONCLUSION": 3.0, "COUNTER_CLAIM": 0.0}
@@ -72,40 +74,101 @@ def weighted_logic_score(chain):
     return sum(w * v for w, v in pairs) / total if total else None
 
 
-CRITERIA = ["grounded", "scope_matches", "inference_sound", "alternatives_excluded", "quantified", "consistent"]
-CRITERION_SCORE = {"MET": 1.0, "PARTLY": 0.5, "NOT_MET": 0.0}
+LINK_CRITERIA = ["directness", "sufficiency", "controls", "alternatives", "scope_match"]
+SUPPORT_LINKS = {"SUPPORTS", "CONDITIONALLY_SUPPORTS"}
+CAPPING_LINKS = {"UNDERCUTS", "QUALIFIES", "ALTERNATIVE_EXPLANATION_FOR"}
+RANK = ["NO", "INCONCLUSIVE", "WEAK", "PARTIAL", "YES"]
+STRENGTH_VERDICT = {"STRONG": "YES", "INTERMEDIATE": "PARTIAL", "WEAK": "WEAK", "UNSUPPORTED": "INCONCLUSIVE"}
+DERIVED_METHOD = ("verdicts derived from the links: an incoming CONTRADICTS gives NO; otherwise the strongest "
+                  "support link decides (STRONG YES, INTERMEDIATE PARTIAL, WEAK WEAK, none INCONCLUSIVE); "
+                  "UNDERCUTS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS "
+                  "counts as WEAK at most; an essential link caps the claim at its own strength and at the derived "
+                  "verdict of the claim it comes from. Links without a strength count as INTERMEDIATE. Claims "
+                  "without links keep the annotator's verdict")
 
 
-def criteria_score(crit):
-    """Graded score of one claim from its rubric, and the verdict the rubric suggests."""
-    vals = {k: crit.get(k) for k in CRITERIA if crit.get(k) and crit.get(k) != "NOT_APPLICABLE"}
+def link_strength(r):
+    """Support strength derived from the five link criteria, or the annotator's rating if no criteria are given."""
+    c = r.get("link_criteria") or {}
+    vals = {k: c[k] for k in LINK_CRITERIA if c.get(k) and c[k] != "NOT_APPLICABLE"}
     if not vals:
-        return None, None
-    score = sum(CRITERION_SCORE[v] for v in vals.values()) / len(vals)
-    if vals.get("consistent") == "NOT_MET":
-        verdict = "NO"
-    elif vals.get("grounded") == "NOT_MET":
-        verdict = "INCONCLUSIVE"
-    elif all(v == "MET" for v in vals.values()):
-        verdict = "YES"
+        strength = r.get("support_strength") or "INTERMEDIATE"
     else:
-        verdict = "PARTIAL"
-    return score, verdict
+        failed = [k for k, v in vals.items() if v == "NOT_MET"]
+        partly = [k for k, v in vals.items() if v == "PARTLY"]
+        if len(failed) >= 2 or {"directness", "scope_match"} & set(failed):
+            strength = "UNSUPPORTED"
+        elif failed or len(partly) > 2:
+            strength = "WEAK"
+        elif partly:
+            strength = "INTERMEDIATE"
+        else:
+            strength = "STRONG"
+    if r["predicate"] == "CONDITIONALLY_SUPPORTS" and strength in {"STRONG", "INTERMEDIATE"}:
+        strength = "WEAK"
+    return strength
 
 
-def graded_score(chain):
-    """Role-weighted mean of the rubric scores; None unless every assessed claim has criteria."""
-    pairs = []
+def _cap(verdict, limit):
+    return min(verdict, limit, key=RANK.index)
+
+
+def derived_verdicts(chain):
+    """Derived verdict per CLAIM and HYPOTHESIS (None where the statement has no incoming links to derive from)."""
+    stmts = {s["id"]: s for s in chain["statements"]}
+    incoming = {}
+    for r in chain["relations"]:
+        incoming.setdefault(r["object"], []).append(r)
+    memo, visiting = {}, set()
+
+    def derive(sid):
+        if sid in memo:
+            return memo[sid]
+        if sid in visiting:  # cycle: no cap from this side
+            return None
+        visiting.add(sid)
+        rels = incoming.get(sid, [])
+        supports = [r for r in rels if r["predicate"] in SUPPORT_LINKS]
+        if any(r["predicate"] == "CONTRADICTS" for r in rels):
+            verdict = "NO"
+        elif not supports and not any(r["predicate"] in CAPPING_LINKS for r in rels):
+            verdict = None
+        else:
+            strengths = [link_strength(r) for r in supports]
+            verdict = max((STRENGTH_VERDICT[x] for x in strengths), key=RANK.index, default="INCONCLUSIVE")
+            if any(r["predicate"] in CAPPING_LINKS for r in rels):
+                verdict = _cap(verdict, "PARTIAL")
+            for r, x in zip(supports, strengths):
+                if not r.get("essential"):
+                    continue
+                verdict = _cap(verdict, STRENGTH_VERDICT[x])
+                src = stmts.get(r["subject"])
+                if src and src["statement_type"] in SCORED_TYPES:
+                    up = derive(src["id"])
+                    if up is None and src.get("assessment"):
+                        up = src["assessment"]["validity"]
+                    if up:
+                        verdict = _cap(verdict, up)
+        visiting.discard(sid)
+        memo[sid] = verdict
+        return verdict
+
+    return {s["id"]: derive(s["id"]) for s in chain["statements"] if s["statement_type"] in SCORED_TYPES}
+
+
+def derived_score(chain):
+    """Logic score over derived verdicts (annotator's verdict where none can be derived), and the disagreements."""
+    derived = derived_verdicts(chain)
+    vals, differ = [], []
     for s in chain["statements"]:
         a = s.get("assessment")
         if s["statement_type"] not in SCORED_TYPES or not a:
             continue
-        score, _ = criteria_score(a.get("criteria") or {})
-        if score is None:
-            return None
-        pairs.append((ROLE_WEIGHT.get(s.get("claim_role"), 1.0), score))
-    total = sum(w for w, _ in pairs)
-    return sum(w * v for w, v in pairs) / total if total else None
+        d = derived.get(s["id"])
+        vals.append(VALIDITY_SCORE[d or a["validity"]])
+        if d and d != a["validity"]:
+            differ.append((s["id"], a["validity"], d))
+    return (sum(vals) / len(vals) if vals else None), differ
 
 
 def obligation_coverage(chain):
@@ -352,6 +415,54 @@ def mermaid(chain, include=None):
     return "\n".join(L)
 
 
+SUMMARY_WORD = {"YES": "True", "PARTIAL": "Partly true", "WEAK": "Weak",
+                "INCONCLUSIVE": "Not supported", "NO": "Contradicted"}
+SUMMARY_CLASS = {"YES": "yes", "PARTIAL": "partly", "WEAK": "weak", "INCONCLUSIVE": "no", "NO": "no"}
+SUMMARY_CLASSDEFS = """  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000"""
+
+
+def _plain(text, words=None):
+    """Text for a Mermaid markdown string: no quotes or markup, cut to `words`. Mermaid wraps it."""
+    w = text.replace('"', "'").replace("`", "'").replace("*", "").replace("_", " ").split()
+    if words and len(w) > words:
+        w = w[:words] + ["…"]
+    return " ".join(w)
+
+
+def _first_sentence(text):
+    return text.strip().split(". ")[0].rstrip(".") + "."
+
+
+def summary_mermaid(chain, max_claims=6):
+    """One-page chart for any reader: thesis, main conclusions, verdict in words, bottom line (after Soroush's D1)."""
+    sts = chain["statements"]
+    hyp = next((s for s in sts if s["statement_type"] == "HYPOTHESIS"), None)
+    mains = [s for s in sts if s["statement_type"] == "CLAIM" and s.get("claim_role") == "MAIN_CONCLUSION"
+             and s.get("assessment")][:max_claims]
+    top = _plain(hyp["text"] if hyp else chain["publication"]["title"], 25)
+    L = ["flowchart TB", f'  P["`**The paper sets out to show**\n{top}`"]:::idea']
+    for i, s in enumerate(mains):
+        v = s["assessment"]["validity"]
+        L.append(f'  C{i}("`**{short(s["id"])}**\n{_plain(s["text"], 16)}`"):::claim')
+        L.append(f'  V{i}["`**{SUMMARY_WORD[v]}**\n{_plain(_first_sentence(s["assessment"]["rationale"]), 20)}`"]'
+                 f":::{SUMMARY_CLASS[v]}")
+        L += [f"  P --> C{i}", f"  C{i} --> V{i}", f"  V{i} --> BL"]
+    pa = chain.get("paper_assessment") or {}
+    overall = pa.get("overall_validity") or (hyp or {}).get("assessment", {}).get("validity")
+    bottom = (f"Overall: {SUMMARY_WORD[overall]}. " if overall else "") + _first_sentence(pa.get("summary", ""))
+    L.append(f'  BL["`**Bottom line**\n{_plain(bottom, 35)}`"]:::bottom')
+    if not mains:
+        L.append("  P --> BL")
+    L.append(SUMMARY_CLASSDEFS)
+    return "\n".join(L) + "\n"
+
+
 def report(chain):
     """The three outputs from the blackboard: logic, limitations, missing evidence."""
     pub, pa = chain["publication"], chain.get("paper_assessment", {})
@@ -370,25 +481,33 @@ def report(chain):
              + (f" Not yet assessed: {', '.join(short(u) for u in unassessed)}." if unassessed else ""))
     if pa.get("summary"):
         L += ["", pa["summary"]]
-    g = graded_score(chain)
-    if g is not None:
-        L.append(f"**Graded score (criteria rubric, draft): {g:.2f}**  ")
-    L += ["", "| Statement | Role | Modality | Authors say | Verdict | Rubric | Rationale |", "|---|---|---|---|---|---|---|"]
-    abbrev = {"MET": "✓", "PARTLY": "◐", "NOT_MET": "✗", "NOT_APPLICABLE": "–"}
+    dscore, differ = derived_score(chain)
+    derived = derived_verdicts(chain)
+    L += ["", f"**Score from derived verdicts: {fmt_score(dscore)}**, {len(differ)} claim(s) where the derived "
+          f"verdict differs from the annotator's. Method: {DERIVED_METHOD}.  "]
+    L += ["", "| Statement | Role | Modality | Authors say | Verdict | Derived | Rationale |", "|---|---|---|---|---|---|---|"]
     for s in sts:
         a = s.get("assessment")
         if s["statement_type"] in SCORED_TYPES and a:
-            crit = a.get("criteria") or {}
-            cs, cv = criteria_score(crit)
-            rub = ("".join(abbrev.get(crit.get(k), "·") for k in CRITERIA) + f" {cs:.2f}"
-                   + (f" (suggests {cv})" if cv != a["validity"] else "")) if cs is not None else "-"
+            d = derived.get(s["id"])
+            dv = "-" if not d else ("same" if d == a["validity"] else f"**{VALIDITY_MARK[d]} {d}**")
             L.append(f"| **{short(s['id'])}** {s['text']} | {label(s.get('claim_role', '-'))} | "
                      f"{label(s.get('claim_modality', '-'))} | {label(s.get('author_certainty', '-'))} | "
-                     f"{VALIDITY_MARK[a['validity']]} {a['validity']} | {rub} | {a['rationale']} |")
-    if any((s.get("assessment") or {}).get("criteria") for s in sts):
-        L.append("")
-        L.append("Rubric order: grounded, scope matches, inference sound, alternatives excluded, quantified, "
-                 "consistent (✓ met, ◐ partly, ✗ not met, – not applicable).")
+                     f"{VALIDITY_MARK[a['validity']]} {a['validity']} | {dv} | {a['rationale']} |")
+    rated = [r for r in chain["relations"] if r.get("link_criteria")]
+    if rated:
+        abbrev = {"MET": "✓", "PARTLY": "◐", "NOT_MET": "✗", "NOT_APPLICABLE": "–"}
+        L += ["", "**Support links tested on the five criteria** (directness, sufficiency, controls, alternatives, "
+              "scope match; ✓ met, ◐ partly, ✗ not met, – not applicable):", "",
+              "| Link | Criteria | Strength | Note |", "|---|---|---|---|"]
+        for r in rated:
+            c = r["link_criteria"]
+            x = link_strength(r)
+            given = r.get("support_strength")
+            st = label(x) + (f" (annotator: {label(given)})" if given and given != x else "")
+            ess = " (essential)" if r.get("essential") else ""
+            L.append(f"| {short(r['subject'])} → {short(r['object'])}{ess} | "
+                     f"{''.join(abbrev.get(c.get(k), '·') for k in LINK_CRITERIA)} | {st} | {c.get('criteria_note', '')} |")
     results = run_checks(chain)
     if results:
         L += ["", "**Recomputed checks:**", ""]
@@ -468,12 +587,14 @@ def main():
     core_types = {"GAP", "HYPOTHESIS", "QUESTION", "CLAIM", "LIMITATION", "ASSUMPTION"}
     core = {s["id"] for s in chain["statements"] if s["statement_type"] in core_types}
     (out / f"{stem}_core.mmd").write_text(mermaid(chain, core))
+    (out / f"{stem}_summary.mmd").write_text(summary_mermaid(chain))
     score, counts, _ = logic_score(chain)
     coverage, n_obl = obligation_coverage(chain)
-    print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd; checks ok: {ok}; "
-          f"logic score: {fmt_score(score)} {counts}; weighted: {fmt_score(weighted_logic_score(chain))}; "
-          f"obligations discharged: {fmt_score(coverage)} of {n_obl}"
-          + (f"; graded: {graded_score(chain):.2f}" if graded_score(chain) is not None else ""))
+    dscore, differ = derived_score(chain)
+    print(f"wrote {stem}.md, {stem}_report.md, {stem}_full.mmd, {stem}_core.mmd, {stem}_summary.mmd; "
+          f"checks ok: {ok}; logic score: {fmt_score(score)} {counts}; "
+          f"weighted: {fmt_score(weighted_logic_score(chain))}; derived: {fmt_score(dscore)} "
+          f"({len(differ)} differ); obligations discharged: {fmt_score(coverage)} of {n_obl}")
 
 
 if __name__ == "__main__":

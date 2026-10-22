@@ -2,7 +2,7 @@
 
 Jiayang Wang, Mathieu Calvat, J.C. Stinville, Marat I. Latypov (2026), arxiv:2606.09611v1. Generated from the claim-chain YAML (schema 0.4.0); do not edit by hand.
 
-**Logic score: 0.46** (2 YES, 7 PARTIAL, 4 INCONCLUSIVE, 1 NO), weighted by claim role: 0.46. Method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, INCONCLUSIVE=0.25, NO=0 (draft weighting).
+**Logic score: 0.46** (2 YES, 7 PARTIAL, 0 WEAK, 4 INCONCLUSIVE, 1 NO), weighted by claim role: 0.46. Method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, WEAK=0.375, INCONCLUSIVE=0.25, NO=0 (draft weighting).
 
 ## Motivation
 

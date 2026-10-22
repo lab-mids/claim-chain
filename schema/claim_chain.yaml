@@ -13,7 +13,14 @@ description: >-
   authors' own certainty, structured data requests in proof obligations,
   and the reasons why references are cited. All v0.4 additions are
   optional, so v0.3 files stay valid.
-version: 0.4.0
+  v0.5 adds, from Soroush's approach: five criteria per support link
+  (directness, sufficiency, controls, alternatives, scope match), an
+  UNSUPPORTED support strength, a WEAK verdict between PARTIAL and
+  INCONCLUSIVE, and `essential` links, so that scripts/render.py can derive
+  each claim's verdict from its links (weakest-link rule) and compare it with
+  the annotator's verdict. It replaces the per-claim criteria draft. All
+  v0.5 additions are optional, so v0.4 files stay valid.
+version: 0.5.0
 license: CC-BY-4.0
 prefixes:
   linkml: https://w3id.org/linkml/
@@ -136,6 +143,8 @@ classes:
       - support_basis
       - support_strength
       - uncertainty
+      - link_criteria
+      - essential
       - warrant
       - note
 
@@ -151,8 +160,11 @@ classes:
       - proof_obligations
 
   Criteria:
+    deprecated: >-
+      Replaced in v0.5 by LinkCriteria on relations. Kept so that the
+      reliability-test files of 21 October 2026 stay valid.
     description: >-
-      Draft rubric (v0.5 proposal): six questions answered separately for one
+      Draft rubric (21 October 2026): six questions answered separately for one
       claim. Each answer is MET, PARTLY, NOT_MET or NOT_APPLICABLE. render.py
       derives a graded score (mean of MET=1, PARTLY=0.5, NOT_MET=0 over the
       applicable criteria) and a suggested verdict, and reports where the
@@ -164,6 +176,22 @@ classes:
       - alternatives_excluded
       - quantified
       - consistent
+      - criteria_note
+
+  LinkCriteria:
+    description: >-
+      Five tests of one support link (Soroush's approach). Each answer is MET
+      (pass), PARTLY (weak), NOT_MET (fail) or NOT_APPLICABLE. render.py
+      derives a support strength from them: all met is STRONG; at most two
+      partly and none failed is INTERMEDIATE; one failed or more than two
+      partly is WEAK; directness or scope failed, or two or more failed, is
+      UNSUPPORTED.
+    slots:
+      - directness
+      - sufficiency
+      - controls
+      - alternatives
+      - scope_match
       - criteria_note
 
   ProofObligation:
@@ -427,6 +455,7 @@ slots:
   criteria:
     range: Criteria
     inlined: true
+    deprecated: Use link_criteria on relations (v0.5).
   grounded:
     range: CriterionValue
     description: The claim rests on data, a derivation or citations that the paper presents, not on assertion alone.
@@ -445,6 +474,31 @@ slots:
   consistent:
     range: CriterionValue
     description: Nothing in the paper's own data or statements contradicts the claim.
+  link_criteria:
+    range: LinkCriteria
+    inlined: true
+    description: The five tests of a SUPPORTS or CONDITIONALLY_SUPPORTS link.
+  essential:
+    range: boolean
+    description: >-
+      The object cannot hold without this link. A claim is no stronger than
+      its weakest essential link, and no stronger than the claim an essential
+      link comes from (weakest-link rule).
+  directness:
+    range: CriterionValue
+    description: The evidence measures the claimed quantity itself, not a proxy.
+  sufficiency:
+    range: CriterionValue
+    description: Enough samples, repeats, statistics and error analysis to carry the claim.
+  controls:
+    range: CriterionValue
+    description: Confounders are controlled and a fair baseline is compared.
+  alternatives:
+    range: CriterionValue
+    description: Other plausible explanations are excluded by a control or an argument.
+  scope_match:
+    range: CriterionValue
+    description: The claim stays within the conditions actually tested (materials, range, data set, sample size).
   criteria_note:
   claim_role:
     range: ClaimRole
@@ -665,6 +719,10 @@ enums:
         description: The presented data supports the statement.
       PARTIAL:
         description: Part of the statement is supported, part is not.
+      WEAK:
+        description: >-
+          Only weak support: indirect, thin or uncontrolled evidence (only
+          WEAK links).
       INCONCLUSIVE:
         description: The paper presents no data that decides the statement either way.
       "NO":
@@ -700,8 +758,13 @@ enums:
   SupportStrength:
     permissible_values:
       STRONG:
+        description: The evidence directly measures the claim, with adequate statistics and controls.
       INTERMEDIATE:
+        description: Relevant evidence, but one or two criteria are weak (Soroush's MODERATE).
       WEAK:
+        description: Indirect, thin or uncontrolled evidence.
+      UNSUPPORTED:
+        description: The link does not carry the object at all (wrong quantity, wrong scope, no control).
 
   ClaimRole:
     permissible_values:

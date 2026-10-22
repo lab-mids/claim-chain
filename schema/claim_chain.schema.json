@@ -265,7 +265,7 @@
         },
         "Criteria": {
             "additionalProperties": false,
-            "description": "Draft rubric (v0.5 proposal): six questions answered separately for one claim. Each answer is MET, PARTLY, NOT_MET or NOT_APPLICABLE. render.py derives a graded score (mean of MET=1, PARTLY=0.5, NOT_MET=0 over the applicable criteria) and a suggested verdict, and reports where the suggested verdict differs from `validity`.",
+            "description": "Draft rubric (21 October 2026): six questions answered separately for one claim. Each answer is MET, PARTLY, NOT_MET or NOT_APPLICABLE. render.py derives a graded score (mean of MET=1, PARTLY=0.5, NOT_MET=0 over the applicable criteria) and a suggested verdict, and reports where the suggested verdict differs from `validity`.",
             "properties": {
                 "alternatives_excluded": {
                     "anyOf": [
@@ -529,6 +529,75 @@
             "title": "LimitationKind",
             "type": "string"
         },
+        "LinkCriteria": {
+            "additionalProperties": false,
+            "description": "Five tests of one support link (Soroush's approach). Each answer is MET (pass), PARTLY (weak), NOT_MET (fail) or NOT_APPLICABLE. render.py derives a support strength from them: all met is STRONG; at most two partly and none failed is INTERMEDIATE; one failed or more than two partly is WEAK; directness or scope failed, or two or more failed, is UNSUPPORTED.",
+            "properties": {
+                "alternatives": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Other plausible explanations are excluded by a control or an argument."
+                },
+                "controls": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Confounders are controlled and a fair baseline is compared."
+                },
+                "criteria_note": {
+                    "type": [
+                        "string",
+                        "null"
+                    ]
+                },
+                "directness": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The evidence measures the claimed quantity itself, not a proxy."
+                },
+                "scope_match": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The claim stays within the conditions actually tested (materials, range, data set, sample size)."
+                },
+                "sufficiency": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/CriterionValue"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "Enough samples, repeats, statistics and error analysis to carry the claim."
+                }
+            },
+            "title": "LinkCriteria",
+            "type": "object"
+        },
         "ObligationStatus": {
             "description": "",
             "enum": [
@@ -788,8 +857,26 @@
                 "asserted_by": {
                     "$ref": "#/$defs/AssertionSource"
                 },
+                "essential": {
+                    "description": "The object cannot hold without this link. A claim is no stronger than its weakest essential link, and no stronger than the claim an essential link comes from (weakest-link rule).",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ]
+                },
                 "id": {
                     "type": "string"
+                },
+                "link_criteria": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/$defs/LinkCriteria"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ],
+                    "description": "The five tests of a SUPPORTS or CONDITIONALLY_SUPPORTS link."
                 },
                 "note": {
                     "type": [
@@ -1173,7 +1260,8 @@
             "enum": [
                 "STRONG",
                 "INTERMEDIATE",
-                "WEAK"
+                "WEAK",
+                "UNSUPPORTED"
             ],
             "title": "SupportStrength",
             "type": "string"
@@ -1193,6 +1281,7 @@
             "enum": [
                 "YES",
                 "PARTIAL",
+                "WEAK",
                 "INCONCLUSIVE",
                 "NO"
             ],
@@ -1342,6 +1431,6 @@
     ],
     "title": "claim_chain",
     "type": "object",
-    "version": "0.4.0"
+    "version": "0.5.0"
 }
 

@@ -26,52 +26,52 @@ zhuang2017:A5.2 a mp:Statement ;
 	claimchain:text "OFDFT relative configurational energies are accurate enough to train the cluster expansion used for screening." .
 zhuang2017:C1.1 a mp:Statement ;
 	claimchain:about ent:D019 , ent:L12 ;
-	claimchain:assessment _:c14n101 ;
+	claimchain:assessment _:c14n106 ;
 	claimchain:author_certainty "PREDICTED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "INTERMEDIATE" ;
 	claimchain:concerns _:c14n8 ;
-	claimchain:evidence _:c14n108 , _:c14n119 , _:c14n26 ;
+	claimchain:evidence _:c14n113 , _:c14n126 , _:c14n27 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is energetically competitive with alternative Mg3Al structures." ;
-	claimchain:warrant _:c14n100 .
+	claimchain:warrant _:c14n105 .
 zhuang2017:C1.2 a mp:Statement ;
 	claimchain:about ent:D019 , ent:KSDFT ;
 	claimchain:assessment _:c14n10 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "DESCRIPTIVE" ;
 	claimchain:claim_role "INTERMEDIATE" ;
-	claimchain:evidence _:c14n77 ;
+	claimchain:evidence _:c14n81 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is dynamically stable (within the harmonic approximation)." ;
-	claimchain:warrant _:c14n23 .
+	claimchain:warrant _:c14n24 .
 zhuang2017:C1.3 a mp:Statement ;
 	claimchain:about ent:D019 , ent:KSDFT ;
-	claimchain:assessment _:c14n98 ;
+	claimchain:assessment _:c14n103 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "DESCRIPTIVE" ;
 	claimchain:claim_role "INTERMEDIATE" ;
-	claimchain:evidence _:c14n41 ;
+	claimchain:evidence _:c14n42 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is mechanically stable." ;
-	claimchain:warrant _:c14n91 .
+	claimchain:warrant _:c14n96 .
 zhuang2017:C1.4 a mp:Statement ;
 	claimchain:about ent:D019 , ent:Mg17Al12 , ent:hcpMg ;
-	claimchain:assessment _:c14n135 ;
+	claimchain:assessment _:c14n142 ;
 	claimchain:author_certainty "PREDICTED" ;
 	claimchain:claim_modality "DESCRIPTIVE" ;
 	claimchain:claim_role "COUNTER_CLAIM" ;
-	claimchain:evidence _:c14n22 ;
+	claimchain:evidence _:c14n23 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is thermodynamically unstable against decomposition into Mg17Al12 and hcp Mg (12 Mg3Al -> Mg17Al12 + 19 Mg)." ;
-	claimchain:warrant _:c14n102 .
+	claimchain:warrant _:c14n107 .
 zhuang2017:C1 a mp:Statement ;
 	claimchain:about ent:D019 ;
-	claimchain:assessment _:c14n131 ;
+	claimchain:assessment _:c14n138 ;
 	claimchain:author_certainty "PREDICTED" ;
 	claimchain:claim_modality "DESCRIPTIVE" ;
 	claimchain:claim_role "MAIN_CONCLUSION" ;
@@ -85,38 +85,38 @@ zhuang2017:C2.1 a mp:Statement ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "QUANTITATIVE_SUPPORT" ;
-	claimchain:evidence _:c14n29 , _:c14n32 ;
+	claimchain:evidence _:c14n30 , _:c14n33 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al has a substantially larger Pugh ratio B/G than hcp Mg." .
 zhuang2017:C2.2 a mp:Statement ;
 	claimchain:about ent:D019 , ent:hcpMg ;
-	claimchain:assessment _:c14n63 ;
+	claimchain:assessment _:c14n65 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "QUANTITATIVE_SUPPORT" ;
-	claimchain:evidence _:c14n106 , _:c14n56 ;
+	claimchain:evidence _:c14n111 , _:c14n58 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al has lower barriers for basal stacking-fault and twinning processes than hcp Mg." .
 zhuang2017:C2.3 a mp:Statement ;
 	claimchain:about ent:D019 , ent:hcpMg ;
-	claimchain:assessment _:c14n50 ;
+	claimchain:assessment _:c14n52 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "QUANTITATIVE_SUPPORT" ;
-	claimchain:evidence _:c14n42 ;
+	claimchain:evidence _:c14n43 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al has a lower prismatic slip barrier and lower slip anisotropy than hcp Mg." .
 zhuang2017:C2.4 a mp:Statement ;
 	claimchain:about ent:D019 , ent:L12 ;
-	claimchain:assessment _:c14n107 ;
+	claimchain:assessment _:c14n112 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "QUANTITATIVE_SUPPORT" ;
-	claimchain:concerns _:c14n126 ;
-	claimchain:evidence _:c14n110 , _:c14n3 ;
+	claimchain:concerns _:c14n133 ;
+	claimchain:evidence _:c14n115 , _:c14n3 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al has a low anti-phase boundary energy compared with a conventional ordered intermetallic (Ni3Al)." .
@@ -126,44 +126,44 @@ zhuang2017:C2 a mp:Statement ;
 	claimchain:author_certainty "PREDICTED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "MAIN_CONCLUSION" ;
-	claimchain:concerns _:c14n67 ;
+	claimchain:concerns _:c14n69 ;
 	claimchain:paper_part "CONCLUSION" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the ordering D0_19 Mg3Al > L1_2 Mg3Al > Mg)." .
 zhuang2017:C3.1 a mp:Statement ;
 	claimchain:about ent:D019 , ent:L12 , ent:hcpMg ;
-	claimchain:assessment _:c14n90 ;
+	claimchain:assessment _:c14n95 ;
 	claimchain:author_certainty "DEMONSTRATED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "INTERMEDIATE" ;
-	claimchain:concerns _:c14n105 ;
-	claimchain:evidence _:c14n85 ;
+	claimchain:concerns _:c14n110 ;
+	claimchain:evidence _:c14n89 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al is more metallic than L1_2 Mg3Al and hcp Mg, judged by its density of states at the Fermi level." ;
-	claimchain:warrant _:c14n59 .
+	claimchain:warrant _:c14n61 .
 zhuang2017:C3 a mp:Statement ;
 	claimchain:about ent:D019 ;
-	claimchain:assessment _:c14n69 ;
+	claimchain:assessment _:c14n72 ;
 	claimchain:author_certainty "PROPOSED" ;
 	claimchain:claim_modality "CAUSAL" ;
 	claimchain:claim_role "MECHANISTIC_INTERPRETATION" ;
-	claimchain:concerns _:c14n103 ;
+	claimchain:concerns _:c14n108 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "The predicted enhanced ductility of D0_19 Mg3Al is partly due to its enhanced metallicity." .
 zhuang2017:C4 a mp:Statement ;
 	claimchain:about ent:CE , ent:D019 , ent:L12 ;
-	claimchain:assessment _:c14n97 ;
+	claimchain:assessment _:c14n102 ;
 	claimchain:author_certainty "PREDICTED" ;
 	claimchain:claim_modality "COMPARATIVE" ;
 	claimchain:claim_role "INTERMEDIATE" ;
-	claimchain:concerns _:c14n57 ;
-	claimchain:evidence _:c14n127 ;
+	claimchain:concerns _:c14n59 ;
+	claimchain:evidence _:c14n134 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "D0_19 Mg3Al stays chemically ordered to a higher temperature than L1_2 Mg3Al." ;
-	claimchain:warrant _:c14n19 .
+	claimchain:warrant _:c14n20 .
 zhuang2017:C5 a mp:Statement ;
 	claimchain:about ent:CE , ent:D019 , ent:OFDFT ;
 	claimchain:assessment _:c14n4 ;
@@ -171,17 +171,17 @@ zhuang2017:C5 a mp:Statement ;
 	claimchain:claim_modality "DESCRIPTIVE" ;
 	claimchain:claim_role "METHODOLOGICAL" ;
 	claimchain:concerns _:c14n1 ;
-	claimchain:evidence _:c14n116 ;
+	claimchain:evidence _:c14n123 ;
 	claimchain:paper_part "RESULTS" ;
 	claimchain:statement_type mp:Claim ;
 	claimchain:text "An hcp-constrained structure search identifies D0_19 Mg3Al as a promising low-energy Mg-rich ordering." .
 zhuang2017:H1 a mp:Statement ;
 	claimchain:about ent:D019 , ent:Mg17Al12 ;
-	claimchain:assessment _:c14n61 ;
+	claimchain:assessment _:c14n63 ;
 	claimchain:author_certainty "SPECULATIVE" ;
 	claimchain:claim_modality "CAUSAL" ;
 	claimchain:claim_role "INTERMEDIATE" ;
-	claimchain:evidence _:c14n86 ;
+	claimchain:evidence _:c14n90 ;
 	claimchain:paper_part "DISCUSSION" ;
 	claimchain:statement_type "HYPOTHESIS" ;
 	claimchain:text "A sufficiently large kinetic barrier may prevent D0_19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure." .
@@ -228,20 +228,23 @@ zhuang2017:R13 a claimchain:Relation ;
 	claimchain:subject zhuang2017:C2 .
 zhuang2017:R14 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n49 ;
 	claimchain:object zhuang2017:C2 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C2.1 ;
 	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant _:c14n117 .
+	claimchain:warrant _:c14n124 .
 zhuang2017:R15 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n70 ;
 	claimchain:object zhuang2017:C2 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C2.2 ;
 	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant _:c14n75 .
+	claimchain:warrant _:c14n79 .
 zhuang2017:R16 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n117 ;
 	claimchain:object zhuang2017:C2 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C2.3 ;
@@ -249,11 +252,12 @@ zhuang2017:R16 a claimchain:Relation ;
 	claimchain:warrant _:c14n12 .
 zhuang2017:R17 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n77 ;
 	claimchain:object zhuang2017:C2 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C2.4 ;
 	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant _:c14n93 .
+	claimchain:warrant _:c14n98 .
 zhuang2017:R18 a claimchain:Relation ;
 	claimchain:asserted_by "ANNOTATOR" ;
 	claimchain:note "For the D0_19 > L1_2 part of the ordering only (APB 27 vs 14 mJ/m^2)." ;
@@ -266,7 +270,7 @@ zhuang2017:R19 a claimchain:Relation ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C3.1 ;
 	claimchain:support_strength "WEAK" ;
-	claimchain:warrant _:c14n45 .
+	claimchain:warrant _:c14n46 .
 zhuang2017:R1 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
 	claimchain:object zhuang2017:C1.1 ;
@@ -293,18 +297,23 @@ zhuang2017:R3 a claimchain:Relation ;
 	claimchain:subject zhuang2017:A5.2 .
 zhuang2017:R4 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:link_criteria _:c14n92 ;
 	claimchain:object zhuang2017:C1 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C1.1 ;
 	claimchain:support_strength "INTERMEDIATE" .
 zhuang2017:R5 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:link_criteria _:c14n122 ;
 	claimchain:object zhuang2017:C1 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C1.2 ;
 	claimchain:support_strength "STRONG" .
 zhuang2017:R6 a claimchain:Relation ;
 	claimchain:asserted_by "AUTHORS" ;
+	claimchain:essential true ;
+	claimchain:link_criteria _:c14n19 ;
 	claimchain:object zhuang2017:C1 ;
 	claimchain:predicate mp:supports ;
 	claimchain:subject zhuang2017:C1.3 ;
@@ -326,7 +335,7 @@ zhuang2017:R9 a claimchain:Relation ;
 	claimchain:predicate "CONDITIONALLY_SUPPORTS" ;
 	claimchain:subject zhuang2017:H1 ;
 	claimchain:support_strength "WEAK" ;
-	claimchain:warrant _:c14n21 .
+	claimchain:warrant _:c14n22 .
 zhuang2017:ref46 a claimchain:CitedWork ;
 	claimchain:citation "Grimvall et al., Rev. Mod. Phys. 84, 945 (2012)" ;
 	claimchain:cited_for "lattice instabilities and dynamical stability" ;
@@ -393,10 +402,10 @@ claimchain:chain\/zhuang2017 a claimchain:ArgumentChain ;
 	claimchain:annotator "Jan Janssen (encoding); converted to v0.4 and assessed by Claude" ;
 	claimchain:cited_works zhuang2017:ref46 , zhuang2017:ref47 , zhuang2017:ref48 , zhuang2017:ref49 , zhuang2017:ref50 , zhuang2017:ref51 , zhuang2017:ref52 , zhuang2017:ref53 , zhuang2017:ref54 , zhuang2017:ref55 ;
 	claimchain:entities ent:CE , ent:D019 , ent:KSDFT , ent:L12 , ent:Mg17Al12 , ent:OFDFT , ent:hcpMg ;
-	claimchain:paper_assessment _:c14n94 ;
+	claimchain:paper_assessment _:c14n99 ;
 	claimchain:publication doi:10.1088\/1361-651X\/aa7e0c ;
 	claimchain:relations zhuang2017:R10 , zhuang2017:R11 , zhuang2017:R12 , zhuang2017:R13 , zhuang2017:R14 , zhuang2017:R15 , zhuang2017:R16 , zhuang2017:R17 , zhuang2017:R18 , zhuang2017:R19 , zhuang2017:R1 , zhuang2017:R20 , zhuang2017:R2 , zhuang2017:R3 , zhuang2017:R4 , zhuang2017:R5 , zhuang2017:R6 , zhuang2017:R7 , zhuang2017:R8 , zhuang2017:R9 ;
-	claimchain:schema_version "0.4.0" ;
+	claimchain:schema_version "0.5.0" ;
 	claimchain:statements zhuang2017:A5.1 , zhuang2017:A5.2 , zhuang2017:C1.1 , zhuang2017:C1.2 , zhuang2017:C1.3 , zhuang2017:C1.4 , zhuang2017:C1 , zhuang2017:C2.1 , zhuang2017:C2.2 , zhuang2017:C2.3 , zhuang2017:C2.4 , zhuang2017:C2 , zhuang2017:C3.1 , zhuang2017:C3 , zhuang2017:C4 , zhuang2017:C5 , zhuang2017:H1 , zhuang2017:O1 , zhuang2017:O2 , zhuang2017:O3 , zhuang2017:O4 .
 _:c14n0 a claimchain:QuantitativeValue ;
 	claimchain:quantity "explicitly calculated structures" ;
@@ -408,192 +417,225 @@ _:c14n1 a claimchain:Concern ;
 _:c14n10 a claimchain:Assessment ;
 	claimchain:rationale "Standard criterion, applied directly to the paper's own phonon calculation." ;
 	claimchain:validity "YES" .
-_:c14n100 a claimchain:Warrant ;
+_:c14n100 a claimchain:ProofObligation ;
+	claimchain:discharged_by zhuang2017:C1.3 ;
+	claimchain:obligation_status "DISCHARGED" ;
+	claimchain:text "Show mechanical stability" .
+_:c14n101 a claimchain:RequestedData ;
+	claimchain:method "e.g. NEB or atomistic transformation simulation" ;
+	claimchain:quantity "transformation pathway" .
+_:c14n102 a claimchain:Assessment ;
+	claimchain:missing_evidence "Uncertainty of the transition temperatures, or a KSDFT-trained cross-check" ;
+	claimchain:rationale "The 140 K difference is large compared with typical cluster-expansion errors, so the ordering of the two is plausible, but the absolute temperatures are not validated." ;
+	claimchain:validity "PARTIAL" .
+_:c14n103 a claimchain:Assessment ;
+	claimchain:rationale "All three hexagonal Born criteria hold for the reported elastic constants (recomputed)." ;
+	claimchain:validity "YES" .
+_:c14n104 a claimchain:DerivedCheck ;
+	claimchain:expression "E_f(D0_19) - E_f(L1_2)" ;
+	claimchain:formula "Ef_D019 - Ef_L12" ;
+	claimchain:result "1.9"^^xsd:float ;
+	claimchain:unit "meV/atom" .
+_:c14n105 a claimchain:Warrant ;
 	claimchain:rule "Formation energies within a few meV/atom of each other indicate energetically competing structures." ;
 	claimchain:support_strength "INTERMEDIATE" ;
 	claimchain:warrant_basis "DOMAIN_CONVENTION" .
-_:c14n101 a claimchain:Assessment ;
+_:c14n106 a claimchain:Assessment ;
 	claimchain:rationale "All three methods put D0_19 within 7.5 meV/atom of L1_2 and well below D0_3, which is what \"competitive\" claims; the claim does not assert an ordering." ;
 	claimchain:validity "YES" .
-_:c14n102 a claimchain:Warrant ;
+_:c14n107 a claimchain:Warrant ;
 	claimchain:rule "A negative reaction free energy means the products are thermodynamically favoured." ;
 	claimchain:support_strength "STRONG" ;
 	claimchain:warrant_basis "DEFINITION" .
-_:c14n103 a claimchain:Concern ;
+_:c14n108 a claimchain:Concern ;
 	claimchain:concern_type "CAUSAL_OVERREACH" ;
 	claimchain:description "The step from metallicity to macroscopic ductility is interpretive and less established than the mechanical descriptors (Jan)." .
-_:c14n104 a claimchain:QuantitativeValue ;
+_:c14n109 a claimchain:QuantitativeValue ;
 	claimchain:condition "WT-OFDFT" ;
 	claimchain:quantity "formation energy D0_19" ;
 	claimchain:symbol "Ef_D019" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "-23.9"^^xsd:float .
-_:c14n105 a claimchain:Concern ;
-	claimchain:concern_type "MISSING_QUANTIFICATION" ;
-	claimchain:description "The values are per cell. The primitive cells differ (8 atoms for D0_19, 4 for L1_2, 2 for hcp Mg), so unless the paper used equal cells the comparison must be normalised per atom, which would reverse it (D0_19 0.50, L1_2 0.77, Mg 1.44 states/eV/atom). Needs checking against the paper." .
-_:c14n106 a mp:Support ;
-	claimchain:derived_checks _:c14n114 , _:c14n31 , _:c14n33 , _:c14n54 , _:c14n76 ;
-	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:locator "Fig. 6, Table 2" ;
-	claimchain:values _:c14n112 , _:c14n17 , _:c14n27 , _:c14n37 , _:c14n62 , _:c14n73 , _:c14n74 , _:c14n88 .
-_:c14n107 a claimchain:Assessment ;
-	claimchain:rationale "Low relative to Ni3Al, as claimed (recomputed)." ;
-	claimchain:validity "YES" .
-_:c14n108 a mp:Support ;
-	claimchain:derived_checks _:c14n6 ;
-	claimchain:description "Formation energies (meV/atom) from WT-OFDFT; WT-OFDFT favours L1_2 by 7.5 meV/atom." ;
-	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:values _:c14n104 , _:c14n60 , _:c14n82 .
-_:c14n109 a claimchain:RequestedData ;
-	claimchain:method "mechanical testing" ;
-	claimchain:quantity "tensile elongation or fracture toughness" .
 _:c14n11 a claimchain:ProofObligation ;
 	claimchain:discharged_by zhuang2017:C2.1 , zhuang2017:C2.2 , zhuang2017:C2.3 , zhuang2017:C2.4 ;
 	claimchain:obligation_status "DISCHARGED" ;
 	claimchain:text "Show favourable intrinsic ductility descriptors" .
-_:c14n110 a mp:Support ;
-	claimchain:derived_checks _:c14n136 , _:c14n66 ;
+_:c14n110 a claimchain:Concern ;
+	claimchain:concern_type "MISSING_QUANTIFICATION" ;
+	claimchain:description "The values are per cell. The primitive cells differ (8 atoms for D0_19, 4 for L1_2, 2 for hcp Mg), so unless the paper used equal cells the comparison must be normalised per atom, which would reverse it (D0_19 0.50, L1_2 0.77, Mg 1.44 states/eV/atom). Needs checking against the paper." .
+_:c14n111 a mp:Support ;
+	claimchain:derived_checks _:c14n120 , _:c14n32 , _:c14n34 , _:c14n56 , _:c14n80 ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:values _:c14n53 , _:c14n70 , _:c14n78 .
-_:c14n111 a claimchain:QuantitativeValue ;
+	claimchain:locator "Fig. 6, Table 2" ;
+	claimchain:values _:c14n118 , _:c14n17 , _:c14n28 , _:c14n38 , _:c14n64 , _:c14n76 , _:c14n78 , _:c14n93 .
+_:c14n112 a claimchain:Assessment ;
+	claimchain:rationale "Low relative to Ni3Al, as claimed (recomputed)." ;
+	claimchain:validity "YES" .
+_:c14n113 a mp:Support ;
+	claimchain:derived_checks _:c14n6 ;
+	claimchain:description "Formation energies (meV/atom) from WT-OFDFT; WT-OFDFT favours L1_2 by 7.5 meV/atom." ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:values _:c14n109 , _:c14n62 , _:c14n86 .
+_:c14n114 a claimchain:RequestedData ;
+	claimchain:method "mechanical testing" ;
+	claimchain:quantity "tensile elongation or fracture toughness" .
+_:c14n115 a mp:Support ;
+	claimchain:derived_checks _:c14n143 , _:c14n68 ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:values _:c14n55 , _:c14n73 , _:c14n82 .
+_:c14n116 a claimchain:QuantitativeValue ;
 	claimchain:quantity "lattice parameter c" ;
 	claimchain:symbol "c" ;
 	claimchain:unit "Å" ;
 	claimchain:value "5.04"^^xsd:float .
-_:c14n112 a claimchain:QuantitativeValue ;
+_:c14n117 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "Slip anisotropy is an argued, not measured, link to ductility. Computed for the ideal crystal only, not tested mechanically." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "PARTLY" ;
+	claimchain:sufficiency "MET" .
+_:c14n118 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "unstable twinning energy" ;
 	claimchain:symbol "ut_M" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "113.0"^^xsd:float .
-_:c14n113 a claimchain:QuantitativeValue ;
+_:c14n119 a claimchain:QuantitativeValue ;
 	claimchain:condition "WGC-OFDFT" ;
 	claimchain:quantity "formation energy D0_19" ;
 	claimchain:symbol "Ef_D019" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "2.8"^^xsd:float .
-_:c14n114 a claimchain:DerivedCheck ;
-	claimchain:expression "change of gamma_TE" ;
-	claimchain:formula "100*(te_D - te_M)/te_M" ;
-	claimchain:result "-41.3"^^xsd:float ;
-	claimchain:unit "%" .
-_:c14n115 a claimchain:DerivedCheck ;
-	claimchain:expression "decomposition favoured (ΔG < 0)" ;
-	claimchain:formula "dG_D019 < 0" ;
-	claimchain:satisfied true .
-_:c14n116 a mp:Support ;
-	claimchain:description "OFDFT-trained cluster expansion places Mg3Al among the low-energy structures on the hcp configurational landscape." ;
-	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:locator "Fig. 1" ;
-	claimchain:values _:c14n0 , _:c14n30 , _:c14n46 .
-_:c14n117 a claimchain:Warrant ;
-	claimchain:references "zhuang2017:ref48" ;
-	claimchain:rule "A larger B/G is empirically associated with greater ductility (Pugh criterion)." ;
-	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant_basis "EMPIRICAL_CORRELATION" .
-_:c14n118 a claimchain:QuantitativeValue ;
-	claimchain:condition "hcp Mg, this paper" ;
-	claimchain:quantity "B/G" ;
-	claimchain:symbol "BG_calc" ;
-	claimchain:value "1.76"^^xsd:float .
-_:c14n119 a mp:Support ;
-	claimchain:derived_checks _:c14n2 ;
-	claimchain:description "Formation energies from KSDFT-PBE; KSDFT favours D0_19 by 1.5 meV/atom." ;
-	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:values _:c14n39 , _:c14n5 , _:c14n80 .
 _:c14n12 a claimchain:Warrant ;
 	claimchain:rule "Lower slip anisotropy favours ductility because deformation is less confined to one slip system." ;
 	claimchain:support_strength "INTERMEDIATE" ;
 	claimchain:warrant_basis "AUTHOR_ARGUMENT" .
-_:c14n120 a claimchain:QuantitativeValue ;
+_:c14n120 a claimchain:DerivedCheck ;
+	claimchain:expression "change of gamma_TE" ;
+	claimchain:formula "100*(te_D - te_M)/te_M" ;
+	claimchain:result "-41.3"^^xsd:float ;
+	claimchain:unit "%" .
+_:c14n121 a claimchain:DerivedCheck ;
+	claimchain:expression "decomposition favoured (ΔG < 0)" ;
+	claimchain:formula "dG_D019 < 0" ;
+	claimchain:satisfied true .
+_:c14n122 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "NOT_APPLICABLE" ;
+	claimchain:criteria_note "Phonon spectrum without imaginary modes is the standard test of dynamical stability." ;
+	claimchain:directness "MET" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "MET" .
+_:c14n123 a mp:Support ;
+	claimchain:description "OFDFT-trained cluster expansion places Mg3Al among the low-energy structures on the hcp configurational landscape." ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:locator "Fig. 1" ;
+	claimchain:values _:c14n0 , _:c14n31 , _:c14n47 .
+_:c14n124 a claimchain:Warrant ;
+	claimchain:references "zhuang2017:ref48" ;
+	claimchain:rule "A larger B/G is empirically associated with greater ductility (Pugh criterion)." ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:warrant_basis "EMPIRICAL_CORRELATION" .
+_:c14n125 a claimchain:QuantitativeValue ;
+	claimchain:condition "hcp Mg, this paper" ;
+	claimchain:quantity "B/G" ;
+	claimchain:symbol "BG_calc" ;
+	claimchain:value "1.76"^^xsd:float .
+_:c14n126 a mp:Support ;
+	claimchain:derived_checks _:c14n2 ;
+	claimchain:description "Formation energies from KSDFT-PBE; KSDFT favours D0_19 by 1.5 meV/atom." ;
+	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
+	claimchain:values _:c14n40 , _:c14n5 , _:c14n84 .
+_:c14n127 a claimchain:QuantitativeValue ;
 	claimchain:quantity "shear modulus" ;
 	claimchain:symbol "G" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "17.0"^^xsd:float .
-_:c14n121 a claimchain:DerivedCheck ;
+_:c14n128 a claimchain:DerivedCheck ;
 	claimchain:expression "B/G increase of L1_2 over Mg" ;
 	claimchain:formula "100*(BG_L12 - BG_Mg)/BG_Mg" ;
 	claimchain:result "11.4"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n122 a claimchain:DerivedCheck ;
+_:c14n129 a claimchain:DerivedCheck ;
 	claimchain:expression "calculated vs experimental B/G of Mg" ;
 	claimchain:formula "100*(BG_calc - BG_exp)/BG_exp" ;
 	claimchain:result "-8.8"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n123 a claimchain:QuantitativeValue ;
+_:c14n13 a claimchain:Assessment ;
+	claimchain:missing_evidence "Dislocation-level simulation (core structure, Peierls stress) or fracture simulation" , "Mechanical testing of Mg containing Mg3Al precipitates" ;
+	claimchain:proof_obligations _:c14n11 , _:c14n36 ;
+	claimchain:rationale "Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0_19 > L1_2 part of the ordering is contradicted by the APB energies." ;
+	claimchain:validity "PARTIAL" .
+_:c14n130 a claimchain:QuantitativeValue ;
 	claimchain:quantity "C12" ;
 	claimchain:symbol "C12" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "33.0"^^xsd:float .
-_:c14n124 a claimchain:DerivedCheck ;
+_:c14n131 a claimchain:DerivedCheck ;
 	claimchain:expression "DOS(E_F) increase of D0_19 over L1_2" ;
 	claimchain:formula "100*(dos_D - dos_L)/dos_L" ;
 	claimchain:result "28.8"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n125 a claimchain:QuantitativeValue ;
+_:c14n132 a claimchain:QuantitativeValue ;
 	claimchain:quantity "order-disorder temperature L1_2" ;
 	claimchain:symbol "T_L12" ;
 	claimchain:unit "K" ;
 	claimchain:value "320.0"^^xsd:float .
-_:c14n126 a claimchain:Concern ;
+_:c14n133 a claimchain:Concern ;
 	claimchain:concern_type "UNADDRESSED_COUNTEREVIDENCE" ;
 	claimchain:description "The D0_19 APB energy is about twice that of L1_2 Mg3Al, which runs against the paper's ordering D0_19 > L1_2 in ductility. Jan's encoding does not record whether the paper discusses this." .
-_:c14n127 a mp:Support ;
+_:c14n134 a mp:Support ;
 	claimchain:derived_checks _:c14n9 ;
 	claimchain:description "Cluster expansion Monte Carlo; energy and heat capacity versus temperature." ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
 	claimchain:locator "Fig. 5" ;
-	claimchain:values _:c14n125 , _:c14n58 .
-_:c14n128 a claimchain:ProofObligation ;
+	claimchain:values _:c14n132 , _:c14n60 .
+_:c14n135 a claimchain:ProofObligation ;
 	claimchain:discharged_by zhuang2017:C1.2 ;
 	claimchain:obligation_status "DISCHARGED" ;
 	claimchain:text "Show dynamical stability" .
-_:c14n129 a claimchain:ProofObligation ;
+_:c14n136 a claimchain:ProofObligation ;
 	claimchain:discharged_by zhuang2017:C1.1 ;
 	claimchain:obligation_status "DISCHARGED" ;
 	claimchain:text "Show the structure is energetically competitive" .
-_:c14n13 a claimchain:Assessment ;
-	claimchain:missing_evidence "Dislocation-level simulation (core structure, Peierls stress) or fracture simulation" , "Mechanical testing of Mg containing Mg3Al precipitates" ;
-	claimchain:proof_obligations _:c14n11 , _:c14n35 ;
-	claimchain:rationale "Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0_19 > L1_2 part of the ordering is contradicted by the APB energies." ;
-	claimchain:validity "PARTIAL" .
-_:c14n130 a claimchain:QuantitativeValue ;
+_:c14n137 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "prismatic slip barrier" ;
 	claimchain:symbol "pr_M" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "203.0"^^xsd:float .
-_:c14n131 a claimchain:Assessment ;
+_:c14n138 a claimchain:Assessment ;
 	claimchain:missing_evidence "Experimental observation of D0_19 Mg3Al or D0_19-like ordering" , "Kinetic barrier toward decomposition (see H1)" ;
-	claimchain:proof_obligations _:c14n128 , _:c14n129 , _:c14n84 , _:c14n95 ;
+	claimchain:proof_obligations _:c14n100 , _:c14n135 , _:c14n136 , _:c14n88 ;
 	claimchain:rationale "Local mechanical and dynamical stability are shown, and the structure is energetically competitive. The paper's own C1.4 shows it is not thermodynamically stable, so metastability in a practical sense rests on the untested kinetic barrier H1." ;
 	claimchain:validity "PARTIAL" .
-_:c14n132 a claimchain:QuantitativeValue ;
+_:c14n139 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "slip anisotropy ratio" ;
 	claimchain:symbol "an_M" ;
 	claimchain:value "2.18"^^xsd:float .
-_:c14n133 a claimchain:QuantitativeValue ;
+_:c14n14 a claimchain:RequestedData ;
+	claimchain:quantity "DOS(E_F) per atom" ;
+	claimchain:unit "states/eV/atom" .
+_:c14n140 a claimchain:QuantitativeValue ;
 	claimchain:quantity "C11" ;
 	claimchain:symbol "C11" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "73.0"^^xsd:float .
-_:c14n134 a claimchain:DerivedCheck ;
+_:c14n141 a claimchain:DerivedCheck ;
 	claimchain:expression "reduction of the prismatic barrier" ;
 	claimchain:formula "100*(pr_M - pr_D)/pr_M" ;
 	claimchain:result "20.2"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n135 a claimchain:Assessment ;
+_:c14n142 a claimchain:Assessment ;
 	claimchain:rationale "Direct consequence of the computed reaction free energy." ;
 	claimchain:validity "YES" .
-_:c14n136 a claimchain:DerivedCheck ;
+_:c14n143 a claimchain:DerivedCheck ;
 	claimchain:expression "APB(D0_19 Mg3Al) / APB(L1_2 Mg3Al)" ;
 	claimchain:formula "apb_D/apb_L" ;
 	claimchain:note "added during conversion" ;
 	claimchain:result "1.93"^^xsd:float .
-_:c14n14 a claimchain:RequestedData ;
-	claimchain:quantity "DOS(E_F) per atom" ;
-	claimchain:unit "states/eV/atom" .
 _:c14n15 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "slip anisotropy ratio" ;
@@ -602,7 +644,7 @@ _:c14n15 a claimchain:QuantitativeValue ;
 _:c14n16 a claimchain:ProofObligation ;
 	claimchain:obligation_status "OPEN" ;
 	claimchain:priority "CRITICAL" ;
-	claimchain:requested_data _:c14n28 , _:c14n49 , _:c14n96 ;
+	claimchain:requested_data _:c14n101 , _:c14n29 , _:c14n51 ;
 	claimchain:text "Show that the barrier from D0_19 Mg3Al toward Mg17Al12 + Mg is large enough for a useful lifetime." .
 _:c14n17 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
@@ -613,430 +655,446 @@ _:c14n17 a claimchain:QuantitativeValue ;
 _:c14n18 a claimchain:Assessment ;
 	claimchain:rationale "Direct comparison of computed values (recomputed), with a validated Mg baseline." ;
 	claimchain:validity "YES" .
-_:c14n19 a claimchain:Warrant ;
-	claimchain:rule "An abrupt energy change with a heat-capacity peak marks an order-disorder transition." ;
-	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant_basis "DOMAIN_CONVENTION" .
+_:c14n19 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "NOT_APPLICABLE" ;
+	claimchain:criteria_note "Born criteria recompute from the reported elastic constants." ;
+	claimchain:directness "MET" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "MET" .
 _:c14n2 a claimchain:DerivedCheck ;
 	claimchain:expression "E_f(D0_19) - E_f(L1_2)" ;
 	claimchain:formula "Ef_D019 - Ef_L12" ;
 	claimchain:result "-1.5"^^xsd:float ;
 	claimchain:unit "meV/atom" .
-_:c14n20 a claimchain:ProofObligation ;
+_:c14n20 a claimchain:Warrant ;
+	claimchain:rule "An abrupt energy change with a heat-capacity peak marks an order-disorder transition." ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:warrant_basis "DOMAIN_CONVENTION" .
+_:c14n21 a claimchain:ProofObligation ;
 	claimchain:obligation_status "OPEN" ;
 	claimchain:priority "HIGH" ;
 	claimchain:requested_data _:c14n14 ;
 	claimchain:text "Compare DOS(E_F) per atom (or per equal cell)" .
-_:c14n21 a claimchain:Warrant ;
+_:c14n22 a claimchain:Warrant ;
 	claimchain:rule "A thermodynamically unstable but locally stable phase persists if the barrier to decomposition is large." ;
 	claimchain:support_strength "STRONG" ;
 	claimchain:warrant_basis "DOMAIN_CONVENTION" .
-_:c14n22 a mp:Support ;
-	claimchain:derived_checks _:c14n115 ;
+_:c14n23 a mp:Support ;
+	claimchain:derived_checks _:c14n121 ;
 	claimchain:description "KSDFT with quasi-harmonic free energies at 298 K; the decomposition is exoergic for both Mg3Al structures." ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:values _:c14n81 , _:c14n87 .
-_:c14n23 a claimchain:Warrant ;
+	claimchain:values _:c14n85 , _:c14n91 .
+_:c14n24 a claimchain:Warrant ;
 	claimchain:references "zhuang2017:ref46" ;
 	claimchain:rule "The absence of imaginary harmonic phonon modes indicates dynamical stability against the sampled perturbations." ;
 	claimchain:support_strength "STRONG" ;
 	claimchain:warrant_basis "CITATION" .
-_:c14n24 a claimchain:QuantitativeValue ;
+_:c14n25 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg, experiment" ;
 	claimchain:quantity "B/G" ;
 	claimchain:symbol "BG_exp" ;
 	claimchain:value "1.93"^^xsd:float .
-_:c14n25 a claimchain:QuantitativeValue ;
+_:c14n26 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "prismatic slip barrier" ;
 	claimchain:symbol "pr_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "162.0"^^xsd:float .
-_:c14n26 a mp:Support ;
-	claimchain:derived_checks _:c14n99 ;
+_:c14n27 a mp:Support ;
+	claimchain:derived_checks _:c14n104 ;
 	claimchain:description "Formation energies from WGC-OFDFT; WGC-OFDFT favours L1_2 by 1.9 meV/atom." ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
-	claimchain:values _:c14n113 , _:c14n7 , _:c14n83 .
-_:c14n27 a claimchain:QuantitativeValue ;
+	claimchain:values _:c14n119 , _:c14n7 , _:c14n87 .
+_:c14n28 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "twin energy" ;
 	claimchain:symbol "te_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "27.0"^^xsd:float .
-_:c14n28 a claimchain:RequestedData ;
+_:c14n29 a claimchain:RequestedData ;
 	claimchain:quantity "activation energy" ;
 	claimchain:unit "eV" .
-_:c14n29 a mp:Support ;
-	claimchain:derived_checks _:c14n122 ;
-	claimchain:description "The calculated Mg baseline agrees with experiment within 9 %." ;
-	claimchain:evidence_kind "CITATION" ;
-	claimchain:references "zhuang2017:ref49" ;
-	claimchain:values _:c14n118 , _:c14n24 .
 _:c14n3 a mp:Support ;
 	claimchain:description "Earlier Ni3Al results agree with the 196 mJ/m^2 reference." ;
 	claimchain:evidence_kind "CITATION" ;
 	claimchain:references "zhuang2017:ref53" , "zhuang2017:ref54" .
-_:c14n30 a claimchain:QuantitativeValue ;
+_:c14n30 a mp:Support ;
+	claimchain:derived_checks _:c14n129 ;
+	claimchain:description "The calculated Mg baseline agrees with experiment within 9 %." ;
+	claimchain:evidence_kind "CITATION" ;
+	claimchain:references "zhuang2017:ref49" ;
+	claimchain:values _:c14n125 , _:c14n25 .
+_:c14n31 a claimchain:QuantitativeValue ;
 	claimchain:quantity "cluster expansion clusters" ;
 	claimchain:symbol "n_clusters" ;
 	claimchain:value "55.0"^^xsd:float .
-_:c14n31 a claimchain:DerivedCheck ;
+_:c14n32 a claimchain:DerivedCheck ;
 	claimchain:expression "all four fault energies lower for D0_19" ;
 	claimchain:formula "usf_D < usf_M and sf_D < sf_M and ut_D < ut_M and te_D < te_M" ;
 	claimchain:satisfied true .
-_:c14n32 a mp:Support ;
-	claimchain:derived_checks _:c14n121 , _:c14n34 ;
+_:c14n33 a mp:Support ;
+	claimchain:derived_checks _:c14n128 , _:c14n35 ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
 	claimchain:locator "Table 1" ;
-	claimchain:values _:c14n47 , _:c14n72 , _:c14n79 .
-_:c14n33 a claimchain:DerivedCheck ;
+	claimchain:values _:c14n48 , _:c14n75 , _:c14n83 .
+_:c14n34 a claimchain:DerivedCheck ;
 	claimchain:expression "change of gamma_SF" ;
 	claimchain:formula "100*(sf_D - sf_M)/sf_M" ;
 	claimchain:result "-17.1"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n34 a claimchain:DerivedCheck ;
+_:c14n35 a claimchain:DerivedCheck ;
 	claimchain:expression "B/G increase of D0_19 over Mg" ;
 	claimchain:formula "100*(BG_D019 - BG_Mg)/BG_Mg" ;
 	claimchain:result "50.6"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n35 a claimchain:ProofObligation ;
+_:c14n36 a claimchain:ProofObligation ;
 	claimchain:obligation_status "OPEN" ;
 	claimchain:priority "HIGH" ;
-	claimchain:requested_data _:c14n109 , _:c14n40 ;
+	claimchain:requested_data _:c14n114 , _:c14n41 ;
 	claimchain:text "Show the descriptors translate into actual ductility" .
-_:c14n36 a claimchain:QuantitativeValue ;
+_:c14n37 a claimchain:QuantitativeValue ;
 	claimchain:quantity "bulk modulus" ;
 	claimchain:symbol "B" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "45.0"^^xsd:float .
-_:c14n37 a claimchain:QuantitativeValue ;
+_:c14n38 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "unstable twinning energy" ;
 	claimchain:symbol "ut_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "107.0"^^xsd:float .
-_:c14n38 a claimchain:QuantitativeValue ;
+_:c14n39 a claimchain:QuantitativeValue ;
 	claimchain:quantity "lattice parameter a" ;
 	claimchain:symbol "a" ;
 	claimchain:unit "Å" ;
 	claimchain:value "6.19"^^xsd:float .
-_:c14n39 a claimchain:QuantitativeValue ;
+_:c14n4 a claimchain:Assessment ;
+	claimchain:rationale "The search did single out D0_19 Mg3Al within its stated hcp constraint; the claim is about what the search found, not about global stability." ;
+	claimchain:validity "YES" .
+_:c14n40 a claimchain:QuantitativeValue ;
 	claimchain:condition "KSDFT-PBE" ;
 	claimchain:quantity "formation energy D0_3" ;
 	claimchain:symbol "Ef_D03" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "43.0"^^xsd:float .
-_:c14n4 a claimchain:Assessment ;
-	claimchain:rationale "The search did single out D0_19 Mg3Al within its stated hcp constraint; the claim is about what the search found, not about global stability." ;
-	claimchain:validity "YES" .
-_:c14n40 a claimchain:RequestedData ;
+_:c14n41 a claimchain:RequestedData ;
 	claimchain:method "atomistic simulation" ;
 	claimchain:quantity "dislocation-precipitate interaction" .
-_:c14n41 a mp:Support ;
-	claimchain:derived_checks _:c14n68 , _:c14n71 , _:c14n92 ;
+_:c14n42 a mp:Support ;
+	claimchain:derived_checks _:c14n71 , _:c14n74 , _:c14n97 ;
 	claimchain:description "KSDFT elastic constants of hexagonal D0_19 Mg3Al." ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
 	claimchain:locator "Table 1" ;
-	claimchain:values _:c14n111 , _:c14n120 , _:c14n123 , _:c14n133 , _:c14n36 , _:c14n38 , _:c14n44 , _:c14n52 , _:c14n89 .
-_:c14n42 a mp:Support ;
-	claimchain:derived_checks _:c14n134 , _:c14n64 ;
+	claimchain:values _:c14n116 , _:c14n127 , _:c14n130 , _:c14n140 , _:c14n37 , _:c14n39 , _:c14n45 , _:c14n54 , _:c14n94 .
+_:c14n43 a mp:Support ;
+	claimchain:derived_checks _:c14n141 , _:c14n66 ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
 	claimchain:locator "Fig. 6c" ;
-	claimchain:values _:c14n130 , _:c14n132 , _:c14n15 , _:c14n25 .
-_:c14n43 a claimchain:DerivedCheck ;
+	claimchain:values _:c14n137 , _:c14n139 , _:c14n15 , _:c14n26 .
+_:c14n44 a claimchain:DerivedCheck ;
 	claimchain:expression "DOS(E_F) increase of D0_19 over Mg" ;
 	claimchain:formula "100*(dos_D - dos_M)/dos_M" ;
 	claimchain:result "38.2"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n44 a claimchain:QuantitativeValue ;
+_:c14n45 a claimchain:QuantitativeValue ;
 	claimchain:quantity "C33" ;
 	claimchain:symbol "C33" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "73.0"^^xsd:float .
-_:c14n45 a claimchain:Warrant ;
+_:c14n46 a claimchain:Warrant ;
 	claimchain:rule "Greater metallicity leads to greater ductility." ;
 	claimchain:support_strength "WEAK" ;
 	claimchain:warrant_basis "AUTHOR_ARGUMENT" .
-_:c14n46 a claimchain:QuantitativeValue ;
+_:c14n47 a claimchain:QuantitativeValue ;
 	claimchain:quantity "predicted configurations" ;
 	claimchain:symbol "n_pred" ;
 	claimchain:value "5675.0"^^xsd:float .
-_:c14n47 a claimchain:QuantitativeValue ;
+_:c14n48 a claimchain:QuantitativeValue ;
 	claimchain:condition "L1_2 Mg3Al" ;
 	claimchain:quantity "B/G" ;
 	claimchain:symbol "BG_L12" ;
 	claimchain:value "1.96"^^xsd:float .
-_:c14n48 a claimchain:QuantitativeValue ;
-	claimchain:quantity "imaginary phonon modes" ;
-	claimchain:symbol "n_imag" ;
-	claimchain:value "0.0"^^xsd:float .
-_:c14n49 a claimchain:RequestedData ;
-	claimchain:quantity "activation free energy" ;
-	claimchain:unit "eV" .
+_:c14n49 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "Pugh ratio is an empirical proxy for ductility. Computed for the ideal crystal only, not tested mechanically." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "PARTLY" ;
+	claimchain:sufficiency "MET" .
 _:c14n5 a claimchain:QuantitativeValue ;
 	claimchain:condition "KSDFT-PBE" ;
 	claimchain:quantity "formation energy L1_2" ;
 	claimchain:symbol "Ef_L12" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "5.4"^^xsd:float .
-_:c14n50 a claimchain:Assessment ;
+_:c14n50 a claimchain:QuantitativeValue ;
+	claimchain:quantity "imaginary phonon modes" ;
+	claimchain:symbol "n_imag" ;
+	claimchain:value "0.0"^^xsd:float .
+_:c14n51 a claimchain:RequestedData ;
+	claimchain:quantity "activation free energy" ;
+	claimchain:unit "eV" .
+_:c14n52 a claimchain:Assessment ;
 	claimchain:rationale "Direct comparison of computed values (recomputed)." ;
 	claimchain:validity "YES" .
-_:c14n51 a claimchain:QuantitativeValue ;
+_:c14n53 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "DOS(E_F)" ;
 	claimchain:symbol "dos_M" ;
 	claimchain:unit "states/eV/cell" ;
 	claimchain:value "2.88"^^xsd:float .
-_:c14n52 a claimchain:QuantitativeValue ;
+_:c14n54 a claimchain:QuantitativeValue ;
 	claimchain:quantity "C13" ;
 	claimchain:symbol "C13" ;
 	claimchain:unit "GPa" ;
 	claimchain:value "30.0"^^xsd:float .
-_:c14n53 a claimchain:QuantitativeValue ;
+_:c14n55 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "APB energy" ;
 	claimchain:symbol "apb_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "27.0"^^xsd:float .
-_:c14n54 a claimchain:DerivedCheck ;
+_:c14n56 a claimchain:DerivedCheck ;
 	claimchain:expression "change of gamma_UT" ;
 	claimchain:formula "100*(ut_D - ut_M)/ut_M" ;
 	claimchain:result "-5.3"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n55 a claimchain:QuantitativeValue ;
+_:c14n57 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "DOS(E_F)" ;
 	claimchain:symbol "dos_D" ;
 	claimchain:unit "states/eV/cell" ;
 	claimchain:value "3.98"^^xsd:float .
-_:c14n56 a mp:Support ;
+_:c14n58 a mp:Support ;
 	claimchain:description "Earlier KSDFT Mg fault energies agree with the Mg baseline of this paper." ;
 	claimchain:evidence_kind "CITATION" ;
 	claimchain:references "zhuang2017:ref50" , "zhuang2017:ref51" .
-_:c14n57 a claimchain:Concern ;
+_:c14n59 a claimchain:Concern ;
 	claimchain:concern_type "MISSING_QUANTIFICATION" ;
 	claimchain:description "The transition temperatures come from a cluster expansion trained on OFDFT energies and inherit its errors; no uncertainty is given (Jan)." .
-_:c14n58 a claimchain:QuantitativeValue ;
-	claimchain:quantity "order-disorder temperature D0_19" ;
-	claimchain:symbol "T_D019" ;
-	claimchain:unit "K" ;
-	claimchain:value "460.0"^^xsd:float .
-_:c14n59 a claimchain:Warrant ;
-	claimchain:references "zhuang2017:ref55" ;
-	claimchain:rule "A higher density of states at the Fermi level means greater metallicity." ;
-	claimchain:support_strength "INTERMEDIATE" ;
-	claimchain:warrant_basis "CITATION" .
 _:c14n6 a claimchain:DerivedCheck ;
 	claimchain:expression "E_f(D0_19) - E_f(L1_2)" ;
 	claimchain:formula "Ef_D019 - Ef_L12" ;
 	claimchain:result "7.5"^^xsd:float ;
 	claimchain:unit "meV/atom" .
 _:c14n60 a claimchain:QuantitativeValue ;
+	claimchain:quantity "order-disorder temperature D0_19" ;
+	claimchain:symbol "T_D019" ;
+	claimchain:unit "K" ;
+	claimchain:value "460.0"^^xsd:float .
+_:c14n61 a claimchain:Warrant ;
+	claimchain:references "zhuang2017:ref55" ;
+	claimchain:rule "A higher density of states at the Fermi level means greater metallicity." ;
+	claimchain:support_strength "INTERMEDIATE" ;
+	claimchain:warrant_basis "CITATION" .
+_:c14n62 a claimchain:QuantitativeValue ;
 	claimchain:condition "WT-OFDFT" ;
 	claimchain:quantity "formation energy L1_2" ;
 	claimchain:symbol "Ef_L12" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "-31.4"^^xsd:float .
-_:c14n61 a claimchain:Assessment ;
+_:c14n63 a claimchain:Assessment ;
 	claimchain:missing_evidence "Transformation pathway and activation (free) energy from D0_19 Mg3Al toward Mg17Al12 + Mg" ;
 	claimchain:proof_obligations _:c14n16 ;
 	claimchain:rationale "Plausible, but the paper gives no transformation path or barrier, so its own data do not decide it." ;
 	claimchain:validity "INCONCLUSIVE" .
-_:c14n62 a claimchain:QuantitativeValue ;
+_:c14n64 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "twin energy" ;
 	claimchain:symbol "te_M" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "46.0"^^xsd:float .
-_:c14n63 a claimchain:Assessment ;
+_:c14n65 a claimchain:Assessment ;
 	claimchain:rationale "All four fault energies are lower (recomputed); the Mg baseline is validated against the literature." ;
 	claimchain:validity "YES" .
-_:c14n64 a claimchain:DerivedCheck ;
+_:c14n66 a claimchain:DerivedCheck ;
 	claimchain:expression "reduction of the anisotropy ratio" ;
 	claimchain:formula "100*(an_M - an_D)/an_M" ;
 	claimchain:result "11.5"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n65 a claimchain:QuantitativeValue ;
+_:c14n67 a claimchain:QuantitativeValue ;
 	claimchain:condition "L1_2 Mg3Al" ;
 	claimchain:quantity "DOS(E_F)" ;
 	claimchain:symbol "dos_L" ;
 	claimchain:unit "states/eV/cell" ;
 	claimchain:value "3.09"^^xsd:float .
-_:c14n66 a claimchain:DerivedCheck ;
+_:c14n68 a claimchain:DerivedCheck ;
 	claimchain:expression "APB(D0_19 Mg3Al) / APB(Ni3Al)" ;
 	claimchain:formula "apb_D/apb_Ni" ;
 	claimchain:result "0.138"^^xsd:float .
-_:c14n67 a claimchain:Concern ;
+_:c14n69 a claimchain:Concern ;
 	claimchain:concern_type "OVERCLAIM" ;
 	claimchain:description "Ductility is inferred from intrinsic descriptors (B/G, fault energies, APB energy); macroscopic ductility is neither calculated nor measured." .
-_:c14n68 a claimchain:DerivedCheck ;
-	claimchain:expression "Born criterion 2: 2 C13^2 < C33 (C11 + C12)" ;
-	claimchain:formula "2*C13**2 < C33*(C11 + C12)" ;
-	claimchain:note "1800 < 7738 GPa^2" ;
-	claimchain:satisfied true .
-_:c14n69 a claimchain:Assessment ;
-	claimchain:rationale "Rests on C3.1, which is itself unresolved, and on an unsupported link from metallicity to ductility." ;
-	claimchain:validity "INCONCLUSIVE" .
 _:c14n7 a claimchain:QuantitativeValue ;
 	claimchain:condition "WGC-OFDFT" ;
 	claimchain:quantity "formation energy L1_2" ;
 	claimchain:symbol "Ef_L12" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "0.9"^^xsd:float .
-_:c14n70 a claimchain:QuantitativeValue ;
+_:c14n70 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "Fault energies are proxies for the ease of slip and twinning. Computed for the ideal crystal only, not tested mechanically." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "PARTLY" ;
+	claimchain:sufficiency "MET" .
+_:c14n71 a claimchain:DerivedCheck ;
+	claimchain:expression "Born criterion 2: 2 C13^2 < C33 (C11 + C12)" ;
+	claimchain:formula "2*C13**2 < C33*(C11 + C12)" ;
+	claimchain:note "1800 < 7738 GPa^2" ;
+	claimchain:satisfied true .
+_:c14n72 a claimchain:Assessment ;
+	claimchain:rationale "Rests on C3.1, which is itself unresolved, and on an unsupported link from metallicity to ductility." ;
+	claimchain:validity "INCONCLUSIVE" .
+_:c14n73 a claimchain:QuantitativeValue ;
 	claimchain:condition "L1_2 Mg3Al" ;
 	claimchain:quantity "APB energy" ;
 	claimchain:symbol "apb_L" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "14.0"^^xsd:float .
-_:c14n71 a claimchain:DerivedCheck ;
+_:c14n74 a claimchain:DerivedCheck ;
 	claimchain:expression "Born criterion 3: C44 > 0" ;
 	claimchain:formula "C44 > 0" ;
 	claimchain:satisfied true .
-_:c14n72 a claimchain:QuantitativeValue ;
+_:c14n75 a claimchain:QuantitativeValue ;
 	claimchain:condition "hcp Mg" ;
 	claimchain:quantity "B/G" ;
 	claimchain:symbol "BG_Mg" ;
 	claimchain:value "1.76"^^xsd:float .
-_:c14n73 a claimchain:QuantitativeValue ;
+_:c14n76 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "unstable stacking fault energy" ;
 	claimchain:symbol "usf_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "84.0"^^xsd:float .
-_:c14n74 a claimchain:QuantitativeValue ;
+_:c14n77 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "APB energies are low against hcp Mg, but D0_19 is higher than L1_2. Computed for the ideal crystal only, not tested mechanically." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "PARTLY" ;
+	claimchain:sufficiency "MET" .
+_:c14n78 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "stable stacking fault energy" ;
 	claimchain:symbol "sf_D" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "29.0"^^xsd:float .
-_:c14n75 a claimchain:Warrant ;
+_:c14n79 a claimchain:Warrant ;
 	claimchain:rule "Lower unstable stacking and twinning fault energies mean lower energy barriers for the corresponding deformation mechanisms." ;
 	claimchain:support_strength "INTERMEDIATE" ;
 	claimchain:warrant_basis "DOMAIN_CONVENTION" .
-_:c14n76 a claimchain:DerivedCheck ;
+_:c14n8 a claimchain:Concern ;
+	claimchain:concern_type "CONFOUNDED_COMPARISON" ;
+	claimchain:description "The D0_19 vs L1_2 ordering changes sign with the electronic-structure method; differences of a few meV/atom are not a robust phase ordering (Jan)." .
+_:c14n80 a claimchain:DerivedCheck ;
 	claimchain:expression "change of gamma_USF" ;
 	claimchain:formula "100*(usf_D - usf_M)/usf_M" ;
 	claimchain:result "-9.7"^^xsd:float ;
 	claimchain:unit "%" .
-_:c14n77 a mp:Support ;
+_:c14n81 a mp:Support ;
 	claimchain:description "KSDFT phonon dispersion shows no imaginary modes." ;
 	claimchain:evidence_kind "DATA_QUALITATIVE" ;
 	claimchain:locator "Fig. 3" ;
-	claimchain:values _:c14n48 .
-_:c14n78 a claimchain:QuantitativeValue ;
+	claimchain:values _:c14n50 .
+_:c14n82 a claimchain:QuantitativeValue ;
 	claimchain:condition "L1_2 Ni3Al (reference)" ;
 	claimchain:quantity "APB energy" ;
 	claimchain:symbol "apb_Ni" ;
 	claimchain:unit "mJ/m^2" ;
 	claimchain:value "196.0"^^xsd:float .
-_:c14n79 a claimchain:QuantitativeValue ;
+_:c14n83 a claimchain:QuantitativeValue ;
 	claimchain:condition "D0_19 Mg3Al" ;
 	claimchain:quantity "B/G" ;
 	claimchain:symbol "BG_D019" ;
 	claimchain:value "2.65"^^xsd:float .
-_:c14n8 a claimchain:Concern ;
-	claimchain:concern_type "CONFOUNDED_COMPARISON" ;
-	claimchain:description "The D0_19 vs L1_2 ordering changes sign with the electronic-structure method; differences of a few meV/atom are not a robust phase ordering (Jan)." .
-_:c14n80 a claimchain:QuantitativeValue ;
+_:c14n84 a claimchain:QuantitativeValue ;
 	claimchain:condition "KSDFT-PBE" ;
 	claimchain:quantity "formation energy D0_19" ;
 	claimchain:symbol "Ef_D019" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "3.9"^^xsd:float .
-_:c14n81 a claimchain:QuantitativeValue ;
+_:c14n85 a claimchain:QuantitativeValue ;
 	claimchain:condition "298 K" ;
 	claimchain:quantity "reaction free energy from L1_2" ;
 	claimchain:symbol "dG_L12" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "-18.7"^^xsd:float .
-_:c14n82 a claimchain:QuantitativeValue ;
+_:c14n86 a claimchain:QuantitativeValue ;
 	claimchain:condition "WT-OFDFT" ;
 	claimchain:quantity "formation energy D0_3" ;
 	claimchain:symbol "Ef_D03" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "16.2"^^xsd:float .
-_:c14n83 a claimchain:QuantitativeValue ;
+_:c14n87 a claimchain:QuantitativeValue ;
 	claimchain:condition "WGC-OFDFT" ;
 	claimchain:quantity "formation energy D0_3" ;
 	claimchain:symbol "Ef_D03" ;
 	claimchain:unit "meV/atom" ;
 	claimchain:value "22.7"^^xsd:float .
-_:c14n84 a claimchain:ProofObligation ;
+_:c14n88 a claimchain:ProofObligation ;
 	claimchain:obligation_status "OPEN" ;
 	claimchain:priority "CRITICAL" ;
 	claimchain:text "Show it persists against decomposition into Mg17Al12 + Mg" .
-_:c14n85 a mp:Support ;
-	claimchain:derived_checks _:c14n124 , _:c14n43 ;
+_:c14n89 a mp:Support ;
+	claimchain:derived_checks _:c14n131 , _:c14n44 ;
 	claimchain:evidence_kind "DATA_QUANTITATIVE" ;
 	claimchain:locator "Fig. 7" ;
-	claimchain:values _:c14n51 , _:c14n55 , _:c14n65 .
-_:c14n86 a mp:Support ;
-	claimchain:description "Qualitative structural argument; no barrier is computed." ;
-	claimchain:evidence_kind "ARGUMENT" .
-_:c14n87 a claimchain:QuantitativeValue ;
-	claimchain:condition "298 K" ;
-	claimchain:quantity "reaction free energy from D0_19" ;
-	claimchain:symbol "dG_D019" ;
-	claimchain:unit "meV/atom" ;
-	claimchain:value "-17.9"^^xsd:float .
-_:c14n88 a claimchain:QuantitativeValue ;
-	claimchain:condition "hcp Mg" ;
-	claimchain:quantity "unstable stacking fault energy" ;
-	claimchain:symbol "usf_M" ;
-	claimchain:unit "mJ/m^2" ;
-	claimchain:value "93.0"^^xsd:float .
-_:c14n89 a claimchain:QuantitativeValue ;
-	claimchain:quantity "C44" ;
-	claimchain:symbol "C44" ;
-	claimchain:unit "GPa" ;
-	claimchain:value "13.0"^^xsd:float .
+	claimchain:values _:c14n53 , _:c14n57 , _:c14n67 .
 _:c14n9 a claimchain:DerivedCheck ;
 	claimchain:expression "T(D0_19) - T(L1_2)" ;
 	claimchain:formula "T_D019 - T_L12" ;
 	claimchain:result "140.0"^^xsd:float ;
 	claimchain:unit "K" .
-_:c14n90 a claimchain:Assessment ;
-	claimchain:proof_obligations _:c14n20 ;
+_:c14n90 a mp:Support ;
+	claimchain:description "Qualitative structural argument; no barrier is computed." ;
+	claimchain:evidence_kind "ARGUMENT" .
+_:c14n91 a claimchain:QuantitativeValue ;
+	claimchain:condition "298 K" ;
+	claimchain:quantity "reaction free energy from D0_19" ;
+	claimchain:symbol "dG_D019" ;
+	claimchain:unit "meV/atom" ;
+	claimchain:value "-17.9"^^xsd:float .
+_:c14n92 a claimchain:LinkCriteria ;
+	claimchain:alternatives "NOT_APPLICABLE" ;
+	claimchain:controls "MET" ;
+	claimchain:criteria_note "A low formation energy relative to other Mg3Al structures is a proxy for metastability, not a test of it." ;
+	claimchain:directness "PARTLY" ;
+	claimchain:scope_match "MET" ;
+	claimchain:sufficiency "MET" .
+_:c14n93 a claimchain:QuantitativeValue ;
+	claimchain:condition "hcp Mg" ;
+	claimchain:quantity "unstable stacking fault energy" ;
+	claimchain:symbol "usf_M" ;
+	claimchain:unit "mJ/m^2" ;
+	claimchain:value "93.0"^^xsd:float .
+_:c14n94 a claimchain:QuantitativeValue ;
+	claimchain:quantity "C44" ;
+	claimchain:symbol "C44" ;
+	claimchain:unit "GPa" ;
+	claimchain:value "13.0"^^xsd:float .
+_:c14n95 a claimchain:Assessment ;
+	claimchain:proof_obligations _:c14n21 ;
 	claimchain:rationale "The comparison holds only if the DOS values refer to equal cells or are normalised; the encoding does not say which." ;
 	claimchain:validity "INCONCLUSIVE" .
-_:c14n91 a claimchain:Warrant ;
+_:c14n96 a claimchain:Warrant ;
 	claimchain:references "zhuang2017:ref47" ;
 	claimchain:rule "Satisfying the Born elastic stability criteria for the crystal system implies mechanical stability against infinitesimal homogeneous strain." ;
 	claimchain:support_strength "STRONG" ;
 	claimchain:warrant_basis "CITATION" .
-_:c14n92 a claimchain:DerivedCheck ;
+_:c14n97 a claimchain:DerivedCheck ;
 	claimchain:expression "Born criterion 1: C11 > |C12|" ;
 	claimchain:formula "C11 > abs(C12)" ;
 	claimchain:satisfied true .
-_:c14n93 a claimchain:Warrant ;
+_:c14n98 a claimchain:Warrant ;
 	claimchain:references "zhuang2017:ref52" ;
 	claimchain:rule "Low APB energies mean less extra resistance to partial-dislocation motion through an ordered phase." ;
 	claimchain:support_strength "INTERMEDIATE" ;
 	claimchain:warrant_basis "CITATION" .
-_:c14n94 a claimchain:PaperAssessment ;
+_:c14n99 a claimchain:PaperAssessment ;
 	claimchain:key_limitations "D0_19 vs L1_2 energetics depend on the electronic-structure method." , "DOS(E_F) compared per cell across cells of different size (to be checked)." , "Ductility only from intrinsic descriptors and empirical rules (Pugh)." , "No decomposition barrier, so practical metastability is unshown." ;
 	claimchain:missing_evidence "Dislocation-level or mechanical-test evidence of ductility" , "Per-atom DOS(E_F)" , "Transformation path and barrier toward Mg17Al12 + Mg" ;
 	claimchain:overall_validity "PARTIAL" ;
 	claimchain:score_method "see scripts/render.py" ;
 	claimchain:summary "The computational core is sound and checkable: local dynamical and mechanical stability and the favourable ductility descriptors versus hcp Mg follow from the paper's own numbers, and every reported derived value recomputes. Both main conclusions go one step further than the data. Metastability needs a kinetic barrier that is only speculated (H1), and ductility is inferred from proxies, with the D0_19 > L1_2 ordering undercut by the APB energies. The electronic explanation (C3) depends on a DOS comparison that may not be normalised." .
-_:c14n95 a claimchain:ProofObligation ;
-	claimchain:discharged_by zhuang2017:C1.3 ;
-	claimchain:obligation_status "DISCHARGED" ;
-	claimchain:text "Show mechanical stability" .
-_:c14n96 a claimchain:RequestedData ;
-	claimchain:method "e.g. NEB or atomistic transformation simulation" ;
-	claimchain:quantity "transformation pathway" .
-_:c14n97 a claimchain:Assessment ;
-	claimchain:missing_evidence "Uncertainty of the transition temperatures, or a KSDFT-trained cross-check" ;
-	claimchain:rationale "The 140 K difference is large compared with typical cluster-expansion errors, so the ordering of the two is plausible, but the absolute temperatures are not validated." ;
-	claimchain:validity "PARTIAL" .
-_:c14n98 a claimchain:Assessment ;
-	claimchain:rationale "All three hexagonal Born criteria hold for the reported elastic constants (recomputed)." ;
-	claimchain:validity "YES" .
-_:c14n99 a claimchain:DerivedCheck ;
-	claimchain:expression "E_f(D0_19) - E_f(L1_2)" ;
-	claimchain:formula "Ef_D019 - Ef_L12" ;
-	claimchain:result "1.9"^^xsd:float ;
-	claimchain:unit "meV/atom" .

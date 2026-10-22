@@ -1,0 +1,40 @@
+flowchart TB
+  P["`**The paper sets out to show**
+VAE latent representations of Kikuchi patterns satisfy the criteria for a generalized materials gene, which extends the materials genome to heterogeneous crystalline materials, and they …`"]:::idea
+  C0("`**CLAIM3**
+PCA-based latent component maps are an analog of orientation maps that reveal finer microstructural heterogeneity than …`"):::claim
+  V0["`**Partly true**
+Agreement with IPF maps is shown visually; 'finer heterogeneity' is interpreted as likely physics without an independent check.`"]:::partly
+  P --> C0
+  C0 --> V0
+  V0 --> BL
+  C1("`**CLAIM4**
+Segmentation by latent angle and distance thresholds produces domain maps consistent with misorientation grain maps while …`"):::claim
+  V1["`**Partly true**
+Boundary agreement is shown visually and counts are given; 'more sensitive' is not distinguished from artifacts or pattern overlap (LIM4), …`"]:::partly
+  P --> C1
+  C1 --> V1
+  V1 --> BL
+  C2("`**CLAIM6**
+KLVS reproduces KAM trends with better contrast for real features and fewer artifacts, because it operates …`"):::claim
+  V2["`**Partly true**
+Trend agreement with KAM is visible; better contrast and fewer artifacts are judged by eye, and the mechanism is argued, …`"]:::partly
+  P --> C2
+  C2 --> V2
+  V2 --> BL
+  C3("`**CLAIM9**
+Lattice-genome analysis needs no pattern indexing and is therefore applicable to patterns that are hard to …`"):::claim
+  V3["`**Not supported**
+Plausible from the method, but no hard-to-index or multiphase data is analysed.`"]:::no
+  P --> C3
+  C3 --> V3
+  V3 --> BL
+  BL["`**Bottom line**
+Overall: Partly true. Clear concept and well-described tools that reproduce conventional EBSD trends on three FCC Ni-base maps.`"]:::bottom
+  classDef idea fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+  classDef claim fill:#ffffff,stroke:#616161,color:#000
+  classDef yes fill:#c8e6c9,stroke:#2e7d32,color:#000
+  classDef partly fill:#fff9c4,stroke:#f9a825,color:#000
+  classDef weak fill:#ffe0b2,stroke:#ef6c00,color:#000
+  classDef no fill:#ffcdd2,stroke:#c62828,color:#000
+  classDef bottom fill:#f5f5f5,stroke:#212121,stroke-width:2px,color:#000

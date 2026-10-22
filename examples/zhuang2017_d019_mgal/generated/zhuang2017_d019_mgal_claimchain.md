@@ -1,8 +1,8 @@
 # Argument chain: Prediction and characterization of an Mg-Al intermetallic compound with potentially improved ductility via orbital-free and Kohn-Sham density functional theory
 
-Houlong L. Zhuang, Mohan Chen, Emily A. Carter (2017), doi:10.1088/1361-651X/aa7e0c. Generated from the claim-chain YAML (schema 0.4.0); do not edit by hand.
+Houlong L. Zhuang, Mohan Chen, Emily A. Carter (2017), doi:10.1088/1361-651X/aa7e0c. Generated from the claim-chain YAML (schema 0.5.0); do not edit by hand.
 
-**Logic score: 0.75** (9 YES, 3 PARTIAL, 3 INCONCLUSIVE, 0 NO), weighted by claim role: 0.68. Method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, INCONCLUSIVE=0.25, NO=0 (draft weighting).
+**Logic score: 0.75** (9 YES, 3 PARTIAL, 0 WEAK, 3 INCONCLUSIVE, 0 NO), weighted by claim role: 0.68. Method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, WEAK=0.375, INCONCLUSIVE=0.25, NO=0 (draft weighting).
 
 ## Motivation
 

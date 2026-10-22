@@ -5,28 +5,42 @@ Houlong L. Zhuang, Mohan Chen, Emily A. Carter (2017), doi:10.1088/1361-651X/aa7
 ## 1. Logic
 
 **Overall: ◐ PARTIAL** · **Logic score: 0.75** · weighted: 0.68 · proof obligations discharged: 0.50 (of 8)  
-Score method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, INCONCLUSIVE=0.25, NO=0 (draft weighting). Weighted: as the logic score, but MAIN_CONCLUSION weighs 3, COUNTER_CLAIM 0 and every other claim or hypothesis 1 (draft weighting).  
-Verdicts: 9 YES, 3 PARTIAL, 3 INCONCLUSIVE, 0 NO.
+Score method: mean over CLAIM and HYPOTHESIS statements of YES=1, PARTIAL=0.5, WEAK=0.375, INCONCLUSIVE=0.25, NO=0 (draft weighting). Weighted: as the logic score, but MAIN_CONCLUSION weighs 3, COUNTER_CLAIM 0 and every other claim or hypothesis 1 (draft weighting).  
+Verdicts: 9 YES, 3 PARTIAL, 0 WEAK, 3 INCONCLUSIVE, 0 NO.
 
 The computational core is sound and checkable: local dynamical and mechanical stability and the favourable ductility descriptors versus hcp Mg follow from the paper's own numbers, and every reported derived value recomputes. Both main conclusions go one step further than the data. Metastability needs a kinetic barrier that is only speculated (H1), and ductility is inferred from proxies, with the D0_19 > L1_2 ordering undercut by the APB energies. The electronic explanation (C3) depends on a DOS comparison that may not be normalised.
 
-| Statement | Role | Modality | Authors say | Verdict | Rationale |
-|---|---|---|---|---|---|
-| **C5** An hcp-constrained structure search identifies D0_19 Mg3Al as a promising low-energy Mg-rich ordering. | methodological | descriptive | demonstrated | ✓ YES | The search did single out D0_19 Mg3Al within its stated hcp constraint; the claim is about what the search found, not about global stability. |
-| **C1.1** D0_19 Mg3Al is energetically competitive with alternative Mg3Al structures. | intermediate | comparative | predicted | ✓ YES | All three methods put D0_19 within 7.5 meV/atom of L1_2 and well below D0_3, which is what "competitive" claims; the claim does not assert an ordering. |
-| **C1.2** D0_19 Mg3Al is dynamically stable (within the harmonic approximation). | intermediate | descriptive | demonstrated | ✓ YES | Standard criterion, applied directly to the paper's own phonon calculation. |
-| **C1.3** D0_19 Mg3Al is mechanically stable. | intermediate | descriptive | demonstrated | ✓ YES | All three hexagonal Born criteria hold for the reported elastic constants (recomputed). |
-| **C1.4** D0_19 Mg3Al is thermodynamically unstable against decomposition into Mg17Al12 and hcp Mg (12 Mg3Al -> Mg17Al12 + 19 Mg). | counter claim | descriptive | predicted | ✓ YES | Direct consequence of the computed reaction free energy. |
-| **H1** A sufficiently large kinetic barrier may prevent D0_19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure. | intermediate | causal | speculative | ? INCONCLUSIVE | Plausible, but the paper gives no transformation path or barrier, so its own data do not decide it. |
-| **C1** D0_19 Mg3Al is at least metastable. | main conclusion | descriptive | predicted | ◐ PARTIAL | Local mechanical and dynamical stability are shown, and the structure is energetically competitive. The paper's own C1.4 shows it is not thermodynamically stable, so metastability in a practical sense rests on the untested kinetic barrier H1. |
-| **C4** D0_19 Mg3Al stays chemically ordered to a higher temperature than L1_2 Mg3Al. | intermediate | comparative | predicted | ◐ PARTIAL | The 140 K difference is large compared with typical cluster-expansion errors, so the ordering of the two is plausible, but the absolute temperatures are not validated. |
-| **C2.1** D0_19 Mg3Al has a substantially larger Pugh ratio B/G than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | Direct comparison of computed values (recomputed), with a validated Mg baseline. |
-| **C2.2** D0_19 Mg3Al has lower barriers for basal stacking-fault and twinning processes than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | All four fault energies are lower (recomputed); the Mg baseline is validated against the literature. |
-| **C2.3** D0_19 Mg3Al has a lower prismatic slip barrier and lower slip anisotropy than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | Direct comparison of computed values (recomputed). |
-| **C2.4** D0_19 Mg3Al has a low anti-phase boundary energy compared with a conventional ordered intermetallic (Ni3Al). | quantitative support | comparative | demonstrated | ✓ YES | Low relative to Ni3Al, as claimed (recomputed). |
-| **C3.1** D0_19 Mg3Al is more metallic than L1_2 Mg3Al and hcp Mg, judged by its density of states at the Fermi level. | intermediate | comparative | demonstrated | ? INCONCLUSIVE | The comparison holds only if the DOS values refer to equal cells or are normalised; the encoding does not say which. |
-| **C3** The predicted enhanced ductility of D0_19 Mg3Al is partly due to its enhanced metallicity. | mechanistic interpretation | causal | proposed | ? INCONCLUSIVE | Rests on C3.1, which is itself unresolved, and on an unsupported link from metallicity to ductility. |
-| **C2** D0_19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the ordering D0_19 Mg3Al > L1_2 Mg3Al > Mg). | main conclusion | comparative | predicted | ◐ PARTIAL | Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0_19 > L1_2 part of the ordering is contradicted by the APB energies. |
+**Score from derived verdicts: 0.72**, 2 claim(s) where the derived verdict differs from the annotator's. Method: verdicts derived from the links: an incoming CONTRADICTS gives NO; otherwise the strongest support link decides (STRONG YES, INTERMEDIATE PARTIAL, WEAK WEAK, none INCONCLUSIVE); UNDERCUTS, QUALIFIES or an alternative explanation caps at PARTIAL; CONDITIONALLY_SUPPORTS counts as WEAK at most; an essential link caps the claim at its own strength and at the derived verdict of the claim it comes from. Links without a strength count as INTERMEDIATE. Claims without links keep the annotator's verdict.  
+
+| Statement | Role | Modality | Authors say | Verdict | Derived | Rationale |
+|---|---|---|---|---|---|---|
+| **C5** An hcp-constrained structure search identifies D0_19 Mg3Al as a promising low-energy Mg-rich ordering. | methodological | descriptive | demonstrated | ✓ YES | **◐ PARTIAL** | The search did single out D0_19 Mg3Al within its stated hcp constraint; the claim is about what the search found, not about global stability. |
+| **C1.1** D0_19 Mg3Al is energetically competitive with alternative Mg3Al structures. | intermediate | comparative | predicted | ✓ YES | - | All three methods put D0_19 within 7.5 meV/atom of L1_2 and well below D0_3, which is what "competitive" claims; the claim does not assert an ordering. |
+| **C1.2** D0_19 Mg3Al is dynamically stable (within the harmonic approximation). | intermediate | descriptive | demonstrated | ✓ YES | - | Standard criterion, applied directly to the paper's own phonon calculation. |
+| **C1.3** D0_19 Mg3Al is mechanically stable. | intermediate | descriptive | demonstrated | ✓ YES | - | All three hexagonal Born criteria hold for the reported elastic constants (recomputed). |
+| **C1.4** D0_19 Mg3Al is thermodynamically unstable against decomposition into Mg17Al12 and hcp Mg (12 Mg3Al -> Mg17Al12 + 19 Mg). | counter claim | descriptive | predicted | ✓ YES | - | Direct consequence of the computed reaction free energy. |
+| **H1** A sufficiently large kinetic barrier may prevent D0_19 Mg3Al from transforming into Mg17Al12 + Mg, because Mg17Al12 differs strongly in crystal structure. | intermediate | causal | speculative | ? INCONCLUSIVE | - | Plausible, but the paper gives no transformation path or barrier, so its own data do not decide it. |
+| **C1** D0_19 Mg3Al is at least metastable. | main conclusion | descriptive | predicted | ◐ PARTIAL | same | Local mechanical and dynamical stability are shown, and the structure is energetically competitive. The paper's own C1.4 shows it is not thermodynamically stable, so metastability in a practical sense rests on the untested kinetic barrier H1. |
+| **C4** D0_19 Mg3Al stays chemically ordered to a higher temperature than L1_2 Mg3Al. | intermediate | comparative | predicted | ◐ PARTIAL | - | The 140 K difference is large compared with typical cluster-expansion errors, so the ordering of the two is plausible, but the absolute temperatures are not validated. |
+| **C2.1** D0_19 Mg3Al has a substantially larger Pugh ratio B/G than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | - | Direct comparison of computed values (recomputed), with a validated Mg baseline. |
+| **C2.2** D0_19 Mg3Al has lower barriers for basal stacking-fault and twinning processes than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | - | All four fault energies are lower (recomputed); the Mg baseline is validated against the literature. |
+| **C2.3** D0_19 Mg3Al has a lower prismatic slip barrier and lower slip anisotropy than hcp Mg. | quantitative support | comparative | demonstrated | ✓ YES | - | Direct comparison of computed values (recomputed). |
+| **C2.4** D0_19 Mg3Al has a low anti-phase boundary energy compared with a conventional ordered intermetallic (Ni3Al). | quantitative support | comparative | demonstrated | ✓ YES | - | Low relative to Ni3Al, as claimed (recomputed). |
+| **C3.1** D0_19 Mg3Al is more metallic than L1_2 Mg3Al and hcp Mg, judged by its density of states at the Fermi level. | intermediate | comparative | demonstrated | ? INCONCLUSIVE | - | The comparison holds only if the DOS values refer to equal cells or are normalised; the encoding does not say which. |
+| **C3** The predicted enhanced ductility of D0_19 Mg3Al is partly due to its enhanced metallicity. | mechanistic interpretation | causal | proposed | ? INCONCLUSIVE | **◔ WEAK** | Rests on C3.1, which is itself unresolved, and on an unsupported link from metallicity to ductility. |
+| **C2** D0_19 Mg3Al is predicted to be more ductile than hcp Mg (the authors predict the ordering D0_19 Mg3Al > L1_2 Mg3Al > Mg). | main conclusion | comparative | predicted | ◐ PARTIAL | same | Four independent descriptors point the same way against hcp Mg, but each is a proxy, and the D0_19 > L1_2 part of the ordering is contradicted by the APB energies. |
+
+**Support links tested on the five criteria** (directness, sufficiency, controls, alternatives, scope match; ✓ met, ◐ partly, ✗ not met, – not applicable):
+
+| Link | Criteria | Strength | Note |
+|---|---|---|---|
+| C1.1 → C1 | ◐✓✓–✓ | intermediate | A low formation energy relative to other Mg3Al structures is a proxy for metastability, not a test of it. |
+| C1.2 → C1 (essential) | ✓✓––✓ | strong | Phonon spectrum without imaginary modes is the standard test of dynamical stability. |
+| C1.3 → C1 (essential) | ✓✓––✓ | strong | Born criteria recompute from the reported elastic constants. |
+| C2.1 → C2 | ◐✓✓–◐ | intermediate | Pugh ratio is an empirical proxy for ductility. Computed for the ideal crystal only, not tested mechanically. |
+| C2.2 → C2 | ◐✓✓–◐ | intermediate | Fault energies are proxies for the ease of slip and twinning. Computed for the ideal crystal only, not tested mechanically. |
+| C2.3 → C2 | ◐✓✓–◐ | intermediate | Slip anisotropy is an argued, not measured, link to ductility. Computed for the ideal crystal only, not tested mechanically. |
+| C2.4 → C2 | ◐✓✓–◐ | intermediate | APB energies are low against hcp Mg, but D0_19 is higher than L1_2. Computed for the ideal crystal only, not tested mechanically. |
 
 **Recomputed checks:**
 

@@ -1,0 +1,10 @@
+# conda env create -f environment.yml && conda activate claim-chain
+name: claim-chain
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - pip:
+      - -e ".[test]"   # claimchain (anthropic, linkml, pyyaml) + pytest
+      - pypdf          # for the skill's extract_pdf_text.py
