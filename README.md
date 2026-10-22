@@ -31,6 +31,25 @@ Every result comes in a machine-readable form (YAML, plus JSON Schema and RDF ex
 - **References are not looked up.** We assume every cited reference is cited for the right reasons and provides the evidence it is cited for. A statement backed by a citation therefore counts as supported, and only the **internal logic** of the paper is evaluated. `cited_works` records what each reference is assumed to provide.
 - **Background knowledge is allowed but labelled.** Links that need knowledge from outside the paper (from a human or an LLM) are marked `ANNOTATOR_BACKGROUND`, so they stay separate from what the paper itself argues.
 
+## Documentation
+
+The website (a Jupyter Book in `docs/`) shows the tool at work on executable examples. It is published to GitHub Pages on every push to `main`:
+
+- **Live site:** <https://lab-mids.github.io/claim-chain/>
+- [Getting started](https://lab-mids.github.io/claim-chain/00-getting-started.html)
+- [Peer review with SciLogic](https://lab-mids.github.io/claim-chain/01-peer-review.html)
+- [Finding research opportunities](https://lab-mids.github.io/claim-chain/02-research-opportunities.html)
+
+To build it locally:
+
+```bash
+pip install -r docs/requirements.txt
+jupyter-book build docs/
+# open docs/_build/html/index.html
+```
+
+To add a notebook, see [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
 ## Repository layout
 
 ```

@@ -1,0 +1,32 @@
+# Jupyter Book 1.x configuration
+# Build with: jupyter-book build docs/
+title: SciLogic
+author: claim-chain team
+copyright: "2026"
+description: Accelerate research by reducing publications to logical argument structures
+
+# Only build the pages listed in _toc.yml; docs/ also holds the team's working notes.
+only_build_toc_files: true
+exclude_patterns: [_build, "**.ipynb_checkpoints", superpowers, blackboard_*, reliability_*, research_ideas_*]
+
+execute:
+  execute_notebooks: cache  # notebooks only read encodings from the repository, no LLM calls
+  timeout: 300
+  allow_errors: false
+
+repository:
+  url: https://github.com/lab-mids/claim-chain
+  path_to_book: docs
+  branch: main
+
+html:
+  use_issues_button: true
+  use_repository_button: true
+
+sphinx:
+  extra_extensions:
+    - sphinxcontrib.mermaid
+  config:
+    # Parse Markdown cell outputs as MyST, so notebooks can emit {mermaid} argument maps.
+    nb_render_markdown_format: myst
+    html_show_copyright: false

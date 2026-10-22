@@ -1,0 +1,6 @@
+format: jb-book
+root: intro
+chapters:
+- file: 00-getting-started
+- file: 01-peer-review
+- file: 02-research-opportunities
