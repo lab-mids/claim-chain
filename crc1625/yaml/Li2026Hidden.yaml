@@ -1,0 +1,308 @@
+id: claimchain:chain/Li2026Hidden
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and extended data judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.48550/arXiv.2608.24357
+  title: "A hidden low-temperature transformation pathway in compositionally complex materials"
+  authors: [Yujiao Li, Elaheh Akbarnejad, Quentin Bizot, Aleksander Kostka, Natalia Pukhareva, Ridha Zerdoumi, Alan Savan, Matous Mrovec, Ralf Drautz, Baptiste Gault, Dierk Raabe, Alfred Ludwig]
+  year: 2026
+  doi: 10.48550/arXiv.2608.24357
+  url: https://arxiv.org/abs/2608.24357
+  arxiv: "2608.24357"
+
+entities:
+  - {id: ent:Alloy, label: "metastable Ag24Au20Pd50Pt6 thin-film alloy (nanocrystalline fcc, 10-20 nm grains as deposited)", entity_type: MATERIAL}
+  - {id: ent:Nanolab, label: "nanolab - SiO2/Si microtip array with 36 coated APT specimens, annealed and sampled serially", entity_type: METHOD}
+  - {id: ent:APT, label: "atom probe tomography with binomial frequency analysis (Pearson coefficient mu)", entity_type: TECHNIQUE}
+  - {id: ent:PtRich, label: "Pt-rich fcc phase forming at grain boundaries", entity_type: CONCEPT}
+  - {id: ent:MDMC, label: "hybrid MD/MC with GRACE machine-learning potential (23,520 atoms, 300 K and 973 K)", entity_type: METHOD}
+  - {id: ent:SECCM, label: "long-range SECCM HER screening of the Ag-Au-Pd-Pt materials library, as deposited and after 600 C", entity_type: TECHNIQUE}
+  - {id: ent:Q, label: "apparent activation energy of Pt redistribution from k = d^2/t", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: li2026:BG1
+    statement_type: BACKGROUND
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Most compositionally complex materials are metastable, and their low-temperature decomposition can be too slow to observe (e.g. Cantor alloy decomposition only after ~500 days), while high-temperature anneals may probe a different phase-stability regime.
+    evidence: [{evidence_kind: CITATION, references: ["1-25"]}]
+  - id: li2026:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Earlier work showed that defect-rich nanocrystalline thin-film volumes accelerate decomposition at low temperature, but alloy-substrate reactions limited it to about 300 C.
+    evidence: [{evidence_kind: CITATION, references: ["26", "27", "30"]}]
+  - id: li2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Low-temperature phase-evolution pathways of metastable CCMs, and how they depend on microstructural history, have not been reconstructed experimentally.
+  - id: li2026:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Summary
+    paper_part: INTRODUCTION
+    text: Metastable Ag24Au20Pd50Pt6 has a hidden low-temperature pathway towards a thermodynamically selected Pt-rich phase whose experimental onset is set by history-dependent kinetic accessibility, not by a phase boundary, and nanolab metallurgy can reconstruct such pathways.
+    about: [ent:Alloy, ent:PtRich, ent:Nanolab]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Recurrence of the Pt-rich phase across temperature, starting state and time is shown by APT and agrees in direction with MD/MC, and the time-temperature shift supports a kinetic onset; but all observations are in grain-boundary-rich nanoscale volumes, so it is not shown that the same phase selection applies to bulk material without such defects."
+      proof_obligations:
+        - {text: "Pt-rich phase forms from more than one starting state and time-temperature route", obligation_status: DISCHARGED, discharged_by: [li2026:OBS2, li2026:OBS3, li2026:OBS4]}
+        - {text: "Phase selection is thermodynamic, not imposed by grain boundaries, surfaces or tip geometry", obligation_status: PARTIALLY_DISCHARGED, discharged_by: [li2026:OBS5, li2026:ASM2], priority: HIGH}
+        - {text: "Number of APT specimens per state establishes reproducibility", obligation_status: OPEN, priority: MEDIUM, requested_data: [{quantity: "number of specimens analysed and fraction showing Pt-rich phase per state", method: APT}]}
+  - id: li2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Use SiO2-protected nanolabs with serial annealing and APT to reconstruct the phase-evolution pathway of Ag24Au20Pd50Pt6 across temperature, starting state and time, compare it with atomistic simulations and relate it to HER activity.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: li2026:METH1
+    statement_type: METHOD
+    section: Methods
+    paper_part: METHODS
+    text: The alloy was co-sputtered (70-80 nm) on thermally oxidised Si microtip arrays (22 nm SiO2); one nanolab was annealed 1 h at each step from 100 to 700 C and then re-annealed from the 700 C state (H100-H500), a second was annealed at 300 C up to 68 h, with selected tips analysed by APT and semi-correlative TEM after each step.
+    about: [ent:Nanolab, ent:APT]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "The number of APT specimens per thermal state is not reported ('selected specimens'), so whether each state rests on one or several tips is unknown.", priority: MEDIUM}
+  - id: li2026:ASM1
+    statement_type: ASSUMPTION
+    section: Introduction
+    paper_part: METHODS
+    text: All 36 specimens of a nanolab start from an equivalent microstructure, so serial sampling of different tips reconstructs the evolution of one material.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: Tip-to-tip variation of film thickness, grain size and composition on the cone was not quantified.
+  - id: li2026:ASM2
+    statement_type: ASSUMPTION
+    section: Methods
+    paper_part: METHODS
+    text: Defect-rich nanoscale volumes accelerate kinetics while preserving the thermodynamic driving forces; the curvature-induced chemical-potential shift for a 30 nm tip is only about 1.5 kJ/mol.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: Grain-boundary energy and segregation in 10-20 nm grains may themselves change phase selection; only curvature was estimated.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Methods, Extended Data Table 1"
+        values:
+          - {symbol: gam, quantity: surface energy of Pt, value: 2.5, unit: J/m2}
+          - {symbol: Vm, quantity: molar volume of Pt, value: 9.1e-6, unit: m3/mol}
+          - {symbol: r, quantity: tip radius, value: 3.0e-8, unit: m}
+        derived_checks:
+          - {expression: "Gibbs-Thomson shift 2 gamma Vm / r (J/mol)", formula: "2*gam*Vm/r", result: 1517}
+  - id: li2026:METH2
+    statement_type: METHOD
+    section: Methods
+    paper_part: METHODS
+    text: Hybrid MD/MC simulations with a GRACE potential on a 23,520-atom random fcc cell were run at 300 K and 973 K for 1 ns with 1000 swap attempts per ps.
+    about: [ent:MDMC]
+  - id: li2026:METH3
+    statement_type: METHOD
+    section: Methods, Extended Data Fig. 3
+    paper_part: METHODS
+    text: HER activity was measured by SECCM (0.1 M HClO4 + 0.1 M LiClO4, -300 mV vs RHE) on a 90 nm Ag-Au-Pd-Pt materials library on sapphire, as deposited and after 1 h at 600 C.
+    about: [ent:SECCM]
+
+  # ---------------- Results ----------------
+  - id: li2026:OBS1
+    statement_type: OBSERVATION
+    section: Fig. 2
+    paper_part: RESULTS
+    text: The as-deposited film is a nanocrystalline fcc solid solution with ~3 nm chemical modulation; Pt-rich, Ag-depleted nuclei appear at grain boundaries after 400 C, grow about fivefold in size at similar number density at 500 C, coarsen at 600 C (~40 at% Pt, ~55 at% Pd, fcc-like by nanobeam diffraction) and redissolve at 700 C with grain growth.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2, Extended Data Fig. 6-7"}]
+    about: [ent:Alloy, ent:PtRich, ent:APT]
+  - id: li2026:OBS2
+    statement_type: OBSERVATION
+    section: Fig. 3
+    paper_part: RESULTS
+    text: From the 700 C homogenised state (mean mu 0.14 versus 0.49 as deposited) no Pt-rich phase is seen after 1 h at 400 C, but it re-forms at grain boundaries after 1 h at 500 C; Si segregates to grain boundaries in H400 and H500.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3, Extended Data Fig. 9"}]
+    about: [ent:PtRich, ent:APT]
+  - id: li2026:OBS3
+    statement_type: OBSERVATION
+    section: Fig. 4a, Extended Data Fig. 8
+    paper_part: RESULTS
+    text: In a second nanolab no Pt-rich phase is detected after 1 h at 300 C, whereas after 68 h at 300 C Pt-rich particles of size comparable to those after 1 h at 400 C are found.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4a, Extended Data Fig. 8"}]
+    about: [ent:PtRich]
+  - id: li2026:OBS4
+    statement_type: OBSERVATION
+    section: Fig. 4c, Methods
+    paper_part: RESULTS
+    text: Arrhenius analysis of k = d^2/t gives an apparent activation energy of about 137 kJ/mol (139 kJ/mol from the 400/500 C size ratio of ~5, 135 kJ/mol from 68 h at 300 C versus 1 h at 400 C), about half the bulk Pt self-diffusion value of 281 kJ/mol; bulk Pt diffusion would need about 47 years (2 nm) and 1.5 years (10 nm) for comparable redistribution.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4c, Methods"
+        values:
+          - {symbol: R, quantity: gas constant, value: 8.314, unit: J/mol/K}
+          - {symbol: dr, quantity: particle size ratio d500/d400, value: 5}
+          - {symbol: T3, quantity: temperature 300 C, value: 573, unit: K}
+          - {symbol: T4, quantity: temperature 400 C, value: 673, unit: K}
+          - {symbol: T5, quantity: temperature 500 C, value: 773, unit: K}
+          - {symbol: t3, quantity: annealing time at 300 C, value: 68, unit: h}
+          - {symbol: D0, quantity: Pt self-diffusion prefactor, value: 5.0e-5, unit: m2/s}
+          - {symbol: QPt, quantity: Pt self-diffusion activation energy, value: 281000, unit: J/mol}
+          - {symbol: x4, quantity: redistribution distance at 400 C, value: 2.0e-9, unit: m}
+          - {symbol: x5, quantity: redistribution distance at 500 C, value: 1.0e-8, unit: m}
+          - {symbol: yr, quantity: seconds per year, value: 3.156e+7, unit: s}
+        derived_checks:
+          - {expression: "Q from size ratio (kJ/mol)", formula: "R*log(dr**2)/(1/T4 - 1/T5)/1000", result: 139}
+          - {expression: "Q from time-temperature equivalence (kJ/mol)", formula: "R*log(t3)/(1/T3 - 1/T4)/1000", result: 135}
+          - {expression: "bulk Pt redistribution time for 2 nm at 400 C is ~47 years as stated", formula: "abs(x4**2/(D0*exp(-QPt/(R*T4)))/yr - 47) < 5", satisfied: false}
+          - {expression: "bulk Pt redistribution time for 10 nm at 500 C is ~1.5 years as stated", formula: "abs(x5**2/(D0*exp(-QPt/(R*T5)))/yr - 1.5) < 0.3", satisfied: false}
+    about: [ent:Q]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "With the stated D0 = 5e-5 m2/s, Q = 281 kJ/mol and t = x^2/D, the bulk Pt times recompute to ~16 years (2 nm, 400 C) and ~0.6 years (10 nm, 500 C), not 47 and 1.5 years; the order-of-magnitude conclusion is unaffected.", priority: LOW}
+      - {concern_type: AD_HOC_PARAMETER, description: "Particle size is used as redistribution length with t = 1 h per step, although the temperature series is sequential on the same nanolab, so the 500 C specimens also carry the 100-400 C history.", priority: LOW}
+  - id: li2026:OBS5
+    statement_type: OBSERVATION
+    section: Fig. 4b
+    paper_part: RESULTS
+    text: MD/MC predicts separation into a disordered Pt68Pd32 phase and matrix at room temperature and a single-phase solid solution at 700 C.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4b"}]
+    about: [ent:MDMC, ent:PtRich]
+  - id: li2026:OBS6
+    statement_type: OBSERVATION
+    section: Extended Data Fig. 3
+    paper_part: RESULTS
+    text: The HER current density of the Ag24Au20Pd50Pt6 area of the materials library at -300 mV vs RHE drops about 3.7-fold after 1 h at 600 C; Pt-richer library compositions are more active.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Extended Data Fig. 3"}]
+    about: [ent:SECCM]
+
+  # ---------------- Claims ----------------
+  - id: li2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Results, Summary
+    paper_part: DISCUSSION
+    text: Across temperature, starting state and time the alloy repeatedly selects the same Pt-rich phase, so the Pt-rich phase reflects an intrinsic thermodynamic tendency rather than the as-deposited starting state.
+    about: [ent:PtRich]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Re-formation from the homogenised state (mu 0.14) rules out inheritance of the as-deposited modulation; formation always at grain boundaries leaves open whether the phase is a bulk equilibrium phase or grain-boundary-assisted."
+  - id: li2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Results, Summary
+    paper_part: DISCUSSION
+    text: The temperature at which the Pt-rich phase first becomes detectable is a kinetic observation boundary, not a thermodynamic phase boundary; the pathway extends at least to 300 C (homologous temperature ~0.36).
+    about: [ent:PtRich, ent:Q]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Direct evidence: the onset shifts from 400 to 500 C after homogenisation and down to 300 C with 68 h annealing, and the two independent activation-energy estimates agree (139 and 135 kJ/mol, both recomputed)."
+  - id: li2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: Atomistic simulations independently predict the same Pt-rich low-temperature phase selection and the high-temperature single-phase state.
+    about: [ent:MDMC]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Direction agrees (Pt-rich phase at low T, single phase at 700 C); the predicted phase is Pt68Pd32 versus ~40 at% Pt measured, simulations cover only 300 and 973 K, and finite 1 ns MD/MC runs are not shown to be converged."
+  - id: li2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results
+    paper_part: DISCUSSION
+    text: The low apparent activation energy (~137 kJ/mol), preferential grain-boundary nucleation and delayed formation after homogenisation indicate a substantial contribution of defect-assisted redistribution.
+    about: [ent:Q]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "Consistent indicators are given and the authors themselves treat Q as an apparent value; GB density and chemical heterogeneity change together upon homogenisation, as acknowledged."
+  - id: li2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion
+    paper_part: DISCUSSION
+    text: The transformation is accompanied by a 3.7-fold loss of HER activity because Pt-rich phase formation depletes Pt from the surrounding matrix and surface.
+    about: [ent:SECCM, ent:PtRich]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Pt is intrinsically the most HER-active constituent, so less surface Pt means lower activity.", warrant_basis: CITATION}
+    assessment:
+      validity: WEAK
+      rationale: "The activity drop is measured on a separate 90 nm library film on sapphire annealed at 600 C, whose microstructure and surface composition after annealing are not characterised; surface segregation of low-surface-energy Ag on annealing would also lower HER activity."
+      missing_evidence: ["APT or surface analysis (XPS/LEIS) of the annealed library area", "HER activity after lower-temperature anneals that do not form the Pt-rich phase"]
+  - id: li2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Summary
+    paper_part: CONCLUSION
+    text: Recurrent Pt-rich phase formation together with atomistic predictions identifies a common thermodynamic tendency whose accessibility is kinetically controlled; nanolab metallurgy makes such hidden pathways resolvable and provides a basis for designing metastable materials for long-term stability.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates HYP1 and CLAIM1-2 for one alloy; transfer to CCMs in general and to bulk material is outlook."
+  - id: li2026:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: The contributions of grain coarsening and changed chemical heterogeneity to the delayed onset after homogenisation cannot be separated, and the activation energy is an apparent value for the overall process.
+    limitation_kind: METHOD
+
+relations:
+  - {id: li2026:R1, subject: li2026:BG1, predicate: MOTIVATES, object: li2026:GAP1, asserted_by: AUTHORS}
+  - {id: li2026:R2, subject: li2026:BG2, predicate: MOTIVATES, object: li2026:AIM1, asserted_by: AUTHORS}
+  - {id: li2026:R3, subject: li2026:GAP1, predicate: MOTIVATES, object: li2026:HYP1, asserted_by: AUTHORS}
+  - {id: li2026:R4, subject: li2026:METH1, predicate: DELIVERS, object: li2026:AIM1, asserted_by: AUTHORS}
+  - {id: li2026:R5, subject: li2026:CLAIM1, predicate: DELIVERS, object: li2026:AIM1, asserted_by: AUTHORS}
+  - {id: li2026:R6, subject: li2026:CLAIM3, predicate: DELIVERS, object: li2026:AIM1, asserted_by: AUTHORS}
+  - {id: li2026:R7, subject: li2026:CLAIM5, predicate: DELIVERS, object: li2026:AIM1, asserted_by: AUTHORS}
+  - {id: li2026:R8, subject: li2026:OBS1, predicate: SUPPORTS, object: li2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "APT and TEM; specimen counts unstated"}}
+  - {id: li2026:R9, subject: li2026:OBS2, predicate: SUPPORTS, object: li2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Homogenised control excludes inheritance; GB-assisted formation remains"}}
+  - {id: li2026:R10, subject: li2026:ASM2, predicate: CONDITIONALLY_SUPPORTS, object: li2026:CLAIM1, asserted_by: AUTHORS, note: "phase selection in nanoscale GB-rich volume assumed representative of bulk thermodynamics", support_strength: INTERMEDIATE, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Curvature estimated; GB effects not"}}
+  - {id: li2026:R11, subject: li2026:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: li2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: li2026:R12, subject: li2026:OBS3, predicate: SUPPORTS, object: li2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "1 h vs 68 h at 300 C in the same setup"}}
+  - {id: li2026:R13, subject: li2026:OBS2, predicate: SUPPORTS, object: li2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Onset shift with starting state"}}
+  - {id: li2026:R14, subject: li2026:OBS4, predicate: SUPPORTS, object: li2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Three temperatures, particle size as diffusion length"}}
+  - {id: li2026:R15, subject: li2026:OBS5, predicate: SUPPORTS, object: li2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Two temperatures only; composition differs from experiment"}}
+  - {id: li2026:R16, subject: li2026:CLAIM3, predicate: SUPPORTS, object: li2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2026:R17, subject: li2026:OBS4, predicate: SUPPORTS, object: li2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Apparent Q only"}}
+  - {id: li2026:R18, subject: li2026:LIM1, predicate: QUALIFIES, object: li2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: li2026:R19, subject: li2026:OBS6, predicate: SUPPORTS, object: li2026:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Activity drop on a different, uncharacterised sample; no structural link to the Pt-rich phase"}}
+  - {id: li2026:R20, subject: li2026:OBS6, predicate: ALTERNATIVE_EXPLANATION_FOR, object: li2026:CLAIM5, asserted_by: ANNOTATOR_BACKGROUND, note: "Annealing of Ag-containing noble alloys drives Ag (lowest surface energy) to the surface, which alone lowers HER activity"}
+  - {id: li2026:R21, subject: li2026:CLAIM1, predicate: SUPPORTS, object: li2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: li2026:R22, subject: li2026:CLAIM2, predicate: SUPPORTS, object: li2026:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: li2026:R23, subject: li2026:CONC1, predicate: RESTATES, object: li2026:HYP1, asserted_by: ANNOTATOR}
+  - {id: li2026:R24, subject: li2026:CONC1, predicate: RESTATES, object: li2026:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The nanolab experiment is well designed: serial APT sampling of one
+    coated tip array across temperature, a homogenised second starting state
+    and a 68 h low-temperature anneal shows Pt-rich phase formation, growth,
+    dissolution and re-formation, and the kinetic interpretation of the onset
+    temperature is directly supported (both activation-energy estimates
+    recompute, Thom of about 0.36 checks out). What remains open is whether
+    phase selection in 10-20 nm grain-boundary-rich volumes stands for
+    bulk thermodynamics, and the number of tips per state is not reported. The
+    simulations agree in direction but not in composition. The
+    3.7-fold HER activity loss is measured on a separate library film
+    without structural characterisation and has an obvious alternative (Ag
+    surface segregation). The quoted bulk-Pt diffusion times are about three
+    times too large when recomputed from the stated parameters, without
+    changing the conclusion. Draft annotation; figure judgements rely on captions.
+  key_limitations:
+    - "GB-rich nanoscale volumes may not represent bulk phase selection (ASM2, CLAIM1)."
+    - "Specimen counts per state unreported (METH1)."
+    - "HER-loss link to Pt-rich phase not established; Ag segregation alternative (CLAIM5, R20)."
+    - "Bulk-diffusion time estimates do not recompute (OBS4)."
+  missing_evidence:
+    - "Number of APT tips per state and reproducibility."
+    - "Characterisation of the annealed library area used for HER."
+    - "Simulations including grain boundaries or at intermediate temperatures."

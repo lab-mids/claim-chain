@@ -104,6 +104,18 @@ prefixes:
   gao2026: https://w3id.org/claim-chain/doi10.1038-s41929-026-01544-5/
   kim2026: https://w3id.org/claim-chain/doi10.1021-acsnano.6c01692/
   mohamed2026: https://w3id.org/claim-chain/doi10.1002-adem.202502877/
+  kar2026: https://w3id.org/claim-chain/doi10.1039-d6mh00852f/
+  gai2026: https://w3id.org/claim-chain/doi10.1021-acs.jpcc.6c03229/
+  li2026: https://w3id.org/claim-chain/doi10.48550-arXiv.2608.24357/
+  baha2026: https://w3id.org/claim-chain/doi10.1021-acscatal.6c03586/
+  perezmendoza2026: https://w3id.org/claim-chain/doi10.1002-smsc.70378/
+  zerdoumi2026: https://w3id.org/claim-chain/doi10.1002-admi.70660/
+  ikeda2026: https://w3id.org/claim-chain/doi10.1007-s10853-026-13520-2/
+  dudarev2026b: https://w3id.org/claim-chain/doi10.1134-S1054661826700379/
+  akbarnejad2026: https://w3id.org/claim-chain/doi10.48550-arXiv.2609.08363/
+  zhang2026: https://w3id.org/claim-chain/doi10.1002-aidi.70158/
+  joo2026: https://w3id.org/claim-chain/doi10.1002-advs.77600/
+  liasi2026: https://w3id.org/claim-chain/doi10.48550-arXiv.2608.28347/
 default_prefix: claimchain
 default_range: string
 imports:

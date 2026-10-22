@@ -1,0 +1,205 @@
+id: claimchain:chain/Ikeda2026Atomistic
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; review article - abstract, introduction, conclusions and selected sections read in full, remaining sections skimmed; figures judged from captions)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1007/s10853-026-13520-2
+  title: "Atomistic simulations of high-entropy alloys: from density functional theory to machine-learning interatomic potentials"
+  authors: [Yuji Ikeda, Xiang Xu, Pranav Kumar, Jörg Neugebauer, Li-Fang Zhu, Xi Zhang, Fritz Körmann, Blazej Grabowski]
+  year: 2026
+  doi: 10.1007/s10853-026-13520-2
+  url: https://doi.org/10.1007/s10853-026-13520-2
+
+entities:
+  - {id: ent:HEA, label: "high-entropy / compositionally complex alloys", entity_type: MATERIAL}
+  - {id: ent:DFT, label: "density functional theory calculations (O(N^3), few hundred atoms, tens of ps MD)", entity_type: METHOD}
+  - {id: ent:MLIP, label: "system-specific machine-learning interatomic potentials (MTP, ACE/GRACE, GAP, NNP, MACE, ...)", entity_type: METHOD}
+  - {id: ent:uMLIP, label: "universal / foundation MLIPs trained on large datasets (MPtrj, OMat24, SMAX, ...)", entity_type: METHOD}
+  - {id: ent:SRO, label: "chemical short-range order", entity_type: CONCEPT}
+  - {id: ent:Upsampling, label: "direct upsampling / free-energy perturbation from MLIP to DFT", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: ikeda2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: DFT has elucidated thermodynamic, mechanical, magnetic and defect properties of HEAs, but its cubic scaling limits cells to a few hundred atoms and MD to tens of picoseconds, too little for the configurational sampling and extended defects HEAs require.
+    evidence: [{evidence_kind: CITATION, references: ["30-36"]}]
+  - id: ikeda2026:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Data-driven approaches for HEAs suffer from small, heterogeneous experimental and DFT datasets; MLIPs trained on DFT reproduce energies and forces while being orders of magnitude faster, reaching 10^6-10^8 atoms and nanoseconds.
+    evidence: [{evidence_kind: CITATION, references: ["37-63"]}]
+  - id: ikeda2026:AIM1
+    statement_type: AIM
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: Review recent advances in atomistic simulation of HEAs with emphasis on MLIPs - formalisms and training data, chemical SRO, vibrational Gibbs energies, point defects and diffusion, extended defects, hydrogen storage and universal MLIPs - and identify open challenges.
+    author_certainty: DEMONSTRATED
+  - id: ikeda2026:METH1
+    statement_type: METHOD
+    section: Introduction, Tables 1-2
+    paper_part: METHODS
+    text: Narrative review organised by property class, with a table of related reviews (with the authors' qualitative coverage assessment) and a table of HEA MLIP studies; no systematic search protocol or inclusion criteria are stated.
+    about: [ent:MLIP]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "No literature-search strategy or inclusion criteria are given, and many highlighted studies come from the authors' own groups (e.g. direct upsampling, GRACE/SMAX), so coverage and emphasis may be selective.", priority: LOW}
+
+  # ---------------- Reviewed evidence ----------------
+  - id: ikeda2026:OBS1
+    statement_type: OBSERVATION
+    section: MLIP formalisms and training datasets
+    paper_part: RESULTS
+    text: Chemical embedding and low-rank tensor representations avoid combinatorial parameter growth with the number of species, and active learning (e.g. D-optimality/MaxVol, Bayesian uncertainty) samples chemical, thermal and defect configurations with limited DFT cost.
+    evidence: [{evidence_kind: CITATION, references: ["Table 2"]}]
+    about: [ent:MLIP]
+  - id: ikeda2026:OBS2
+    statement_type: OBSERVATION
+    section: Chemical short-range order
+    paper_part: RESULTS
+    text: MLIP studies show that local relaxation and magnetism in the DFT training data change predicted SRO, that Warren-Cowley pair parameters miss energetically relevant higher-order motifs, and that processing can create non-equilibrium SRO states.
+    evidence: [{evidence_kind: CITATION, references: ["85", "91", "214"]}]
+    about: [ent:SRO]
+  - id: ikeda2026:OBS3
+    statement_type: OBSERVATION
+    section: Gibbs energies beyond configurational contributions
+    paper_part: RESULTS
+    text: MLIP-based thermodynamic integration and direct upsampling reproduce DFT Helmholtz energies within about 1-1.5 meV/atom for VNbMoTaW and VCrTaW, and including anharmonic vibrations reduces the error in the VCoNi order-disorder temperature by about one third.
+    evidence: [{evidence_kind: CITATION, references: ["74", "79", "96"]}]
+    about: [ent:Upsampling]
+  - id: ikeda2026:OBS4
+    statement_type: OBSERVATION
+    section: Point defects and diffusion; Extended defects
+    paper_part: RESULTS
+    text: Point-defect formation and migration energies in HEAs show broad distributions requiring Widom-type or effective Gibbs-energy treatments, and hybrid MC/MD with MLIPs shows SRO affecting stacking-fault and grain-boundary energies and dislocation motion.
+    evidence: [{evidence_kind: CITATION, references: ["210-216"]}]
+    about: [ent:MLIP, ent:SRO]
+  - id: ikeda2026:OBS5
+    statement_type: OBSERVATION
+    section: From system-specific MLIPs to foundation models
+    paper_part: RESULTS
+    text: Benchmarks show some universal MLIPs reaching the accuracy of a system-specific W potential, formation-energy errors below ~10 meV/atom for binary phase diagrams, and SMAX-trained GRACE models describing distorted configurations; universal MLIPs still often need fine-tuning and are costlier at inference than system-specific ones.
+    evidence: [{evidence_kind: CITATION, references: ["288", "310", "313", "314", "318"]}]
+    about: [ent:uMLIP]
+  - id: ikeda2026:OBS6
+    statement_type: OBSERVATION
+    section: Hydrogen storage HEAs
+    paper_part: RESULTS
+    text: MLIP studies of hydrogen in HEAs are still scarce; the case for MLIPs rests on DFT studies of hydrogen-storage HEAs and MLIP studies of ordered hydrogen-storage alloys.
+    evidence: [{evidence_kind: CITATION, references: ["275", "279"]}]
+
+  # ---------------- Claims ----------------
+  - id: ikeda2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: DISCUSSION
+    text: MLIPs enable statistically robust HEA simulations with near-DFT accuracy at greatly reduced cost, allowing explicit treatment of SRO, vibrational Gibbs energies, point defects, diffusion, dislocations and grain boundaries.
+    about: [ent:MLIP]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Backed by the cited body of HEA MLIP studies (Table 2) with quantitative DFT-agreement examples (1-1.5 meV/atom); qualified in the text itself as 'for targeted applications'."
+  - id: ikeda2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Chemical SRO; Conclusions
+    paper_part: DISCUSSION
+    text: Pair-correlation descriptors such as Warren-Cowley parameters are insufficient to resolve the energetics of local chemical environments; higher-order motifs coupled to lattice distortions must be characterised for predictive HEA design.
+    about: [ent:SRO]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported for the cited cases (SRO motifs, vacancy formation energies); generalisation to 'predictive design' of HEAs in general goes beyond two examples."
+  - id: ikeda2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Conclusions
+    paper_part: DISCUSSION
+    text: Universal MLIPs open rapid, transferable exploration of HEA compositional space and have begun to substantially reduce the cost of generating DFT training data.
+    about: [ent:uMLIP]
+    claim_modality: GENERALIZATION
+    author_certainty: PREDICTED
+    assessment:
+      validity: PARTIAL
+      rationale: "Promising benchmarks are cited, but the review itself notes that universal MLIPs often need fine-tuning, are slower at inference, and that HEA applications are still few; 'transferable' is supported mainly by SMAX-trained GRACE results from the authors' institutional network."
+  - id: ikeda2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Hydrogen storage; Conclusions
+    paper_part: DISCUSSION
+    text: Functional applications such as hydrogen-storage HEAs are expected to benefit greatly from MLIP-based simulations.
+    claim_modality: GENERALIZATION
+    author_certainty: PREDICTED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Outlook: MLIP studies of hydrogen-storage HEAs are acknowledged to be scarce, so the benefit is extrapolated from DFT and ordered-alloy MLIP work."
+  - id: ikeda2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: MLIPs are fundamentally shifting HEA modelling from conventional DFT toward statistically rigorous sampling and predictive exploration of chemically complex materials, a paradigm shift essential to unlock HEAs' potential.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The methodological shift is well documented; 'predictive' and 'essential' are forward-looking, and the open challenges listed (magnetism, charge, electronic excitations, defect transferability, training-set construction) show the predictive framework is not yet in place."
+  - id: ikeda2026:LIM1
+    statement_type: LIMITATION
+    section: Abstract, Conclusions
+    paper_part: DISCUSSION
+    text: Open challenges are transferability to highly distorted defect configurations, treatment of magnetic and charge degrees of freedom and electronic excitations, configurational sampling beyond ideal mixing in free-energy methods, and representative training datasets.
+    limitation_kind: SCOPE
+  - id: ikeda2026:OUT1
+    statement_type: OUTLOOK
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Develop magnetic and electronic-temperature-aware MLIPs, defect-mimicking small cells for training, knowledge distillation of foundation models, and couple MLIP results to multiscale and data-driven frameworks for HEA design.
+
+relations:
+  - {id: ikeda2026:R1, subject: ikeda2026:BG1, predicate: MOTIVATES, object: ikeda2026:AIM1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R2, subject: ikeda2026:BG2, predicate: MOTIVATES, object: ikeda2026:AIM1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R3, subject: ikeda2026:METH1, predicate: DELIVERS, object: ikeda2026:AIM1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R4, subject: ikeda2026:CLAIM1, predicate: DELIVERS, object: ikeda2026:AIM1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R5, subject: ikeda2026:LIM1, predicate: DELIVERS, object: ikeda2026:AIM1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R6, subject: ikeda2026:OBS1, predicate: SUPPORTS, object: ikeda2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Methodological basis documented"}}
+  - {id: ikeda2026:R7, subject: ikeda2026:OBS3, predicate: SUPPORTS, object: ikeda2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Quantitative DFT agreement in cited studies"}}
+  - {id: ikeda2026:R8, subject: ikeda2026:OBS4, predicate: SUPPORTS, object: ikeda2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: ikeda2026:R9, subject: ikeda2026:OBS2, predicate: SUPPORTS, object: ikeda2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Two cited demonstrations generalised"}}
+  - {id: ikeda2026:R10, subject: ikeda2026:OBS5, predicate: SUPPORTS, object: ikeda2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Few HEA applications; fine-tuning often needed"}}
+  - {id: ikeda2026:R11, subject: ikeda2026:OBS5, predicate: QUALIFIES, object: ikeda2026:CLAIM3, asserted_by: AUTHORS, note: "Fine-tuning and higher inference cost acknowledged"}
+  - {id: ikeda2026:R12, subject: ikeda2026:OBS6, predicate: SUPPORTS, object: ikeda2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Extrapolated from DFT and ordered alloys"}}
+  - {id: ikeda2026:R13, subject: ikeda2026:CLAIM1, predicate: SUPPORTS, object: ikeda2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: ikeda2026:R14, subject: ikeda2026:CLAIM3, predicate: SUPPORTS, object: ikeda2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ikeda2026:R15, subject: ikeda2026:LIM1, predicate: QUALIFIES, object: ikeda2026:CONC1, asserted_by: AUTHORS}
+  - {id: ikeda2026:R16, subject: ikeda2026:CONC1, predicate: RESTATES, object: ikeda2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: ikeda2026:R17, subject: ikeda2026:LIM1, predicate: MOTIVATES, object: ikeda2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A broad, technically well-informed narrative review of MLIP-based
+    atomistic simulation of HEAs. Its descriptive claims - that MLIPs give
+    near-DFT accuracy at much lower cost and enable SRO, free-energy, defect
+    and extended-defect studies - are well backed by cited quantitative
+    examples (e.g. 1-1.5 meV/atom agreement of upsampled free energies). The
+    forward-looking claims are less grounded: universal MLIPs are promoted as
+    transferable while the review itself notes fine-tuning needs and few HEA
+    applications, the benefit for hydrogen-storage HEAs is extrapolated, and
+    the 'paradigm shift toward predictive modelling' sits next to a long list
+    of unresolved challenges. No search protocol is given and the authors'
+    own methods are prominent. As a review, verdicts judge the synthesis,
+    not the cited studies; sections were partly skimmed.
+  key_limitations:
+    - "Narrative selection without stated inclusion criteria (METH1)."
+    - "Universal-MLIP transferability promoted beyond the cited HEA evidence (CLAIM3)."
+    - "Hydrogen-storage benefit is outlook (CLAIM4)."
+    - "'Predictive' paradigm claim versus listed open challenges (CONC1, LIM1)."
+  missing_evidence:
+    - "Systematic benchmark of universal MLIPs on HEA-specific properties (SRO, defects, free energies)."
+    - "Stated literature-selection criteria."

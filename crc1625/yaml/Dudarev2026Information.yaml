@@ -1,0 +1,140 @@
+id: claimchain:chain/Dudarev2026Information
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1134/S1054661826700379
+  title: "Information Support for Distributed Research in the Field of Thin-Film Materials: From Synthesis to Process Control"
+  authors: [V. A. Dudarev, N. N. Kiselyova, A. Ludwig]
+  year: 2026
+  doi: 10.1134/S1054661826700379
+  url: https://doi.org/10.1134/S1054661826700379
+
+entities:
+  - {id: ent:MatInf, label: "MatInf research data management system (relational schema, TypeInfo user types, multitenant)", entity_type: METHOD}
+  - {id: ent:Ext, label: "late-bound external web services for document validation, data extraction and visualisation", entity_type: METHOD}
+  - {id: ent:Graph, label: "directed multigraph of objects with object-described edges", entity_type: CONCEPT}
+  - {id: ent:Workflow, label: "materials-library workflow - research plan, sample, synthesis, EDX (342 MAs), resistance, report, handover", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: dudarev2026b:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Materials-science information systems are often closed, single-user or poorly documented; ELN/LIMS systems lack materials-specific features such as search by chemical formula.
+    evidence: [{evidence_kind: CITATION, references: ["1", "5", "8", "10", "11", "14"]}]
+  - id: dudarev2026b:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Existing RDMSs (NOMAD, Kadi4mat, Chemotion) do not fully support workflows and data types for combinatorial thin-film libraries or tight integration of objects that are populated as new documents arrive.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The shortcomings of NOMAD, Kadi4mat, Chemotion, openBIS and eLabFTW are stated without a feature comparison, version information or examples; several of these systems offer custom types or plugins.", priority: MEDIUM}
+  - id: dudarev2026b:AIM1
+    statement_type: AIM
+    section: Abstract
+    paper_part: INTRODUCTION
+    text: Present the MatInf architecture for user-defined data types via late binding to external web services and show its use for storing and analysing thin-film materials-library data.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- System description ----------------
+  - id: dudarev2026b:METH1
+    statement_type: METHOD
+    section: Sec. 1-4, Fig. 1-3
+    paper_part: METHODS
+    text: MatInf stores types (TypeInfo), objects, typed extended properties and a directed multigraph of object links in a relational database; validation, extraction (incl. table endpoints) and visualisation of user document formats are delegated to external web services configured per type, with MatInf proxying visualisation pages.
+    about: [ent:MatInf, ent:Ext, ent:Graph]
+  - id: dudarev2026b:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 5-6, Fig. 4-8
+    paper_part: RESULTS
+    text: In the thin-film workflow, uploaded EDX files are validated and parsed by an external service into 342 Composition objects, resistance CSVs attach an 'R' property to the same objects via predicates, research plans generate progress reports, and handover objects track sample transfers with e-mail notifications.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Sec. 5-6, Fig. 4-8"}]
+    about: [ent:Workflow]
+    scope: {sample_count: 1}
+
+  # ---------------- Claims ----------------
+  - id: dudarev2026b:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2-4, 7
+    paper_part: DISCUSSION
+    text: MatInf fully supports user-defined data types added after deployment, including validation, extraction and visualisation of arbitrary document formats without modifying the system core.
+    about: [ent:MatInf, ent:Ext]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Holds by construction of the described architecture (TypeInfo plus external service endpoints) and is illustrated with EDX and resistance types."
+  - id: dudarev2026b:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract
+    paper_part: DISCUSSION
+    text: No freely distributed alternative simultaneously supports typed materials data, extensible user types, integration of arbitrary document formats without core changes and object connectivity via a directed multigraph.
+    about: [ent:MatInf]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "A uniqueness claim made without a systematic comparison of alternative systems; the introduction characterises competitors only briefly."
+      missing_evidence: ["Feature matrix against NOMAD, Kadi4mat, Chemotion, openBIS and eLabFTW with versions"]
+  - id: dudarev2026b:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 5, 7
+    paper_part: CONCLUSION
+    text: The thin-film materials-library example demonstrates MatInf's effective use by various organisations and its potential as a universal tool for various materials-science problems.
+    about: [ent:MatInf, ent:Workflow]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "One workflow is described qualitatively; no numbers of tenants, users, objects, performance or user feedback are given to support 'effective use' or universality."
+  - id: dudarev2026b:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 7
+    paper_part: CONCLUSION
+    text: Directed multigraphs with object-described edges pave the way for domain-specific knowledge graphs.
+    about: [ent:Graph]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Plausible design argument; no knowledge-graph construction is shown in this paper."
+
+relations:
+  - {id: dudarev2026b:R1, subject: dudarev2026b:BG1, predicate: MOTIVATES, object: dudarev2026b:GAP1, asserted_by: AUTHORS}
+  - {id: dudarev2026b:R2, subject: dudarev2026b:GAP1, predicate: MOTIVATES, object: dudarev2026b:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026b:R3, subject: dudarev2026b:METH1, predicate: DELIVERS, object: dudarev2026b:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026b:R4, subject: dudarev2026b:OBS1, predicate: DELIVERS, object: dudarev2026b:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026b:R5, subject: dudarev2026b:CLAIM1, predicate: DELIVERS, object: dudarev2026b:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2026b:R6, subject: dudarev2026b:METH1, predicate: SUPPORTS, object: dudarev2026b:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Architecture described in detail"}}
+  - {id: dudarev2026b:R7, subject: dudarev2026b:OBS1, predicate: SUPPORTS, object: dudarev2026b:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: dudarev2026b:R8, subject: dudarev2026b:GAP1, predicate: SUPPORTS, object: dudarev2026b:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_APPLICABLE, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "Asserted competitor gaps, no comparison"}}
+  - {id: dudarev2026b:R9, subject: dudarev2026b:OBS1, predicate: SUPPORTS, object: dudarev2026b:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_APPLICABLE, alternatives: MET, scope_match: NOT_MET, criteria_note: "Single qualitative use case"}}
+  - {id: dudarev2026b:R10, subject: dudarev2026b:METH1, predicate: SUPPORTS, object: dudarev2026b:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A short system description of MatInf. The architectural claims - user
+    types added after deployment, external validation/extraction/
+    visualisation services, multigraph object links - hold by construction
+    and are illustrated with a concrete thin-film workflow (EDX parsing into
+    342 composition objects, resistance attachment, progress reports,
+    handover tracking). The evaluative claims are unsupported: the abstract's
+    uniqueness statement and the criticism of NOMAD, Kadi4mat, Chemotion and
+    ELN/LIMS systems come without a feature comparison, and 'effective use by
+    various organisations' and 'universal tool' are not backed by any usage,
+    performance or user data. Draft annotation.
+  key_limitations:
+    - "Uniqueness claim without comparison (CLAIM2, GAP1)."
+    - "No quantitative usage or performance evidence (CLAIM3)."
+    - "Knowledge-graph potential is outlook (CLAIM4)."
+  missing_evidence:
+    - "Feature comparison with existing RDMS/ELN systems."
+    - "Usage statistics, scalability and user evaluation."
