@@ -1,0 +1,189 @@
+id: claimchain:chain/Mattoso2026User
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2510.23328v1; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acs.jctc.5c02150
+  title: "User-Defined Electrostatic Potentials in DFT Supercell Calculations: Implementation and Application to Electrified Interfaces"
+  authors: [Samuel Mattoso, Jing Yang, Florian Deißenbeck, Ahmed Abdelkawy, Christoph Freysoldt, Stefan Wippermann, Mira Todorova, Jörg Neugebauer]
+  year: 2026
+  doi: 10.1021/acs.jctc.5c02150
+  url: https://doi.org/10.1021/acs.jctc.5c02150
+
+entities:
+  - {id: ent:Plugin, label: "VASP 6.5.0 Python plugin adding V_ext, nuclear energy/force corrections and time-dependent electron count", entity_type: METHOD}
+  - {id: ent:CDCE, label: "charge-density counter electrode (Gaussian sheet charge) replacing the Ne computational counter electrode", entity_type: METHOD}
+  - {id: ent:TPS, label: "thermopotentiostat reimplemented through the plugin", entity_type: METHOD}
+  - {id: ent:Cases, label: "case studies - H and acetaldehyde on Au(111), kinked Li(952) under field, Au(111)/water, QM/MM-solvated Mg2+", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: mattoso2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Applying user-defined electrostatic potentials in DFT has usually required modifying source code, which is error-prone and hard to maintain; external fields matter for electrochemistry, field ion microscopy and solvation.
+    evidence: [{evidence_kind: CITATION, references: ["1-31"]}]
+  - id: mattoso2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Implement arbitrary external electrostatic potentials, with correct energies and forces, in standard VASP through its Python interface and demonstrate them on adsorption, field ion microscopy, electrochemical interfaces and implicit/QM-MM solvation.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: mattoso2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1-2.2
+    paper_part: METHODS
+    text: V_ext is added to the local potential; because VASP omits the interaction of V_ext with the nuclei, energy (-Z_I V_ext(R_I)) and force (-Z_I E_ext(R_I)) corrections are added in the plugin.
+    about: [ent:Plugin]
+  - id: mattoso2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2
+    paper_part: RESULTS
+    text: For a neutral H atom the uncorrected energy varies as 1e x V_ext and the uncorrected force as 1e x E_ext; after the corrections the energy is invariant and the force near zero.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2"}]
+    about: [ent:Plugin]
+  - id: mattoso2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 2.2, Sec. 4
+    paper_part: RESULTS
+    text: With the derived core-interaction corrections, energies and forces under arbitrary external potentials are physically correct in the VASP-Python implementation.
+    about: [ent:Plugin]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The H-atom test confirms the missing nuclear term and its correction; no test on a polarizable system against an analytic or independent implementation (e.g. the earlier source-code thermopotentiostat or built-in dipole correction) checks the full scheme."
+  - id: mattoso2026:METH2
+    statement_type: METHOD
+    section: Sec. 2.3-2.4
+    paper_part: METHODS
+    text: The CDCE adds the potential of a Gaussian counter-charge sheet, sets NELECT to the neutral count plus the electrode charge, applies a manual dipole correction and a confining wall for water, and updates the electrode charge each MD step with the thermopotentiostat equation; the Ne-CCE variant and disabling of force-drift removal need the unreleased VASP development branch.
+    about: [ent:CDCE, ent:TPS]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Two features used in the case studies (changing Ne ZVAL and LREMOVE_DRIFT = .FALSE.) are available only in a VASP development branch, so these results cannot yet be reproduced with the released code.", priority: MEDIUM}
+
+  # ---------------- Case studies ----------------
+  - id: mattoso2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Fig. 4
+    paper_part: RESULTS
+    text: For Au(111) an electrode charge of 0.5 e gives a bias of 5.8 V; at zero field H prefers the fcc-hollow site and the hcp-hollow site becomes favoured above about 0.05 V/Å; integrated density differences give 1.29 and 1.28 e for the Au-H interaction at 0 and -0.5 e and 0.09 e for the additional field-induced polarization.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, Eqs. 12-13"
+        values:
+          - {symbol: dn1_0, quantity: integrated density difference Au-H at zero charge, value: 1.29, unit: e}
+          - {symbol: dn2, quantity: field-induced double density difference, value: 0.09, unit: e}
+    about: [ent:CDCE, ent:Cases]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Adsorption-energy differences between sites at the crossover field are not given numerically and no convergence or uncertainty is discussed; the 1.29 e from half the integrated density difference measures charge redistribution, not a transfer of more than one electron to H as the text implies.", priority: MEDIUM}
+  - id: mattoso2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.1-3.2, Figs. 5-6
+    paper_part: RESULTS
+    text: In AIMD the Au-O distance of acetaldehyde on Au(111) decreases for positive surface charge and the molecule rotates as the charge changes; in a single 5 ps AIMD run of kinked Li(952) at 300 K with 1.25 V/Å the kink atom detaches to an adatom position after about 4.5 ps, while without field no diffusion occurs.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 5-6"}]
+    about: [ent:Cases]
+    scope: {sample_count: 1, scope_note: "one trajectory per condition"}
+  - id: mattoso2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.3-3.4, Figs. 7-8
+    paper_part: RESULTS
+    text: For Au(111)/water the thermopotentiostat drives the electrode potential to the -2.0 V target and the first oxygen density peak shifts away from (negative) or toward (positive) the surface; a QM/mean-field-MM potential from classical MD screens the Mg2+ potential into an oscillatory solvation-shell profile.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 7-8"}]
+    about: [ent:TPS, ent:Cases]
+  - id: mattoso2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3, Sec. 4
+    paper_part: DISCUSSION
+    text: The implementation provides a flexible, robust and easily extensible framework for field-induced phenomena, demonstrated by adsorption under bias, accurately captured field-induced diffusion and desorption in field ion microscopy, potential-controlled electrochemical interfaces including potential-dependent reaction pathways, and QM/MM solvation.
+    about: [ent:Plugin, ent:Cases]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The case studies are single demonstrations without comparison to experiment or independent implementations; no reaction pathway is computed for electrochemical interfaces, and 'accurately captured' FIM behaviour rests on one 5 ps trajectory.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The case studies show the plugin runs for diverse setups and produces physically plausible trends; accuracy, robustness and reaction-pathway capability are asserted beyond what single demonstrations show."
+  - id: mattoso2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.2
+    paper_part: DISCUSSION
+    text: The Li(952) simulation provides direct atomistic confirmation that strong fields destabilize kink and step atoms and release them as adatoms at finite temperature.
+    about: [ent:Cases]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "One trajectory with one detachment event cannot establish a field-induced rate change; the zero-field run length and statistics are not given."
+  - id: mattoso2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.3
+    paper_part: DISCUSSION
+    text: Replacing the Ne counter electrode by a Gaussian charge density removes the Ne band-gap limit on the applicable field strength.
+    about: [ent:CDCE]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Follows by construction (no electronic states on the counter electrode); the remaining electrolyte band-gap limit is acknowledged, and no field-strength comparison between the two setups is shown."
+  - id: mattoso2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Exposing the external potential as user input gives full control over the electrostatic environment within standard VASP and a versatile framework from catalysis and corrosion to nanoscale devices.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM2."
+
+relations:
+  - {id: mattoso2026:R1, subject: mattoso2026:BG1, predicate: MOTIVATES, object: mattoso2026:AIM1, asserted_by: AUTHORS}
+  - {id: mattoso2026:R2, subject: mattoso2026:METH1, predicate: DELIVERS, object: mattoso2026:AIM1, asserted_by: AUTHORS}
+  - {id: mattoso2026:R3, subject: mattoso2026:CLAIM1, predicate: DELIVERS, object: mattoso2026:AIM1, asserted_by: AUTHORS}
+  - {id: mattoso2026:R4, subject: mattoso2026:CLAIM2, predicate: DELIVERS, object: mattoso2026:AIM1, asserted_by: AUTHORS}
+  - {id: mattoso2026:R5, subject: mattoso2026:CONC1, predicate: DELIVERS, object: mattoso2026:AIM1, asserted_by: AUTHORS}
+  - {id: mattoso2026:R6, subject: mattoso2026:OBS1, predicate: SUPPORTS, object: mattoso2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "Single-atom test of the core term; no polarizable benchmark"}}
+  - {id: mattoso2026:R7, subject: mattoso2026:OBS2, predicate: SUPPORTS, object: mattoso2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: mattoso2026:R8, subject: mattoso2026:OBS3, predicate: SUPPORTS, object: mattoso2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: mattoso2026:R9, subject: mattoso2026:OBS4, predicate: SUPPORTS, object: mattoso2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: PARTLY, criteria_note: "Demonstrations without independent validation; no reaction pathway"}}
+  - {id: mattoso2026:R10, subject: mattoso2026:OBS3, predicate: SUPPORTS, object: mattoso2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: NOT_MET, criteria_note: "One event in one 5 ps trajectory"}}
+  - {id: mattoso2026:R11, subject: mattoso2026:METH2, predicate: SUPPORTS, object: mattoso2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: mattoso2026:R12, subject: mattoso2026:METH2, predicate: QUALIFIES, object: mattoso2026:CLAIM2, asserted_by: ANNOTATOR, note: "parts rely on unreleased VASP features"}
+  - {id: mattoso2026:R13, subject: mattoso2026:CONC1, predicate: RESTATES, object: mattoso2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: mattoso2026:R14, subject: mattoso2026:OBS4, predicate: SUPPORTS, object: mattoso2026:CONC1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper derives the missing nuclear energy and force terms needed
+    when external potentials are injected through the VASP 6.5.0 Python
+    interface, verifies them on a hydrogen atom, introduces a Gaussian
+    charge-density counter electrode and reimplements the
+    thermopotentiostat, and shows five demonstration cases. The
+    correction derivation and the H-atom test are sound and the code
+    paths are documented. The broader claims of accuracy and robustness
+    rest on single demonstrations without comparison to the earlier
+    source-code implementation or experiment; the Li kink-detachment
+    'confirmation' is one event in one 5 ps run; the Au-H 'charge
+    transfer' of 1.29 e is a redistribution measure; and some features
+    require an unreleased VASP branch.
+  key_limitations:
+    - "No benchmark against the earlier source-code implementation (CLAIM1)."
+    - "Single-trajectory demonstrations presented as confirmation (CLAIM3)."
+    - "Unreleased VASP features needed for some cases (METH2)."
+    - "Reaction-pathway capability claimed but not shown (CLAIM2)."
+  missing_evidence:
+    - "Side-by-side comparison with the source-code thermopotentiostat on the same system."
+    - "Statistics over multiple trajectories for field-induced diffusion."
+    - "Validation of the QM/MM solvation potential against solvation free energies."

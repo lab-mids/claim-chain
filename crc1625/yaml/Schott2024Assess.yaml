@@ -1,0 +1,219 @@
+id: claimchain:chain/Schott2024Assess
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of selected sections - abstract, introduction, sections 3.2, 5.4, summary and outlook; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acs.chemrev.3c00806
+  title: "How to Assess and Predict Electrical Double Layer Properties. Implications for Electrocatalysis"
+  authors: [Christian M. Schott, Peter M. Schneider, Kun-Ting Song, Haiting Yu, Rainer Götz, Felix Haimerl, Elena Gubanova, Jian Zhou, Thorsten O. Schmidt, Qiwei Zhang, Vitaly Alexandrov, Aliaksandr S. Bandarenka]
+  year: 2024
+  doi: 10.1021/acs.chemrev.3c00806
+  url: https://doi.org/10.1021/acs.chemrev.3c00806
+
+entities:
+  - {id: ent:EDL, label: electrical double layer at metal/electrolyte and solid/solid interfaces, entity_type: CONCEPT}
+  - {id: ent:Cdl, label: double-layer capacitance, entity_type: QUANTITY}
+  - {id: ent:pzc, label: "potential of zero (free/total) charge (pzc, pzfc, pztc)", entity_type: QUANTITY}
+  - {id: ent:PME, label: potential of maximum entropy, entity_type: QUANTITY}
+  - {id: ent:EIS, label: "impedance spectroscopy with R-CPE equivalent circuits", entity_type: TECHNIQUE}
+  - {id: ent:SECCM, label: SECCM-based pzc determination, entity_type: TECHNIQUE}
+  - {id: ent:AIMD, label: ab initio / constant-potential simulations of water-metal interfaces, entity_type: METHOD}
+  - {id: ent:HEA, label: "Pt-Pd-Ru-Ir-Ag high-entropy alloy thin films", entity_type: MATERIAL}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: schott2024:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1, 2
+    paper_part: INTRODUCTION
+    text: The EDL controls the distribution of species and charge at electrode/electrolyte interfaces and hence electrochemical reaction mechanisms and rates; classical Helmholtz, Gouy-Chapman, Stern and Grahame models treat it largely as a simple capacitor.
+    evidence: [{evidence_kind: CITATION, references: ["1-13"]}]
+  - id: schott2024:GAP1
+    statement_type: GAP
+    section: Abstract, Sec. 10
+    paper_part: INTRODUCTION
+    text: Relatively few studies address the fundamental science of the EDL, and discrepancies between theoretical and experimental EDL properties such as the double-layer capacitance remain unresolved.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: schott2024:AIM1
+    statement_type: AIM
+    section: Abstract
+    paper_part: INTRODUCTION
+    text: Review recent experimental and theoretical progress in assessing EDL properties (Cdl, pzc, pzfc, PME), the merits and challenges of the techniques, and the impact of electrode composition, structure, electrolyte chemistry, temperature and pressure, including solid/solid interfaces, with implications for electrocatalysis.
+    about: [ent:EDL, ent:Cdl, ent:pzc, ent:PME]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods review ----------------
+  - id: schott2024:METH1
+    statement_type: METHOD
+    section: Sec. 3
+    paper_part: METHODS
+    text: The review surveys diffraction, spectroscopy and scanning-probe techniques for EDL structure and macroscopic methods (CV/GCD, EIS with R-CPE circuits, CO displacement, SEPM, laser-induced current transients) for Cdl, pzc and PME.
+    evidence: [{evidence_kind: CITATION, references: ["66", "195-258"]}]
+    about: [ent:EIS, ent:SECCM]
+  - id: schott2024:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.2.2
+    paper_part: RESULTS
+    text: CPE behaviour of the double layer has been attributed to electrolyte concentration, contamination, roughness, Faradaic side reactions, electrode inhomogeneity and adsorption-related 2D/3D structuring, and Cdl must be extracted from CPE parameters via model-dependent relations.
+    evidence: [{evidence_kind: CITATION, references: ["209-218", "547"]}]
+    about: [ent:EIS, ent:Cdl]
+  - id: schott2024:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 5, Table 1, Table 7
+    paper_part: RESULTS
+    text: Reported Cdl values for different electrode compositions span from pF-level microelectrode values to tens of uF/cm2, and solid/solid Ni/YSZ capacitances span 1-232 uF/cm2 normalized to geometric area, making values from different preparations hardly comparable.
+    evidence: [{evidence_kind: CITATION, locator: "Tables 1, 7", references: ["549-551"]}]
+    about: [ent:Cdl]
+  - id: schott2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 5, 10
+    paper_part: DISCUSSION
+    text: Electrode composition, surface structure and electrolyte composition strongly affect EDL parameters (Cdl, pzc, pzfc, PME), and pzc and PME correlate with electrocatalytic activity, whereas no such correlation has been established for Cdl.
+    about: [ent:Cdl, ent:pzc, ent:PME]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Composition and structure effects are documented by many cited single-crystal and monolayer studies; correlations of pzc/PME with activity rest on a few systems, and the review itself stresses that Cdl values are highly method- and normalization-dependent."
+      proof_obligations:
+        - text: "Show composition and structure effects on EDL parameters"
+          obligation_status: DISCHARGED
+          discharged_by: [schott2024:OBS2]
+        - text: "Show a general correlation of EDL parameters with activity"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [schott2024:OBS3]
+
+  # ---------------- HEA example ----------------
+  - id: schott2024:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 5.4, Fig. 20
+    paper_part: RESULTS
+    text: In a cited SECCM study of eight co-sputtered Pt-Pd-Ru-Ir-Ag HEA compositions with composition-weighted work functions of 5.11-5.25 eV, the pzc increases linearly with the estimated work function, and HER current density at -100 mV vs RHE and the peak potential shift positively with pzc, while all HEAs remain less active than Pt.
+    evidence:
+      - evidence_kind: CITATION
+        references: ["247"]
+        locator: "Fig. 20"
+        values:
+          - {symbol: wf_min, quantity: estimated work function min, value: 5.11, unit: eV}
+          - {symbol: wf_max, quantity: estimated work function max, value: 5.25, unit: eV}
+        derived_checks:
+          - {expression: "span of work functions used for the correlation", formula: "wf_max - wf_min", result: 0.14, unit: eV}
+    about: [ent:HEA, ent:SECCM, ent:pzc]
+    scope: {sample_count: 8}
+  - id: schott2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 5.4
+    paper_part: DISCUSSION
+    text: SECCM can determine pzc values of HEAs and reveal that HEAs with higher work function and pzc show higher HER activity, consistent with Trasatti's work-function trend for pure metals.
+    about: [ent:HEA, ent:SECCM]
+    claim_modality: CORRELATIONAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Work functions are composition-weighted averages rather than measured, and span only 0.14 eV across eight samples; the review notes that SECCM pzc values deviate from CO-displacement values.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The cited data show the correlation, but over a narrow range of estimated work functions; the review itself questions whether it holds for highly active catalysts and calls for single-crystal studies."
+  - id: schott2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 10
+    paper_part: CONCLUSION
+    text: EDL-based descriptors such as water reorganization energy (related to the PME) and hydrogen-bond network connectivity complement intermediate binding energies in explaining activity trends such as the pH dependence of HER, but how EDL properties define activity and how these descriptors interrelate is still far from understood.
+    about: [ent:EDL, ent:PME]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The outlook notes competing explanations (water reorganization vs. weakened water adsorption at high pH) without weighing the evidence for either.", priority: LOW}
+    assessment:
+      validity: PARTIAL
+      rationale: "Cited studies support EDL descriptors beyond binding energies; the conclusion appropriately states that their interrelation is unresolved."
+  - id: schott2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Sec. 10
+    paper_part: CONCLUSION
+    text: Progress requires constant-potential all-atom simulations, machine-learned potentials, joint theory-experiment studies on well-controlled model systems, and critical assessment of experimental and computational errors because Cdl is highly sensitive to conditions.
+    about: [ent:AIMD, ent:Cdl]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: "YES"
+      rationale: "Follows directly from the documented method sensitivity and theory-experiment discrepancies (e.g. DFT errors for O2, CPE ambiguities)."
+  - id: schott2024:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 9, 10
+    paper_part: DISCUSSION
+    text: Solid/solid interfaces resemble solid/liquid ones with inner and space-charge layers, but Debye-Hückel theory fails at the high ion concentrations of solid electrolytes, so models must resolve the first atomic layers and polycrystalline interfaces.
+    evidence: [{evidence_kind: CITATION, references: ["148", "153", "553-558"]}]
+    about: [ent:EDL]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: "YES"
+      rationale: "Consistent with the cited capacitance data (e.g. 301 uF/cm2 at Ni/YSZ, too high for a Helmholtz layer) and established continuum-model limits."
+  - id: schott2024:LIM1
+    statement_type: LIMITATION
+    section: Sec. 10
+    paper_part: DISCUSSION
+    text: Cdl values are usually normalized to geometric area and depend strongly on method, frequency and model, so many literature values are not directly comparable.
+    limitation_kind: DATA
+  - id: schott2024:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 10
+    paper_part: CONCLUSION
+    text: Correlating microscopic and macroscopic EDL parameters with electrocatalytic activity under comparable conditions, aided by machine learning, should establish EDL-based catalyst design principles.
+
+  - id: schott2024:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Electrode composition, surface structure and electrolyte composition strongly affect EDL parameters (Cdl, pzc, pzfc, PME), and pzc and PME correlate with electrocatalytic activity, whereas no such correlation has been established for Cdl."
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM1 in the conclusion; verdict as there."
+
+relations:
+  - {id: schott2024:R1, subject: schott2024:BG1, predicate: MOTIVATES, object: schott2024:GAP1, asserted_by: AUTHORS}
+  - {id: schott2024:R2, subject: schott2024:GAP1, predicate: MOTIVATES, object: schott2024:AIM1, asserted_by: AUTHORS}
+  - {id: schott2024:R3, subject: schott2024:METH1, predicate: DELIVERS, object: schott2024:AIM1, asserted_by: AUTHORS}
+  - {id: schott2024:R4, subject: schott2024:OBS2, predicate: SUPPORTS, object: schott2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: schott2024:R5, subject: schott2024:OBS3, predicate: SUPPORTS, object: schott2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: schott2024:R6, subject: schott2024:OBS3, predicate: SUPPORTS, object: schott2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Estimated work functions, narrow range, low activity"}}
+  - {id: schott2024:R7, subject: schott2024:LIM1, predicate: QUALIFIES, object: schott2024:CLAIM1, asserted_by: AUTHORS}
+  - {id: schott2024:R8, subject: schott2024:OBS1, predicate: SUPPORTS, object: schott2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: schott2024:R9, subject: schott2024:LIM1, predicate: SUPPORTS, object: schott2024:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: schott2024:R10, subject: schott2024:CLAIM1, predicate: SUPPORTS, object: schott2024:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: schott2024:R11, subject: schott2024:OBS2, predicate: SUPPORTS, object: schott2024:CLAIM5, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: schott2024:R12, subject: schott2024:CLAIM1, predicate: DELIVERS, object: schott2024:AIM1, asserted_by: AUTHORS}
+  - {id: schott2024:R13, subject: schott2024:CLAIM3, predicate: ANSWERS, object: schott2024:GAP1, asserted_by: AUTHORS}
+  - {id: schott2024:R14, subject: schott2024:CLAIM4, predicate: MOTIVATES, object: schott2024:OUT1, asserted_by: AUTHORS}
+
+  - {id: schott2024:R15, subject: schott2024:CONC1, predicate: RESTATES, object: schott2024:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A comprehensive review of how EDL parameters are measured and computed
+    and how electrode composition, structure and electrolyte affect them.
+    It is candid about the method dependence of Cdl, the early stage of
+    SECCM-based pzc determination and theory-experiment discrepancies, and
+    its methodological recommendations follow directly from the reviewed
+    evidence. Links between EDL parameters and electrocatalytic activity
+    are presented as emerging correlations from few systems, such as an HEA
+    pzc-work function trend over a 0.14 eV range of estimated work
+    functions. This encoding covers selected sections only.
+  key_limitations:
+    - "Activity correlations of pzc/PME from few systems (CLAIM1, CLAIM2)."
+    - "HEA work functions estimated, narrow range (OBS3)."
+    - "Cdl literature values not comparable across normalization and method (LIM1)."
+    - "Encoding based on selected sections of a 72-page review."
+  missing_evidence:
+    - "Systematic dataset of Cdl, pzc and PME measured under identical conditions together with activity."
+    - "Single-crystal HEA studies with measured work functions."

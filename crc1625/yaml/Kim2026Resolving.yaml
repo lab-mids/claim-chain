@@ -1,0 +1,186 @@
+id: claimchain:chain/Kim2026Resolving
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acsnano.6c01692
+  title: "Resolving Microscale Selectivity of Electrochemical CO2 Reduction Using Hybrid Dual-Probe Scanning Electrochemical Cell Microscopy"
+  authors: [Moonjoo Kim, Lejing Li, Thomas Quast, Xin Wang, Jian Zhang, Nini Zhang, Wolfgang Schuhmann]
+  year: 2026
+  doi: 10.1021/acsnano.6c01692
+  url: https://doi.org/10.1021/acsnano.6c01692
+
+entities:
+  - {id: ent:Probe, label: "double-barrel SECCM capillary with an electrodeposited, FIB-flattened Au or Pt SECM nanoelectrode in the carbon barrel", entity_type: METHOD}
+  - {id: ent:SGTC, label: "substrate generation/tip collection voltammetry in scan-hopping SECCM-SECM", entity_type: TECHNIQUE}
+  - {id: ent:Subs, label: "Pt, Au thin film, electrodeposited Bi on glassy carbon, drop-cast Ag-Bi2O3 nanofibres on glassy carbon", entity_type: MATERIAL}
+  - {id: ent:CE, label: "collection efficiency i_tip/i_substrate", entity_type: QUANTITY}
+  - {id: ent:Gap, label: "tip-substrate gap L from retract curves and redox-cycling equation", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: kim2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: SECCM resolves nanoscale activity but lacks product selectivity; Ar-vs-CO2 current differences are only qualitative because HER and CO2RR share sites and interact, and SECCM-MS is slow and misses gases; hybrid SECCM-SECM has quantified ORR selectivity.
+    evidence: [{evidence_kind: CITATION, references: ["16-37"]}]
+  - id: kim2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Develop Au- and Pt-based hybrid SECCM-SECM probes, characterize collection efficiency and droplet geometry, examine the tip response to locally generated H2, CO and formate, and map microscale formate selectivity of Ag-Bi2O3 catalysts.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods / characterization ----------------
+  - id: kim2026:METH1
+    statement_type: METHOD
+    section: Results, Methods
+    paper_part: METHODS
+    text: Probes are made by pyrolytic carbon filling of one barrel, thermal etching of a recess, electrodeposition of Au or Pt and FIB polishing; potentials are converted to RHE via measured OCP of the AgCl/Ag quasi-reference; CE is the ratio of tip to substrate current in SG/TC mode.
+    about: [ent:Probe, ent:SGTC]
+  - id: kim2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 2
+    paper_part: RESULTS
+    text: With FcMeOH2 on Pt, a 6 x 6 hopping experiment (1.31 µm tip) gives CE 98.2 ± 2.1% and 4.4 ± 0.1 µm footprints; with a 1.09 µm tip, retract curves give gap L of 686 nm on first approach and 554 ± 22 nm afterwards, with a 1.5 ± 0.1 µm wetted diameter, indicating a pancake-shaped droplet.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2, Fig. S4"
+        values:
+          - {symbol: L_gap, quantity: tip-substrate gap, value: 554, unit: nm}
+          - {symbol: d_wet, quantity: wetted diameter in gap experiment, value: 1.5, unit: um}
+          - {symbol: d_wet_conc, quantity: wetted diameter stated in the conclusion, value: 1.08, unit: um}
+        derived_checks:
+          - {expression: "aspect ratio of droplet (height/diameter) using 1.5 µm", formula: "L_gap/(d_wet*1000)", result: 0.369}
+          - {expression: "difference between wetted diameters in results and conclusion", formula: "d_wet - d_wet_conc", result: 0.42, unit: um}
+    about: [ent:CE, ent:Gap]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The wetted diameter for the 554 nm gap is 1.5 µm in the abstract and results but 1.08 µm in the conclusion (close to the 1.09 µm tip diameter).", priority: LOW}
+  - id: kim2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: The embedded SECM tip collects nearly all products generated at the substrate because of the submicrometre tip-substrate separation, and the gap can be quantified from retract curves with the redox-cycling equation.
+    about: [ent:CE, ent:Gap]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Shown convincingly for a soluble outer-sphere mediator with good reproducibility; the gap method assumes constant wetted area during retraction (supported by linearity), and collection of other products depends on their transport, as the paper itself shows."
+
+  # ---------------- CO2RR products ----------------
+  - id: kim2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 3, Figs. S5-S6
+    paper_part: RESULTS
+    text: On an Au substrate, the Au tip shows only slight changes - no distinct HOR or CO oxidation, a slightly increased anodic current at 1.0-1.4 V and a shifted gold-oxide peak during CO2RR - and a Pt tip shows suppressed Hupd under CO2 but no distinct HOR or CO oxidation, whereas a macroscopic Au UME above Au shows clear CO oxidation.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3, Figs. S5-S6"}]
+    about: [ent:SGTC, ent:Subs]
+  - id: kim2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: Rapid gas exchange at the electrode-electrolyte-gas three-phase boundary of the nanoscale droplet removes poorly soluble H2 and CO, suppressing their collection at the tip.
+    about: [ent:SGTC]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "Consistent with the low tip response, solubility arguments and the contrast to the UME experiment; no direct measurement (e.g. varying gas atmosphere or droplet size) tests the gas-loss mechanism."
+  - id: kim2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: On Bi under CO2 with the substrate at -0.11 V, tip and substrate currents rise together when the Pt tip exceeds 1 V, but not under Ar or with the substrate at 0.39 V; after accumulating products at -0.21 V a first-cycle tip oxidation of tens of nA appears near 1 V; substrate sweeps give rapid rises below -0.2 V with CE of 97.7% at -0.3 V.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4, Fig. S9"}]
+    about: [ent:SGTC, ent:CE]
+  - id: kim2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: Formate produced by CO2RR on Bi undergoes redox cycling between substrate and Pt tip (oxidized via the CO-mediated indirect pathway above 1 V), enabling sensitive, real-time detection of local formate production.
+    about: [ent:SGTC]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Formate is not independently identified (no potassium-formate calibration in the droplet or product analysis), and the indirect-pathway assignment is inferred from the onset potential only.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Ar, potential and tunnelling controls make a dissolved CO2RR product cycling between electrodes very plausible, and formate is the expected Bi product; direct identification and calibration are missing."
+  - id: kim2026:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 5, Figs. S10-S12
+    paper_part: RESULTS
+    text: In a 6 x 6 map (20 µm steps) over drop-cast Ag-Bi2O3 on glassy carbon in 50 mM KOH under CO2, Ag-Bi2O3-rich areas show higher substrate and tip currents and higher CE (peaking near -0.25 V vs RHE) than carbon-rich areas, but CE stays below 60% compared with 97.7% on Bi.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5"}]
+    about: [ent:CE, ent:Subs]
+    scope: {sample_count: 36, scope_note: "one 6 x 6 map, some areas excluded"}
+  - id: kim2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: DISCUSSION
+    text: Hybrid SECCM-SECM maps the microscale, potential-dependent formate selectivity of Ag-Bi2O3 catalysts, revealing enhanced selectivity localized at Ag-Bi2O3-rich regions, and is a powerful platform for structure-activity-selectivity relationships in CO2RR.
+    about: [ent:CE, ent:Probe]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "CE in a redox-cycling regime includes amplification and depends on droplet spreading and gap; it is used as a formate-selectivity measure without calibration against Faradaic efficiency, and the drop from 97.7% to below 60% is attributed to spreading without measurement.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The map shows relative differences in tip/substrate current between regions in one experiment; translating CE into selectivity is uncalibrated and confounded by droplet geometry differences in alkaline electrolyte."
+      proof_obligations:
+        - text: "Calibrate CE against Faradaic efficiency for formate"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "CE vs formate Faradaic efficiency", unit: "%", method: "parallel bulk electrolysis with NMR/HPLC on the same catalyst and electrolyte"}]
+  - id: kim2026:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: Gaseous products (H2, CO) are poorly collected, and droplet spreading in alkaline electrolyte lowers CE.
+
+relations:
+  - {id: kim2026:R1, subject: kim2026:BG1, predicate: MOTIVATES, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R2, subject: kim2026:METH1, predicate: DELIVERS, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R3, subject: kim2026:OBS1, predicate: DELIVERS, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R4, subject: kim2026:CLAIM2, predicate: DELIVERS, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R5, subject: kim2026:CLAIM3, predicate: DELIVERS, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R6, subject: kim2026:CLAIM4, predicate: DELIVERS, object: kim2026:AIM1, asserted_by: AUTHORS}
+  - {id: kim2026:R7, subject: kim2026:OBS1, predicate: SUPPORTS, object: kim2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: MET, scope_match: PARTLY, criteria_note: "Outer-sphere mediator; generalization to other products limited"}}
+  - {id: kim2026:R8, subject: kim2026:OBS2, predicate: SUPPORTS, object: kim2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "UME control; mechanism not directly tested"}}
+  - {id: kim2026:R9, subject: kim2026:OBS3, predicate: SUPPORTS, object: kim2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Ar and potential controls; formate not independently identified"}}
+  - {id: kim2026:R10, subject: kim2026:OBS4, predicate: SUPPORTS, object: kim2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "CE as uncalibrated selectivity proxy; droplet geometry confound"}}
+  - {id: kim2026:R11, subject: kim2026:CLAIM3, predicate: SUPPORTS, object: kim2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: kim2026:R12, subject: kim2026:LIM1, predicate: QUALIFIES, object: kim2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: kim2026:R13, subject: kim2026:CLAIM1, predicate: SUPPORTS, object: kim2026:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper builds hybrid SECCM-SECM probes with embedded Au or Pt
+    nanoelectrodes, shows near-unity collection for a ferrocene mediator,
+    quantifies the tip-substrate gap from retract curves, explains the
+    weak tip response to H2 and CO by gas loss at the three-phase
+    boundary, and demonstrates tip-substrate redox cycling attributed to
+    formate on Bi with appropriate Ar and potential controls. The
+    headline selectivity mapping is weaker: collection efficiency in the
+    redox-cycling regime is used as formate selectivity without
+    calibration against Faradaic efficiency, the alkaline map (one 6 x 6
+    grid) shows CE below 60% explained by unmeasured droplet spreading,
+    formate is not independently identified, and the wetted diameter is
+    reported as 1.5 µm and 1.08 µm in different places.
+  key_limitations:
+    - "CE not calibrated as selectivity (CLAIM4)."
+    - "Formate not independently identified (CLAIM3)."
+    - "One map; droplet spreading confound in alkaline electrolyte (OBS4)."
+    - "Inconsistent wetted-diameter values (OBS1)."
+  missing_evidence:
+    - "Calibration of CE vs bulk-electrolysis formate Faradaic efficiency."
+    - "Tip response to added potassium formate in the droplet."
+    - "Repeat maps with footprint measurements in alkaline electrolyte."

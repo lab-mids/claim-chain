@@ -1,0 +1,225 @@
+id: claimchain:chain/Saksena2025Platinum
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2510.09522; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.48550/arXiv.2510.09522
+  title: "Is Platinum a Proton Blocking Catalyst?"
+  authors: [Aparna Saksena, Yujun Zhao, J. Manoj Prabhakar, Dierk Raabe, Baptiste Gault, Yug Joshi]
+  year: 2025
+  doi: 10.48550/arXiv.2510.09522
+  arxiv: "2510.09522"
+  url: https://arxiv.org/abs/2510.09522
+
+entities:
+  - {id: ent:PtFilm, label: "110 nm e-beam Pt film on Ti/Au/Ti-coated 5 MHz quartz crystal", entity_type: MATERIAL}
+  - {id: ent:eQCM, label: "operando electrochemical quartz crystal microbalance (Sauerbrey, calibrated Cf = 10.92 Hz cm2/µg)", entity_type: TECHNIQUE}
+  - {id: ent:APT, label: "atom probe tomography of the D-charged film with H-background correction", entity_type: TECHNIQUE}
+  - {id: ent:TDS, label: thermal desorption spectroscopy of pristine and H-charged Pt, entity_type: TECHNIQUE}
+  - {id: ent:Ingress, label: "bulk ingress of H/D into Pt during HER/DER", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: saksena2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Pt is considered a proton-blocking HER catalyst with only surface-limited H adsorption, supported by a reported H solubility of 1 in 1e11 Pt atoms at 25 °C; a hydride-like intermediate in the top four Pt layers has been reported in alkaline media.
+    evidence: [{evidence_kind: CITATION, references: ["5", "9-12"]}]
+  - id: saksena2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion
+    paper_part: INTRODUCTION
+    text: Pt is not proton-blocking during acidic HER - H and D diffuse into the Pt bulk (at least 15 at.% D below the surface, more than 10 nm deep), irreversibly increasing electrode mass and overpotential.
+    about: [ent:Ingress, ent:PtFilm]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "APT detects D below the surface after DER, but the eQCM mass gain is about two orders of magnitude larger than the D content the APT profile implies, so the mass gain and overpotential change cannot be attributed to bulk ingress on the paper's own numbers; contamination and QCM artefacts are not excluded."
+      proof_obligations:
+        - text: "Show that the eQCM mass gain equals the absorbed H/D"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "absorbed H/D per area", unit: "atoms cm-2", method: "quantitative TDS or NRA on the same QCM electrodes"}]
+        - text: "Exclude deposition of impurities as the cause of mass gain and overpotential increase"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "surface impurity coverage after 12 h HER", method: "XPS or ICP of electrolyte; repeat with ultrapure acid"}]
+        - text: "Show D below the surface"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [saksena2025:OBS3]
+
+  # ---------------- Methods ----------------
+  - id: saksena2025:METH1
+    statement_type: METHOD
+    section: Results, Methods
+    paper_part: METHODS
+    text: Galvanostatic HER/DER at -2.4 mA/cm2 for 12 h in 0.1 M H2SO4 or D2SO4 (97-99% purity) in an H-cell with glassy carbon counter electrode and Nafion separator, followed by 2 h OCV, while the QCM frequency is converted to mass with the Sauerbrey equation.
+    about: [ent:eQCM, ent:PtFilm]
+    scope: {sample_count: 1, scope_note: "one electrode per isotope reported"}
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Sauerbrey conversion assumes a rigid, bubble-free film; vigorous gas evolution, viscosity/temperature changes and roughness changes over 12 h are not controlled, and the authors note bubbling skews early DER data.", priority: HIGH}
+      - {concern_type: REPRODUCIBILITY, description: "No repeat electrodes or uncertainty on the mass gain are reported.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: saksena2025:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 2A
+    paper_part: RESULTS
+    text: The electrode potential decreases steadily during 12 h galvanostatic HER and DER (larger overpotential for DER) and rises immediately at OCV.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2A"}]
+    about: [ent:PtFilm]
+  - id: saksena2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 2B-D
+    paper_part: RESULTS
+    text: The QCM frequency decreases parabolically during reaction; after OCV an irreversible mass gain of 2.9 µg/cm2 (HER) and 1.8 µg/cm2 (DER) remains.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2C-D"
+        values:
+          - {symbol: dm_H, quantity: irreversible mass gain after HER, value: 2.9e-6, unit: g cm-2}
+          - {symbol: dm_D, quantity: irreversible mass gain after DER, value: 1.8e-6, unit: g cm-2}
+          - {symbol: NA, quantity: Avogadro constant, value: 6.022e+23, unit: mol-1}
+          - {symbol: nPt, quantity: Pt atomic density, value: 6.62e+22, unit: cm-3}
+          - {symbol: tPt, quantity: Pt film thickness, value: 1.1e-5, unit: cm}
+        derived_checks:
+          - {expression: "H atoms per Pt atom if the HER mass gain were absorbed H spread over the whole film", formula: "dm_H/1.008*NA/(nPt*tPt)", result: 2.38}
+          - {expression: "D atoms per Pt atom if the DER mass gain were absorbed D spread over the whole film", formula: "dm_D/2.014*NA/(nPt*tPt)", result: 0.74}
+    about: [ent:eQCM]
+  - id: saksena2025:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 3, Figs. S1-S2
+    paper_part: RESULTS
+    text: APT of the DER sample shows a 4 Da peak assigned to D2+ and, after correcting H2+/H3+ contributions with reference specimens, a D plateau of about 15 at.% in the top 2.5-3 nm that drops to background within 10 nm; transfer and FIB preparation were done in air at room temperature.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3C"
+        values:
+          - {symbol: xD, quantity: D fraction in plateau, value: 0.15}
+          - {symbol: tpl, quantity: plateau thickness, value: 3.0e-7, unit: cm}
+          - {symbol: nPt, quantity: Pt atomic density, value: 6.62e+22, unit: cm-3}
+          - {symbol: NA, quantity: Avogadro constant, value: 6.022e+23, unit: mol-1}
+          - {symbol: dm_D, quantity: irreversible mass gain after DER, value: 1.8e-6, unit: g cm-2}
+        derived_checks:
+          - {expression: "D mass per area in the 3 nm plateau (upper bound doubled for the tail)", formula: "2*xD/(1 - xD)*nPt*tpl*2.014/NA", result: 2.4e-8, unit: g cm-2}
+          - {expression: "ratio of eQCM DER mass gain to APT-derived D mass", formula: "dm_D/(2*xD/(1 - xD)*nPt*tpl*2.014/NA)", result: 77}
+    about: [ent:APT, ent:Ingress]
+    scope: {sample_count: 1, scope_note: "one APT reconstruction reported in the main text"}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Even doubling the plateau for the diffusion tail, the APT D content accounts for about 1/75 of the 1.8 µg/cm2 eQCM mass gain; the mass gain therefore needs another explanation that the paper does not discuss.", priority: HIGH}
+      - {concern_type: MISSING_QUANTIFICATION, description: "The 4 Da peak can also contain H2D+; how this was separated from D2+ is not stated in the main text.", priority: LOW}
+  - id: saksena2025:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. S3
+    paper_part: RESULTS
+    text: TDS shows more hydrogen desorption from the HER-treated Pt than from pristine Pt (qualitative).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. S3"}]
+    about: [ent:TDS]
+  - id: saksena2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results
+    paper_part: RESULTS
+    text: The irreversible mass gain and the change in overpotential during HER/DER arise from diffusion of H/D into Pt.
+    about: [ent:Ingress, ent:eQCM]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The mass gain implies H/Pt of about 2.4 over the whole film, beyond any interstitial solid solution and about 75 times the APT D content; deposition of impurities from 97-99% acid during 12 h cathodic polarization would raise both mass and overpotential.", priority: HIGH}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own APT profile and film thickness give an absorbed D mass about two orders of magnitude below the measured mass gain, so the mass gain cannot arise mainly from H/D diffusion; no control excludes impurity deposition or QCM artefacts."
+      missing_evidence:
+        - "Repeat in ultrapure (TraceSELECT) acid with impurity analysis"
+        - "eQCM at the same current on a non-absorbing reference (e.g. Au) electrode"
+  - id: saksena2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion, SI
+    paper_part: DISCUSSION
+    text: An error-function fit gives a diffusion coefficient of D in Pt of (3.2 ± 0.05) x 1e-18 cm2/s and a surface D concentration of 30 at.%, consistent with semi-infinite diffusion and an interstitial H/D-Pt solid solution.
+    about: [ent:Ingress, ent:APT]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Discussion"
+        values:
+          - {symbol: Dcoef, quantity: fitted diffusion coefficient, value: 3.2e-18, unit: cm2 s-1}
+          - {symbol: t, quantity: charging time, value: 43200, unit: s}
+        derived_checks:
+          - {expression: "diffusion length 2*sqrt(D t) after 12 h", formula: "2*(Dcoef*t)**0.5*1e7", result: 7.4, unit: nm}
+    concerns:
+      - {concern_type: OVERCLAIM, description: "A 1.5% uncertainty from a single profile whose surface part is admittedly depleted is overprecise; the measured flat 15 at.% plateau is not an error-function shape and the 30 at.% surface value is extrapolated.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The fitted D gives a diffusion length (7 nm) consistent with the profile, but the fit rests on one APT profile with acknowledged D loss and an extrapolated surface concentration."
+  - id: saksena2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: RESULTS
+    text: Bulk diffusion of D is slower than of H, as expected because the charge radius of D is more than double that of H.
+    about: [ent:Ingress]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The nuclear charge radius does not govern interstitial diffusion of H isotopes in metals, which is controlled by mass and zero-point energy; the comparison also relies on mass gains that the APT data cannot account for.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Rests on the eQCM concentrations (see CLAIM1) and on an inappropriate physical argument."
+  - id: saksena2025:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: D may desorb during ambient transfer and FIB preparation and the APT apex may not coincide with the electrode surface, so D near the surface is likely underestimated; H in APT is unavoidable background.
+  - id: saksena2025:OUT1
+    statement_type: OUTLOOK
+    section: Discussion
+    paper_part: CONCLUSION
+    text: Bulk H/D in Pt, through strain and electronic-structure changes, should be integrated into theory and design principles of Pt-based HER catalysts.
+
+relations:
+  - {id: saksena2025:R1, subject: saksena2025:BG1, predicate: MOTIVATES, object: saksena2025:HYP1, asserted_by: AUTHORS}
+  - {id: saksena2025:R2, subject: saksena2025:METH1, predicate: DELIVERS, object: saksena2025:OBS2, asserted_by: AUTHORS, note: "object is an observation, not an aim"}
+  - {id: saksena2025:R3, subject: saksena2025:OBS2, predicate: SUPPORTS, object: saksena2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Mass change is not specific to H; magnitude incompatible with APT; one sample; no impurity control"}}
+  - {id: saksena2025:R4, subject: saksena2025:OBS1, predicate: SUPPORTS, object: saksena2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: saksena2025:R5, subject: saksena2025:OBS3, predicate: CONTRADICTS, object: saksena2025:CLAIM1, asserted_by: ANNOTATOR, note: "APT D content about 1/75 of the eQCM mass gain"}
+  - {id: saksena2025:R6, subject: saksena2025:METH1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: saksena2025:CLAIM1, asserted_by: ANNOTATOR_BACKGROUND, note: "impurity deposition from 97-99% acid and bubble/viscosity effects on the QCM"}
+  - {id: saksena2025:R7, subject: saksena2025:OBS3, predicate: SUPPORTS, object: saksena2025:HYP1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "D detected below surface in one APT dataset with H-background correction"}}
+  - {id: saksena2025:R8, subject: saksena2025:OBS4, predicate: SUPPORTS, object: saksena2025:HYP1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: saksena2025:R9, subject: saksena2025:CLAIM1, predicate: SUPPORTS, object: saksena2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: saksena2025:R10, subject: saksena2025:OBS3, predicate: SUPPORTS, object: saksena2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Single profile with acknowledged near-surface loss"}}
+  - {id: saksena2025:R11, subject: saksena2025:LIM1, predicate: QUALIFIES, object: saksena2025:CLAIM2, asserted_by: AUTHORS}
+  - {id: saksena2025:R12, subject: saksena2025:OBS2, predicate: SUPPORTS, object: saksena2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: saksena2025:R13, subject: saksena2025:HYP1, predicate: MOTIVATES, object: saksena2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper reports an irreversible eQCM mass gain and rising
+    overpotential during 12 h galvanostatic HER/DER on Pt films and APT
+    detection of deuterium (about 15 at.% plateau, about 10 nm deep)
+    after DER, concluding that Pt is not proton-blocking. The APT
+    detection of subsurface D is the strongest evidence and the fitted
+    diffusion coefficient is consistent with the profile depth. The
+    central causal claim fails on the paper's own numbers: the 1.8-2.9
+    µg/cm2 mass gains correspond to H/Pt or D/Pt of 0.7-2.4 over the whole
+    110 nm film, about 75 times more D than the APT profile contains, so
+    the mass gain and overpotential drift need another cause (e.g.
+    impurity deposition from non-ultrapure acid or QCM artefacts during
+    gas evolution), which is not tested. Results rest on single samples,
+    and the isotope argument invokes the nuclear charge radius.
+  key_limitations:
+    - "eQCM mass gain incompatible with APT D content (CLAIM1, OBS3)."
+    - "No control for impurity deposition or QCM artefacts (METH1)."
+    - "Single electrode and single APT profile; overprecise D (CLAIM2)."
+    - "Inappropriate physical argument for isotope effect (CLAIM3)."
+  missing_evidence:
+    - "Quantitative TDS/NRA of absorbed H/D on the QCM electrodes."
+    - "Ultrapure-electrolyte and Au-reference eQCM controls."
+    - "Repeat APT measurements at several sites and cryo transfer."

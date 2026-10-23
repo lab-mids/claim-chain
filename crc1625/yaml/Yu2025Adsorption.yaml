@@ -1,0 +1,245 @@
+id: claimchain:chain/Yu2025Adsorption
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/admi.202500680
+  title: "Adsorption Dynamics and Electric Double Layer Properties at Pt(100) Electrodes"
+  authors: [Haiting Yu, Renata Sechi, Qingdian Liao, Mathias Stokkebye Nissen, Arghya Bhowmik, Elena L. Gubanova, Kun-Ting Song, Heine A. Hansen, Aliaksandr S. Bandarenka]
+  year: 2025
+  doi: 10.1002/admi.202500680
+  url: https://doi.org/10.1002/admi.202500680
+
+entities:
+  - {id: ent:Pt100, label: "flame-annealed Pt(100) single crystal in 0.1 M HClO4", entity_type: MATERIAL}
+  - {id: ent:EIS, label: "potential-dependent impedance with a two-branch adsorption equivalent circuit (8 measurements)", entity_type: TECHNIQUE}
+  - {id: ent:LICT, label: "laser-induced current transients giving potentials of maximum entropy (pme)", entity_type: TECHNIQUE}
+  - {id: ent:SHINERS, label: "in situ shell-isolated nanoparticle-enhanced Raman of interfacial water O-H stretch", entity_type: TECHNIQUE}
+  - {id: ent:DFT, label: "GPAW PBE phase diagram of about 700 GA-generated H/O/OH adlayers on a 3x3 Pt(100) slab (CHE, G ≈ E_DFT)", entity_type: METHOD}
+  - {id: ent:Cov, label: "H and OH coverage vs potential", entity_type: QUANTITY}
+  - {id: ent:pme, label: potential of maximum entropy, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: yu2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1-2.1
+    paper_part: INTRODUCTION
+    text: Pt(100) in HClO4 shows overlapping H and OH adsorption peaks (OH from about 0.3 V), a pztc near 0.43 V from CO displacement, and an EDL structure much less studied than on Pt(111); pztc, pzfc and pme characterize the interface.
+    evidence: [{evidence_kind: CITATION, references: ["8-12", "28-38"]}]
+  - id: yu2025:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The EDL structure and adsorption dynamics on Pt(100) are incompletely understood.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: yu2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Determine potential-dependent adsorbate coverage on Pt(100) in HClO4 from CV, EIS and DFT.
+    author_certainty: DEMONSTRATED
+  - id: yu2025:AIM2
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Determine the double-layer capacitance, pzfc, pme and interfacial water structure of Pt(100) by EIS, LICT and SHINERS.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: yu2025:METH1
+    statement_type: METHOD
+    section: Sec. 4
+    paper_part: METHODS
+    text: Impedance spectra (300 kHz-1 Hz, 25 mV steps) on eight freshly prepared electrodes are fitted with Rs, a CPE double layer (n > 0.97) and two R-C adsorption branches; LICT uses 532 nm ns pulses at 20 mV steps; SHINERS uses Au/SiO2 particles; DFT uses a 3x3 cell with free energies approximated by DFT energies under the computational hydrogen electrode.
+    about: [ent:EIS, ent:LICT, ent:SHINERS, ent:DFT]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Adsorbate free energies are approximated by DFT energies without zero-point or entropy corrections while H2 and H2O use Gibbs energies; the 3x3 cell only allows coverages in ninths.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: yu2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 1a
+    paper_part: RESULTS
+    text: The CV shows reversible peaks I-IV (II at 0.36 V, III at 0.40 V, IV near 0.55 V) and a less reversible peak V near 0.85 V; the anodic charge between 0.12 and 0.75 V after double-layer correction is about 224 µC/cm2.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1a"}]
+    about: [ent:Pt100]
+  - id: yu2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.1, Fig. 1b, Table S1
+    paper_part: RESULTS
+    text: The DFT phase diagram gives 44% H (A) below 0.24 V, 44% H + 22% OH (B) between 0.24 and 0.32 V, 66% OH (C) between 0.32 and 0.45 V and 77% OH (D) above, with kinks about 0.05-0.07 V from the CV peaks.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1b, Table S1"}]
+    about: [ent:DFT, ent:Cov]
+  - id: yu2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2c-d
+    paper_part: RESULTS
+    text: The adsorption capacitance C1 peaks at 0.35 V (620 ± 140 µF/cm2, R1 = 0.4 ± 1.9 Ohm cm2, k1 = (1.4 ± 7.4) x 1e-6 mol/cm2 s); C2 peaks at 0.40 V (350 ± 270 µF/cm2, k = (3.3 ± 2.2) x 1e-7) and 0.60 V (110 ± 75 µF/cm2, k = (1.8 ± 0.8) x 1e-7); integrated charges are about 85 (C1), 62 (C2) and 70 µC/cm2 (Cdl peaks).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2c-e"
+        values:
+          - {symbol: k1, quantity: apparent rate constant branch 1, value: 1.4e-6, unit: mol cm-2 s-1}
+          - {symbol: k1_err, quantity: uncertainty of k1, value: 7.4e-6, unit: mol cm-2 s-1}
+          - {symbol: k21, quantity: apparent rate constant branch 2 first peak, value: 3.3e-7, unit: mol cm-2 s-1}
+          - {symbol: k21_err, quantity: uncertainty of k2-1, value: 2.2e-7, unit: mol cm-2 s-1}
+          - {symbol: q1, quantity: charge from C1, value: 85, unit: uC cm-2}
+          - {symbol: q2, quantity: charge from C2, value: 62, unit: uC cm-2}
+          - {symbol: qdl, quantity: charge from Cdl peaks, value: 70, unit: uC cm-2}
+          - {symbol: q_cv, quantity: CV charge, value: 224, unit: uC cm-2}
+          - {symbol: q_ml, quantity: charge of one electron per Pt(100) surface atom, value: 209, unit: uC cm-2}
+        derived_checks:
+          - {expression: "sum of EIS charges (stated 217 µC/cm2)", formula: "q1 + q2 + qdl", result: 217, unit: uC cm-2}
+          - {expression: "H coverage from C1 charge (stated about 40%)", formula: "q1/q_ml", result: 0.41}
+          - {expression: "OH coverage from C2 charge (stated about 30%)", formula: "q2/q_ml", result: 0.30}
+          - {expression: "k1 exceeds k2-1 beyond their combined uncertainties", formula: "k1 - k1_err > k21 + k21_err", satisfied: false}
+    about: [ent:EIS, ent:Cov]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "k1 has an uncertainty five times its value (R1 = 0.4 ± 1.9 Ohm cm2), so the stated order-of-magnitude difference between k1 and k2, which is the basis for assigning C1 to H and C2 to OH, is not statistically supported.", priority: HIGH}
+  - id: yu2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.1-2.2, Sec. 3
+    paper_part: RESULTS
+    text: Below about 0.30 V hydrogen is the predominant adsorbate, between about 0.30 and 0.45 V (peaks II-III) a mixed region of about 44% H and 22-30% OH forms, and at higher potentials OH coverage increases, in good agreement between CV, EIS and DFT.
+    about: [ent:Cov]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The mixed 44% H/22% OH structure B is stable only between 0.24 and 0.32 V in the DFT diagram, whereas 0.32-0.45 V is 66% OH (structure C); the conclusion places the mixed region at 0.30-0.45 V.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Charges recompute to about 40% H and 30% OH and the overall trend agrees with the literature and DFT, but the H/OH assignment of the EIS branches rests on rate constants with uncertainties larger than their difference, and the DFT potential windows do not match the stated range."
+  - id: yu2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.2
+    paper_part: DISCUSSION
+    text: Two C2 peaks with different rate constants indicate two types of OH adsorption sites, and the Cdl peaks at 0.30 and 0.52 V reflect fast H and OH adsorption, matching DFT's weak and strong OH adsorption processes.
+    about: [ent:EIS, ent:DFT]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The rate constants of the two C2 peaks overlap within error ((3.3 ± 2.2) vs (1.8 ± 0.8) x 1e-7), and the mapping of fast/slow EIS processes to DFT adsorption energies is argued, not computed."
+  - id: yu2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2e-f
+    paper_part: RESULTS
+    text: Cdl has a minimum of about 27 µF/cm2 near 0.82 V, which fits the inverse volcano of Cdl,min vs Pt(hkl) reported earlier.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2e-f"}]
+    about: [ent:EIS, ent:Pt100]
+  - id: yu2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.2, Sec. 3
+    paper_part: DISCUSSION
+    text: The Cdl minimum near 0.82 V lies close to the pzfc, and Cdl,min is sensitive to the electrode surface structure.
+    about: [ent:EIS]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "The authors call it a rough estimate; 0.82 V coincides with the onset of oxygen adsorption (peak V), where a Gouy-Chapman minimum interpretation is questionable; the structure sensitivity rests on one new point added to literature data."
+  - id: yu2025:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 3a-b
+    paper_part: RESULTS
+    text: LICT transients are positive at low potentials, change sign near 0.44 V and again near 0.71 V, and become positive above; the authors read positive transients as a positively charged surface with water oxygen-down.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3a-b"}]
+    about: [ent:LICT, ent:pme]
+    concerns:
+      - {concern_type: UNACKNOWLEDGED_CONFLICT, description: "The reading implies a positively charged surface below the pztc (0.43 V) and a negatively charged surface between 0.44 and 0.71 V, i.e. the opposite of the charge order expected around the pztc and pzfc; the authors also note that H and OH adsorption contribute to the transients.", priority: MEDIUM}
+  - id: yu2025:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 3c-e
+    paper_part: RESULTS
+    text: SHINERS O-H stretching is fitted with three Gaussians (about 3200, 3400 and 3600 cm-1); all shift with potential (free-water peak 28.8 cm-1/V), and the relative intensity of the 3600 cm-1 dangling-O-H peak rises sharply at two potentials.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3c-e"}]
+    about: [ent:SHINERS]
+  - id: yu2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3, Sec. 3
+    paper_part: DISCUSSION
+    text: For the first time, combining LICT and SHINERS identifies two pme on Pt(100) (about 0.44 and 0.71 V), where enhanced disorder from broken hydrogen bonds facilitates charge transfer.
+    about: [ent:pme, ent:LICT, ent:SHINERS]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Facilitated charge transfer is not measured; the coincidence of Raman intensity rises with the pme is qualitative and the transients include adsorption contributions.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The two LICT sign changes are measured and coincide with increased free-O-H intensity, supporting increased disorder there; the charge-transfer facilitation and the surface-charge interpretation are not supported by data in the paper."
+  - id: yu2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Between 0.30 and 0.45 V a mixed adsorption region with 22% hydroxide and 44% hydrogen forms, in good agreement between experiment and theory.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM1 with the potential-window mismatch to the DFT diagram."
+  - id: yu2025:CONC2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Two pme values at about 0.44 and 0.71 V indicate increased disorder and facilitated charge transfer, evidenced by H-bond network disruption from more dangling bonds.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM4."
+
+relations:
+  - {id: yu2025:R1, subject: yu2025:BG1, predicate: MOTIVATES, object: yu2025:GAP1, asserted_by: AUTHORS}
+  - {id: yu2025:R2, subject: yu2025:GAP1, predicate: MOTIVATES, object: yu2025:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025:R3, subject: yu2025:GAP1, predicate: MOTIVATES, object: yu2025:AIM2, asserted_by: AUTHORS}
+  - {id: yu2025:R4, subject: yu2025:OBS3, predicate: DELIVERS, object: yu2025:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025:R5, subject: yu2025:CLAIM1, predicate: DELIVERS, object: yu2025:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025:R6, subject: yu2025:CONC1, predicate: DELIVERS, object: yu2025:AIM1, asserted_by: AUTHORS}
+  - {id: yu2025:R7, subject: yu2025:OBS4, predicate: DELIVERS, object: yu2025:AIM2, asserted_by: AUTHORS}
+  - {id: yu2025:R8, subject: yu2025:CLAIM4, predicate: DELIVERS, object: yu2025:AIM2, asserted_by: AUTHORS}
+  - {id: yu2025:R9, subject: yu2025:CONC2, predicate: DELIVERS, object: yu2025:AIM2, asserted_by: AUTHORS}
+  - {id: yu2025:R10, subject: yu2025:OBS3, predicate: SUPPORTS, object: yu2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: MET, criteria_note: "Branch assignment relies on rate constants with overlapping errors"}}
+  - {id: yu2025:R11, subject: yu2025:OBS1, predicate: SUPPORTS, object: yu2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yu2025:R12, subject: yu2025:OBS2, predicate: SUPPORTS, object: yu2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "3x3 cell, no solvent in the phase diagram, G approximated by E"}}
+  - {id: yu2025:R13, subject: yu2025:BG1, predicate: SUPPORTS, object: yu2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "literature deconvolution by Koper et al. and Feliu et al."}
+  - {id: yu2025:R14, subject: yu2025:OBS2, predicate: QUALIFIES, object: yu2025:CLAIM1, asserted_by: ANNOTATOR, note: "structure B only stable at 0.24-0.32 V"}
+  - {id: yu2025:R15, subject: yu2025:OBS3, predicate: SUPPORTS, object: yu2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: yu2025:R16, subject: yu2025:OBS4, predicate: SUPPORTS, object: yu2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: yu2025:R17, subject: yu2025:OBS5, predicate: SUPPORTS, object: yu2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Sign changes measured; adsorption contributions acknowledged"}}
+  - {id: yu2025:R18, subject: yu2025:OBS6, predicate: SUPPORTS, object: yu2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: yu2025:R19, subject: yu2025:CONC1, predicate: RESTATES, object: yu2025:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: yu2025:R20, subject: yu2025:CONC2, predicate: RESTATES, object: yu2025:CLAIM4, asserted_by: ANNOTATOR}
+  - {id: yu2025:R21, subject: yu2025:OBS3, predicate: SUPPORTS, object: yu2025:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: yu2025:R22, subject: yu2025:OBS5, predicate: SUPPORTS, object: yu2025:CONC2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper combines CV, EIS on eight preparations, LICT, SHINERS and a
+    DFT adlayer phase diagram for Pt(100) in HClO4. The charge bookkeeping
+    is consistent (85 + 62 + 70 = 217 vs 224 µC/cm2, about 40% H and 30%
+    OH), the LICT sign changes at 0.44 and 0.71 V are measured, and the
+    coverage trend agrees with literature. The assignment of the EIS
+    branches to H and OH rests on rate constants whose uncertainties
+    exceed their difference, the DFT potential window of the mixed
+    structure does not match the stated 0.30-0.45 V range, the surface
+    charge read from transient signs contradicts the pztc ordering, the
+    pzfc estimate lies in the oxygen adsorption region, and facilitated
+    charge transfer is asserted without measurement.
+  key_limitations:
+    - "EIS rate constants too uncertain to assign H vs OH (OBS3, CLAIM1)."
+    - "DFT window of mixed structure differs from stated range (OBS2, CONC1)."
+    - "Surface-charge interpretation of LICT conflicts with pztc (OBS5)."
+    - "Charge-transfer facilitation not measured (CLAIM4)."
+  missing_evidence:
+    - "EIS fits with constrained parameters or repeated assignment tests (e.g. in H/D or with anion variation)."
+    - "DFT free energies with ZPE/entropy and solvent in the phase diagram."
+    - "Kinetic measurement (e.g. HER/HOR rate) around the two pme."

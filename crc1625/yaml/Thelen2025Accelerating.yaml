@@ -1,0 +1,295 @@
+id: claimchain:chain/Thelen2025Accelerating
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text incl. SI; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/advs.202507302
+  title: "Accelerating Combinatorial Electrocatalyst Discovery with Bayesian Optimization: A Case Study in the Quaternary System Ni-Pd-Pt-Ru for the Oxygen Evolution Reaction"
+  authors: [Felix Thelen, Rico Zehl, Ridha Zerdoumi, Jan Lukas Bürgel, Lars Banko, Wolfgang Schuhmann, Alfred Ludwig]
+  year: 2025
+  doi: 10.1002/advs.202507302
+  url: https://doi.org/10.1002/advs.202507302
+
+entities:
+  - {id: ent:Libs, label: "twelve co-sputtered Ni-Pd-Pt-Ru thin-film materials libraries (342 areas each)", entity_type: MATERIAL}
+  - {id: ent:Pure, label: "single-element Ni, Pd, Pt, Ru thin films (35 W)", entity_type: MATERIAL}
+  - {id: ent:SDC, label: "scanning droplet cell LSV in alkaline electrolyte, 1.0-1.8 V vs RHE, no iR correction", entity_type: TECHNIQUE}
+  - {id: ent:j17, label: "OER current density at 1.7 V vs RHE", entity_type: QUANTITY}
+  - {id: ent:BO, label: "Bayesian optimization with GPflow Matérn52 Gaussian process and expected improvement", entity_type: METHOD}
+  - {id: ent:Cov, label: "k-nearest-neighbour coverage of the 5 at.% composition grid", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: thelen2025b:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: A quaternary composition space at 5 at.% resolution has 1,771 compositions and a quinary space 15,504; one co-sputtered library covers about 5% of a quaternary space and takes about two days to fabricate and characterize.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Introduction, SI coverage section"
+        values:
+          - {symbol: n_quat, quantity: stated quaternary grid size, value: 1771}
+          - {symbol: n_quin, quantity: stated quinary grid size, value: 15504}
+        derived_checks:
+          - {expression: "quaternary 5 at.% grid size, C(23,3)", formula: "23*22*21/6", result: 1771}
+          - {expression: "quinary 5 at.% grid size, C(24,4) (stated 15,504)", formula: "24*23*22*21/24", result: 10626}
+    concerns:
+      - {concern_type: ARITHMETIC, description: "The quinary 5 at.% grid has C(24,4) = 10,626 compositions; 15,504 = C(20,5) is not the number of compositions.", priority: LOW}
+  - id: thelen2025b:BG2
+    statement_type: BACKGROUND
+    section: Results, Discussion
+    paper_part: INTRODUCTION
+    text: Ru and RuO2 are among the most active OER catalysts, near the top of the OER volcano, so activity in Ni-Pd-Pt-Ru is expected to increase with Ru content.
+    evidence: [{evidence_kind: CITATION, references: ["18"]}]
+  - id: thelen2025b:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Navigating multinary composition spaces library by library exceeds human intuition, and the efficiency of pairing combinatorial libraries with Bayesian optimization has not been quantified for electrocatalysts.
+    evidence: [{evidence_kind: ARGUMENT}]
+    note: "The second half of the gap is implied by the aims; the text states only the first."
+  - id: thelen2025b:AIM1
+    statement_type: AIM
+    section: Abstract, Results
+    paper_part: INTRODUCTION
+    text: Use Bayesian optimization on combinatorial libraries to efficiently find the most OER-active composition in Ni-Pd-Pt-Ru.
+    author_certainty: DEMONSTRATED
+  - id: thelen2025b:AIM2
+    statement_type: AIM
+    section: Abstract
+    paper_part: INTRODUCTION
+    text: Formulate general guidelines for efficient composition space exploration with combinatorial synthesis and Bayesian optimization.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: thelen2025b:METH1
+    statement_type: METHOD
+    section: Results, SI
+    paper_part: METHODS
+    text: Five human-designed initial libraries (equiatomic, Ni-, Ru-, Pt-, Pd-rich) seed a Matérn52 Gaussian process on EDX compositions with the current density at 1.7 V as output; the expected improvement on the 5 at.% grid selects the next library.
+    about: [ent:BO, ent:j17]
+  - id: thelen2025b:METH2
+    statement_type: METHOD
+    section: SI
+    paper_part: METHODS
+    text: OER activity is measured by SDC LSV at 10 mV/s, normalized to the 0.00735 cm2 tip area without iR correction; coverage is the fraction of 5 at.% grid points that are nearest neighbours of measured compositions.
+    about: [ent:SDC, ent:Cov]
+  - id: thelen2025b:ASM1
+    statement_type: ASSUMPTION
+    section: Results, Discussion
+    paper_part: METHODS
+    text: The current density at 1.7 V vs RHE of as-deposited films measured once in a short LSV ranks intrinsic OER activity across compositions, using bulk EDX composition as input.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Ru shows a current plateau below 1.7 V attributed to mass transport or bubbles, so the metric saturates for the best compositions; no iR correction, ECSA, stability or Ru dissolution is considered, and surface composition may differ from EDX.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: thelen2025b:OBS1
+    statement_type: OBSERVATION
+    section: Results, Figs. 2-3
+    paper_part: RESULTS
+    text: The five initial libraries cover 18.6% of the space; activity increases with Ru content and the highest value, 1.65 mA/cm2, lies in the Ru-rich library.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. 2, 3"}]
+    about: [ent:Libs, ent:j17]
+    scope: {sample_count: 5, scope_note: five libraries with 342 areas each}
+  - id: thelen2025b:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 4
+    paper_part: RESULTS
+    text: The GP trained on the initial libraries predicts highest activity at high Ru with 5-20 at.% Ni, predicts some negative current densities, and the expected improvement is maximal at Ni15Ru85.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 4"}]
+    about: [ent:BO]
+  - id: thelen2025b:OBS3
+    statement_type: OBSERVATION
+    section: Results, Figs. 5-6
+    paper_part: RESULTS
+    text: The BO-guided Ni-Ru library (ML6) exceeds all earlier activities with a trend toward pure Ru, raising coverage by 0.8% to 19.4%; separately deposited pure films (three SDC measurements each) give Ru > Ni > Pd, Pt.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 5, 6"
+        values:
+          - {symbol: cov5, quantity: coverage of five initial libraries, value: 18.6, unit: "%"}
+          - {symbol: dcov6, quantity: added coverage of ML6, value: 0.8, unit: "%"}
+        derived_checks:
+          - {expression: "coverage after six libraries (stated 19.4%)", formula: "cov5 + dcov6", result: 19.4, unit: "%"}
+    about: [ent:Libs, ent:Pure]
+    scope: {sample_count: 1, scope_note: "one BO-guided library; pure Ru not reachable by the co-sputtered libraries"}
+  - id: thelen2025b:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Discussion, Conclusion
+    paper_part: DISCUSSION
+    text: Bayesian optimization identified the global activity optimum (pure Ru) after only six libraries covering less than 20% of the composition space, i.e. about 12 days, significantly reducing experimental effort.
+    about: [ent:BO]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "Only one library (ML6) was chosen by the algorithm; the five initial libraries were designed by hand and already located the maximum in the Ru-rich region, which the authors expected a priori from the OER volcano.", priority: HIGH}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No baseline (random, grid or expert-chosen sequence) is compared, so the reduction in effort is not quantified.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "Pure Ru is indeed the most active in the measured set, but the paper does not show that BO, rather than the prior expectation and initial design, found it, nor that it was faster than an alternative strategy."
+      proof_obligations:
+        - text: "Compare against a baseline exploration strategy"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "libraries needed to reach the optimum", method: "retrospective simulation on the 12-library dataset with random and expert sequences"}]
+        - text: "Show the optimum is global"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [thelen2025b:OBS3, thelen2025b:OBS4]
+  - id: thelen2025b:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 7
+    paper_part: RESULTS
+    text: Six further libraries (ML7-12) in ternary subspaces and at the point of highest GP uncertainty bring the dataset to more than 4000 compositions and 36.7% coverage without exceeding pure Ru.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 7, Discussion, Conclusion"
+        values:
+          - {symbol: cov12_res, quantity: coverage of 12 libraries in Results, value: 36.7, unit: "%"}
+          - {symbol: cov12_disc, quantity: coverage of 12 libraries in Discussion, value: 30, unit: "%"}
+    about: [ent:Libs, ent:Cov]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The 12-library coverage is 36.7% in Results and Fig. 7, 'about 30%' in the Discussion and 37% in the Conclusion.", priority: LOW}
+  - id: thelen2025b:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Discussion
+    paper_part: RESULTS
+    text: Pure Ru is the global OER activity maximum in Ni-Pd-Pt-Ru.
+    about: [ent:Pure, ent:j17]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported by 12 libraries and pure films within the j(1.7 V) metric, but the metric saturates for Ru, and 63% of the space and the quaternary edges remain unmeasured."
+  - id: thelen2025b:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: Adding Ni, Pd and Pt disrupts the nearly optimal binding energies of Ru and dilutes active Ru sites, so compositional complexity does not enhance OER activity in this system.
+    about: [ent:Libs]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Neither binding energies nor site densities are computed or measured; the hcp/fcc transition and surface segregation are alternative explanations noted elsewhere in the paper."
+  - id: thelen2025b:OBS5
+    statement_type: OBSERVATION
+    section: Discussion, Fig. 8, Fig. S-2
+    paper_part: RESULTS
+    text: In leave-one-library-out tests the GP captures trends but has large absolute errors relative to the 1.2 mA/cm2 median activity range, worst for the Ni-Ru library, which together with ML3, ML7 and ML9 contains an hcp phase.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 8, Fig. S-2"}]
+    about: [ent:BO]
+  - id: thelen2025b:OBS6
+    statement_type: OBSERVATION
+    section: Discussion, Fig. 9
+    paper_part: RESULTS
+    text: Trained on the full dataset the GP reaches R2 = 0.95, and trained on every nth area (down to 1/20) it keeps R2 above 0.90.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 9"
+        values:
+          - {symbol: r2_full, quantity: R2 trained on full dataset, value: 0.95}
+          - {symbol: r2_20, quantity: R2 trained on 1/20 of areas, value: 0.90}
+    about: [ent:BO]
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "R2 = 0.95 on the full dataset is a training-set fit, presented as demonstrating generalization; for the subsampled models the evaluation set (all areas, including training points) is not stated.", priority: MEDIUM}
+  - id: thelen2025b:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Discussion, Conclusion
+    paper_part: DISCUSSION
+    text: Since measuring a fraction of the 342 areas per library barely reduces accuracy, future explorations should measure fewer areas per library and fabricate more libraries; the GP extrapolates poorly but interpolates robustly.
+    about: [ent:BO, ent:Libs]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Leave-one-library-out errors and within-library subsampling support the guideline qualitatively; the robustness figure mixes training and test points, and the trade-off is not tested in an actual exploration."
+  - id: thelen2025b:LIM1
+    statement_type: LIMITATION
+    section: Discussion
+    paper_part: DISCUSSION
+    text: Bulk EDX composition is only a proxy for surface composition, and crystal structure (hcp vs fcc) and morphology are not model inputs; data cover only part of the space.
+  - id: thelen2025b:OUT1
+    statement_type: OUTLOOK
+    section: Discussion, Conclusion
+    paper_part: CONCLUSION
+    text: Restrict explorations to single-phase regions, add high-throughput ECSA, and extend the approach to quinary and more complex systems.
+  - id: thelen2025b:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Bayesian optimization enabled efficient identification of the global activity maximum after only six libraries covering about 20% of the composition space, with pure Ru confirmed as the most active OER catalyst.
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restatement of CLAIM1 and CLAIM2."
+  - id: thelen2025b:CONC2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Fewer measurements per library and more libraries should be preferred in future composition space explorations.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM4."
+
+relations:
+  - {id: thelen2025b:R1, subject: thelen2025b:BG1, predicate: MOTIVATES, object: thelen2025b:GAP1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R2, subject: thelen2025b:GAP1, predicate: MOTIVATES, object: thelen2025b:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R3, subject: thelen2025b:GAP1, predicate: MOTIVATES, object: thelen2025b:AIM2, asserted_by: AUTHORS}
+  - {id: thelen2025b:R4, subject: thelen2025b:METH1, predicate: DELIVERS, object: thelen2025b:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R5, subject: thelen2025b:OBS3, predicate: DELIVERS, object: thelen2025b:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R6, subject: thelen2025b:CLAIM1, predicate: DELIVERS, object: thelen2025b:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R7, subject: thelen2025b:CONC1, predicate: DELIVERS, object: thelen2025b:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R8, subject: thelen2025b:OBS6, predicate: DELIVERS, object: thelen2025b:AIM2, asserted_by: AUTHORS}
+  - {id: thelen2025b:R9, subject: thelen2025b:CLAIM4, predicate: DELIVERS, object: thelen2025b:AIM2, asserted_by: AUTHORS}
+  - {id: thelen2025b:R10, subject: thelen2025b:CONC2, predicate: DELIVERS, object: thelen2025b:AIM2, asserted_by: AUTHORS}
+  - {id: thelen2025b:R11, subject: thelen2025b:METH1, predicate: DEPENDS_ON, object: thelen2025b:ASM1, asserted_by: AUTHORS}
+  - {id: thelen2025b:R12, subject: thelen2025b:OBS3, predicate: SUPPORTS, object: thelen2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "One BO-chosen library; no baseline; the efficiency claim exceeds a single run with a known answer"}}
+  - {id: thelen2025b:R13, subject: thelen2025b:OBS1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: thelen2025b:CLAIM1, asserted_by: ANNOTATOR, note: "the hand-designed initial libraries already pointed to the Ru-rich corner"}
+  - {id: thelen2025b:R14, subject: thelen2025b:BG2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: thelen2025b:CLAIM1, asserted_by: AUTHORS, note: "Ru expected best a priori"}
+  - {id: thelen2025b:R15, subject: thelen2025b:OBS2, predicate: SUPPORTS, object: thelen2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: thelen2025b:R16, subject: thelen2025b:OBS3, predicate: SUPPORTS, object: thelen2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Saturating j(1.7 V) metric; pure films measured three times"}}
+  - {id: thelen2025b:R17, subject: thelen2025b:OBS4, predicate: SUPPORTS, object: thelen2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: thelen2025b:R18, subject: thelen2025b:BG2, predicate: SUPPORTS, object: thelen2025b:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: thelen2025b:R19, subject: thelen2025b:OBS5, predicate: ALTERNATIVE_EXPLANATION_FOR, object: thelen2025b:CLAIM3, asserted_by: ANNOTATOR, note: "hcp/fcc phase change with Ru content"}
+  - {id: thelen2025b:R20, subject: thelen2025b:OBS5, predicate: SUPPORTS, object: thelen2025b:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Twelve held-out libraries; errors not tabulated in text"}}
+  - {id: thelen2025b:R21, subject: thelen2025b:OBS6, predicate: SUPPORTS, object: thelen2025b:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Training points included in evaluation"}}
+  - {id: thelen2025b:R22, subject: thelen2025b:LIM1, predicate: QUALIFIES, object: thelen2025b:CLAIM2, asserted_by: AUTHORS}
+  - {id: thelen2025b:R23, subject: thelen2025b:CONC1, predicate: RESTATES, object: thelen2025b:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: thelen2025b:R24, subject: thelen2025b:CONC2, predicate: RESTATES, object: thelen2025b:CLAIM4, asserted_by: ANNOTATOR}
+  - {id: thelen2025b:R25, subject: thelen2025b:CLAIM2, predicate: SUPPORTS, object: thelen2025b:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: thelen2025b:R26, subject: thelen2025b:LIM1, predicate: MOTIVATES, object: thelen2025b:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    Twelve co-sputtered Ni-Pd-Pt-Ru libraries and pure-element films
+    establish that OER activity at 1.7 V increases toward pure Ru, and the
+    leave-one-library-out analysis honestly shows the GP's poor
+    extrapolation. The headline that Bayesian optimization found the
+    optimum after six libraries is weak: five of the six were designed by
+    hand and already pointed to the Ru corner the authors expected from
+    the OER volcano, only one library was chosen by the algorithm, and no
+    baseline strategy is compared. The robustness figure includes training
+    points, the activity metric saturates for Ru, coverage figures differ
+    between sections, and the quinary composition count is wrong.
+  key_limitations:
+    - "Single BO-guided iteration; no baseline exploration strategy (CLAIM1)."
+    - "Result expected a priori; initial design already near the optimum (BG2, OBS1)."
+    - "Saturating, non-iR-corrected activity metric without ECSA (ASM1)."
+    - "In-sample R2 presented as generalization (OBS6)."
+    - "Inconsistent coverage numbers and wrong quinary count (OBS4, BG1)."
+  missing_evidence:
+    - "Retrospective comparison with random and expert-chosen library sequences."
+    - "Repeat measurements or uncertainty of j(1.7 V) per area."
+    - "Test of the fewer-areas-more-libraries guideline in a new exploration."

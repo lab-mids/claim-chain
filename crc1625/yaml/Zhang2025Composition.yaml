@@ -1,0 +1,282 @@
+id: claimchain:chain/Zhang2025Composition
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d5dd00169b
+  title: "Composition-property extrapolation for compositionally complex solid solutions based on word embeddings"
+  authors: [Lei Zhang, Lars Banko, Wolfgang Schuhmann, Alfred Ludwig, Markus Stricker]
+  year: 2025
+  doi: 10.1039/d5dd00169b
+  url: https://doi.org/10.1039/d5dd00169b
+
+entities:
+  - {id: ent:Tern, label: "Ag-Pd-Ru and Ag-Pd-Pt composition-spread thin-film libraries (training)", entity_type: MATERIAL}
+  - {id: ent:Quat, label: "Ag-Pd-Pt-Ru composition-spread library (prediction target)", entity_type: MATERIAL}
+  - {id: ent:I850, label: "ORR current at 850 mV overpotential from scanning droplet cell LSV in 0.05 M KOH", entity_type: QUANTITY}
+  - {id: ent:GP, label: Gaussian process regression on elemental composition, entity_type: METHOD}
+  - {id: ent:GPW2V, label: "Gaussian process regression on 200-d Word2Vec material vectors", entity_type: METHOD}
+  - {id: ent:SVM, label: "standard vector method: similarity to a fitted weighted combination of 17 property-term embeddings", entity_type: METHOD}
+  - {id: ent:W2V, label: "Word2Vec model trained on open-access abstracts (electrocatalyst, high entropy alloy; before 2024)", entity_type: METHOD}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zhang2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Predicting properties of compositionally complex solid solutions is hard because the composition space is vast and element interactions are complex; composition-only representations are often sufficient for interpolation but not for extrapolation.
+    evidence: [{evidence_kind: CITATION, references: ["3-16"]}]
+  - id: zhang2025:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Word embeddings trained on scientific literature encode latent knowledge about materials that can be used as machine-learning representations.
+    evidence: [{evidence_kind: CITATION, references: ["17-21", "28", "29"]}]
+  - id: zhang2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 2.2.3, Abstract
+    paper_part: INTRODUCTION
+    text: Literature-derived word-embedding representations combined with measured data from two ternary systems predict electrocatalytic ORR performance in their shared quaternary system better than composition-based models.
+    about: [ent:GPW2V, ent:SVM, ent:Quat]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The embedding GP has much higher R2 than the composition GP (0.65 vs 0.08) but a slightly lower overall r (0.83 vs 0.85) and a predicted minimum of -0.07 against an actual -0.37, so it misses the active compositions; the standard vector method has the lowest overall r (0.80) and wins only on a filtered subset."
+      proof_obligations:
+        - text: "Show better extrapolation on the full quaternary dataset with consistent metrics"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [zhang2025:OBS3, zhang2025:OBS4]
+        - text: "Show the advantage on more than one ternary-to-quaternary extrapolation and against stronger composition baselines (e.g. physics descriptors)"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "r, R2, MAE of all models", method: "second composition system or leave-one-ternary-out tests"}]
+  - id: zhang2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Compare three models - composition GP, GP with word-embedding material vectors, and a new standard vector method - for predicting the quaternary current at 850 mV from ternary training data.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: zhang2025:DATA1
+    statement_type: DATA
+    section: Sec. 2.1, Tables 1-2
+    paper_part: METHODS
+    text: Three co-sputtered libraries with 342 SDC measurement areas each; composition measured by EDX at 81 points and linearly interpolated to the 342 areas; LSV at 10 mV/s in 0.05 M KOH; quaternary compositions (Ru up to 67%) lie partly outside the training ranges (Ru up to 45%).
+    about: [ent:Tern, ent:Quat, ent:I850]
+    scope: {sample_count: 3, scope_note: "three libraries, one per system, 342 areas each"}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Table 2 reports currents in mA (quaternary mean -0.159 mA), Table 3 the same values in mA cm-2 (-0.16 mA cm-2); with a 1 mm tip (0.0079 cm2) these differ by a factor of about 127.", priority: MEDIUM}
+  - id: zhang2025:METH1
+    statement_type: METHOD
+    section: Sec. 2.2.4
+    paper_part: METHODS
+    text: The standard vector method represents a material as cosine similarities of its embedding (composition-weighted element vectors) to 17 property terms, fits weights summing to one to the ternary currents, defines s* as the weighted sum of property embeddings and ranks new materials by cosine similarity to s*.
+    about: [ent:SVM, ent:W2V]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "s* = sum_j w_j p_j lives in the 200-d embedding space, whereas s_M' is a 17-d similarity vector; the cosine similarity in Eq. 6 between them is undefined as written.", priority: HIGH}
+      - {concern_type: AD_HOC_PARAMETER, description: "The 17 property terms are hand-picked; no ablation of the term list is given.", priority: MEDIUM}
+  - id: zhang2025:METH2
+    statement_type: METHOD
+    section: Sec. 2.3
+    paper_part: METHODS
+    text: GP models are evaluated by Pearson r and R2 against measured quaternary currents; the standard vector method only by r between similarity and current; an additional r is computed for points with current below -0.2 mA cm-2.
+    about: [ent:GP, ent:GPW2V, ent:SVM]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The number of quaternary points below -0.2 mA cm-2 is not given, so the significance of r = 0.94 on that subset cannot be judged.", priority: HIGH}
+
+  # ---------------- Results ----------------
+  - id: zhang2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Table 2
+    paper_part: RESULTS
+    text: Pd content correlates with more negative (better) currents in both ternaries (r = -0.905 and -0.771), Ag and Ru with less negative currents; in the quaternary Pt correlates most strongly (-0.771) and the mean current (-0.159 mA) is lowest in magnitude.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table 2"}]
+    about: [ent:I850]
+  - id: zhang2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Table 3
+    paper_part: RESULTS
+    text: The composition GP gives overall r = 0.85, R2 = 0.08, MAE 0.06 and RMSE 0.07 mA cm-2, mean predicted -0.22 vs actual -0.16 mA cm-2, and r = 0.63 for currents below -0.2 mA cm-2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 3"
+        values:
+          - {symbol: r_gp, quantity: overall Pearson r composition GP, value: 0.85}
+          - {symbol: R2_gp, quantity: reported coefficient of determination composition GP, value: 0.08}
+          - {symbol: m_act, quantity: mean actual current, value: -0.16, unit: mA cm-2}
+          - {symbol: m_gp, quantity: mean predicted current composition GP, value: -0.22, unit: mA cm-2}
+        derived_checks:
+          - {expression: "square of the reported overall r (the paper labels R2 as r2)", formula: "r_gp**2", result: 0.7225, note: "reported r2 = 0.08; R2 vs the identity line can be far below r**2 because of the bias, but the abstract and Table 3 call both r2"}
+          - {expression: "mean bias of composition GP", formula: "m_gp - m_act", result: -0.06, unit: mA cm-2}
+    about: [ent:GP]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The abstract reports r = 0.63 for the composition GP (the filtered-subset value) alongside the overall r2 = 0.08, while the main text gives overall r = 0.85.", priority: MEDIUM}
+  - id: zhang2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Table 3
+    paper_part: RESULTS
+    text: The embedding GP gives overall r = 0.83, R2 = 0.65, MAE 0.03 and RMSE 0.04 mA cm-2, mean predicted -0.15 mA cm-2 with standard deviation 0.05, minimum predicted -0.07 vs actual -0.37 mA cm-2, and r = 0.60 below -0.2 mA cm-2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 3"
+        values:
+          - {symbol: m_w2v, quantity: mean predicted current embedding GP, value: -0.15, unit: mA cm-2}
+          - {symbol: min_w2v, quantity: minimum predicted current embedding GP, value: -0.07, unit: mA cm-2}
+          - {symbol: min_act, quantity: minimum actual current, value: -0.37, unit: mA cm-2}
+        derived_checks:
+          - {expression: "a mean cannot lie below the minimum of the same predictions", formula: "m_w2v >= min_w2v", satisfied: false}
+          - {expression: "shortfall in predicting the most active composition", formula: "min_w2v - min_act", result: 0.30, unit: mA cm-2}
+    about: [ent:GPW2V]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "Mean predicted current (-0.15) is more negative than the minimum predicted current (-0.07), which is impossible; one of the Table 3 entries is wrong.", priority: HIGH}
+  - id: zhang2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Table 3, Fig. 11
+    paper_part: RESULTS
+    text: The standard vector similarity correlates with the current with overall r = 0.80 and r = 0.94 for currents below -0.2 mA cm-2; along a line across the library the GP captures the non-linear trend better while the standard vector prediction deviates noticeably.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 3, Fig. 11"
+        values:
+          - {symbol: r_sv, quantity: overall r standard vector, value: 0.80}
+          - {symbol: r_sv_f, quantity: r standard vector below -0.2 mA cm-2, value: 0.94}
+          - {symbol: r_gp, quantity: overall r composition GP, value: 0.85}
+          - {symbol: r_w2v, quantity: overall r embedding GP, value: 0.83}
+        derived_checks:
+          - {expression: "standard vector has the lowest overall r of the three models", formula: "r_sv < r_w2v and r_sv < r_gp", satisfied: true}
+    about: [ent:SVM]
+
+  # ---------------- Claims ----------------
+  - id: zhang2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.3, Sec. 5
+    paper_part: RESULTS
+    text: Using word-embedding material vectors instead of composition significantly improves GP prediction of the quaternary performance (R2 from 0.08 to 0.65, MAE from 0.06 to 0.03 mA cm-2).
+    about: [ent:GPW2V]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "The embedding GP has lower overall r (0.83 vs 0.85) and filtered r (0.60 vs 0.63) and predicts no current below -0.07 mA cm-2, i.e. it misses the active compositions that matter for discovery; the R2 gain mainly reflects removal of the composition GP's mean bias.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Error metrics improve, but correlation does not, and the compressed predictions fail to identify active compositions; no uncertainty or repeat (e.g. different embedding seeds) is reported."
+  - id: zhang2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 4.1, Sec. 5
+    paper_part: DISCUSSION
+    text: The standard vector method is the most notable advancement, with a remarkable correlation of 0.94 with experimental outcomes, identifying high-performing materials in the extrapolation space.
+    about: [ent:SVM]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "0.94 holds only for an unspecified subset below -0.2 mA cm-2; the overall r (0.80) is the lowest of the three models and Fig. 11 shows the method deviating from the trend.", priority: HIGH}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The formalism compares a 17-d similarity vector with a 200-d standard vector.", priority: MEDIUM}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own Table 3 shows the lowest overall correlation for this method and Fig. 11 shows it tracks the trend worse than the GP; superiority rests on a filtered subset of unstated size."
+  - id: zhang2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 4.1
+    paper_part: DISCUSSION
+    text: The improvement of the embedding GP is due to latent literature knowledge that captures complex element interactions beyond composition.
+    about: [ent:W2V]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "No control with random or shuffled element vectors, or with physical elemental descriptors of the same dimension, separates literature knowledge from a mere change of feature space.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Attribution is asserted without an ablation or random-embedding control."
+      missing_evidence:
+        - "GP with random 200-d element vectors and with physical elemental descriptors on the same task"
+  - id: zhang2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4.1, Sec. 4.5.3
+    paper_part: DISCUSSION
+    text: Unlike the composition GP, the embedding-based approaches can be applied to other material compositions and arbitrary element combinations.
+    about: [ent:GPW2V, ent:SVM]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "True by construction as a capability, but prediction quality for new elements is untested; the quaternary contains no element absent from training."
+  - id: zhang2025:LIM1
+    statement_type: LIMITATION
+    section: Sec. 4.4
+    paper_part: DISCUSSION
+    text: Embeddings depend on the (open-access, abstract-only) corpus, the methods need accurately labelled experimental data, and the standard vector approach is hard to interpret.
+  - id: zhang2025:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 4.5
+    paper_part: DISCUSSION
+    text: Integrate the models with targeted experimental validation, build hybrid models, and define standard vectors for other properties and multi-functional screening.
+  - id: zhang2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 5
+    paper_part: CONCLUSION
+    text: A GP on literature-derived material vectors improves the coefficient of determination from 0.08 to 0.65, and the similarity-vector approach shows the most notable advancement with a correlation of 0.94.
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM1 (partly supported) and CLAIM2 (contradicted by the paper's overall r)."
+
+relations:
+  - {id: zhang2025:R1, subject: zhang2025:BG1, predicate: MOTIVATES, object: zhang2025:HYP1, asserted_by: AUTHORS}
+  - {id: zhang2025:R2, subject: zhang2025:BG2, predicate: MOTIVATES, object: zhang2025:HYP1, asserted_by: AUTHORS}
+  - {id: zhang2025:R3, subject: zhang2025:HYP1, predicate: MOTIVATES, object: zhang2025:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025:R4, subject: zhang2025:OBS2, predicate: DELIVERS, object: zhang2025:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025:R5, subject: zhang2025:OBS3, predicate: DELIVERS, object: zhang2025:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025:R6, subject: zhang2025:OBS4, predicate: DELIVERS, object: zhang2025:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025:R7, subject: zhang2025:CONC1, predicate: DELIVERS, object: zhang2025:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025:R8, subject: zhang2025:OBS3, predicate: SUPPORTS, object: zhang2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "One extrapolation task, one embedding model, no uncertainties"}}
+  - {id: zhang2025:R9, subject: zhang2025:OBS2, predicate: SUPPORTS, object: zhang2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "baseline"}
+  - {id: zhang2025:R10, subject: zhang2025:OBS3, predicate: QUALIFIES, object: zhang2025:CLAIM1, asserted_by: ANNOTATOR, note: "lower r and predicted minimum -0.07 vs actual -0.37"}
+  - {id: zhang2025:R11, subject: zhang2025:OBS4, predicate: SUPPORTS, object: zhang2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: PARTLY, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "r on a filtered subset of unknown size; similarity is not a current prediction"}}
+  - {id: zhang2025:R12, subject: zhang2025:OBS4, predicate: CONTRADICTS, object: zhang2025:CLAIM2, asserted_by: ANNOTATOR, note: "overall r = 0.80 is the lowest of the three models; Fig. 11 deviation"}
+  - {id: zhang2025:R13, subject: zhang2025:METH1, predicate: UNDERCUTS, object: zhang2025:CLAIM2, asserted_by: ANNOTATOR, note: "dimension mismatch in the defining equations"}
+  - {id: zhang2025:R14, subject: zhang2025:CLAIM1, predicate: SUPPORTS, object: zhang2025:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zhang2025:R15, subject: zhang2025:METH1, predicate: SUPPORTS, object: zhang2025:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zhang2025:R16, subject: zhang2025:CLAIM1, predicate: SUPPORTS, object: zhang2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zhang2025:R17, subject: zhang2025:CLAIM2, predicate: SUPPORTS, object: zhang2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zhang2025:R18, subject: zhang2025:OBS3, predicate: SUPPORTS, object: zhang2025:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: zhang2025:R19, subject: zhang2025:CONC1, predicate: RESTATES, object: zhang2025:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: zhang2025:R20, subject: zhang2025:OBS4, predicate: UNDERCUTS, object: zhang2025:CONC1, asserted_by: ANNOTATOR}
+  - {id: zhang2025:R21, subject: zhang2025:LIM1, predicate: QUALIFIES, object: zhang2025:HYP1, asserted_by: AUTHORS}
+  - {id: zhang2025:R22, subject: zhang2025:LIM1, predicate: MOTIVATES, object: zhang2025:OUT1, asserted_by: AUTHORS}
+  - {id: zhang2025:R23, subject: zhang2025:DATA1, predicate: SUPPORTS, object: zhang2025:OBS1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper compares a composition GP, a GP on Word2Vec material vectors
+    and a new standard-vector similarity method for extrapolating ORR
+    activity from two ternary libraries to their shared quaternary. Data
+    and code are open, and the embedding GP does reduce error metrics. The
+    headline claims are not supported as stated: the standard vector
+    method's r = 0.94 holds only for a filtered subset of unstated size,
+    its overall r (0.80) is the lowest of the three models, and its
+    defining equations mix a 17-d and a 200-d vector; Table 3 lists a mean
+    prediction below the minimum, the embedding GP misses the most active
+    compositions, units switch between mA and mA cm-2, and the attribution
+    to literature knowledge lacks a random-embedding control.
+  key_limitations:
+    - "Standard vector superiority rests on a filtered subset; overall r is worst (CLAIM2, OBS4)."
+    - "Arithmetically impossible Table 3 entry and mA vs mA cm-2 mix-up (OBS3, DATA1)."
+    - "Dimension mismatch in the standard vector formalism (METH1)."
+    - "No ablation or random-embedding control for the latent-knowledge attribution (CLAIM3)."
+    - "Single ternary-to-quaternary task without uncertainties (HYP1)."
+  missing_evidence:
+    - "Subset size and confidence intervals for all correlations."
+    - "Random and physical-descriptor embedding baselines."
+    - "A second extrapolation task or leave-one-ternary-out validation."

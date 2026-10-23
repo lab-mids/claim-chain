@@ -1,0 +1,214 @@
+id: claimchain:chain/Schneider2026Synthesis
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/acsami.5c22270
+  title: "Synthesis of PtCu/C Nanostructured Electrocatalysts for the Oxygen Reduction Reaction via One-Step Electrochemical Erosion"
+  authors: [Peter M. Schneider, Eva Kolíbalová, Jhonatan Rodriguez-Pereira, Theophilus K. Sarpey, Christian M. Schott, Elena L. Gubanova, Pavan Kumar Chennam, Anatoliy Senyshyn, Christine Benning, Martin Elsner, Jan M. Macak, Aliaksandr S. Bandarenka]
+  year: 2026
+  doi: 10.1021/acsami.5c22270
+  url: https://doi.org/10.1021/acsami.5c22270
+
+entities:
+  - {id: ent:Erosion, label: "electrochemical erosion of Pt wires (200 Hz, 10-25 V) in 1 M KOH with 0.4-0.9 mM CuSO4 and Vulcan carbon", entity_type: METHOD}
+  - {id: ent:PtCu, label: "PtCu/C catalyst from 0.54 mM CuSO4 and 15 V (Pt:Cu about 1:1 by ICP-MS)", entity_type: MATERIAL}
+  - {id: ent:PtRef, label: "Pt/C made by the same erosion without CuSO4, and commercial Pt/C (TKK)", entity_type: MATERIAL}
+  - {id: ent:RDE, label: "RDE/RRDE ORR in 0.1 M HClO4, kinetic current at 0.9 V, Hupd ECSA, 1000-cycle AST", entity_type: TECHNIQUE}
+  - {id: ent:Struct, label: "HR-TEM/FFT, STEM-EDX, XPS, XRD with Rietveld refinement", entity_type: TECHNIQUE}
+  - {id: ent:MA, label: "ORR mass activity at 0.9 V vs RHE", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: schneider2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Alloying Pt with Cu (strain and ligand effects) and introducing surface concavities raise ORR mass activity; bottom-up syntheses need multistep procedures and capping agents, whereas electrochemical erosion produced highly active defect-rich Pt and PtxPr nanoparticles.
+    evidence: [{evidence_kind: CITATION, references: ["7-20", "25-37"]}]
+  - id: schneider2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Synthesize surfactant-free PtCu/C by one-step electrochemical erosion of Pt wires in CuSO4-containing KOH and evaluate its structure and ORR activity.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: schneider2026:METH1
+    statement_type: METHOD
+    section: Results, Experimental Section
+    paper_part: METHODS
+    text: About 7.5 mg Pt is eroded from two Pt wires into a suspension of H2O2-treated Vulcan carbon in 1 M KOH with CuSO4; ORR activity is measured on RDE with 2.4-5.0 µgPt/cm2, iR- and capacitance-corrected, kinetic current at 0.9 V, ECSA from Hupd (210 µC/cm2), at least two measurements per sample and six for the main sample; stability by 1000 cycles at 100 mV/s.
+    about: [ent:Erosion, ent:RDE]
+
+  # ---------------- Results ----------------
+  - id: schneider2026:OBS1
+    statement_type: OBSERVATION
+    section: Results, Figs. 1-3, Fig. S1, Fig. S7
+    paper_part: RESULTS
+    text: ICP-MS gives Cu fractions of 30-50% with a maximum (about 1:1) at 0.54 mM CuSO4; STEM-EDX gives Pt:Cu of about 52:48 before and 59:41 after the AST with homogeneous Pt and Cu maps; particles are irregular, 5-20 nm with 2-4 nm spheres, multi-domain (3-6 nm), with local trigonal CuPt ordering and a Moiré pattern in one particle.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 1-3, Figs. S1, S5-S7"}]
+    about: [ent:PtCu, ent:Struct]
+  - id: schneider2026:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 4C, Figs. S10-S12
+    paper_part: RESULTS
+    text: XRD shows an fcc phase with lattice parameter about 3.87 Å (1.2% contraction vs Pt; erosion Pt/C reference 0.2%), a small CuO (tenorite) reflection and crystallite size 2.9 ± 1.1 nm; XPS shows metallic Pt and Cu shifted to lower binding energy plus Cu2+, Cu-OH and Cu-F species, with surface Cu:Pt falling from about 2:3 to 1:6 after the AST.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4C, Table S5, Fig. 4B"
+        values:
+          - {symbol: a_ptcu, quantity: PtCu/C lattice parameter, value: 3.87, unit: angstrom}
+          - {symbol: a_pt, quantity: Pt lattice parameter, value: 3.923, unit: angstrom}
+          - {symbol: a_cu, quantity: Cu lattice parameter, value: 3.615, unit: angstrom}
+          - {symbol: x_cu_icp, quantity: Cu atomic fraction from ICP-MS, value: 0.49}
+        derived_checks:
+          - {expression: "lattice contraction relative to Pt (stated about 1.2%)", formula: "(a_pt - a_ptcu)/a_pt*100", result: 1.35, unit: "%"}
+          - {expression: "Cu fraction in the fcc alloy implied by Vegard's law", formula: "(a_pt - a_ptcu)/(a_pt - a_cu)", result: 0.172}
+          - {expression: "Vegard lattice parameter expected for Pt51Cu49", formula: "(1 - x_cu_icp)*a_pt + x_cu_icp*a_cu", result: 3.772, unit: angstrom}
+    about: [ent:Struct, ent:PtCu]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Vegard's law with the measured 3.87 Å gives only about 17% Cu in the fcc lattice, far below the 49% from ICP-MS and EDX; together with CuO in XRD and Cu2+/Cu-OH in XPS this suggests much Cu is not alloyed, contradicting the 1:1 alloy description.", priority: HIGH}
+  - id: schneider2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: One-step electrochemical erosion in CuSO4-containing KOH yields alloyed PtCu nanoparticles with a 1:1 Pt:Cu ratio, forming a mixed solid solution that develops a Pt-rich shell after cycling.
+    about: [ent:PtCu, ent:Erosion]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Lattice contraction relative to a same-process Pt reference, XPS shifts and EDX maps show Cu alloying, but the contraction corresponds to about 17% Cu by Vegard's law, so the 1:1 ratio describes total Cu (including CuO and Cu2+ species), not the alloy."
+      missing_evidence:
+        - "Phase-resolved Cu quantification (e.g. XAS at the Cu K edge) of alloyed vs oxidized Cu"
+  - id: schneider2026:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 5, Figs. S13-S18
+    paper_part: RESULTS
+    text: The 0.54 mM/15 V PtCu/C reaches SSA 47 ± 2 m2/gPt, specific activity 2.5 ± 0.2 mA/cm2 and mass activity 1.2 ± 0.1 A/mgPt at 0.9 V (six measurements), about 4-fold and 3-fold above commercial Pt/C TKK and almost 2-fold above earlier erosion catalysts; RRDE shows negligible ring current (FE about 100%) versus more peroxide for the erosion Pt/C reference; AST losses are below 10%, smaller than for Pt/C TKK.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5, Table S7"
+        values:
+          - {symbol: sa, quantity: specific activity at 0.9 V, value: 2.5, unit: mA cm-2}
+          - {symbol: ssa, quantity: specific surface area, value: 47, unit: m2 g-1}
+          - {symbol: ma, quantity: mass activity at 0.9 V, value: 1.2, unit: A mg-1}
+        derived_checks:
+          - {expression: "mass activity from specific activity times specific surface area", formula: "sa*1e-3*ssa*1e4/1000", result: 1.175, unit: A mg-1}
+    about: [ent:RDE, ent:MA]
+  - id: schneider2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Conclusion
+    paper_part: RESULTS
+    text: The PtCu/C catalysts show outstanding mass activities of about 1.2 A/mgPt at 0.9 V, clearly surpassing state-of-the-art Pt-based catalysts and the highest reported for PtCu nanoparticles.
+    about: [ent:MA, ent:PtCu]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Comparisons rely largely on literature RDE values from different labs, loadings and protocols; the very low loading (2.4-5 µgPt/cm2) favours high RDE mass activity; the same-process Pt/C reference's mass activity is not reported in the main text.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "MA = SA x SSA recomputes and six repeats give a tight error; superiority over 'state of the art' rests on cross-lab RDE comparisons without a membrane-electrode test, and 'highest reported for PtCu' depends on the SI literature table."
+  - id: schneider2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Results
+    paper_part: DISCUSSION
+    text: The high activity arises from a synergy of Cu-Pt alloying (lattice strain, optimal at about 1.3% contraction), concave surface defects, grain boundaries and Moiré structures.
+    about: [ent:PtCu]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Each factor is observed in some particles but none is varied independently; the Moiré pattern is seen in one particle, and the strain optimum rests on concentration series where composition, surface area and strain covary."
+  - id: schneider2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusion
+    paper_part: DISCUSSION
+    text: The PtCu/C catalysts show excellent electrochemical stability, outperforming commercial Pt/C in a 1000-cycle AST.
+    about: [ent:RDE]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "1000 cycles is short compared with standard durability protocols (tens of thousands of cycles), and XPS and EDX show ongoing Cu leaching; the authors themselves call for fuel-cell tests.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "Below-10% losses over 1000 cycles are measured, but this short AST with documented Cu loss does not establish 'excellent stability'."
+  - id: schneider2026:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: DISCUSSION
+    text: PtCu nanoparticles form by repeated Pt dissolution and co-redeposition with Cu from hydroxo-cuprate onto the wire, followed by break-out of rough PtCu domains aided by gas evolution.
+    about: [ent:Erosion]
+    claim_modality: CAUSAL
+    author_certainty: SPECULATIVE
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "A hypothesis without in situ data, as the authors state."
+  - id: schneider2026:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: The erosion mechanism is not understood, XRD gives only averaged strain, and stability needs testing in membrane electrode assemblies at elevated temperature.
+  - id: schneider2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: XPS and XRD confirmed successful alloying, the 0.54 mM/15 V synthesis gave PtCu nanoparticles with a 1:1 atomic ratio, and the catalyst shows superior ORR performance (about 1.2 A/mgPt) and excellent stability.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM1, CLAIM2 and CLAIM4."
+
+relations:
+  - {id: schneider2026:R1, subject: schneider2026:BG1, predicate: MOTIVATES, object: schneider2026:AIM1, asserted_by: AUTHORS}
+  - {id: schneider2026:R2, subject: schneider2026:METH1, predicate: DELIVERS, object: schneider2026:AIM1, asserted_by: AUTHORS}
+  - {id: schneider2026:R3, subject: schneider2026:CLAIM1, predicate: DELIVERS, object: schneider2026:AIM1, asserted_by: AUTHORS}
+  - {id: schneider2026:R4, subject: schneider2026:CLAIM2, predicate: DELIVERS, object: schneider2026:AIM1, asserted_by: AUTHORS}
+  - {id: schneider2026:R5, subject: schneider2026:CONC1, predicate: DELIVERS, object: schneider2026:AIM1, asserted_by: AUTHORS}
+  - {id: schneider2026:R6, subject: schneider2026:OBS1, predicate: SUPPORTS, object: schneider2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "ICP/EDX measure total Cu, not alloyed Cu"}}
+  - {id: schneider2026:R7, subject: schneider2026:OBS2, predicate: SUPPORTS, object: schneider2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "lattice contraction vs same-process Pt reference"}
+  - {id: schneider2026:R8, subject: schneider2026:OBS2, predicate: QUALIFIES, object: schneider2026:CLAIM1, asserted_by: ANNOTATOR, note: "Vegard gives about 17% Cu in the alloy; CuO and Cu2+ present"}
+  - {id: schneider2026:R9, subject: schneider2026:OBS3, predicate: SUPPORTS, object: schneider2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: MET, scope_match: PARTLY, criteria_note: "Six repeats; cross-lab literature comparison; RDE only"}}
+  - {id: schneider2026:R10, subject: schneider2026:OBS1, predicate: SUPPORTS, object: schneider2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: schneider2026:R11, subject: schneider2026:OBS2, predicate: SUPPORTS, object: schneider2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: schneider2026:R12, subject: schneider2026:OBS3, predicate: SUPPORTS, object: schneider2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "1000-cycle AST only; Cu leaching ongoing"}}
+  - {id: schneider2026:R13, subject: schneider2026:OBS2, predicate: UNDERCUTS, object: schneider2026:CLAIM4, asserted_by: ANNOTATOR, note: "surface Cu:Pt drops from 2:3 to 1:6 during the AST"}
+  - {id: schneider2026:R14, subject: schneider2026:LIM1, predicate: QUALIFIES, object: schneider2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: schneider2026:R15, subject: schneider2026:LIM1, predicate: QUALIFIES, object: schneider2026:CLAIM5, asserted_by: AUTHORS}
+  - {id: schneider2026:R16, subject: schneider2026:CONC1, predicate: RESTATES, object: schneider2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: schneider2026:R17, subject: schneider2026:OBS3, predicate: SUPPORTS, object: schneider2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Electrochemical erosion of Pt wires in CuSO4-containing KOH produces
+    carbon-supported PtCu nanoparticles whose RDE mass activity (1.2
+    A/mgPt, recomputing from SA x SSA, six repeats) exceeds commercial
+    Pt/C several-fold, with extensive TEM, XPS, XRD and RRDE
+    characterization and a same-process Pt/C reference for lattice
+    contraction. The alloy description is overstated: the XRD lattice
+    parameter implies about 17% Cu in the fcc lattice by Vegard's law, not
+    the 1:1 ratio measured for total Cu, which also includes CuO and
+    Cu2+ species. State-of-the-art claims rest on cross-lab RDE
+    comparisons at very low loading, the mechanistic synergy (strain,
+    concavities, grain boundaries, Moiré) is not separated, and
+    'excellent stability' is based on a 1000-cycle AST with ongoing Cu
+    leaching.
+  key_limitations:
+    - "Alloyed Cu fraction (about 17%) far below total Cu (49%) (OBS2, CLAIM1)."
+    - "Superiority from cross-lab RDE comparison at low loading (CLAIM2)."
+    - "Activity origins not separated (CLAIM3)."
+    - "Short AST with Cu leaching (CLAIM4)."
+  missing_evidence:
+    - "Cu K-edge XAS or quantitative phase analysis of alloyed vs oxidized Cu."
+    - "Mass activity of the same-process Pt/C in the main comparison."
+    - "MEA tests and standard 30k-cycle durability protocol."

@@ -1,0 +1,235 @@
+id: claimchain:chain/Zhang2025Iterative
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2505.21646v2; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1007/978-3-032-06118-8_6
+  title: "Iterative Corpus Refinement for Materials Property Prediction Based on Scientific Texts"
+  authors: [Lei Zhang, Markus Stricker]
+  year: 2025
+  doi: 10.1007/978-3-032-06118-8_6
+  url: https://doi.org/10.1007/978-3-032-06118-8_6
+
+entities:
+  - {id: ent:Corpus, label: "6506 open-access Scopus abstracts up to 2023", entity_type: DATA_TYPE}
+  - {id: ent:Select, label: "greedy farthest-point document selection in PCA-reduced (2-d) Doc2Vec space, batches of 50", entity_type: METHOD}
+  - {id: ent:W2V, label: "Word2Vec skip-gram models (200-d) trained on selected or full corpus", entity_type: METHOD}
+  - {id: ent:Centroid, label: "centroid of compositions in (S_dielectric, S_conductivity) similarity space, convergence threshold 0.03", entity_type: QUANTITY}
+  - {id: ent:Pareto, label: "reaction-specific Pareto fronts in similarity space", entity_type: METHOD}
+  - {id: ent:Exp, label: "measured current densities of six composition-spread systems (ORR, HER, OER)", entity_type: DATA_TYPE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: zhang2025b:BG1
+    statement_type: BACKGROUND
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: Word embeddings of scientific abstracts encode composition-property relations usable for materials screening, but irrelevant, redundant or AI-generated texts add noise and training on ever larger corpora is costly.
+    evidence: [{evidence_kind: CITATION, references: ["17-23"]}]
+  - id: zhang2025b:GAP1
+    statement_type: GAP
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: Methods to tailor a training corpus to a specific materials prediction task are lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: zhang2025b:AIM1
+    statement_type: AIM
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: Develop an iterative corpus refinement that adds the most diverse documents until composition-property similarities converge, and validate its predictions of high-performing ORR, HER and OER compositions against experiments.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: zhang2025b:METH1
+    statement_type: METHOD
+    section: Sec. II.A-C
+    paper_part: METHODS
+    text: Starting from the central abstract, documents are ordered by greedy farthest-point sampling on 2-d PCA projections of Doc2Vec embeddings; Word2Vec models are retrained after each batch of 50 until the centroid of composition similarities to 'dielectric' and 'conductivity' moves less than 0.03; Pareto fronts (maximize dielectric/minimize conductivity for OER, the reverse for HER and ORR) give predicted compositions.
+    about: [ent:Select, ent:W2V, ent:Centroid, ent:Pareto]
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "Batch size 50, threshold 0.03, 2-d PCA and the dielectric/conductivity proxy objectives are heuristic and not varied.", priority: MEDIUM}
+  - id: zhang2025b:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. II.C
+    paper_part: METHODS
+    text: Cosine similarity of linearly mixed element embeddings to the words 'dielectric' and 'conductivity' ranks electrocatalytic activity for ORR, HER and OER.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The proxy objectives are taken from earlier work and not justified physically; opposite objectives are used for OER and for HER/ORR.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: zhang2025b:OBS1
+    statement_type: OBSERVATION
+    section: Sec. III.A, Fig. 2
+    paper_part: RESULTS
+    text: The centroid criterion is met after 8 (AgPdPt), 18 (AgPdRu), 16 (AgPdPtRu), 15 (AgAuPdPtRh), 24 (AgAuPdPtRu) and 14 (NiPdPtRu) iterations of 50 documents.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2"
+        values:
+          - {symbol: it_max, quantity: largest number of iterations, value: 24}
+          - {symbol: batch, quantity: documents per iteration, value: 50}
+          - {symbol: n_corpus, quantity: full corpus size, value: 6506}
+        derived_checks:
+          - {expression: "largest selected corpus as a fraction of the full corpus", formula: "it_max*batch/n_corpus", result: 0.184}
+    about: [ent:Centroid]
+  - id: zhang2025b:OBS2
+    statement_type: OBSERVATION
+    section: Sec. III.B-C, Fig. 3
+    paper_part: RESULTS
+    text: For ORR the best measured current among Pareto-selected compositions is -0.50, -0.67 and -0.37 mA/cm2 (selected corpus) vs -0.44, -0.67 and -0.37 (full corpus) and -0.58, -0.67 and -0.37 (best in the data) for AgPdPt, AgPdRu and AgPdPtRu; the Pareto sets contain 63 vs 11, 10 vs 15 and 4 vs 27 compositions.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3, Sec. III.C"
+        values:
+          - {symbol: sel_agpdpt, quantity: selected-corpus best AgPdPt, value: -0.50, unit: mA cm-2}
+          - {symbol: full_agpdpt, quantity: full-corpus best AgPdPt, value: -0.44, unit: mA cm-2}
+          - {symbol: orig_agpdpt, quantity: best measured AgPdPt, value: -0.58, unit: mA cm-2}
+          - {symbol: n_sel_agpdpt, quantity: selected Pareto set size AgPdPt, value: 63}
+          - {symbol: n_full_agpdpt, quantity: full Pareto set size AgPdPt, value: 11}
+        derived_checks:
+          - {expression: "selected corpus misses the best AgPdPt composition", formula: "sel_agpdpt > orig_agpdpt", satisfied: true}
+          - {expression: "ratio of Pareto set sizes AgPdPt (selected/full)", formula: "n_sel_agpdpt/n_full_agpdpt", result: 5.7}
+    about: [ent:Pareto, ent:Exp]
+  - id: zhang2025b:OBS3
+    statement_type: OBSERVATION
+    section: Sec. III.B-C, Fig. 4
+    paper_part: RESULTS
+    text: For HER the figure and the statistics section give -1.11 mA/cm2 for both models in AgAuPdPtRh (best measured -1.13) and -1.27 (selected, 3 compositions) vs -1.41 (full, 23 compositions) in AgAuPdPtRu (best measured -1.49); a preceding paragraph instead states -1.13 and -1.44 for the selected corpus.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4, Sec. III.B-C"
+        values:
+          - {symbol: sel_ru, quantity: selected-corpus best AgAuPdPtRu, value: -1.27, unit: mA cm-2}
+          - {symbol: full_ru, quantity: full-corpus best AgAuPdPtRu, value: -1.41, unit: mA cm-2}
+          - {symbol: orig_ru, quantity: best measured AgAuPdPtRu, value: -1.49, unit: mA cm-2}
+          - {symbol: sel_ru_alt, quantity: selected-corpus AgAuPdPtRu value in the first HER paragraph, value: -1.44, unit: mA cm-2}
+        derived_checks:
+          - {expression: "selected corpus worse than full corpus for AgAuPdPtRu", formula: "sel_ru > full_ru", satisfied: true}
+          - {expression: "disagreement between the two HER paragraphs", formula: "abs(sel_ru_alt - sel_ru)", result: 0.17, unit: mA cm-2}
+    about: [ent:Pareto, ent:Exp]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Two consecutive HER paragraphs report different selected-corpus values (-1.13/-1.44 vs -1.11/-1.27) and opposite conclusions about which model is better.", priority: HIGH}
+  - id: zhang2025b:OBS4
+    statement_type: OBSERVATION
+    section: Sec. III.B-C, Fig. 5
+    paper_part: RESULTS
+    text: For OER in NiPdPtRu (4026 candidates) both models' Pareto sets (168 selected vs 374 full) contain the best measured composition, 6.90 mA/cm2 at 1.7 V.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5"}]
+    about: [ent:Pareto, ent:Exp]
+
+  # ---------------- Claims ----------------
+  - id: zhang2025b:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. V
+    paper_part: RESULTS
+    text: The framework successfully predicts the highest-performing compositions among large candidate pools, validated by experimental measurements.
+    about: [ent:Pareto, ent:Exp]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The best composition is in the selected-corpus Pareto set in four of six systems; AgPdPt (-0.50 vs -0.58) and AgAuPdPtRu (-1.27 vs -1.49) miss it.", priority: HIGH}
+      - {concern_type: MISSING_QUANTIFICATION, description: "No random-subset baseline: the chance that a Pareto set of a given size contains the best composition by chance is not computed, and set sizes vary from 3 to 168.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Retrospective comparison with existing measurements shows the Pareto sets often contain top compositions, but not always, and without a baseline for set size the predictive value is not established."
+      proof_obligations:
+        - text: "Compare against random subsets of the same size"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "probability that a random subset of size k contains a top-n composition", method: "resampling on the six datasets"}]
+  - id: zhang2025b:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. III.B-C, Sec. IV, Sec. V
+    paper_part: DISCUSSION
+    text: Iterative corpus selection matches or exceeds the full-corpus model, identifying more negative (better) current densities for the ORR and HER systems and thus improving predictive power with far fewer documents.
+    about: [ent:Select, ent:W2V]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Of six systems the selected corpus is better in one (AgPdPt), equal in four and worse in one (AgAuPdPtRu, -1.27 vs -1.41), contradicting 'better for ORR and HER systems'.", priority: HIGH}
+      - {concern_type: CONFOUNDED_COMPARISON, description: "The single improvement (AgPdPt) comes with a 5.7-fold larger Pareto set (63 vs 11), which by itself raises the chance of containing a better composition.", priority: HIGH}
+    assessment:
+      validity: "NO"
+      rationale: "The paper's own Fig. 4 and statistics section show the selected corpus is worse for AgAuPdPtRu and equal for AgAuPdPtRh, and the only gain coincides with a much larger candidate set."
+  - id: zhang2025b:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. IV
+    paper_part: DISCUSSION
+    text: The stability criterion reduces noise, improves efficiency and focuses the embeddings, and the selection loop can filter repetitive or AI-generated text.
+    about: [ent:Select]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No noise measure, timing comparison or test with injected redundant/AI-generated text is reported."
+  - id: zhang2025b:LIM1
+    statement_type: LIMITATION
+    section: Sec. IV.D
+    paper_part: DISCUSSION
+    text: A small or biased initial subset can omit important information, and predefined target words such as 'dielectric' and 'conductivity' require domain knowledge and may be hard to find for other tasks.
+  - id: zhang2025b:OUT1
+    statement_type: OUTLOOK
+    section: Sec. IV.D
+    paper_part: DISCUSSION
+    text: Add human-in-the-loop document review, transformer encoders such as MatBERT, and more properties in multi-objective optimization.
+  - id: zhang2025b:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. V
+    paper_part: CONCLUSION
+    text: The framework reliably identifies high-performing compositions from large candidate pools using fewer training documents, matching or exceeding models trained on full corpora, verified with experimental data.
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM1 and CLAIM2; 'exceeding' is contradicted for one system and confounded for another."
+
+relations:
+  - {id: zhang2025b:R1, subject: zhang2025b:BG1, predicate: MOTIVATES, object: zhang2025b:GAP1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R2, subject: zhang2025b:GAP1, predicate: MOTIVATES, object: zhang2025b:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R3, subject: zhang2025b:METH1, predicate: DELIVERS, object: zhang2025b:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R4, subject: zhang2025b:OBS1, predicate: DELIVERS, object: zhang2025b:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R5, subject: zhang2025b:CLAIM1, predicate: DELIVERS, object: zhang2025b:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R6, subject: zhang2025b:CONC1, predicate: DELIVERS, object: zhang2025b:AIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R7, subject: zhang2025b:METH1, predicate: DEPENDS_ON, object: zhang2025b:ASM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R8, subject: zhang2025b:OBS2, predicate: SUPPORTS, object: zhang2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Retrospective; no random baseline; set sizes vary"}}
+  - {id: zhang2025b:R9, subject: zhang2025b:OBS3, predicate: SUPPORTS, object: zhang2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: zhang2025b:R10, subject: zhang2025b:OBS4, predicate: SUPPORTS, object: zhang2025b:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: zhang2025b:R11, subject: zhang2025b:OBS2, predicate: SUPPORTS, object: zhang2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: NOT_MET, criteria_note: "One better, four equal, one worse; gain coincides with larger Pareto set"}}
+  - {id: zhang2025b:R12, subject: zhang2025b:OBS3, predicate: CONTRADICTS, object: zhang2025b:CLAIM2, asserted_by: ANNOTATOR, note: "AgAuPdPtRu: selected -1.27 vs full -1.41"}
+  - {id: zhang2025b:R13, subject: zhang2025b:OBS4, predicate: SUPPORTS, object: zhang2025b:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "equal result with fewer documents"}
+  - {id: zhang2025b:R14, subject: zhang2025b:OBS1, predicate: SUPPORTS, object: zhang2025b:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: zhang2025b:R15, subject: zhang2025b:LIM1, predicate: QUALIFIES, object: zhang2025b:CLAIM1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R16, subject: zhang2025b:CONC1, predicate: RESTATES, object: zhang2025b:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: zhang2025b:R17, subject: zhang2025b:OBS3, predicate: UNDERCUTS, object: zhang2025b:CONC1, asserted_by: ANNOTATOR}
+  - {id: zhang2025b:R18, subject: zhang2025b:CLAIM1, predicate: ANSWERS, object: zhang2025b:GAP1, asserted_by: AUTHORS}
+  - {id: zhang2025b:R19, subject: zhang2025b:LIM1, predicate: MOTIVATES, object: zhang2025b:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    The paper proposes refining a 6506-abstract corpus by diversity-based
+    batch selection with a centroid-convergence stop, training Word2Vec on
+    the selection, and choosing compositions on similarity-space Pareto
+    fronts, compared retrospectively against measured libraries of six
+    systems. The workflow is clearly described and code is available. The
+    evidence does not support the comparative headline: the selected
+    corpus is better than the full corpus in one system (with a 5.7-fold
+    larger candidate set), equal in four and worse in one, two HER
+    paragraphs contradict each other, the best composition is missed in
+    two systems, and there is no random-subset baseline or test of the
+    noise-filtering claim.
+  key_limitations:
+    - "No random baseline for Pareto set size (CLAIM1)."
+    - "Selected corpus not better overall; contradicted for AgAuPdPtRu (CLAIM2, OBS3)."
+    - "Contradictory HER numbers in consecutive paragraphs (OBS3)."
+    - "Heuristic proxy objectives and thresholds (METH1, ASM1)."
+    - "Noise and AI-text filtering claims untested (CLAIM3)."
+  missing_evidence:
+    - "Random-subset and top-k hit-rate baselines."
+    - "Sensitivity to batch size, threshold and PCA dimension."
+    - "Prospective experimental test of new predicted compositions."

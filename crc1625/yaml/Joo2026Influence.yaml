@@ -1,0 +1,219 @@
+id: claimchain:chain/Joo2026Influence
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/advs.77600
+  title: "Influence of Ru Content on Defect Formation and Electrocatalytic Activity of Au-Pd-Pt-Ru Compositionally Complex Solid Solution Thin Films for the Hydrogen Evolution Reaction"
+  authors: [Miran Joo, Huixin Xiu, Sabrina Baha, Ridha Zerdoumi, Ningyan Cheng, Christoph Somsen, Yujiao Li, Aleksander Kostka, Wolfgang Schuhmann, Alfred Ludwig, Christina Scheu]
+  year: 2026
+  doi: 10.1002/advs.77600
+  url: https://doi.org/10.1002/advs.77600
+
+entities:
+  - {id: ent:ML, label: "co-sputtered Au-Pd-Pt-Ru thin-film materials library on Ta/sapphire (342 MAs)", entity_type: MATERIAL}
+  - {id: ent:Three, label: "Ru-poor Au68Pd13Pt15Ru4, equiatomic Au27Pd23Pt24Ru26 and Ru-rich Au9Pd21Pt18Ru52 films", entity_type: MATERIAL}
+  - {id: ent:SDC, label: "scanning droplet cell HER LSVs in 0.05 M KOH in air, potential at -3 mA/cm2 (geometric)", entity_type: TECHNIQUE}
+  - {id: ent:TEM, label: "HR-(S)TEM, 4D-STEM orientation mapping, GPA strain mapping", entity_type: TECHNIQUE}
+  - {id: ent:APT, label: "atom probe tomography across grain boundaries", entity_type: TECHNIQUE}
+  - {id: ent:Planar, label: "planar defects - nanotwins and intrinsic stacking faults", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: joo2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: CCSS surfaces offer broad binding-energy distributions set by neighbouring atoms, and lattice distortion from size mismatch can be relieved by twins or stacking faults; how defects in CCSS affect catalysis is underexplored.
+    evidence: [{evidence_kind: CITATION, references: ["1-29"]}]
+  - id: joo2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Understand how Ru content and planar-defect formation influence HER activity of Au-Pd-Pt-Ru CCSS films by combining high-throughput screening with HR-(S)TEM and APT on three representative compositions.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: joo2026:METH1
+    statement_type: METHOD
+    section: Sec. 4
+    paper_part: METHODS
+    text: A library was co-sputtered at room temperature (900 s, target 150 nm at centre) and screened by EDX, XRD and SDC at 342 MAs (1 mm tip, stated area 0.00735 cm2, geometric normalisation, 0.05 M KOH in air); three MAs were studied by TEM, 4D-STEM (two films), APT (two films) and XPS.
+    about: [ent:ML, ent:SDC, ent:TEM, ent:APT]
+    scope: {sample_count: 3}
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1, Sec. 4"
+        values:
+          - {symbol: rAu, quantity: Au deposition rate, value: 0.00576, unit: nm/s}
+          - {symbol: rPd, quantity: Pd deposition rate, value: 0.00333, unit: nm/s}
+          - {symbol: rPt, quantity: Pt deposition rate, value: 0.00362, unit: nm/s}
+          - {symbol: rRu, quantity: Ru deposition rate, value: 0.00174, unit: nm/s}
+          - {symbol: tdep, quantity: deposition time, value: 900, unit: s}
+          - {symbol: dtip, quantity: SDC tip opening diameter, value: 0.1, unit: cm}
+        derived_checks:
+          - {expression: "thickness from summed rates x time close to the stated 150 nm", formula: "abs((rAu + rPd + rPt + rRu)*tdep - 150) < 30", satisfied: false}
+          - {expression: "area of a 1 mm circular opening (cm2; stated 0.00735)", formula: "pi*(dtip/2)**2", result: 0.00785}
+    concerns:
+      - {concern_type: ARITHMETIC, description: "Table 1 rates (0.00174-0.00576 nm/s) give ~13 nm in 900 s, not the stated ~150 nm (measured 145-185 nm); the rates appear off by a factor of ten. The stated SDC area 0.00735 cm2 differs from the 0.00785 cm2 of a 1 mm opening.", priority: LOW}
+
+  # ---------------- Results ----------------
+  - id: joo2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 1
+    paper_part: RESULTS
+    text: The HER activity map shows lower potential at -3 mA/cm2 in Ru-rich regions and higher in Au-rich regions; at ~14 at.% Au the potential still ranges from about -236 to -106 mV vs RHE depending on Pt, Pd and Ru.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 1c, Fig. S3, Table S2"}]
+    about: [ent:SDC, ent:ML]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "Currents are normalised to geometric area while grain size falls from 30 to 16 nm and surfaces become faceted with Ru, so part of the activity trend may be surface-area driven; measurements in air include some ORR background.", priority: MEDIUM}
+  - id: joo2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 1d
+    paper_part: RESULTS
+    text: The three films are fcc with strong (111) texture and lattice parameters ~0.403, ~0.395 and ~0.388 nm with increasing Ru, consistent with Vegard's law using fcc Ru 0.380 nm.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1d"
+        values:
+          - {symbol: aAu, quantity: lattice parameter Au, value: 0.4078, unit: nm}
+          - {symbol: aPd, quantity: lattice parameter Pd, value: 0.3891, unit: nm}
+          - {symbol: aPt, quantity: lattice parameter Pt, value: 0.3924, unit: nm}
+          - {symbol: aRu, quantity: lattice parameter fcc Ru, value: 0.380, unit: nm}
+        derived_checks:
+          - {expression: "Vegard estimate Ru-poor (nm; measured ~0.403)", formula: "0.68*aAu + 0.13*aPd + 0.15*aPt + 0.04*aRu", result: 0.402}
+          - {expression: "Vegard estimate equiatomic (nm; measured ~0.395)", formula: "0.27*aAu + 0.23*aPd + 0.24*aPt + 0.26*aRu", result: 0.3926}
+          - {expression: "Vegard estimate Ru-rich (nm; measured ~0.388)", formula: "0.09*aAu + 0.21*aPd + 0.18*aPt + 0.52*aRu", result: 0.3866}
+    about: [ent:Three]
+  - id: joo2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 2-4
+    paper_part: RESULTS
+    text: Grain size decreases from 30.2 to 22.7 to 16.2 nm with Ru; planar defects change from sparse nanotwins (Ru-poor) to dense nanotwins (equiatomic) to dense intrinsic stacking faults (Ru-rich); in one representative Ru-rich surface area about 8 of 20 surface-terminating layers are stacking faults on ~5 nm facets.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2-4"}]
+    about: [ent:Planar, ent:TEM]
+    scope: {sample_count: 3}
+  - id: joo2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 6, S1-S2
+    paper_part: RESULTS
+    text: APT shows Au and Pd enriched and Ru (and in the equiatomic film Pt) depleted at grain boundaries, more strongly in the Ru-rich film, with no detectable enrichment at twins or stacking faults; XPS shows Pd enrichment, Pt depletion and Ru near volume content at the surface; GPA shows alternating compressive and tensile strain layers in the Ru-rich film.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6, S1-S2"}]
+    about: [ent:APT]
+
+  # ---------------- Claims ----------------
+  - id: joo2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2-3
+    paper_part: DISCUSSION
+    text: Increasing Ru content contracts the fcc lattice and shifts planar defects from high-density nanotwins to high-density stacking faults, consistent with Ru's preference for hcp stacking.
+    about: [ent:Planar, ent:Three]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Lattice contraction recomputes with Vegard's law and the defect change is imaged by HRTEM/FFT; it rests on one film per composition and representative images without defect-density statistics."
+  - id: joo2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2
+    paper_part: DISCUSSION
+    text: HER activity improves with higher Ru content, suggesting that Ru tunes the surface energy for hydrogen adsorption through interactions with neighbouring atoms.
+    about: [ent:SDC]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "The activity trend with Ru is clear across 342 MAs; the mechanism (neighbour-tuned hydrogen binding) is not tested, and the simpler explanations - more intrinsically HER-active Ru sites in alkaline media and larger surface area from smaller grains with geometric normalisation - are not excluded."
+  - id: joo2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2-3
+    paper_part: DISCUSSION
+    text: Planar defects terminating at the faceted surfaces, notably stacking faults in the Ru-rich film, can influence electrocatalytic activity.
+    about: [ent:Planar]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Surface termination of stacking faults is shown in one area, but no activity measurement separates defect effects from composition; the authors concede that disentangling stacking-fault, strain and composition effects is not straightforward and that compositional effects dominate."
+  - id: joo2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2-3
+    paper_part: DISCUSSION
+    text: Ru is depleted at grain boundaries and stays dissolved in the grains, so higher grain-interior Ru content is associated with stacking-fault formation and lattice strain, while Au and Pd enrich at grain boundaries.
+    about: [ent:APT, ent:Planar]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Grain-boundary profiles are measured by APT for two films; the link from grain-interior Ru to stacking-fault formation is a correlation across two compositions."
+  - id: joo2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Ru content governs lattice parameter, planar-defect type and grain-boundary chemistry of Au-Pd-Pt-Ru films, and planar defects terminating at surfaces can influence electrocatalytic activity, guiding rational design considering both compositional and microstructural complexity.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Structural part supported; the activity link to defects remains a hypothesis."
+  - id: joo2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: Stacking-fault and lattice-strain effects on activity cannot be disentangled; HER was measured in air with possible ORR contribution; planar defects are not resolved by APT owing to trajectory aberrations.
+    limitation_kind: METHOD
+  - id: joo2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: The role of individual planar defects terminating at surfaces will be studied in future work.
+
+relations:
+  - {id: joo2026:R1, subject: joo2026:BG1, predicate: MOTIVATES, object: joo2026:AIM1, asserted_by: AUTHORS}
+  - {id: joo2026:R2, subject: joo2026:METH1, predicate: DELIVERS, object: joo2026:AIM1, asserted_by: AUTHORS}
+  - {id: joo2026:R3, subject: joo2026:CLAIM1, predicate: DELIVERS, object: joo2026:AIM1, asserted_by: AUTHORS}
+  - {id: joo2026:R4, subject: joo2026:CLAIM2, predicate: DELIVERS, object: joo2026:AIM1, asserted_by: AUTHORS}
+  - {id: joo2026:R5, subject: joo2026:CLAIM3, predicate: DELIVERS, object: joo2026:AIM1, asserted_by: AUTHORS}
+  - {id: joo2026:R6, subject: joo2026:OBS2, predicate: SUPPORTS, object: joo2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Vegard consistent"}}
+  - {id: joo2026:R7, subject: joo2026:OBS3, predicate: SUPPORTS, object: joo2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "One film per composition, no defect statistics"}}
+  - {id: joo2026:R8, subject: joo2026:OBS1, predicate: SUPPORTS, object: joo2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Trend robust; mechanism and area effects not addressed"}}
+  - {id: joo2026:R9, subject: joo2026:OBS3, predicate: ALTERNATIVE_EXPLANATION_FOR, object: joo2026:CLAIM2, asserted_by: ANNOTATOR, note: "Smaller grains and faceting raise the real surface area under geometric normalisation"}
+  - {id: joo2026:R10, subject: joo2026:OBS1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: joo2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Ru itself is among the most HER-active metals in alkaline media, so more Ru sites raise activity without neighbour effects"}
+  - {id: joo2026:R11, subject: joo2026:OBS3, predicate: SUPPORTS, object: joo2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: NOT_MET, controls: NOT_MET, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Defects imaged, activity not linked"}}
+  - {id: joo2026:R12, subject: joo2026:LIM1, predicate: QUALIFIES, object: joo2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: joo2026:R13, subject: joo2026:OBS4, predicate: SUPPORTS, object: joo2026:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Two films, GB profiles"}}
+  - {id: joo2026:R14, subject: joo2026:CLAIM1, predicate: SUPPORTS, object: joo2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: joo2026:R15, subject: joo2026:CLAIM3, predicate: SUPPORTS, object: joo2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: joo2026:R16, subject: joo2026:CONC1, predicate: RESTATES, object: joo2026:CLAIM3, asserted_by: ANNOTATOR}
+  - {id: joo2026:R17, subject: joo2026:CONC1, predicate: RESTATES, object: joo2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: joo2026:R18, subject: joo2026:LIM1, predicate: MOTIVATES, object: joo2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The structural characterisation is thorough: XRD lattice parameters of the
+    three films agree with Vegard's law, HRTEM shows a clear change from
+    nanotwins to stacking faults with Ru, and APT resolves Au/Pd enrichment
+    and Ru depletion at grain boundaries. The library-wide HER map robustly
+    shows higher activity with more Ru. The links that give the paper its
+    title are not established: activity is normalised to geometric area while
+    grain size halves and surfaces facet, Ru's intrinsic HER activity in
+    alkali is a simpler explanation than neighbour-tuned binding, and no
+    measurement connects surface-terminating stacking faults to activity -
+    as the authors partly concede. Table 1 deposition rates do not reproduce
+    the stated 150 nm thickness. Draft annotation; figure-based judgements
+    rely on captions.
+  key_limitations:
+    - "Geometric normalisation with changing grain size and faceting (OBS1, R9)."
+    - "Mechanism of Ru effect untested; intrinsic Ru activity alternative (CLAIM2, R10)."
+    - "Defect-activity link not measured (CLAIM3)."
+    - "One film per composition, representative images only (OBS3)."
+  missing_evidence:
+    - "ECSA-normalised activities (e.g. Cu-UPD or double-layer capacitance)."
+    - "Local activity mapping (SECCM) correlated with defect-rich versus defect-poor grains."
+    - "Defect density statistics across several areas per film."

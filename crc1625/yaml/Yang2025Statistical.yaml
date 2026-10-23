@@ -1,0 +1,238 @@
+id: claimchain:chain/Yang2025Statistical
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1103/PhysRevB.111.054117
+  title: "Statistical phase evaluation approach for defect phase diagrams"
+  authors: [Jing Yang, Ahmed Abdelkawy, Mira Todorova, Jörg Neugebauer]
+  year: 2025
+  doi: 10.1103/PhysRevB.111.054117
+  url: https://doi.org/10.1103/PhysRevB.111.054117
+
+entities:
+  - {id: ent:SPEA, label: "statistical phase evaluation approach (Boltzmann-weighted finite-size phase fractions, island size N)", entity_type: METHOD}
+  - {id: ent:SGCMC, label: semi-grand-canonical Monte Carlo on a cluster expansion (60 x 60 surface cell), entity_type: METHOD}
+  - {id: ent:CE, label: cluster expansion fitted to DFT (PBE) surface energies of 2x2 and 3x3 configurations, entity_type: METHOD}
+  - {id: ent:Sublattice, label: "CALPHAD two-sublattice model (A,X)2/3(A,X)1/3 with fitted w1, w2", entity_type: METHOD}
+  - {id: ent:MgCa, label: Mg(0001) surface with Ca substitution, entity_type: MATERIAL}
+  - {id: ent:NiNb, label: Ni surface with Nb substitution, entity_type: MATERIAL}
+  - {id: ent:Isotherm, label: "surface segregation isotherm theta(x_X, T)", entity_type: QUANTITY}
+  - {id: ent:DPD, label: defect (surface) phase diagram, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: yang2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: Conventional ab initio surface phase diagrams show only the lowest-energy ordered phase with phase fraction one, so transitions appear abrupt, although Monte Carlo studies suggest phase coexistence at transition boundaries.
+    evidence: [{evidence_kind: CITATION, references: ["9-17", "36", "37"]}]
+  - id: yang2025:BG2
+    statement_type: BACKGROUND
+    section: Sec. II
+    paper_part: INTRODUCTION
+    text: Monte Carlo sampling gives accurate finite-temperature phase diagrams but requires millions of energy evaluations per (T, mu) point, whereas analytical models such as CALPHAD are fast once parametrized but depend on model flexibility.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 2"}]
+  - id: yang2025:GAP1
+    statement_type: GAP
+    section: Sec. I
+    paper_part: INTRODUCTION
+    text: An efficient analytical thermodynamic model that captures order-disorder transitions and phase coexistence in defect phase diagrams from ab initio data is lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: yang2025:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. I
+    paper_part: INTRODUCTION
+    text: Propose SPEA, benchmark it against CE-based SGCMC on Mg-Ca and Ni-Nb surface segregation, and compare it with the CALPHAD sublattice model.
+    about: [ent:SPEA, ent:SGCMC, ent:Sublattice]
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: yang2025:METH1
+    statement_type: METHOD
+    section: Sec. III A-B
+    paper_part: METHODS
+    text: DFT (VASP, PBE, 500 eV, six-layer slabs) energies of all solute permutations in 2x2 and 3x3 top-layer cells are fitted by a cluster expansion with pair and triplet terms, and SGCMC with 2e7 steps on a 60x60 cell gives segregation isotherms using a dilute-limit bulk chemical potential.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Sec. III, Eqs. 1-3"}]
+    about: [ent:CE, ent:SGCMC]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The cluster-expansion fitting error and cross-validation are not reported in the main text.", priority: LOW}
+  - id: yang2025:METH2
+    statement_type: METHOD
+    section: Sec. III C, IV B
+    paper_part: METHODS
+    text: The disordered-phase free energy at each coverage is computed from the CE energy distribution of 1e3 random 6x6 configurations with Boltzmann weights, and SPEA assigns each coverage phase an area fraction exp(-N G_theta/kT)/Z with an island-size parameter N.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Eqs. 4-11, 18-20"}]
+    about: [ent:SPEA]
+  - id: yang2025:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. II, IV
+    paper_part: METHODS
+    text: CE-based SGCMC on the same energies is the ground truth against which the analytical models are judged; segregation is restricted to the top surface layer and the bulk chemical potential follows the dilute limit.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "How do SPEA predictions compare with experimentally measured surface segregation or with MC including subsurface layers?"
+
+  # ---------------- Results ----------------
+  - id: yang2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. IV A, Figs. 5-6
+    paper_part: RESULTS
+    text: SGCMC for Mg-Ca shows random Ca at low chemical potential, then islands of the 1/3 ordered phase coexisting with the disordered phase, and a filled 1/3 phase at higher potential; the critical Ca concentration for ordering rises with temperature.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 5, 6a"}]
+    about: [ent:SGCMC, ent:MgCa]
+  - id: yang2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. IV A, Fig. 7
+    paper_part: RESULTS
+    text: For Ni-Nb the 1/3 ordered phase does not appear within the solubility range because at mu_Nb = -0.646 eV the low-coverage disordered phase is more favourable, so the isotherms remain disordered.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6b, Fig. 7", values: [{quantity: Nb in Ni bulk energy, value: -0.646, unit: eV}]}]
+    about: [ent:NiNb]
+  - id: yang2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. IV B, Fig. 8
+    paper_part: RESULTS
+    text: With N = 10, SPEA reproduces the SGCMC isotherms of both systems including the Mg-Ca transition zone, slightly better than the sublattice model with fitted w1 = -0.30 and w2 = 0.02 eV, which deviates in the low-coverage region.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 8"}]
+    about: [ent:SPEA, ent:Sublattice, ent:Isotherm]
+  - id: yang2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. IV, V
+    paper_part: RESULTS
+    text: SPEA accurately reproduces the Monte Carlo segregation isotherms, correctly predicting surface order-disorder transitions and the coexistence of the 1/3 ordered and disordered phases.
+    about: [ent:SPEA, ent:Isotherm]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Agreement is shown visually; quantitative error metrics are only in the SM.", priority: LOW}
+      - {concern_type: OVERGENERALIZATION, description: "Only Mg-Ca shows an order-disorder transition; Ni-Nb remains disordered, so the transition is tested in one system.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Visual agreement with SGCMC on the same CE energies is good for Mg-Ca across temperatures and for disordered Ni-Nb; the order-disorder test covers a single system, coexistence is built into the model, and N is chosen by comparison with MC."
+      proof_obligations:
+        - text: "Reproduce MC isotherms including the transition zone"
+          obligation_status: DISCHARGED
+          discharged_by: [yang2025:OBS3]
+        - text: "Show predictive accuracy for a system not used to choose N"
+          obligation_status: OPEN
+          priority: HIGH
+  - id: yang2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. IV C, Figs. 9-10
+    paper_part: RESULTS
+    text: Varying N from 5 to 40 changes mainly the abruptness of the Mg-Ca transition, with temperature-dependent optima of 27, 19 and 11 at 300, 500 and 800 K, whereas varying w2 from 0 to 0.04 eV changes the sublattice-model isotherm substantially in the disordered and transition regions; w2 = 0.02 eV fits Mg-Ca but gives significant errors for Ni-Nb.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 9, 10, SM"
+        values:
+          - {quantity: optimal N, value: 27, condition: 300 K}
+          - {quantity: optimal N, value: 19, condition: 500 K}
+          - {quantity: optimal N, value: 11, condition: 800 K}
+    about: [ent:SPEA, ent:Sublattice]
+  - id: yang2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. IV C, V
+    paper_part: DISCUSSION
+    text: SPEA is superior to the sublattice model because it is robust to its single empirical parameter, removes the need to optimize N per system, and includes multiple ordered phases without added complexity.
+    about: [ent:SPEA, ent:Sublattice]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The paper reports strongly temperature-dependent optimal N (27/19/11) while claiming that N need not be optimized; robustness is argued from error-vs-N plots in the SM.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Lower sensitivity to N than to w2 and easy extension to multiple ordered phases (Fig. 11) are shown; the claim that no optimization is needed rests on two systems and conflicts with the temperature-dependent optimal N."
+  - id: yang2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. IV C, Fig. 11
+    paper_part: RESULTS
+    text: In an extended Ca chemical-potential range SPEA agrees with MC over all phases beyond the 1/3 plateau up to full saturation.
+    about: [ent:SPEA, ent:MgCa]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Fig. 11 shows agreement over the whole range at 500 K, although these conditions lie above the bulk solubility limit, as stated."
+  - id: yang2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: METHODOLOGICAL
+    section: Sec. V
+    paper_part: CONCLUSION
+    text: SPEA is an efficient surrogate for MC thermodynamic averages that can be extended to generic defect phase diagrams independent of defect type or material and can feed ab initio data into CALPHAD.
+    about: [ent:SPEA, ent:DPD]
+    claim_modality: GENERALIZATION
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Efficiency is plausible and quantified in the SM; generality to other defect types (grain boundaries, dislocations) is not tested."
+  - id: yang2025:LIM1
+    statement_type: LIMITATION
+    section: Sec. III B
+    paper_part: DISCUSSION
+    text: The dilute-limit chemical potential holds only up to the solubility limit, so the model cannot be applied at high alloying contents where bulk precipitation or phase transformations occur.
+    limitation_kind: SCOPE
+  - id: yang2025:OUT1
+    statement_type: OUTLOOK
+    section: Sec. IV C, V
+    paper_part: CONCLUSION
+    text: SPEA combined with high-throughput ab initio calculations could construct general defect phase diagrams, with a step-by-step guide given in the SM.
+
+  - id: yang2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "SPEA accurately reproduces the Monte Carlo segregation isotherms, correctly predicting surface order-disorder transitions and the coexistence of the 1/3 ordered and disordered phases."
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM1 in the conclusion; verdict as there."
+
+relations:
+  - {id: yang2025:R1, subject: yang2025:BG1, predicate: MOTIVATES, object: yang2025:GAP1, asserted_by: AUTHORS}
+  - {id: yang2025:R2, subject: yang2025:BG2, predicate: MOTIVATES, object: yang2025:GAP1, asserted_by: AUTHORS}
+  - {id: yang2025:R3, subject: yang2025:GAP1, predicate: MOTIVATES, object: yang2025:AIM1, asserted_by: AUTHORS}
+  - {id: yang2025:R4, subject: yang2025:METH2, predicate: DELIVERS, object: yang2025:AIM1, asserted_by: AUTHORS}
+  - {id: yang2025:R5, subject: yang2025:METH1, predicate: DEPENDS_ON, object: yang2025:ASM1, asserted_by: AUTHORS}
+  - {id: yang2025:R6, subject: yang2025:OBS1, predicate: MOTIVATES, object: yang2025:METH2, asserted_by: AUTHORS, note: "Observed coexistence motivates Boltzmann phase fractions"}
+  - {id: yang2025:R7, subject: yang2025:OBS3, predicate: SUPPORTS, object: yang2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "One system with a transition; N chosen against MC"}}
+  - {id: yang2025:R8, subject: yang2025:OBS2, predicate: QUALIFIES, object: yang2025:CLAIM1, asserted_by: ANNOTATOR, note: "Ni-Nb has no ordering transition in range"}
+  - {id: yang2025:R9, subject: yang2025:OBS4, predicate: SUPPORTS, object: yang2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: yang2025:R10, subject: yang2025:OBS4, predicate: UNDERCUTS, object: yang2025:CLAIM2, asserted_by: ANNOTATOR, note: "Optimal N depends on temperature"}
+  - {id: yang2025:R11, subject: yang2025:CLAIM3, predicate: SUPPORTS, object: yang2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: yang2025:R12, subject: yang2025:CLAIM1, predicate: SUPPORTS, object: yang2025:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: yang2025:R13, subject: yang2025:LIM1, predicate: QUALIFIES, object: yang2025:CLAIM4, asserted_by: AUTHORS}
+  - {id: yang2025:R14, subject: yang2025:CLAIM1, predicate: DELIVERS, object: yang2025:AIM1, asserted_by: AUTHORS}
+  - {id: yang2025:R15, subject: yang2025:CLAIM2, predicate: DELIVERS, object: yang2025:AIM1, asserted_by: AUTHORS}
+  - {id: yang2025:R16, subject: yang2025:CLAIM1, predicate: ANSWERS, object: yang2025:GAP1, asserted_by: AUTHORS}
+  - {id: yang2025:R17, subject: yang2025:CLAIM4, predicate: MOTIVATES, object: yang2025:OUT1, asserted_by: AUTHORS}
+
+  - {id: yang2025:R18, subject: yang2025:CONC1, predicate: RESTATES, object: yang2025:CLAIM1, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A clearly formulated analytical model that assigns Boltzmann-weighted
+    area fractions to coverage phases, validated against CE-based Monte
+    Carlo on the same energies. For Mg-Ca it reproduces the order-disorder
+    transition and coexistence region across temperatures and extends
+    naturally to multiple ordered phases, with lower parameter sensitivity
+    than a CALPHAD sublattice model. Validation is internal to the CE
+    energies, the transition is tested in only one system (Ni-Nb stays
+    disordered), the island size N is chosen against MC and its optimum
+    varies with temperature, and generality to other defect types is
+    asserted.
+  key_limitations:
+    - "Order-disorder transition tested in one system (OBS2, CLAIM1)."
+    - "N chosen by comparison with MC; temperature-dependent optimum (OBS4, CLAIM2)."
+    - "Validation only against MC on the same CE, no experiment (ASM1)."
+    - "Dilute-limit chemical potentials and top-layer segregation only (LIM1)."
+  missing_evidence:
+    - "Blind prediction for a third alloy system without tuning N."
+    - "Comparison with measured surface segregation data."
+    - "Application to grain boundaries or dislocations."

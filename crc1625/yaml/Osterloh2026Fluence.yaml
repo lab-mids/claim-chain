@@ -1,0 +1,198 @@
+id: claimchain:chain/Osterloh2026Fluence
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1039/d5nh00836k
+  title: "Fluence-independent range of surface roughening within the Gaussian-shaped profile of a low-intensity ultrashort laser"
+  authors: [N. Osterloh, M. Vyshnepolsky, T. Pan, K. Morgenstern]
+  year: 2026
+  doi: 10.1039/d5nh00836k
+  url: https://doi.org/10.1039/d5nh00836k
+
+entities:
+  - {id: ent:Cu511, label: "vicinal Cu(511) single crystal in UHV, imaged at 7 K", entity_type: MATERIAL}
+  - {id: ent:Laser, label: "400 nm, 50 fs, 250 kHz pulses, 1-4 s irradiation, 7.8-9 mJ/cm2 absorbed average fluence", entity_type: TECHNIQUE}
+  - {id: ent:STM, label: "low-temperature beetle STM with slip-stick mapping of 400 adjacent images across the laser spot", entity_type: TECHNIQUE}
+  - {id: ent:Cov, label: "laser-induced adatom-cluster coverage vs locally absorbed fluence", entity_type: QUANTITY}
+  - {id: ent:Mech, label: "hot-electron creation of bulk vacancy-interstitial pairs and their transport to the surface", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: osterloh2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Femtosecond irradiation far below the ablation threshold (about 1.7 J/cm2 for Cu at 800 nm) modifies metal surface texture; on Ag(100) and Cu(111) bulk vacancies and interstitials are driven to the surface, and on Cu(111) island shapes vary across the laser spot with local fluence.
+    evidence: [{evidence_kind: CITATION, references: ["21", "26-28"]}]
+  - id: osterloh2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Map fs-laser-induced surface defects on vicinal Cu(511) across a Gaussian laser spot to determine their dependence on locally absorbed fluence.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: osterloh2026:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: The laser (800 nm, 250 kHz, maximum 1.5 W, stated pulse energy 6 mJ) is frequency doubled; the sample is irradiated 1-4 s with the tip retracted; local fluence is assigned from the photoelectron-measured spot profile; 106, 223 and 71 adjacent 300 nm STM images cover 8.8, 19.9 and 6.2 µm lines.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2"
+        values:
+          - {symbol: p_max, quantity: maximum laser power, value: 1.5, unit: W}
+          - {symbol: f_rep, quantity: repetition rate, value: 2.5e+5, unit: Hz}
+          - {symbol: e_stated, quantity: stated pulse energy, value: 6.0e-3, unit: J}
+        derived_checks:
+          - {expression: "pulse energy from power and repetition rate (stated 6 mJ)", formula: "p_max/f_rep", result: 6.0e-6, unit: J}
+    about: [ent:Laser, ent:STM]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "1.5 W at 250 kHz gives 6 µJ per pulse, not 6 mJ.", priority: LOW}
+  - id: osterloh2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1-3.2, Figs. 1-2
+    paper_part: RESULTS
+    text: After irradiation one-plane-high adatom clusters (73 ± 3 pm, about 80% smaller than 2 nm2) and vacancy clusters appear in the same area imaged before irradiation, with marker defects and secondary step edges unchanged; adatom-cluster area exceeds vacancy-cluster area by about 50%.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2"}]
+    about: [ent:Cu511, ent:STM]
+  - id: osterloh2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.2
+    paper_part: DISCUSSION
+    text: The clusters originate from vacancy-interstitial pairs created in the bulk by hot electrons and driven to the surface by subsequent pulses, with surface diffusion largely suppressed on Cu(511); a two-temperature model gives only 105 K phonon but 3530 K electron temperature.
+    about: [ent:Mech]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Before/after imaging of the same area and the adatom-vacancy imbalance support a subsurface origin and the low phonon temperature excludes thermal activation; the specific vacancy-interstitial mechanism follows earlier work and is not tested directly here."
+  - id: osterloh2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.3-3.4, Figs. 3-4
+    paper_part: RESULTS
+    text: Coverage varies with position in the spot; on a double-logarithmic plot of coverage vs locally absorbed fluence (y series and second x series) apparent slopes are 1.65 ± 0.16 up to 1.3 mJ/cm2, 0.10 ± 0.04 between 1.3 and 5 mJ/cm2 and 0.97 ± 0.19 above 5 mJ/cm2.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4b"
+        values:
+          - {symbol: s1, quantity: slope below 1.3 mJ/cm2, value: 1.65}
+          - {symbol: s2, quantity: slope 1.3-5 mJ/cm2, value: 0.10}
+          - {symbol: f_lo, quantity: lower bound of plateau, value: 1.3, unit: mJ cm-2}
+          - {symbol: f_hi, quantity: upper bound of plateau, value: 5.0, unit: mJ cm-2}
+        derived_checks:
+          - {expression: "slope reduction factor (stated 16)", formula: "s1/s2", result: 16.5}
+          - {expression: "fluence span of the plateau (stated almost fourfold)", formula: "f_hi/f_lo", result: 3.85}
+    about: [ent:Cov]
+  - id: osterloh2026:OBS3
+    statement_type: OBSERVATION
+    section: Fig. 2a, Fig. 5a
+    paper_part: RESULTS
+    text: A 4 s irradiation at 0.5 mJ/cm2 local fluence (Fig. 2a) and a 1 s irradiation at 0.55 mJ/cm2 (Fig. 5a) both give about 0.07 ML coverage.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. 2a, 5a"
+        values:
+          - {symbol: t4, quantity: irradiation time Fig. 2, value: 4, unit: s}
+          - {symbol: t1, quantity: irradiation time Fig. 5, value: 1, unit: s}
+        derived_checks:
+          - {expression: "ratio of pulse numbers at nearly equal fluence and equal coverage", formula: "t4/t1", result: 4.0}
+    about: [ent:Cov, ent:Laser]
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Equal coverage after four times more pulses at the same local fluence implies saturation or dose-independence that the fluence-only interpretation and the 'driven by subsequent pulses' mechanism do not address; dose dependence is not examined.", priority: MEDIUM}
+  - id: osterloh2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.4, Sec. 4
+    paper_part: RESULTS
+    text: Between about 1.3 and 5 mJ/cm2 locally absorbed fluence the amount of material driven to the Cu(511) surface is nearly fluence-independent, so this range allows largely homogeneous laser structuring across a Gaussian spot.
+    about: [ent:Cov]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Two independent image series agree on a slope of 0.10 ± 0.04 in this range, and the ratios recompute; the result comes from one irradiation condition and one crystal, local fluence assignment uncertainty is not propagated, and the dose dependence is unexplored."
+      proof_obligations:
+        - text: "Show the plateau is reproducible and dose-independent"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "coverage vs local fluence for 1, 2, 4 s irradiations and a second preparation", unit: ML, method: "repeat STM mapping"}]
+  - id: osterloh2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3.4
+    paper_part: DISCUSSION
+    text: The non-monotonous dependence arises from competing bulk processes - a two-photon creation of vacancy-interstitial pairs at low fluence, compensation of adatoms by bulk vacancies reaching the surface above about 1.5 mJ/cm2, and renewed non-linear growth after equilibration.
+    about: [ent:Mech]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Consistent with the slopes, but vacancy and adatom yields are not separately quantified versus fluence, and the multi-photon interpretation of the power-law slope is a heuristic."
+  - id: osterloh2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Similar fluence-independent ranges are expected across materials, and the changed texture will influence the understanding of all ultrashort-laser-induced processes including melting, ablation and femtochemistry.
+    about: [ent:Cov]
+    claim_modality: DESCRIPTIVE
+    author_certainty: SPECULATIVE
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Generalization from one vicinal Cu surface to all materials and processes.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No data on other materials; presented as expectation."
+  - id: osterloh2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Between 1.3 and 5 mJ/cm2 the Cu(511) surface texture remains largely independent of fluence due to competing bulk processes, while fluence increases almost fourfold.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates CLAIM2 together with the untested mechanism of CLAIM3."
+
+relations:
+  - {id: osterloh2026:R1, subject: osterloh2026:BG1, predicate: MOTIVATES, object: osterloh2026:AIM1, asserted_by: AUTHORS}
+  - {id: osterloh2026:R2, subject: osterloh2026:METH1, predicate: DELIVERS, object: osterloh2026:AIM1, asserted_by: AUTHORS}
+  - {id: osterloh2026:R3, subject: osterloh2026:OBS2, predicate: DELIVERS, object: osterloh2026:AIM1, asserted_by: AUTHORS}
+  - {id: osterloh2026:R4, subject: osterloh2026:CLAIM2, predicate: DELIVERS, object: osterloh2026:AIM1, asserted_by: AUTHORS}
+  - {id: osterloh2026:R5, subject: osterloh2026:CONC1, predicate: DELIVERS, object: osterloh2026:AIM1, asserted_by: AUTHORS}
+  - {id: osterloh2026:R6, subject: osterloh2026:OBS1, predicate: SUPPORTS, object: osterloh2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "Same-area before/after imaging; mechanism from prior work"}}
+  - {id: osterloh2026:R7, subject: osterloh2026:OBS2, predicate: SUPPORTS, object: osterloh2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Two series from one irradiation; fluence mapping uncertainty not propagated"}}
+  - {id: osterloh2026:R8, subject: osterloh2026:OBS3, predicate: QUALIFIES, object: osterloh2026:CLAIM2, asserted_by: ANNOTATOR, note: "coverage unchanged with four times more pulses"}
+  - {id: osterloh2026:R9, subject: osterloh2026:OBS2, predicate: SUPPORTS, object: osterloh2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: osterloh2026:R10, subject: osterloh2026:CLAIM1, predicate: SUPPORTS, object: osterloh2026:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: osterloh2026:R11, subject: osterloh2026:CLAIM2, predicate: SUPPORTS, object: osterloh2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: osterloh2026:R12, subject: osterloh2026:CONC1, predicate: RESTATES, object: osterloh2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: osterloh2026:R13, subject: osterloh2026:OBS2, predicate: SUPPORTS, object: osterloh2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    About 400 low-temperature STM images mapped across a 50 fs, 400 nm
+    laser spot on Cu(511) show that sub-ablation irradiation creates
+    one-plane-high adatom and vacancy clusters from subsurface sources,
+    and that coverage versus locally absorbed fluence has a plateau
+    (slope 0.10 ± 0.04) between about 1.3 and 5 mJ/cm2, reproduced by two
+    image series; the stated ratios recompute. The data come from one
+    crystal and irradiation condition, local fluence uncertainties are
+    not propagated, equal coverage after four times more pulses at the
+    same fluence is not discussed, the competing-process mechanism is
+    inferred from slopes, the stated pulse energy is off by 1000, and the
+    generalization to all materials is speculative.
+  key_limitations:
+    - "Single irradiation condition and crystal (CLAIM2)."
+    - "Dose dependence unexamined despite equal coverage at 1 s and 4 s (OBS3)."
+    - "Mechanism inferred from apparent power-law slopes (CLAIM3)."
+    - "Pulse energy stated as 6 mJ instead of 6 µJ (METH1)."
+  missing_evidence:
+    - "Repeat mapping at several irradiation times and preparations."
+    - "Separate fluence dependence of adatom and vacancy yields."
+    - "Same analysis on another material or facet."

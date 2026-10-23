@@ -1,0 +1,262 @@
+id: claimchain:chain/Papaderakis2025Hydrogen
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.actamat.2025.120756
+  title: "Hydrogen induced superhydrophilicity in an amorphous CrFeNi-based multi-principal element alloy thin film"
+  authors: [Athanasios A. Papaderakis, Eirini-Maria Paschalidou, León Zendejas Medina, Ezgi Hatipoglu, Aparna Saksena, Baptiste Gault, Birhan Sefer, David Malmström, Pouya Hosseini, Oliver Trost, Adrianna Lozinko, Mohini Ramkaran, Anne Juel, Kristina Tschulik, Robert A.W. Dryfe]
+  year: 2025
+  doi: 10.1016/j.actamat.2025.120756
+  url: https://doi.org/10.1016/j.actamat.2025.120756
+
+entities:
+  - {id: ent:Film, label: "amorphous Cr28Fe29Ni28Ta15 thin film (~460 nm) on SiO2/Si, sub-nm roughness", entity_type: MATERIAL}
+  - {id: ent:NativeOx, label: "native oxide rich in Fe, Cr, Ta and free of Ni", entity_type: MATERIAL}
+  - {id: ent:Electrowetting, label: contact angle of a 1 M H2SO4 droplet under potential control (Pt pseudo-reference), entity_type: TECHNIQUE}
+  - {id: ent:TDS, label: thermal desorption spectroscopy with mass spectrometry, entity_type: TECHNIQUE}
+  - {id: ent:APT, label: atom probe tomography, entity_type: TECHNIQUE}
+  - {id: ent:XPS, label: angle-resolved XPS of the native oxide, entity_type: TECHNIQUE}
+  - {id: ent:Theta, label: apparent contact angle, entity_type: QUANTITY}
+  - {id: ent:Spillover, label: hydrogen spillover protonating Ta and Cr oxides, entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: papaderakis2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Wetting is governed by surface chemistry and morphology; electrowetting on solid metals was historically irreversible and obscured by parasitic reactions, and recent work links double-layer charging and charge-transfer reactions, including hydrogen absorption under h-BN on Rh(111), to wetting.
+    evidence: [{evidence_kind: CITATION, references: ["1-43"]}]
+  - id: papaderakis2025:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: CrFeNi-based multi-principal element alloys with Ta form corrosion-resistant Ta-containing surface oxides with low contact resistance, relevant for current collectors and electrocatalysis.
+    evidence: [{evidence_kind: CITATION, references: ["44-58"]}]
+  - id: papaderakis2025:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The link between hydrogen interaction with multi-principal element alloys and their surface wettability is unknown.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: papaderakis2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 4
+    paper_part: INTRODUCTION
+    text: Electrochemically driven hydrogen adsorption and absorption irreversibly turn the amorphous CrFeNiTa film superhydrophilic by partially protonating the Ta and Cr surface oxides through hydrogen spillover from reduced Fe sites and by inducing Cr segregation at the outer surface.
+    about: [ent:Film, ent:Spillover, ent:Theta]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The irreversible transition to a near-zero contact angle under cathodic polarization, its rate dependence, hydrogen uptake (TDS) and Cr surface enrichment (APT) are shown; the spillover/protonation mechanism is not measured, TDS and APT use a different (galvanostatic 1 h) treatment from the wetting experiments, and removal of surface contamination by cathodic polarization is not excluded."
+      missing_evidence:
+        - "XPS of O 1s (OH/O2- ratio) after cathodic polarization"
+        - "Contact angle after cathodic treatment in hydrogen-free control (e.g. inert alloy or pre-cleaned surface)"
+      proof_obligations:
+        - text: "Show irreversible superhydrophilicity induced by cathodic polarization"
+          obligation_status: DISCHARGED
+          discharged_by: [papaderakis2025:OBS2, papaderakis2025:OBS6]
+        - text: "Show hydrogen uptake under the wetting conditions"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [papaderakis2025:OBS4]
+        - text: "Show oxide protonation (hydroxylation) after treatment"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "OH-/O2- ratio of surface oxide", method: "XPS O 1s after cathodic polarization"}]
+
+  # ---------------- Methods ----------------
+  - id: papaderakis2025:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: Co-sputtered amorphous films are characterized by GI-XRD, SEM, EDS, angle-resolved XPS, APT and AFM; 300-500 um droplets of 1 M H2SO4 are deposited by micropipette with a Pt wire as counter and pseudo-reference, and the contact angle is tracked by high-speed imaging during sweeps (+0.1 to -1.1 V, 100 mV/s), 40 s pulses (-0.8, -1.0, -1.2 V) and 0/-0.8 V pulse cycles; TDS uses films polarized at -50 uA/cm2 for 1 h.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.3-2.5"
+        values:
+          - {symbol: e_agcl, quantity: potential vs Ag/AgCl, value: -0.6, unit: V}
+          - {symbol: offset, quantity: Pt pseudo-reference vs Ag/AgCl, value: 0.700, unit: V}
+          - {symbol: e_pt_stated, quantity: stated potential vs pseudo-Pt, value: -1.3, unit: V}
+        derived_checks:
+          - {expression: "conversion of -0.6 V vs Ag/AgCl to the pseudo-Pt scale", formula: "e_agcl - offset", result: -1.3, unit: V}
+    about: [ent:Electrowetting, ent:TDS, ent:APT]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "TDS, APT and TEM samples are treated galvanostatically for 1 h, while wetting is induced by seconds-long sweeps and pulses.", priority: MEDIUM}
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The t-test threshold is given as 0.1 and described as 'critical probability of 95 %'.", priority: LOW}
+  - id: papaderakis2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3.1, Figs. 1-2
+    paper_part: RESULTS
+    text: The films are amorphous with bulk composition Cr28Fe29Ni28Ta15 and uniform element distribution; the native oxide contains Fe (51 at.%), Cr (20 at.%) and Ta (19 at.%) but no Ni.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 1, Fig. 2, Fig. S2"
+        values:
+          - {symbol: cr, quantity: Cr bulk, value: 28, unit: at.%}
+          - {symbol: fe, quantity: Fe bulk, value: 29, unit: at.%}
+          - {symbol: ni, quantity: Ni bulk, value: 28, unit: at.%}
+          - {symbol: ta, quantity: Ta bulk, value: 15, unit: at.%}
+        derived_checks:
+          - {expression: "bulk composition sums to 100 at.%", formula: "cr + fe + ni + ta", result: 100}
+    about: [ent:Film, ent:NativeOx, ent:XPS]
+
+  # ---------------- Wetting results ----------------
+  - id: papaderakis2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Figs. 3-4
+    paper_part: RESULTS
+    text: During a cathodic sweep the contact angle stays near 52 degrees until about -0.55 V vs pseudo-Pt, just after a cathodic peak at -0.4 V, then decreases to below 10 degrees at -1.1 V and saturates below 5 degrees on the reverse scan; area-normalized currents reveal an additional reduction shoulder between -0.9 and -1.05 V.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. 3, 4", values: [{quantity: contact angle at OCP, value: 52, unit: deg}, {quantity: final contact angle, value: 5, unit: deg}]}]
+    about: [ent:Theta, ent:Electrowetting]
+  - id: papaderakis2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3.2
+    paper_part: RESULTS
+    text: The cathodic peak at -0.4 V vs pseudo-Pt is the reduction of the Fe native oxide, whereas Ta and Cr oxides are not reduced within the electrolyte window.
+    about: [ent:NativeOx]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 3.2, SI, Fig. S3"
+        values:
+          - {symbol: e_ta, quantity: E0 Ta2O5/Ta vs SHE, value: -0.762, unit: V}
+          - {symbol: e_cr, quantity: E0 Cr2O3/Cr vs SHE, value: -0.600, unit: V}
+          - {symbol: e_fe, quantity: E0 Fe2O3/Fe vs SHE, value: -0.058, unit: V}
+    warrant: {rule: "Oxides with more negative standard reduction potentials are reduced at more negative applied potentials; a reference Fe electrode shows a peak at the same potential.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: PARTIAL
+      rationale: "Thermodynamic ordering and the matching peak of an Fe electrode support Fe-oxide reduction; the Fe oxidation state is assumed (+3) and no post-polarization surface analysis confirms which oxides remain."
+  - id: papaderakis2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3.2, Fig. 5
+    paper_part: RESULTS
+    text: The spreading time constant decreases from 16.7 +- 3.5 s at -0.8 V to 5.3 +- 1.7 s at -1.0 V and 1.4 +- 0.1 s at -1.2 V vs pseudo-Pt (at least three runs, t-test p = 0.004 and 0.019), giving a Tafel-like linear E vs log t relation.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5"
+        values:
+          - {symbol: t08, quantity: t_adv at -0.8 V, value: 16.7, unit: s}
+          - {symbol: t10, quantity: t_adv at -1.0 V, value: 5.3, unit: s}
+          - {symbol: t12, quantity: t_adv at -1.2 V, value: 1.4, unit: s}
+        derived_checks:
+          - {expression: "decades of t_adv per 0.2 V, first step", formula: "log10(t08/t10)", result: 0.50}
+          - {expression: "decades of t_adv per 0.2 V, second step", formula: "log10(t10/t12)", result: 0.58}
+    about: [ent:Theta]
+  - id: papaderakis2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 3.2
+    paper_part: RESULTS
+    text: The extent and dynamics of wetting are governed by the rate of the cathodic reactions that follow Fe-oxide reduction, i.e. hydrogen adsorption and absorption.
+    about: [ent:Theta, ent:Electrowetting]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Spreading accelerates exponentially with overpotential and begins after Fe-oxide reduction, consistent with control by a cathodic reaction; which reaction (hydrogen adsorption/absorption, HER-driven cleaning or further oxide reduction) is not isolated."
+  - id: papaderakis2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Fig. 6
+    paper_part: RESULTS
+    text: TDS of films polarized at -50 uA/cm2 for 1 h shows two hydrogen desorption peaks (below 350 C and at 600-800 C), absent for untreated films and for bare SiO2/Si with or without polarization (triplicates).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6"}]
+    about: [ent:TDS, ent:Film]
+    scope: {sample_count: 3}
+  - id: papaderakis2025:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3.3, Fig. 7, Fig. S5
+    paper_part: RESULTS
+    text: APT after cathodic treatment shows Cr enrichment in the outer ~5 nm compared with the as-prepared film, and HRTEM shows the film remains amorphous.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 7, Fig. S5"}]
+    about: [ent:APT, ent:Film]
+  - id: papaderakis2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3.3, Abstract, Sec. 4
+    paper_part: DISCUSSION
+    text: Hydrogen adsorbed on freshly reduced Fe sites is absorbed into the film and spills over to protonate the electrochemically resilient Ta and Cr oxides, creating hydroxylated sites that bind water strongly, while hydrogen-induced Cr segregation and strain further raise the surface energy.
+    about: [ent:Spillover, ent:NativeOx]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "No post-treatment XPS or spectroscopy shows hydroxylation of Ta or Cr oxides; the discussion nevertheless refers to 'hydroxylation of the oxides (see Fig. 7)', which is an APT composition profile.", priority: HIGH}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Hydrogen uptake and Cr segregation are observed, but the spillover and protonation steps that would link them to wetting are argued from literature on other systems."
+  - id: papaderakis2025:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 3.4, Figs. 8-9, Fig. S7
+    paper_part: RESULTS
+    text: After pulsing to -0.8 V the contact angle does not recover at 0 V over five cycles or after hours at open circuit; AFM roughness remains sub-nanometre before and after treatment; anodic polarization to +1.2 V changes the contact angle by less than 7 degrees.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 8, 9, S6, S7"}]
+    about: [ent:Theta, ent:Film]
+  - id: papaderakis2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3.4, Sec. 4
+    paper_part: CONCLUSION
+    text: The hydrogen-induced superhydrophilic state is fully irreversible, which cannot be explained by roughness effects and is attributed to irreversible compositional changes of the surface.
+    about: [ent:Theta, ent:Film]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Cathodic polarization near HER can remove adventitious hydrocarbon contamination, a common cause of irreversible wettability increases on metals; this alternative is not tested.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Irreversibility and unchanged roughness are shown directly; attributing it to compositional changes rather than to removal of surface contamination is not supported by a control."
+      missing_evidence:
+        - "Surface carbon (XPS C 1s) before and after cathodic treatment"
+  - id: papaderakis2025:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 1, 4
+    paper_part: CONCLUSION
+    text: The link between hydrogen interactions in multi-principal element alloys and wettability is relevant for electrochemical energy conversion and storage, catalysis, hydrogen embrittlement and liquid actuation.
+
+relations:
+  - {id: papaderakis2025:R1, subject: papaderakis2025:BG1, predicate: MOTIVATES, object: papaderakis2025:GAP1, asserted_by: AUTHORS}
+  - {id: papaderakis2025:R2, subject: papaderakis2025:BG2, predicate: MOTIVATES, object: papaderakis2025:GAP1, asserted_by: AUTHORS}
+  - {id: papaderakis2025:R3, subject: papaderakis2025:GAP1, predicate: MOTIVATES, object: papaderakis2025:HYP1, asserted_by: AUTHORS}
+  - {id: papaderakis2025:R4, subject: papaderakis2025:OBS1, predicate: SUPPORTS, object: papaderakis2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R5, subject: papaderakis2025:OBS2, predicate: SUPPORTS, object: papaderakis2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R6, subject: papaderakis2025:OBS2, predicate: SUPPORTS, object: papaderakis2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R7, subject: papaderakis2025:OBS3, predicate: SUPPORTS, object: papaderakis2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_MET, alternatives: NOT_MET, scope_match: MET, criteria_note: "Rate dependence shown; reaction identity not isolated"}}
+  - {id: papaderakis2025:R8, subject: papaderakis2025:OBS4, predicate: SUPPORTS, object: papaderakis2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R9, subject: papaderakis2025:OBS5, predicate: SUPPORTS, object: papaderakis2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R10, subject: papaderakis2025:METH1, predicate: QUALIFIES, object: papaderakis2025:CLAIM3, asserted_by: ANNOTATOR, note: "TDS/APT treatment differs from the wetting protocol"}
+  - {id: papaderakis2025:R11, subject: papaderakis2025:OBS6, predicate: SUPPORTS, object: papaderakis2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true}
+  - {id: papaderakis2025:R12, subject: papaderakis2025:OBS6, predicate: ALTERNATIVE_EXPLANATION_FOR, object: papaderakis2025:CLAIM4, asserted_by: ANNOTATOR_BACKGROUND, note: "Irreversible removal of adventitious carbon by cathodic polarization"}
+  - {id: papaderakis2025:R13, subject: papaderakis2025:CLAIM1, predicate: SUPPORTS, object: papaderakis2025:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R14, subject: papaderakis2025:CLAIM2, predicate: SUPPORTS, object: papaderakis2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R15, subject: papaderakis2025:CLAIM3, predicate: SUPPORTS, object: papaderakis2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: papaderakis2025:R16, subject: papaderakis2025:CLAIM4, predicate: SUPPORTS, object: papaderakis2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: papaderakis2025:R17, subject: papaderakis2025:HYP1, predicate: ANSWERS, object: papaderakis2025:GAP1, asserted_by: AUTHORS}
+  - {id: papaderakis2025:R18, subject: papaderakis2025:HYP1, predicate: MOTIVATES, object: papaderakis2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A well-instrumented study showing that cathodic polarization of an
+    atomically smooth amorphous CrFeNiTa film in 1 M H2SO4 irreversibly
+    lowers the droplet contact angle from ~52 to <5 degrees, with spreading
+    rates that scale exponentially with overpotential; TDS proves hydrogen
+    uptake and APT shows Cr surface enrichment, and the stated potential
+    conversions and composition recompute. The proposed mechanism
+    (spillover-driven protonation of Ta/Cr oxides) is not measured, the
+    hydrogen and composition data come from a different polarization
+    protocol, and the obvious alternative of cathodic removal of surface
+    contamination is not tested.
+  key_limitations:
+    - "Oxide protonation/hydroxylation not measured (CLAIM3)."
+    - "TDS/APT samples treated differently from wetting samples (METH1)."
+    - "Contamination removal not excluded as cause of irreversible wetting (CLAIM4)."
+    - "Reaction controlling spreading not isolated (CLAIM2)."
+  missing_evidence:
+    - "Post-polarization XPS (O 1s, C 1s, Ta 4f, Cr 2p)."
+    - "TDS after the actual wetting protocol."
+    - "Control on a hydrogen-inert electrode with the same polarization."

@@ -1,0 +1,154 @@
+id: claimchain:chain/Mohamed2026Field
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2601.09359v1; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/adem.202502877
+  title: "Field Report from Collaborative Research Center 1625: Heterogeneous Research Data Management Using Ontology Representations"
+  authors: [Doaa Mohamed, Samuel García Vázquez, Behnam Mardani, Victor Dudarev, Alfred Ludwig, Maribel Acosta, Markus Stricker]
+  year: 2026
+  doi: 10.1002/adem.202502877
+  url: https://doi.org/10.1002/adem.202502877
+
+entities:
+  - {id: ent:MatInf, label: "MatInf RDMS of CRC1625 (relational database, GUI, REST API, Python wrapper; 11.3 GB, 19,888 measurement areas)", entity_type: METHOD}
+  - {id: ent:KG, label: "CRC1625 ontology based on PMDco and RML-built Knowledge Graph with SPARQL access", entity_type: METHOD}
+  - {id: ent:Hier, label: "sample-centric hierarchy - materials library, measurement area, micro measurement area - and handover workflows", entity_type: CONCEPT}
+  - {id: ent:AIready, label: "API-based pipeline producing AI-ready tables (imputation, dimensionality reduction, image autoencoder)", entity_type: METHOD}
+  - {id: ent:UseCases, label: "use cases - t-SNE chemical-space maps, word-embedding extrapolation, active-learning cold starts", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: mohamed2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1-2
+    paper_part: INTRODUCTION
+    text: CRC1625 (19 projects, five institutions) produces heterogeneous synthesis, characterization (EDX, XPS, TEM, EC-STM, SECCM, SDC, etc.) and simulation data on compositionally complex solid solution libraries, where the challenge is the relationships between data points rather than volume; data-driven methods require FAIR data.
+    evidence: [{evidence_kind: CITATION, references: ["1-9"]}]
+  - id: mohamed2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Report the CRC1625 research data management approach - MatInf RDMS, ontology and Knowledge Graph, FAIR assessment, usability and training - and show first use cases enabled by it, with lessons learned.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- System description ----------------
+  - id: mohamed2026:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: MatInf stores typed objects with metadata, relational and hierarchical links, user-generated content (ideas, plans, handovers) and files; data are organized sample-centrically from library to 342 measurement areas to micro measurement areas, accessed via GUI (periodic-table search) and a read-only REST API with Python wrapper.
+    about: [ent:MatInf, ent:Hier]
+  - id: mohamed2026:METH2
+    statement_type: METHOD
+    section: Sec. 3, Figs. 6-8
+    paper_part: METHODS
+    text: An ontology aligned with PMDco represents samples, measurements and handover workflows; an RML-based ETL pipeline converts database query results into an RDF Knowledge Graph queryable with SPARQL, with SHACL validation under investigation.
+    about: [ent:KG]
+  - id: mohamed2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 4-5
+    paper_part: RESULTS
+    text: The ARDC FAIR self-assessment gives 77%, limited by restricted access and lack of default licences per record; the text states that usability tests are run regularly with users, and later that a usability test with ten users and NASA-TLX is currently being planned.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Sec. 4-5"}]
+    about: [ent:MatInf]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "'Regularly ... running usability tests' conflicts with the later statement that a usability test is only being planned; no usability results are reported.", priority: MEDIUM}
+  - id: mohamed2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 6, Figs. 9-11
+    paper_part: RESULTS
+    text: The API pipeline builds tables from more than 100 data types; t-SNE of 13-dimensional compositions of 19,888 measurement areas maps sample IDs, data-modality counts and Pd content; reused data supported word-embedding extrapolation and active-learning cold starts (7-fold reduction for resistance; other strategies stated to reduce measurements 'from 85% down to 60%').
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 6, Figs. 9-11"
+        values:
+          - {symbol: n_all, quantity: measurement areas per library, value: 342}
+          - {symbol: n_al, quantity: measurements with best cold start, value: 50}
+        derived_checks:
+          - {expression: "measurement reduction factor (stated 7-fold)", formula: "n_all/n_al", result: 6.84}
+    about: [ent:AIready, ent:UseCases]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The Fig. 11 result is phrased ambiguously ('reduce the required number of measurements from 85% down to 60%' / 'by 85% down to 60%'), so it is unclear whether 15-40% or 60-85% of measurements are saved.", priority: LOW}
+  - id: mohamed2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 6-8
+    paper_part: DISCUSSION
+    text: The RDMS maps heterogeneous data modalities to spatial locations on samples and enables data-driven use cases that were not possible, or much harder, without it (validation of word-embedding trends, sample-specific active-learning cold starts, chemical-space maps).
+    about: [ent:MatInf, ent:UseCases]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The sample-centric linking and API are described and the use cases exist, but the counterfactual (not possible without the RDMS) is asserted rather than shown, and the use cases' own results come from separate papers."
+  - id: mohamed2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: The ontology and Knowledge Graph add a semantic layer that increases interoperability, allows complex information needs to be expressed as simple SPARQL queries and will enable validation of experiment plans and reuse at scale.
+    about: [ent:KG]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    assessment:
+      validity: PARTIAL
+      rationale: "The KG and example SPARQL queries are shown; interoperability gains, SHACL validation and alignment with EMMO are planned and not evaluated."
+  - id: mohamed2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2
+    paper_part: DISCUSSION
+    text: Data management for atomistic simulation output is largely solved in the community, e.g. through OPTIMADE, so the report focuses on experimental data.
+    about: [ent:MatInf]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Asserted with one citation; OPTIMADE addresses structure/property exchange rather than full workflow and provenance management."
+  - id: mohamed2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 7
+    paper_part: DISCUSSION
+    text: Data are sparse across modalities, ingest of high-resolution techniques and an ingest API are still missing, licensing and consent automation is in development, and sustained RDM needs a permanent core team beyond fixed funding phases.
+  - id: mohamed2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 7
+    paper_part: CONCLUSION
+    text: Improve the GUI, ingest more modalities, develop multimodal representations (e.g. contrastive learning), integrate live instruments and the Knowledge Graph, and publish reference datasets and workflows.
+
+relations:
+  - {id: mohamed2026:R1, subject: mohamed2026:BG1, predicate: MOTIVATES, object: mohamed2026:AIM1, asserted_by: AUTHORS}
+  - {id: mohamed2026:R2, subject: mohamed2026:METH1, predicate: DELIVERS, object: mohamed2026:AIM1, asserted_by: AUTHORS}
+  - {id: mohamed2026:R3, subject: mohamed2026:METH2, predicate: DELIVERS, object: mohamed2026:AIM1, asserted_by: AUTHORS}
+  - {id: mohamed2026:R4, subject: mohamed2026:OBS2, predicate: DELIVERS, object: mohamed2026:AIM1, asserted_by: AUTHORS}
+  - {id: mohamed2026:R5, subject: mohamed2026:CLAIM1, predicate: DELIVERS, object: mohamed2026:AIM1, asserted_by: AUTHORS}
+  - {id: mohamed2026:R6, subject: mohamed2026:OBS2, predicate: SUPPORTS, object: mohamed2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Use cases shown; counterfactual not tested"}}
+  - {id: mohamed2026:R7, subject: mohamed2026:METH1, predicate: SUPPORTS, object: mohamed2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: mohamed2026:R8, subject: mohamed2026:METH2, predicate: SUPPORTS, object: mohamed2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: PARTLY, criteria_note: "Implemented KG and queries; interoperability benefits not evaluated"}}
+  - {id: mohamed2026:R9, subject: mohamed2026:OBS1, predicate: QUALIFIES, object: mohamed2026:CLAIM1, asserted_by: AUTHORS, note: "77% FAIR self-score; restricted access"}
+  - {id: mohamed2026:R10, subject: mohamed2026:LIM1, predicate: QUALIFIES, object: mohamed2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: mohamed2026:R11, subject: mohamed2026:LIM1, predicate: MOTIVATES, object: mohamed2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A field report describing CRC1625's research data management: the
+    MatInf relational RDMS with a sample-centric hierarchy and API, a
+    PMDco-based ontology and RML-built Knowledge Graph, a FAIR
+    self-assessment (77%), training plans and data-driven use cases. As a
+    descriptive report it documents the implemented components and is
+    candid about sparsity, missing ingest paths and sustainability. The
+    evaluative statements are thin: claims that use cases were not
+    possible without the system and that the semantic layer improves
+    interoperability are not tested, usability testing is described both
+    as routine and as only planned, and the measurement-saving figure
+    from Fig. 11 is phrased ambiguously.
+  key_limitations:
+    - "Benefits asserted without comparison or user data (CLAIM1, CLAIM2)."
+    - "Usability testing claimed and planned at once (OBS1)."
+    - "Ambiguous quantitative claim on measurement reduction (OBS2)."
+  missing_evidence:
+    - "Usability study results."
+    - "Concrete measures of reuse or time saved through the RDMS and KG."

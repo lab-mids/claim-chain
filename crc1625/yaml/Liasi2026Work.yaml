@@ -1,0 +1,247 @@
+id: claimchain:chain/Liasi2026Work
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text including the appended SI; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.48550/arXiv.2608.28347
+  title: "Work Function and High-Coverage Adsorption Energy as Hydrogen-Evolution Descriptors on Ag-Au-Pd-Pt Alloys"
+  authors: [Zacharias Liasi, Ridha Zerdoumi, Felix Thelen, Geovane Arruda de Oliveira, Rico Zehl, Natalia Pukhareva, Leonardo H. Morais, Henrik H. Kristoffersen, Alfred Ludwig, Wolfgang Schuhmann, Jan Rossmeisl]
+  year: 2026
+  doi: 10.48550/arXiv.2608.28347
+  url: https://arxiv.org/abs/2608.28347
+  arxiv: "2608.28347"
+
+entities:
+  - {id: ent:Libs, label: "three co-sputtered Ag-Au-Pd-Pt thin-film libraries (342/342/341 MAs, Lib-3 from a phase-stability study)", entity_type: MATERIAL}
+  - {id: ent:SECCM, label: "long-range SECCM HER LSVs in 0.1 M HClO4 + 0.1 M LiClO4, currents at -100 to -400 mV vs RHE normalised to pipette area", entity_type: TECHNIQUE}
+  - {id: ent:GNN, label: "DimeNet++ surrogates for H adsorption energy and work function trained on 1,738 RPBE fcc(111) slabs, 1,000 random slabs per MA", entity_type: METHOD}
+  - {id: ent:Models, label: "kinetic models A (adsorption distribution), B (work function), C (both) with Tafel term and Koutecky-Levich limit, fitted by Huber loss in log current", entity_type: METHOD}
+  - {id: ent:Cov, label: "Frumkin-type coverage correction omega = 0.25 eV/ML, rigid 0.22 eV shift from 1/9 to 1 ML", entity_type: METHOD}
+  - {id: ent:R2, label: "R2_log - coefficient of determination in log10 current over all MA-potential cells", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: liasi2026:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: For pure metals the work function adds HER activity information beyond the dilute hydrogen adsorption energy, and on a Pt-Pd-Ru-Ir-Ag library the PZC follows the average work function and correlates with HER activity; alloys present adsorption-energy distributions rather than single values.
+    evidence: [{evidence_kind: CITATION, references: ["2-16"]}]
+  - id: liasi2026:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: It is untested whether the work function acts as an HER descriptor on alloys and whether it adds information beyond the adsorption-energy distribution, which itself varies with composition.
+  - id: liasi2026:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Determine for Ag-Au-Pd-Pt libraries whether the work function is an HER activity descriptor and whether it adds predictive information beyond the adsorption-energy distribution, using GNN descriptors and SECCM activities in a common kinetic model.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: liasi2026:METH1
+    statement_type: METHOD
+    section: Descriptors, SI S2-S4
+    paper_part: METHODS
+    text: RPBE adsorption energies (nine fcc sites per slab) and work functions of 582 compositions were learned by two DimeNet++ models (composition-held-out test MAE 0.0093 and 0.0179 eV); each MA is represented by 1,000 random 3x3x4 slabs at its EDX composition, without surface segregation.
+    about: [ent:GNN]
+  - id: liasi2026:METH2
+    statement_type: METHOD
+    section: Descriptors, SI S2
+    paper_part: METHODS
+    text: A mean-field H-H repulsion of omega = 0.248 eV/ML from k-best filling of equimolar slabs (pure-metal mean 0.245 eV/ML) shifts the 1/9 ML adsorption energies rigidly by 0.22 eV to 1 ML.
+    about: [ent:Cov]
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "SI S2"
+        values:
+          - {symbol: om, quantity: H-H repulsion coefficient, value: 0.25, unit: eV/ML}
+          - {symbol: wAg, quantity: repulsion Ag, value: 0.164, unit: eV/ML}
+          - {symbol: wAu, quantity: repulsion Au, value: 0.381, unit: eV/ML}
+          - {symbol: wPd, quantity: repulsion Pd, value: 0.251, unit: eV/ML}
+          - {symbol: wPt, quantity: repulsion Pt, value: 0.183, unit: eV/ML}
+        derived_checks:
+          - {expression: "rigid shift from 1/9 to 1 ML (eV)", formula: "om*(1 - 1/9)", result: 0.22}
+          - {expression: "mean of pure-metal repulsions (eV/ML)", formula: "(wAg + wAu + wPd + wPt)/4", result: 0.245}
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "omega = 0.248 +/- 0.203 eV/ML has a slab-to-slab spread almost as large as its value, and the authors list four untested approximations (uniform omega, fixed 1 ML, single slope, rigid shift), least reliable in Ag/Au-rich corners.", priority: MEDIUM}
+  - id: liasi2026:METH3
+    statement_type: METHOD
+    section: Activity Models, SI S5
+    paper_part: METHODS
+    text: Models A, B and C are fitted per library to SECCM currents at four overpotentials (~1,300-1,370 valid cells per library) with parameters j0, alpha_c, j_lim and descriptor couplings; transfer is tested by leave-one-library-out fits with recalibration of j0 and j_lim, and work-function information by shuffling and residualisation controls.
+    about: [ent:Models, ent:R2]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "R2_log pools variance across four overpotentials, which the descriptor-free Tafel term h(eta) captures on its own; no null model without a descriptor (and no simple composition baseline such as Pt+Pd fraction) is reported, so the absolute R2 values overstate how much descriptors explain.", priority: HIGH}
+
+  # ---------------- Results ----------------
+  - id: liasi2026:OBS1
+    statement_type: OBSERVATION
+    section: Activity Predictions, Table 1
+    paper_part: RESULTS
+    text: Mean within-library R2_log is 0.758 for model A at 1/9 ML, 0.955 for A at 1 ML, 0.903 for the work-function model B, 0.922 for C at 1/9 ML and 0.969 for C at 1 ML; fitted alpha_c of 0.31-0.46 correspond to Tafel slopes of 129-188 mV/dec.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1"
+        values:
+          - {symbol: a1, quantity: R2 model A 1 ML Lib-1, value: 0.976}
+          - {symbol: a2, quantity: R2 model A 1 ML Lib-2, value: 0.932}
+          - {symbol: a3, quantity: R2 model A 1 ML Lib-3, value: 0.958}
+          - {symbol: c1, quantity: R2 model C 1 ML Lib-1, value: 0.976}
+          - {symbol: c2, quantity: R2 model C 1 ML Lib-2, value: 0.963}
+          - {symbol: c3, quantity: R2 model C 1 ML Lib-3, value: 0.969}
+          - {symbol: ac_hi, quantity: largest alpha_c, value: 0.46}
+          - {symbol: ac_lo, quantity: smallest alpha_c, value: 0.31}
+        derived_checks:
+          - {expression: "mean R2 model A 1 ML", formula: "(a1 + a2 + a3)/3", result: 0.955}
+          - {expression: "mean gain of C over A at 1 ML", formula: "(c1 + c2 + c3 - a1 - a2 - a3)/3", result: 0.014}
+          - {expression: "Tafel slope for alpha_c 0.46 (mV/dec)", formula: "59.16/ac_hi", result: 129}
+          - {expression: "Tafel slope for alpha_c 0.31 (mV/dec; stated 188)", formula: "59.16/ac_lo", result: 191}
+    about: [ent:Models, ent:R2]
+  - id: liasi2026:OBS2
+    statement_type: OBSERVATION
+    section: Transferability, Table 2
+    paper_part: RESULTS
+    text: Without recalibration all models transfer poorly (mean R2_log -0.36 to -0.57); recalibrating j0 and j_lim on the held-out library gives 0.948 (A), 0.879 (B) and 0.953 (C), with fitted coverage shifts of 0.19-0.22 eV implying ~0.9 ML working coverage.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 2"
+        values:
+          - {symbol: sh, quantity: typical fitted adsorption shift, value: 0.2, unit: eV}
+          - {symbol: omg, quantity: H-H repulsion coefficient, value: 0.25, unit: eV/ML}
+        derived_checks:
+          - {expression: "implied working coverage (ML)", formula: "1/9 + sh/omg", result: 0.91}
+    about: [ent:Models]
+  - id: liasi2026:OBS3
+    statement_type: OBSERVATION
+    section: Work Function as Independent Descriptor, Tables 3-4
+    paper_part: RESULTS
+    text: Shuffling work functions across MAs drops model C to the model-A level (0/600 shuffles match at 1/9 ML; 161/600 reach the true fit at 1 ML); work function and mean adsorption energy are anticorrelated (R2 0.51-0.80 per library), and the work function residualised against composition adds at most 0.003 within library and nothing under transfer.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Tables 3-4"}]
+    about: [ent:Models]
+
+  # ---------------- Claims ----------------
+  - id: liasi2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusion
+    paper_part: DISCUSSION
+    text: On Ag-Au-Pd-Pt alloys the bare-surface work function is a genuine HER activity descriptor that alone accounts for most of the activity variation (mean R2_log 0.903), extending the pure-metal result of Ostergaard et al. to alloys.
+    about: [ent:Models]
+    claim_modality: CORRELATIONAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The work function predicts MA-wise activity better than shuffled values, so it carries real composition-linked information; but the paper's own residualisation shows it is almost entirely a function of composition, no null or composition-only activity baseline is given, and R2_log includes potential-dependence variance, so 'genuine descriptor' and 'most of the variation' are not separated from 'smooth proxy for Pt/Pd content'."
+      proof_obligations:
+        - {text: "Show descriptor R2 above a descriptor-free null (Tafel term only) and above a composition baseline", obligation_status: OPEN, priority: HIGH, requested_data: [{quantity: "R2_log of j0*h(eta) model and of a linear composition model", method: "same fitting protocol"}]}
+  - id: liasi2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Activity Predictions, Conclusion
+    paper_part: DISCUSSION
+    text: Once adsorption energies are corrected for near-monolayer hydrogen coverage, the work function adds only marginal information (gain 0.014 within library, 0.005 under transfer), because the two descriptors are collinear on these alloys and the orthogonal work-function component does not transfer.
+    about: [ent:Models, ent:Cov]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Supported by the paper's own controls: within-library and LOLO gains, shuffle tests (161/600 and 200/300 shuffles match), collinearity statistics and residualisation all agree, and the reported gains recompute from Table 1."
+  - id: liasi2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Transferability
+    paper_part: DISCUSSION
+    text: The shape of the descriptor-based activity prediction is transferable between libraries once only the library-specific current scale and transport ceiling are recalibrated.
+    about: [ent:Models]
+    claim_modality: GENERALIZATION
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "LOLO with two recalibrated scalars recovers near within-library R2, but raw transfer is negative, and the held-out MA-wise cross-fitting of j0 and j_lim uses data from the target library; three libraries of one quaternary system limit generality."
+  - id: liasi2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Conclusion
+    paper_part: DISCUSSION
+    text: Neither the work function nor the dilute adsorption energy is the true descriptor; both point to the operating hydrogen adsorption energy at the site and coverage held under reaction conditions, reached directly via the coverage correction and indirectly by the work function through its correlation with composition.
+    about: [ent:Cov]
+    claim_modality: CONCEPTUAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "A coherent reading of the controls, but the coverage correction is a rigid shift with an uncertain omega and fixed 1 ML, and the proposed Ir/Rh test that would discriminate the readings is not performed."
+  - id: liasi2026:CONC1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: The work function is a genuine HER descriptor on these alloys, but its information overlaps with the coverage-corrected adsorption energy, the alloy high-coverage counterpart of a confounding flagged for pure metals.
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restates CLAIM1 (partly supported) and CLAIM2 (supported); the conclusion opens by asserting the alloy extension before qualifying it."
+  - id: liasi2026:LIM1
+    statement_type: LIMITATION
+    section: Descriptors, SI S2, S4
+    paper_part: DISCUSSION
+    text: Surface segregation is not modelled, the coverage correction is uniform and rigid, the work function is treated as a whole-surface property, and GNN errors are interpolation errors relative to RPBE without functional uncertainty.
+    limitation_kind: METHOD
+  - id: liasi2026:OUT1
+    statement_type: OUTLOOK
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: Test alloy spaces where work function and adsorption energy rank metals differently (e.g. containing Ir and Rh) and explore site-resolved work functions.
+
+relations:
+  - {id: liasi2026:R1, subject: liasi2026:BG1, predicate: MOTIVATES, object: liasi2026:GAP1, asserted_by: AUTHORS}
+  - {id: liasi2026:R2, subject: liasi2026:GAP1, predicate: MOTIVATES, object: liasi2026:AIM1, asserted_by: AUTHORS}
+  - {id: liasi2026:R3, subject: liasi2026:METH3, predicate: DELIVERS, object: liasi2026:AIM1, asserted_by: AUTHORS}
+  - {id: liasi2026:R4, subject: liasi2026:CLAIM1, predicate: DELIVERS, object: liasi2026:AIM1, asserted_by: AUTHORS}
+  - {id: liasi2026:R5, subject: liasi2026:CLAIM2, predicate: DELIVERS, object: liasi2026:AIM1, asserted_by: AUTHORS}
+  - {id: liasi2026:R6, subject: liasi2026:OBS1, predicate: SUPPORTS, object: liasi2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: MET, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "No null/composition baseline; R2 includes overpotential variance"}}
+  - {id: liasi2026:R7, subject: liasi2026:OBS3, predicate: SUPPORTS, object: liasi2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Shuffle control shows MA-wise information at 1/9 ML"}}
+  - {id: liasi2026:R8, subject: liasi2026:OBS3, predicate: QUALIFIES, object: liasi2026:CLAIM1, asserted_by: AUTHORS, note: "Work function residualised against composition adds nothing - it is a composition proxy"}
+  - {id: liasi2026:R9, subject: liasi2026:METH3, predicate: UNDERCUTS, object: liasi2026:CLAIM1, asserted_by: ANNOTATOR, note: "No descriptor-free or composition-only baseline R2 reported"}
+  - {id: liasi2026:R10, subject: liasi2026:OBS1, predicate: SUPPORTS, object: liasi2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Gains recompute"}}
+  - {id: liasi2026:R11, subject: liasi2026:OBS3, predicate: SUPPORTS, object: liasi2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Shuffle, collinearity and residualisation controls"}}
+  - {id: liasi2026:R12, subject: liasi2026:OBS2, predicate: SUPPORTS, object: liasi2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: liasi2026:R13, subject: liasi2026:OBS2, predicate: SUPPORTS, object: liasi2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "Two scalars refit on target; raw transfer negative"}}
+  - {id: liasi2026:R14, subject: liasi2026:METH2, predicate: CONDITIONALLY_SUPPORTS, object: liasi2026:CLAIM2, asserted_by: AUTHORS, note: "conclusion depends on the coverage-correction approximation", support_strength: INTERMEDIATE, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: MET, scope_match: MET, criteria_note: "Fitted shift independently lands near 1 ML"}}
+  - {id: liasi2026:R15, subject: liasi2026:OBS3, predicate: SUPPORTS, object: liasi2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Interpretation; discriminating test not done"}}
+  - {id: liasi2026:R16, subject: liasi2026:LIM1, predicate: QUALIFIES, object: liasi2026:CLAIM4, asserted_by: AUTHORS}
+  - {id: liasi2026:R17, subject: liasi2026:CLAIM1, predicate: SUPPORTS, object: liasi2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: liasi2026:R18, subject: liasi2026:CLAIM2, predicate: SUPPORTS, object: liasi2026:CONC1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: liasi2026:R19, subject: liasi2026:CONC1, predicate: RESTATES, object: liasi2026:CLAIM2, asserted_by: ANNOTATOR}
+  - {id: liasi2026:R20, subject: liasi2026:CONC1, predicate: RESTATES, object: liasi2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: liasi2026:R21, subject: liasi2026:CLAIM4, predicate: MOTIVATES, object: liasi2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A carefully controlled descriptor study. The key negative result - that
+    the work function adds almost nothing once adsorption energies are
+    corrected for near-monolayer coverage - is backed by consistent
+    within-library, leave-one-library-out, shuffle, collinearity and
+    residualisation controls, and the reported numbers (0.22 eV shift, 0.245
+    eV/ML mean repulsion, ~0.9 ML coverage, R2 gains, Tafel slopes)
+    recompute. The positive framing is weaker: the work function's
+    'genuine descriptor' status rests on R2_log values that include
+    overpotential variance and are not compared with a descriptor-free or
+    simple composition baseline, while the paper's own residualisation shows
+    the work function is essentially a function of composition. The coverage
+    correction relies on a repulsion coefficient with large spread and four
+    untested approximations, and surface segregation (shown for the same
+    alloy family) is ignored. Draft annotation; parity plots were not
+    inspected.
+  key_limitations:
+    - "No null or composition-only baseline for R2_log (METH3, R9)."
+    - "Work function is a composition proxy (OBS3, R8)."
+    - "Coverage correction approximations (METH2)."
+    - "Surface segregation not modelled (LIM1)."
+  missing_evidence:
+    - "R2_log of a model with only the Tafel term and of a linear composition model."
+    - "Alloy space where work function and adsorption energy rank metals differently (Ir/Rh)."
+    - "Descriptor inference including segregated surface compositions."

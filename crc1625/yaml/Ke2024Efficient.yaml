@@ -1,0 +1,317 @@
+id: claimchain:chain/Ke2024Efficient
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.14778/3681954.3682023
+  title: "Efficient Validation of SHACL Shapes with Reasoning"
+  authors: [Jin Ke, Zenon Zacouris, Maribel Acosta]
+  year: 2024
+  doi: 10.14778/3681954.3682023
+  url: https://doi.org/10.14778/3681954.3682023
+
+entities:
+  - {id: ent:ReSHACL, label: "Re-SHACL (shape-targeted reasoning + owl:sameAs node merging + shapes rewriting)", entity_type: METHOD}
+  - {id: ent:pySHACL, label: pySHACL with RDFS / OWL RL closure, entity_type: METHOD}
+  - {id: ent:Validators, label: "SHACL2SPARQL, Trav-SHACL", entity_type: METHOD}
+  - {id: ent:OWLLD, label: OWL LD entailment regime (subset of OWL 2 RL), entity_type: CONCEPT}
+  - {id: ent:nUNA, label: non-unique name assumption (owl:sameAs), entity_type: CONCEPT}
+  - {id: ent:LUBM, label: "LUBM synthetic KGs (1M-34M triples, no owl:sameAs)", entity_type: DATA_TYPE}
+  - {id: ent:DBpedia, label: "DBpedia subsets DB50/DB100/DB1000 (0.5-3.4M triples, with owl:sameAs)", entity_type: DATA_TYPE}
+  - {id: ent:Wikidata, label: "Wikidata subsets WDS/WDM/WDL (5-29M triples)", entity_type: DATA_TYPE}
+  - {id: ent:Runtime, label: materialization and validation runtime, entity_type: QUANTITY}
+  - {id: ent:Violations, label: number of reported violations, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: ke2024:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: SHACL validation without entailment misses implicit triples encoded in the KG ontology, while computing the closure for validation is expensive and generates redundant triples from reflexive properties and owl:sameAs copies.
+    evidence: [{evidence_kind: CITATION, references: ["20", "31", "35", "40"]}]
+  - id: ke2024:GAP1
+    statement_type: GAP
+    section: Sec. 1, 3
+    paper_part: INTRODUCTION
+    text: Existing SHACL validation with entailment is inefficient and produces spurious or duplicate violations caused by reflexive properties and the non-unique name assumption.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Fig. 1"}]
+    about: [ent:nUNA]
+  - id: ke2024:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Provide Re-SHACL, which incorporates RDFS/OWL entailment into SHACL validation, is robust to duplicate and false violations, is efficient through targeted reasoning, and works with any SHACL validator.
+    about: [ent:ReSHACL]
+    author_certainty: DEMONSTRATED
+  - id: ke2024:DEF1
+    statement_type: DEFINITION
+    section: Sec. 2, Def. 2.1
+    paper_part: THEORY
+    text: The efficient SHACL validation with entailment problem is to find the validation strategy of minimal runtime subject to returning exactly the validation result under the entailment regime.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Def. 2.1"}]
+
+  # ---------------- Method ----------------
+  - id: ke2024:METH1
+    statement_type: METHOD
+    section: Sec. 4.1, 4.2
+    paper_part: METHODS
+    text: Re-SHACL extracts target classes, nodes, properties and focus nodes from the shapes graph, applies RDFS and OWL LD rules only to these targets (class reasoning, Alg. 1; property reasoning, Alg. 2), merges owl:sameAs-equivalent focus nodes into one representative recorded in a dictionary, omits reflexive entailments, and rewrites shape target nodes accordingly.
+    evidence: [{evidence_kind: ARGUMENT, locator: "Algs. 1-2, Fig. 2, Fig. 4"}]
+    about: [ent:ReSHACL, ent:OWLLD]
+  - id: ke2024:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 4.1, 4.2.1
+    paper_part: METHODS
+    text: Entailments for classes and properties that do not occur in the shapes graph cannot change the validation outcome, and dropping reflexive triples and owl:sameAs duplicates yields the intended validation result.
+    assumption_basis: AUTHOR_CHOICE
+    open_question: "Under which formal semantics of SHACL with owl:sameAs entailment is the merged-graph result the correct one?"
+  - id: ke2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 4.3, Lemmas 4.5-4.7
+    paper_part: THEORY
+    text: Re-SHACL is deterministic and runs in polynomial time, the merged graph is polynomial in the input graph size, and the shapes rewriting is sound.
+    about: [ent:ReSHACL, ent:OWLLD]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "OWL 2 RL has PTime data complexity and rules that introduce no new nodes are deterministic.", warrant_basis: CITATION}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Only soundness of the target-node rewriting is proven; completeness of the targeted reasoning with respect to the closure-based result is not proven.", priority: HIGH}
+    assessment:
+      validity: "YES"
+      rationale: "The complexity results follow from OWL LD being a subset of OWL 2 RL and the rules not introducing new nodes; the rewriting lemma is proven by contradiction."
+
+  # ---------------- Experiments ----------------
+  - id: ke2024:DATA1
+    statement_type: DATA
+    section: Sec. 5.1, Table 1
+    paper_part: METHODS
+    text: Experiments use nine LUBM graphs with three shapes graphs, three DBpedia subsets and three Wikidata subsets with mined shapes, compared against pySHACL (none, RDFS, OWL RL), SHACL2SPARQL and Trav-SHACL; each run is repeated three times, some only once.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 1"
+        values:
+          - {symbol: n_lubm, quantity: LUBM configurations, value: 27}
+          - {symbol: n_db, quantity: DBpedia configurations, value: 3}
+          - {symbol: n_wd, quantity: Wikidata configurations, value: 3}
+          - {symbol: n_metrics, quantity: configurations stated in Metrics, value: 31}
+        derived_checks:
+          - {expression: "LUBM + DBpedia + Wikidata configurations equals the 31 stated in Metrics", formula: "n_lubm + n_db + n_wd == n_metrics", satisfied: false, note: "33 in Sec. 5.1 vs 31 in Metrics"}
+    about: [ent:LUBM, ent:DBpedia, ent:Wikidata]
+    scope: {sample_count: 33}
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Sec. 5.3 calls DB100 a 3.4M-triple graph, whereas Table 1 lists DB100 with 0.91M and DB1000 with 3.38M triples.", priority: LOW}
+      - {concern_type: MISSING_QUANTIFICATION, description: "Runtimes from up to three runs are shown without spread.", priority: LOW}
+  - id: ke2024:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Fig. 5, Table 3
+    paper_part: RESULTS
+    text: In the ablation, targeted reasoning makes LUBM materialization about 10x (RDFS) and up to 100x (OWL) faster, merging makes targeted OWL materialization on LUBM 1.87x faster, and on DB1000 targeted OWL reasoning with merging shrinks the materialized graph from 175M (closure) and 116M (targeted, no merging) to 4.12M triples; LUBM validation times stay similar because graph sizes are similar.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5, Table 3"
+        values:
+          - {symbol: g_closure, quantity: DB1000 OWL closure size, value: 175, unit: Mtriples}
+          - {symbol: g_targ, quantity: DB1000 targeted OWL without merging, value: 116, unit: Mtriples}
+          - {symbol: g_resh, quantity: DB1000 Re-SHACL OWL graph, value: 4.12, unit: Mtriples}
+        derived_checks:
+          - {expression: "size reduction closure / Re-SHACL", formula: "g_closure/g_resh", result: 42.5}
+          - {expression: "size reduction by merging alone", formula: "g_targ/g_resh", result: 28.2}
+    about: [ent:ReSHACL, ent:Runtime]
+  - id: ke2024:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 5.2
+    paper_part: RESULTS
+    text: On DBpedia, merging adds overhead for targeted RDFS reasoning, the RDFS closure takes 20 minutes and the OWL closure over 268 hours, and the OWL closure configuration timed out in validation.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Sec. 5.2", values: [{quantity: RDFS closure time, value: 20, unit: min}, {quantity: OWL closure time, value: 268, unit: h}]}]
+    about: [ent:DBpedia, ent:Runtime]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The OWL baseline is said to time out after 14 days in Sec. 5.2 and not to finish validation before 7 days in Sec. 5.3.", priority: LOW}
+  - id: ke2024:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 5.3, Fig. 6
+    paper_part: RESULTS
+    text: In the full pipeline, pySHACL-OWL is always slowest and times out on DB1000 and Wikidata, whereas Re-SHACL RDFS and OWL finish on all datasets up to 34M triples; Re-SHACL beats pySHACL counterparts on simple validation tasks such as LUBM Schema1, while on Schema2/3 all approaches except pySHACL-OWL perform similarly.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 6"}]
+    about: [ent:ReSHACL, ent:pySHACL, ent:Runtime]
+  - id: ke2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 1, 5.2, 7
+    paper_part: RESULTS
+    text: Re-SHACL performs SHACL validation with RDFS and OWL entailment efficiently, orders of magnitude faster than existing closure-based approaches.
+    about: [ent:ReSHACL, ent:Runtime]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "The orders-of-magnitude gain holds for materialization and for OWL on owl:sameAs-rich data; for LUBM validation and RDFS on DBpedia the runtimes are similar or merging adds overhead.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Large speed-ups are shown for OWL entailment on DBpedia and for materialization in general, and Re-SHACL is the only reasoning pipeline that finishes on all datasets; for validation on LUBM and for RDFS the gains are small or absent, so 'orders of magnitude' does not hold uniformly."
+      proof_obligations:
+        - text: "Show lower materialization runtime than the closure"
+          obligation_status: DISCHARGED
+          discharged_by: [ke2024:OBS1]
+        - text: "Show lower end-to-end validation runtime across datasets"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [ke2024:OBS3]
+  - id: ke2024:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 5.4, Table 4
+    paper_part: RESULTS
+    text: In LUBM, Re-SHACL and pySHACL with the same entailment regime report identical violation counts; on DB50 the counts are 27,392 (no entailment), 30,019 (Re-SHACL OWL) and 871,381 (pySHACL OWL), on DB100 54,030 versus over 1.5M, and all approaches report zero violations on Wikidata.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 4"
+        values:
+          - {symbol: v_simple, quantity: DB50 violations without entailment, value: 27392}
+          - {symbol: v_resh, quantity: DB50 violations Re-SHACL OWL, value: 30019}
+          - {symbol: v_py, quantity: DB50 violations pySHACL OWL, value: 871381}
+    about: [ent:Violations, ent:DBpedia]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "With zero violations for every approach on Wikidata, the Wikidata runs carry no information about accuracy.", priority: MEDIUM}
+  - id: ke2024:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 5.4, Fig. 7
+    paper_part: RESULTS
+    text: For DB50, compared with no entailment, Re-SHACL OWL removes 148 and adds 5,238 violations and pySHACL OWL removes 2,611 and adds 844,137; 841,493 violations appear only in pySHACL OWL (semantic duplicates) and 131 only in Re-SHACL OWL (reflexive owl:sameAs triples satisfying cardinality constraints in pySHACL).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 7a-c, Table 4"
+        values:
+          - {symbol: v_simple, quantity: DB50 violations without entailment, value: 27392}
+          - {symbol: v_resh, quantity: DB50 Re-SHACL OWL, value: 30019}
+          - {symbol: v_py, quantity: DB50 pySHACL OWL, value: 871381}
+          - {symbol: rm_resh, quantity: removed by Re-SHACL OWL, value: 148}
+          - {symbol: add_resh, quantity: added by Re-SHACL OWL, value: 5238}
+          - {symbol: rm_py, quantity: removed by pySHACL OWL, value: 2611}
+          - {symbol: add_py, quantity: added by pySHACL OWL, value: 844137}
+          - {symbol: only_py, quantity: only in pySHACL OWL, value: 841493}
+          - {symbol: only_resh, quantity: only in Re-SHACL OWL, value: 131}
+        derived_checks:
+          - {expression: "Fig. 7c is consistent with Table 4 (pySHACL - Re-SHACL = only_py - only_resh)", formula: "v_py - v_resh == only_py - only_resh", satisfied: true}
+          - {expression: "Fig. 7a reproduces the Re-SHACL OWL count of Table 4", formula: "v_simple - rm_resh + add_resh == v_resh", satisfied: false, note: "32,482 from Fig. 7a vs 30,019 in Table 4"}
+          - {expression: "Fig. 7b reproduces the pySHACL OWL count of Table 4", formula: "v_simple - rm_py + add_py == v_py", satisfied: false, note: "868,918 from Fig. 7b vs 871,381 in Table 4; both gaps are 2,463"}
+    about: [ent:Violations, ent:DBpedia]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Removed/added counts in Fig. 7a,b do not add up to the totals in Table 4 (both off by 2,463), whereas Fig. 7c does.", priority: MEDIUM}
+  - id: ke2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 5.4, 7
+    paper_part: RESULTS
+    text: Re-SHACL produces accurate validation reports, detecting violations implied by the ontology while avoiding spurious violations from reflexive properties and duplicate violations caused by the non-unique name assumption.
+    about: [ent:ReSHACL, ent:Violations, ent:nUNA]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: UNFALSIFIABLE_VALIDATION, description: "No ground-truth validation report exists; accuracy is judged by agreement with pySHACL on LUBM and by inspection of differences on DB50, and the paper itself states that no formal semantics of SHACL with owl:sameAs entailment exists.", priority: HIGH}
+    assessment:
+      validity: PARTIAL
+      rationale: "Agreement with pySHACL on LUBM and the explained removal of duplicate and reflexive-triple violations on DB50 support the claim; 'accurate' is defined relative to an informal intended semantics, and the DB50 Venn counts do not reconcile with Table 4."
+      missing_evidence:
+        - "Manually curated gold-standard violation set for a DBpedia sample"
+        - "Formal semantics of SHACL under OWL LD with owl:sameAs against which completeness is proven"
+      proof_obligations:
+        - text: "Show that targeted reasoning yields all violations of the closure-based validation"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [ke2024:OBS4]
+        - text: "Show that the removed violations are spurious and the merged ones duplicates"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [ke2024:OBS5]
+        - text: "Prove completeness of the targeted reasoning"
+          obligation_status: OPEN
+          priority: HIGH
+  - id: ke2024:OBS6
+    statement_type: OBSERVATION
+    section: Sec. 5.5, Figs. 8-9
+    paper_part: RESULTS
+    text: SHACL2SPARQL runs on all Re-SHACL graphs including Wikidata, where the baselines time out at the endpoint, and is much faster on Re-SHACL OWL graphs than on the OWL closure for DBpedia; Trav-SHACL is fastest on the original graph and slightly faster on Re-SHACL graphs than on closures for LUBM.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 8, 9"}]
+    about: [ent:Validators, ent:ReSHACL]
+  - id: ke2024:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 1, 5.5
+    paper_part: RESULTS
+    text: Re-SHACL can be combined with state-of-the-art SHACL validators to enable efficient validation with entailment.
+    about: [ent:ReSHACL, ent:Validators]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "SHACL2SPARQL and Trav-SHACL run unchanged on Re-SHACL output graphs, and on DBpedia/Wikidata only the Re-SHACL graphs are tractable."
+  - id: ke2024:LIM1
+    statement_type: LIMITATION
+    section: Sec. 6
+    paper_part: DISCUSSION
+    text: No formal semantics of SHACL validation under entailment beyond OWL 2 QL accounts for owl:sameAs, so the theoretical correctness of approaches cannot yet be probed, and entailment always adds runtime overhead.
+    limitation_kind: METHOD
+  - id: ke2024:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 7
+    paper_part: CONCLUSION
+    text: Future work extends Re-SHACL to OWL 2 RL and advanced SHACL features and devises validation over graph partitions to scale to very large datasets.
+
+  - id: ke2024:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Re-SHACL performs SHACL validation with RDFS and OWL entailment efficiently, orders of magnitude faster than existing closure-based approaches."
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM2 in the conclusion; verdict as there."
+
+relations:
+  - {id: ke2024:R1, subject: ke2024:BG1, predicate: MOTIVATES, object: ke2024:GAP1, asserted_by: AUTHORS}
+  - {id: ke2024:R2, subject: ke2024:GAP1, predicate: MOTIVATES, object: ke2024:AIM1, asserted_by: AUTHORS}
+  - {id: ke2024:R3, subject: ke2024:METH1, predicate: DELIVERS, object: ke2024:AIM1, asserted_by: AUTHORS}
+  - {id: ke2024:R4, subject: ke2024:METH1, predicate: DEPENDS_ON, object: ke2024:ASM1, asserted_by: AUTHORS}
+  - {id: ke2024:R5, subject: ke2024:METH1, predicate: SUPPORTS, object: ke2024:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: ke2024:R6, subject: ke2024:OBS1, predicate: SUPPORTS, object: ke2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: MET, alternatives: MET, scope_match: MET, criteria_note: "Ablation isolates the techniques; same machine and validator"}}
+  - {id: ke2024:R7, subject: ke2024:OBS3, predicate: SUPPORTS, object: ke2024:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "Gains depend on owl:sameAs content and shapes; similar runtimes on LUBM Schema2/3"}}
+  - {id: ke2024:R8, subject: ke2024:OBS2, predicate: QUALIFIES, object: ke2024:CLAIM2, asserted_by: AUTHORS, note: "Merging adds overhead for RDFS on DBpedia"}
+  - {id: ke2024:R9, subject: ke2024:OBS4, predicate: SUPPORTS, object: ke2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Agreement with pySHACL is a proxy for correctness; Wikidata uninformative"}}
+  - {id: ke2024:R10, subject: ke2024:OBS5, predicate: SUPPORTS, object: ke2024:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: ke2024:R11, subject: ke2024:LIM1, predicate: UNDERCUTS, object: ke2024:CLAIM3, asserted_by: AUTHORS, note: "Accuracy cannot be defined formally without a semantics for owl:sameAs entailment"}
+  - {id: ke2024:R12, subject: ke2024:ASM1, predicate: CONDITIONALLY_SUPPORTS, object: ke2024:CLAIM3, asserted_by: ANNOTATOR, note: "The merged graph is the intended result only under the assumed semantics"}
+  - {id: ke2024:R13, subject: ke2024:DEF1, predicate: QUALIFIES, object: ke2024:CLAIM3, asserted_by: ANNOTATOR, note: "Def. 2.1 demands equality with the entailment result, which Re-SHACL deliberately changes by dropping reflexive triples and merging nodes"}
+  - {id: ke2024:R14, subject: ke2024:OBS6, predicate: SUPPORTS, object: ke2024:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: STRONG, uncertainty: LOW}
+  - {id: ke2024:R15, subject: ke2024:CLAIM1, predicate: SUPPORTS, object: ke2024:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: ke2024:R16, subject: ke2024:CLAIM2, predicate: DELIVERS, object: ke2024:AIM1, asserted_by: AUTHORS}
+  - {id: ke2024:R17, subject: ke2024:CLAIM3, predicate: DELIVERS, object: ke2024:AIM1, asserted_by: AUTHORS}
+  - {id: ke2024:R18, subject: ke2024:CLAIM4, predicate: DELIVERS, object: ke2024:AIM1, asserted_by: AUTHORS}
+  - {id: ke2024:R19, subject: ke2024:CLAIM2, predicate: ANSWERS, object: ke2024:GAP1, asserted_by: AUTHORS}
+  - {id: ke2024:R20, subject: ke2024:LIM1, predicate: MOTIVATES, object: ke2024:OUT1, asserted_by: AUTHORS}
+  - {id: ke2024:R21, subject: ke2024:DATA1, predicate: QUALIFIES, object: ke2024:OBS3, asserted_by: ANNOTATOR, note: "Configuration counts and dataset sizes inconsistent across sections"}
+
+  - {id: ke2024:R22, subject: ke2024:CONC1, predicate: RESTATES, object: ke2024:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A well-engineered systems paper: the targeted reasoning and owl:sameAs
+    merging of Re-SHACL are clearly specified, complexity results follow
+    from OWL LD, and an ablation over LUBM and DBpedia convincingly shows
+    large reductions in materialized graph size and OWL reasoning time,
+    with Re-SHACL the only reasoning pipeline finishing on all datasets.
+    'Accurate' validation is supported only relative to pySHACL and an
+    informal intended semantics that the authors concede is not formally
+    defined; the DB50 violation breakdown does not reconcile with Table 4,
+    Wikidata yields no violations at all, and the speed-up is not uniform
+    (LUBM validation, RDFS with merging).
+  key_limitations:
+    - "No gold standard or formal semantics for validation with owl:sameAs; accuracy is relative (CLAIM3, LIM1)."
+    - "Completeness of targeted reasoning not proven, only rewriting soundness (CLAIM1)."
+    - "Fig. 7a,b counts do not add up to Table 4 totals (OBS5)."
+    - "Speed-up depends on owl:sameAs content and shapes; small for LUBM validation and RDFS (OBS2, OBS3)."
+    - "Inconsistent configuration counts, dataset sizes and timeouts across sections (DATA1, OBS2)."
+  missing_evidence:
+    - "Curated gold-standard violations for a DBpedia sample."
+    - "Completeness proof or exhaustive comparison against the closure result after deduplication."
+    - "Runtime variance over repeated runs."

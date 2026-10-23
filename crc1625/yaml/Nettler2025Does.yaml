@@ -1,0 +1,245 @@
+id: claimchain:chain/Nettler2025Does
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.electacta.2025.145776
+  title: "Does Pb underpotential deposition rearrange surface-near atoms in AgAu films and nanoparticles?"
+  authors: [Dean-Robin Nettler, Jan Clausmeyer, Alan Savan, Paolo Cignoni, Christian Rurainsky, Ralf Drautz, Alfred Ludwig, Kristina Tschulik]
+  year: 2025
+  doi: 10.1016/j.electacta.2025.145776
+  url: https://doi.org/10.1016/j.electacta.2025.145776
+
+entities:
+  - {id: ent:Films, label: "co-sputtered AgxAuy materials library (Ag73Au27 to Ag40Au60), six pieces", entity_type: MATERIAL}
+  - {id: ent:NPs, label: "Turkevich AgxAuy nanoparticles (three compositions), PVP-capped", entity_type: MATERIAL}
+  - {id: ent:PbUPD, label: "Pb underpotential deposition and stripping in 0.1 M NaOH + 1 mM Pb(NO3)2", entity_type: TECHNIQUE}
+  - {id: ent:DFT, label: "DFT (VASP) of Pb adlayers on Ag vs Au columns in a (100) slab", entity_type: METHOD}
+  - {id: ent:Swap, label: Pb-induced exchange of surface Ag with subsurface Au, entity_type: CONCEPT}
+  - {id: ent:Epeak, label: Pb deposition and stripping peak potentials, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: nettler2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Pb-UPD forms a monolayer whose deposition and stripping potentials depend on the substrate metal and facet, and UPD adlayers can alloy with or restructure substrates (e.g. Pb on Au, Sb on Au).
+    evidence: [{evidence_kind: CITATION, references: ["1-20"]}]
+  - id: nettler2025:BG2
+    statement_type: BACKGROUND
+    section: Sec. 1, 3
+    paper_part: INTRODUCTION
+    text: Earlier Pb-UPD on AgxAuy nanoparticles indicated deposition mainly on Ag atoms, consistent with Ag forming the outermost layer of AgAu particles in aqueous solution, without signs of a Pb surface alloy.
+    evidence: [{evidence_kind: CITATION, references: ["16", "21", "22", "32"]}]
+  - id: nettler2025:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Whether UPD can purposefully manipulate the atomic arrangement of alloy surfaces, and whether differences from Au macroelectrodes stem from the nanoparticulate or the alloy character, is unknown.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: nettler2025:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 4
+    paper_part: INTRODUCTION
+    text: Pb-UPD on Ag-terminated AgxAuy films and nanoparticles reversibly swaps surface Ag atoms with underlying Au atoms, forming a Au-rich layer beneath the Pb monolayer, so Pb-UPD can change, not only probe, alloy surface composition.
+    about: [ent:Swap, ent:PbUPD]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "The only evidence is that deposition peaks lie near those of Pb on Ag and stripping peaks near those of Pb on Au(111), with differences of 20-60 mV; alloy surfaces with intermediate peak positions or Pb-Ag-Au surface alloying could produce the same hysteresis, and no structural or spectroscopic probe confirms an exchange."
+      missing_evidence:
+        - "In situ surface-sensitive measurement (e.g. EC-STM, SXRD, XPS after emersion) with and without the Pb adlayer"
+        - "UPD on single-crystal AgAu alloys with known surface composition"
+      proof_obligations:
+        - text: "Show that the alloy surface is Ag-terminated before Pb-UPD"
+          obligation_status: PARTIALLY_DISCHARGED
+          discharged_by: [nettler2025:OBS2, nettler2025:OBS4]
+        - text: "Show that Au replaces Ag under the Pb adlayer"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "surface Au/Ag ratio with Pb adlayer present", method: "in situ X-ray spectroscopy or emersion XPS"}]
+
+  # ---------------- Methods ----------------
+  - id: nettler2025:METH1
+    statement_type: METHOD
+    section: Sec. 2
+    paper_part: METHODS
+    text: AgxAuy libraries are co-sputtered on Ti/SiO2/Si and cut into six pieces measured in a cell with a 6 mm diameter opening; nanoparticles are drop-cast on glassy carbon; CVs between -0.43 and -1.16 V vs MSE (MSE = 0.658 V vs SHE) at 0.05 V/s (films) and 0.1 V/s (particles), third of five cycles shown.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.4, Sec. 3"
+        values:
+          - {symbol: d, quantity: cell opening diameter, value: 6, unit: mm}
+          - {symbol: a_stated, quantity: stated exposed area, value: 0.028, unit: mm2}
+        derived_checks:
+          - {expression: "area of a 6 mm diameter opening", formula: "3.14159*(d/2)**2", result: 28.3, unit: mm2, note: "stated as 0.028 mm2, a factor of 1000 smaller"}
+    about: [ent:Films, ent:NPs, ent:PbUPD]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "A 6 mm opening exposes ~28 mm2, not 0.028 mm2 as stated.", priority: LOW}
+
+  # ---------------- Results ----------------
+  - id: nettler2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 2A, Fig. 3B
+    paper_part: RESULTS
+    text: Reference systems give Pb deposition/stripping at -0.42/-0.36 V (Ag NPs), -0.35 and -0.21/-0.32 and -0.16 V (Au NPs, (111) and (110)), -0.45/-0.35 V (Ag film) and -0.36/-0.29 V (strongly (111)-textured Au film) vs SHE.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2A, Fig. 3B"
+        values:
+          - {symbol: ag_strip, quantity: Pb stripping on Ag film, value: -0.35, unit: V}
+          - {symbol: au_strip, quantity: Pb stripping on Au film, value: -0.29, unit: V}
+          - {symbol: ag_dep, quantity: Pb deposition on Ag film, value: -0.45, unit: V}
+          - {symbol: au_dep, quantity: Pb deposition on Au film, value: -0.36, unit: V}
+        derived_checks:
+          - {expression: "separation of Ag and Au stripping potentials on films", formula: "au_strip - ag_strip", result: 0.06, unit: V}
+    about: [ent:Epeak]
+  - id: nettler2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 2B
+    paper_part: RESULTS
+    text: For AgxAuy nanoparticles of three compositions Pb deposits at about -0.42 V vs SHE (as on Ag) and strips at about -0.30 V (close to Au(111)).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 2B"}]
+    about: [ent:NPs, ent:Epeak]
+  - id: nettler2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 3C
+    paper_part: RESULTS
+    text: For the six films the deposition peak shifts slightly positive from -0.44 V with increasing Au content but stays near the Ag value, while the stripping peak (-0.31 V for the Ag-richest film) shifts positive and broadens with increasing Au content, attributed to an additional Au(100)-like contribution.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 3C"
+        values:
+          - {symbol: s1_dep, quantity: Pb deposition sample 1 (Ag73Au27), value: -0.44, unit: V}
+          - {symbol: s1_strip, quantity: Pb stripping sample 1, value: -0.31, unit: V}
+          - {symbol: au_strip, quantity: Pb stripping on Au film, value: -0.29, unit: V}
+          - {symbol: ag_strip, quantity: Pb stripping on Ag film, value: -0.35, unit: V}
+        derived_checks:
+          - {expression: "distance of sample-1 stripping peak from the Au value", formula: "abs(s1_strip - au_strip)", result: 0.02, unit: V}
+          - {expression: "distance of sample-1 stripping peak from the Ag value", formula: "abs(s1_strip - ag_strip)", result: 0.04, unit: V}
+    about: [ent:Films, ent:Epeak]
+  - id: nettler2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: RESULTS
+    text: All AgxAuy films and nanoparticles, including Au-rich ones, expose an outermost layer consisting predominantly of Ag in the absence of Pb.
+    about: [ent:Films, ent:NPs]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "The Pb deposition potential identifies the metal of the outermost surface layer.", warrant_basis: CITATION}
+    assessment:
+      validity: PARTIAL
+      rationale: "Deposition peaks close to Pb-on-Ag support Ag enrichment, consistent with literature on Ag segregation in aqueous media; the small positive shift with Au content suggests mixed surfaces rather than pure Ag."
+  - id: nettler2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3, Sec. 4
+    paper_part: RESULTS
+    text: Because Pb deposits onto Ag but strips from an Au(111)-like surface, Ag and Au atoms swap positions once the Pb monolayer has formed.
+    about: [ent:Swap]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "Peak assignments rest on 20-60 mV differences and assume that peaks on alloy surfaces coincide with those on pure metals; intermediate alloy peak positions or Pb-induced surface alloying are not excluded.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The deposition/stripping asymmetry is measured, but interpreting it as an atomic swap needs a direct structural or compositional probe that is not provided."
+  - id: nettler2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 3
+    paper_part: RESULTS
+    text: Simplified DFT with periodically repeated single columns of Ag, Au and Pb in a (100) slab, without reconstruction or solvent, favours a Pb adlayer on Au over one on Ag.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "SI chapter 1"}]
+    about: [ent:DFT]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Energy differences are not reported in the main text, and the model omits water, which is invoked as the driver for Ag termination.", priority: MEDIUM}
+  - id: nettler2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Sec. 3, Sec. 4
+    paper_part: DISCUSSION
+    text: The swap is driven by replacing water at the surface with Pb - contact with water favours the more oxophilic Ag at the surface, contact with Pb favours Au - and it reverses when Pb is stripped.
+    about: [ent:Swap, ent:DFT]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The DFT supports only the Pb-Au preference; the water/oxophilicity part of the argument is not computed or measured."
+  - id: nettler2025:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 3, Figs. S1, S3
+    paper_part: RESULTS
+    text: Stripping voltammograms between 0.025 and 0.25 V/s always show a single Au-like stripping peak, faster scans make the adlayer incomplete, and peak positions are identical in consecutive cycles.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Figs. S1, S3"
+        values:
+          - {symbol: dE, quantity: potential span from lower vertex to Ag stripping, value: 0.15, unit: V}
+          - {symbol: v, quantity: highest scan rate, value: 0.25, unit: V/s}
+        derived_checks:
+          - {expression: "time available for the swap at the highest scan rate (stated < 0.6 s)", formula: "dE/v", result: 0.6, unit: s}
+    about: [ent:PbUPD]
+  - id: nettler2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: RESULTS
+    text: The Ag-Au swap completes within 0.6 s and is reversible on the time scale of the CV experiments for films and nanoparticles.
+    about: [ent:Swap]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "The bound follows arithmetically from the absence of a second stripping peak, but it presupposes that the swap occurs at all (CLAIM2)."
+  - id: nettler2025:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 4
+    paper_part: CONCLUSION
+    text: Tuning surface atom arrangements with adlayers could steer catalytic activity of multicomponent electrocatalysts, including high-entropy alloys.
+
+relations:
+  - {id: nettler2025:R1, subject: nettler2025:BG1, predicate: MOTIVATES, object: nettler2025:GAP1, asserted_by: AUTHORS}
+  - {id: nettler2025:R2, subject: nettler2025:BG2, predicate: MOTIVATES, object: nettler2025:GAP1, asserted_by: AUTHORS}
+  - {id: nettler2025:R3, subject: nettler2025:GAP1, predicate: MOTIVATES, object: nettler2025:HYP1, asserted_by: AUTHORS}
+  - {id: nettler2025:R4, subject: nettler2025:OBS1, predicate: SUPPORTS, object: nettler2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nettler2025:R5, subject: nettler2025:OBS2, predicate: SUPPORTS, object: nettler2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nettler2025:R6, subject: nettler2025:OBS3, predicate: SUPPORTS, object: nettler2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: UNSUPPORTED, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Peak potentials are a proxy; 20-60 mV differences; alternatives not excluded"}}
+  - {id: nettler2025:R7, subject: nettler2025:OBS2, predicate: SUPPORTS, object: nettler2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: nettler2025:R8, subject: nettler2025:BG1, predicate: ALTERNATIVE_EXPLANATION_FOR, object: nettler2025:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "Pb-induced surface alloying or intermediate alloy UPD potentials"}
+  - {id: nettler2025:R9, subject: nettler2025:OBS4, predicate: SUPPORTS, object: nettler2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: nettler2025:R10, subject: nettler2025:OBS4, predicate: SUPPORTS, object: nettler2025:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: nettler2025:R11, subject: nettler2025:OBS5, predicate: SUPPORTS, object: nettler2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nettler2025:R12, subject: nettler2025:CLAIM2, predicate: SUPPORTS, object: nettler2025:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: nettler2025:R13, subject: nettler2025:CLAIM1, predicate: SUPPORTS, object: nettler2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: nettler2025:R14, subject: nettler2025:CLAIM2, predicate: SUPPORTS, object: nettler2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, essential: true}
+  - {id: nettler2025:R15, subject: nettler2025:CLAIM3, predicate: SUPPORTS, object: nettler2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: nettler2025:R16, subject: nettler2025:CLAIM4, predicate: SUPPORTS, object: nettler2025:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: nettler2025:R17, subject: nettler2025:HYP1, predicate: ANSWERS, object: nettler2025:GAP1, asserted_by: AUTHORS}
+  - {id: nettler2025:R18, subject: nettler2025:HYP1, predicate: MOTIVATES, object: nettler2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    A short study comparing Pb-UPD on combinatorial AgxAuy films and
+    nanoparticles with pure Ag and Au references. The voltammetric data
+    consistently show deposition near the Pb-on-Ag potential and stripping
+    near the Pb-on-Au(111) potential, supporting an Ag-enriched surface.
+    The central conclusion of an Ag-Au atomic swap under the Pb adlayer
+    rests on peak assignments differing by 20-60 mV, on a highly simplified
+    DFT model without solvent, and on no direct structural or compositional
+    evidence; the swap time bound follows from the same assumption, and
+    the stated electrode area is off by a factor of 1000.
+  key_limitations:
+    - "Swap inferred from peak positions only; alternatives not excluded (CLAIM2)."
+    - "DFT model omits water and reconstruction (OBS4, CLAIM3)."
+    - "Assumes alloy UPD peaks coincide with pure-metal peaks (CLAIM1, CLAIM2)."
+    - "Area stated as 0.028 mm2 for a 6 mm opening (METH1)."
+  missing_evidence:
+    - "In situ structural or emersion-XPS evidence of surface composition with and without Pb."
+    - "UPD on AgAu single crystals of known surface composition."
+    - "DFT including water and exchange energetics."

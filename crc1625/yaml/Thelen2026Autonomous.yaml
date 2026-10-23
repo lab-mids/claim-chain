@@ -1,0 +1,204 @@
+id: claimchain:chain/Thelen2026Autonomous
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2606.00779; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.48550/arXiv.2606.00779
+  title: "Autonomous scanning electrochemical cell microscopy enables rapid exploration of large compositionally complex material spaces"
+  authors: [Felix Thelen, Moonjoo Kim, Geovane Arruda de Oliveira, Jan Lukas Bürgel, Wolfgang Schuhmann, Alfred Ludwig]
+  year: 2026
+  doi: 10.48550/arXiv.2606.00779
+  arxiv: "2606.00779"
+  url: https://arxiv.org/abs/2606.00779
+
+entities:
+  - {id: ent:Robot, label: "robotic long-range SECCM with library cassette (10 slots), automated tilt correction and approach, humidified Ar chamber", entity_type: METHOD}
+  - {id: ent:Libs, label: "three co-sputtered Au-Ir-Rh libraries (63% of the ternary space), 966 measured areas", entity_type: MATERIAL}
+  - {id: ent:Fit, label: "Butler-Volmer/steady-state mass-transport fit of HER LSVs giving k0, alpha and i_lim", entity_type: METHOD}
+  - {id: ent:GP, label: "multi-output Gaussian process active learning with cost-aware acquisition (shared vs per-point noise)", entity_type: METHOD}
+  - {id: ent:k0, label: "standard rate constant k0 of the HER", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: thelen2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Thin-film libraries with SDC or long-range SECCM accelerate CCSS electrocatalyst screening, but single libraries cover little of multinary spaces, Bayesian optimization usually operates on sequential samples, and electrochemistry is typically reduced to single metrics at fixed potential.
+    evidence: [{evidence_kind: CITATION, references: ["4-16"]}]
+  - id: thelen2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Build an autonomous robotic SECCM that traverses multiple libraries, learns whole HER voltammograms via kinetic descriptors with Gaussian-process active learning, and demonstrate it on Au-Ir-Rh, testing the hypothesis that mixing strong (Ir, Rh) and weak (Au) H binders yields synergy.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: thelen2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.1, SI 1.6
+    paper_part: METHODS
+    text: A six-axis robot moves libraries from a cassette to the SECCM; each LSV (three per area) is fitted with an analytical Butler-Volmer/steady-state mass-transport model to obtain k0, alpha and the limiting current; log k0 and alpha are outputs of a multi-output GP whose uncertainty, combined with measurement time, selects the next area and library.
+    about: [ent:Robot, ent:Fit, ent:GP]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The demonstration system is called Au-Ir-Ru in the introduction but Au-Ir-Rh everywhere else.", priority: LOW}
+  - id: thelen2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 3, SI 2.1-2.4
+    paper_part: RESULTS
+    text: EDX shows three libraries each enriched in one element with partial overlaps; GP-extended XPS (39 points) agrees with EDX within a mean Euclidean distance of 4.2 at.%, with native Rh oxide up to 20 at.% and hydroxide up to 8 at.% above 30 at.% Rh; XRD shows a single fcc phase with continuous (111) shift; AFM roughness is 0.7-1.6 nm.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 3, SI 2.1-2.4"}]
+    about: [ent:Libs]
+  - id: thelen2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.3, Fig. 4, Fig. S21
+    paper_part: RESULTS
+    text: All 966 areas (3 x 322) were measured autonomously in about 26 h with one 510 nm capillary; i_lim, k0 and alpha vary smoothly across library overlaps; k0 peaks inside the Rh-rich library and is lowest at Au-rich compositions; the limiting current shifts at each library transfer, with smaller order effects in k0 and alpha.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.3, Fig. 4"
+        values:
+          - {symbol: n_lib, quantity: libraries, value: 3}
+          - {symbol: n_area, quantity: measurable areas per library, value: 322}
+          - {symbol: t_total, quantity: total measurement time, value: 26, unit: h}
+        derived_checks:
+          - {expression: "total measured areas (stated 966)", formula: "n_lib*n_area", result: 966}
+          - {expression: "average time per area", formula: "t_total*60/(n_lib*n_area)", result: 1.61, unit: min}
+    about: [ent:Robot, ent:k0]
+  - id: thelen2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 6, SI 2.6
+    paper_part: RESULTS
+    text: The initial GP with a shared noise parameter overfits log k0 (normalized MAE approaching 0%) because averaging before log-transforming distorts the variance; a retrospectively re-run noise-aware GP with per-point variance reaches normalized MAE of about 3% (k0) and 5% (alpha), with the k0 error falling from 21% to 5% in 100 iterations and plateauing at 140, coinciding with the plateau of the mean predictive variance.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 6a, Fig. S24"
+        values:
+          - {symbol: n_iter, quantity: iterations at plateau, value: 140}
+          - {symbol: n_total, quantity: total areas, value: 966}
+        derived_checks:
+          - {expression: "fraction of areas needed (stated 15%)", formula: "n_iter/n_total", result: 0.145}
+          - {expression: "areas per library at stop (stated on average 50)", formula: "n_iter/3", result: 46.7}
+    about: [ent:GP]
+  - id: thelen2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.4, Sec. 3
+    paper_part: RESULTS
+    text: The composition-activity trend of Au-Ir-Rh is accurately predicted after measuring only 15% of the 966 areas, and predictive variance can serve as a real-time stopping criterion.
+    about: [ent:GP]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The 15% figure comes from a retrospective re-run with the corrected noise model, judged against the full ground truth; the live campaign used the overfitting model, and the variance-based stop is shown on this single dataset.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Retrospective replay against complete data supports about 3% k0 error at 140 iterations; prospective autonomous stopping with the corrected model on a new system is not demonstrated."
+      proof_obligations:
+        - text: "Show prospective performance of the noise-aware model"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "k0 map error after variance-based stop vs subsequent full measurement", method: "live autonomous campaign on a new library set"}]
+  - id: thelen2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 7
+    paper_part: RESULTS
+    text: Raw maxima of k0 are dispersed, while GP predictions at 140 iterations show high-activity regions near Au30Ir20Rh50 and Au10Ir35Rh55 with k0 about 0.012 cm/s, stated as exchange current densities of 0.19 mA/cm2 at pH 1 and 1.9 mA/cm2 at pH 0; Au60-80Ir10-30Rh10 is least active.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 2.4"
+        values:
+          - {symbol: k0, quantity: standard rate constant at maxima, value: 0.012, unit: cm s-1}
+          - {symbol: F, quantity: Faraday constant, value: 96485, unit: C mol-1}
+          - {symbol: c_h, quantity: proton concentration at pH 1, value: 1.0e-4, unit: mol cm-3}
+          - {symbol: j0_stated, quantity: stated exchange current density at pH 1, value: 1.9e-4, unit: A cm-2}
+        derived_checks:
+          - {expression: "exchange current density j0 = F k0 c(H+) at pH 1 (stated 0.19 mA/cm2)", formula: "F*k0*c_h", result: 0.116, unit: A cm-2}
+    about: [ent:k0]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "With the first-order relation j0 = F k0 c(H+) implied by the tenfold pH scaling, k0 = 0.012 cm/s at pH 1 gives about 116 mA/cm2, not 0.19 mA/cm2; the conversion used is not stated.", priority: MEDIUM}
+  - id: thelen2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.3-2.4
+    paper_part: DISCUSSION
+    text: Au30Ir20Rh50 and Au10Ir35Rh55 are the most active compositions, demonstrating positive synergistic contributions from mixing elements with strong and weak M-H binding.
+    about: [ent:k0, ent:Libs]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Synergy is inferred from an interior k0 maximum within the measured 63% of the space; pure Ir, Rh and Au references are not measured under the same protocol, and the maximum region carries native Rh oxides.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "The smoothed GP map shows an interior maximum decreasing towards the measured edges, consistent with synergy; without elemental references and with library-transfer drift in the data, the size and origin of the synergy remain uncertain."
+  - id: thelen2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.1, Sec. 3
+    paper_part: CONCLUSION
+    text: Using fitted kinetic parameters (k0, alpha) instead of current densities at fixed overpotential corrects for composition-dependent mass transport and allows the platform to predict whole LSVs; the platform is robust, scalable (more than 50 libraries) and applicable to other reactions with suitable analytical models.
+    about: [ent:Fit, ent:Robot]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Fits work on low-noise SECCM LSVs and separate i_lim from kinetics; transfer-related drift in i_lim shows residual robustness issues, and scalability and other reactions are prospective."
+  - id: thelen2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 2.3-2.4
+    paper_part: DISCUSSION
+    text: Meniscus changes during 4-min library transfers shift the limiting current, and the first GP version overfit noise due to the averaging/log-transform order.
+  - id: thelen2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Approximately 15% of all measurement areas are sufficient to reliably capture the composition-activity correlations across the Au-Ir-Rh space, so a single capillary could support campaigns spanning up to 20 libraries.
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM1 with an extrapolation to 20 libraries."
+
+relations:
+  - {id: thelen2026:R1, subject: thelen2026:BG1, predicate: MOTIVATES, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R2, subject: thelen2026:METH1, predicate: DELIVERS, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R3, subject: thelen2026:OBS2, predicate: DELIVERS, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R4, subject: thelen2026:CLAIM1, predicate: DELIVERS, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R5, subject: thelen2026:CLAIM2, predicate: DELIVERS, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R6, subject: thelen2026:CONC1, predicate: DELIVERS, object: thelen2026:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R7, subject: thelen2026:OBS3, predicate: SUPPORTS, object: thelen2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: MET, scope_match: PARTLY, criteria_note: "Retrospective replay on one dataset with corrected model"}}
+  - {id: thelen2026:R8, subject: thelen2026:OBS4, predicate: SUPPORTS, object: thelen2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: NOT_MET, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "No elemental references; GP-smoothed maxima; transfer drift"}}
+  - {id: thelen2026:R9, subject: thelen2026:OBS2, predicate: SUPPORTS, object: thelen2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: thelen2026:R10, subject: thelen2026:OBS1, predicate: SUPPORTS, object: thelen2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, note: "single phase, surface close to volume, smooth films"}
+  - {id: thelen2026:R11, subject: thelen2026:OBS2, predicate: SUPPORTS, object: thelen2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "966 fits; drift at transfers"}}
+  - {id: thelen2026:R12, subject: thelen2026:LIM1, predicate: QUALIFIES, object: thelen2026:CLAIM3, asserted_by: AUTHORS}
+  - {id: thelen2026:R13, subject: thelen2026:LIM1, predicate: QUALIFIES, object: thelen2026:CLAIM1, asserted_by: AUTHORS}
+  - {id: thelen2026:R14, subject: thelen2026:CONC1, predicate: RESTATES, object: thelen2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: thelen2026:R15, subject: thelen2026:OBS3, predicate: SUPPORTS, object: thelen2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A robotic long-range SECCM autonomously measured 966 areas on three
+    Au-Ir-Rh libraries in 26 h with one capillary, fitting each HER
+    voltammogram to kinetic descriptors that feed a multi-output Gaussian
+    process; the counts and the 15% sampling fraction recompute, and the
+    authors transparently report and fix an overfitting problem in their
+    first noise model. The 15% claim, however, rests on a retrospective
+    replay of the corrected model against complete data rather than a
+    prospective campaign; the synergy conclusion lacks elemental
+    references and comes from GP-smoothed maxima in data with
+    library-transfer drift; the stated exchange current is about 600
+    times below F k0 c(H+) for the reported k0; and the system is once
+    named Au-Ir-Ru.
+  key_limitations:
+    - "15% figure from retrospective replay (CLAIM1)."
+    - "No elemental references for synergy (CLAIM2)."
+    - "Exchange current conversion does not recompute (OBS4)."
+    - "Library-transfer drift in limiting current (LIM1)."
+  missing_evidence:
+    - "Prospective autonomous run with the noise-aware model and variance-based stop."
+    - "Pure Au, Ir and Rh films measured with the same protocol."
+    - "Explicit formula for the k0-to-j0 conversion."

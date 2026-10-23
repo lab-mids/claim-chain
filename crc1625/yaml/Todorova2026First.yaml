@@ -1,0 +1,165 @@
+id: claimchain:chain/Todorova2026First
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text of arXiv:2411.05925v2; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41570-025-00792-6
+  title: "First-principles approaches and concepts to simulate electrochemical interfaces"
+  authors: [Mira Todorova, Stefan Wippermann, Jörg Neugebauer]
+  year: 2026
+  doi: 10.1038/s41570-025-00792-6
+  url: https://doi.org/10.1038/s41570-025-00792-6
+
+entities:
+  - {id: ent:Surrogate, label: "surrogate models for the electric double layer in DFT supercells (dipole correction, jellium, Green's function, Berry phase, implicit/hybrid solvents, explicit ions, pseudo-atom counter electrodes, Gaussian counter charge)", entity_type: METHOD}
+  - {id: ent:BC, label: "electrostatic boundary conditions - constant charge (D), constant field (E), thermodynamically open", entity_type: CONCEPT}
+  - {id: ent:TPS, label: "thermopotentiostat derived from the fluctuation-dissipation theorem", entity_type: METHOD}
+  - {id: ent:Fluct, label: "potential and charge fluctuations in DFT-sized supercells", entity_type: QUANTITY}
+  - {id: ent:Breakdown, label: "dielectric breakdown / Fermi-level pinning limit on applied fields", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: todorova2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Electrochemical interfaces are thermodynamically open, the potential drop is confined to about 1 nm, and DFT supercells are small, so potential, charge and energy fluctuate strongly; potentiostats analogous to MD thermostats are still rarely used in AIMD.
+    evidence: [{evidence_kind: CITATION, references: ["19-28"]}]
+  - id: todorova2026:AIM1
+    statement_type: AIM
+    section: Abstract, Sec. 1
+    paper_part: INTRODUCTION
+    text: Critically review surrogate double-layer models, electrostatic boundary conditions, open thermodynamic (potential-controlled) boundary conditions and band-alignment limits for ab initio simulation of electrified solid/liquid interfaces.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Body ----------------
+  - id: todorova2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2, Fig. 3, Table 1
+    paper_part: RESULTS
+    text: Periodic DFT enforces charge neutrality and a single Fermi level, excluding an explicit counter electrode at a different potential; available surrogate schemes differ in whether they allow continuous charging, metallic electrodes, a direct potential reference and code-independent implementation.
+    evidence: [{evidence_kind: CITATION, references: ["45-77"]}]
+    about: [ent:Surrogate]
+  - id: todorova2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 3, Fig. 4
+    paper_part: RESULTS
+    text: In AIMD of a 10 Å x 10 Å cell with 64 water molecules, constant-charge conditions give a delta-like voltage distribution next to the electrode and a broad distribution deeper in the electrolyte, constant-field conditions the reverse, and thermodynamically open conditions reproduce the constant-field behaviour near the electrode and the constant-charge behaviour in the electrolyte.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 4b-c (from ref. 100)", references: ["100"]}]
+    about: [ent:BC, ent:Fluct]
+    scope: {sample_count: 1, scope_note: "one model system from the authors' earlier work"}
+  - id: todorova2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 3, Sec. 6
+    paper_part: DISCUSSION
+    text: Constant-field and constant-charge boundary conditions each capture only part of the interfacial physics (fast electrode charge dynamics vs slow double-layer relaxation), whereas thermodynamically open boundary conditions capture both and remain valid under charge-transfer reactions.
+    about: [ent:BC]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A boundary condition is adequate if it reproduces the voltage distributions of the unbounded system at both short and long range.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "The physical argument (timescale separation, fluctuation-dissipation) is coherent and illustrated by one model simulation from the authors' work; no quantitative benchmark of reaction rates or barriers under the different conditions is presented."
+  - id: todorova2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 3, Sec. 5
+    paper_part: RESULTS
+    text: For typical supercell sizes the interfacial voltage fluctuates by about ±1 V, described as a Gaussian with deviation kBT/C in one place and as sqrt(kBT/C) of about 1 V in another.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. 3, Sec. 5"
+        values:
+          - {symbol: kT, quantity: thermal energy at 300 K, value: 4.14e-21, unit: J}
+          - {symbol: c_area, quantity: typical double-layer capacitance, value: 1.0e-5, unit: F cm-2}
+          - {symbol: area, quantity: lateral cell area 1 nm x 1 nm, value: 1.0e-14, unit: cm2}
+        derived_checks:
+          - {expression: "standard deviation sqrt(kT/C) for a 1 nm2 cell at 10 µF/cm2", formula: "(kT/(c_area*area))**0.5", result: 0.20, unit: V}
+    about: [ent:Fluct]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The width is given once as kBT/C (dimension of a variance, V2) and once as sqrt(kBT/C); with a typical 10 µF/cm2 double-layer capacitance a 1 nm2 cell gives about 0.2 V, so the ±1 V figure requires the much smaller bare capacitance and the assumed C is not stated.", priority: LOW}
+  - id: todorova2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 4
+    paper_part: DISCUSSION
+    text: A thermopotentiostat derived from the fluctuation-dissipation theorem samples the correct charge and potential distributions under open boundary conditions, needs only Phi(t) - Phi0 as input, can be added to any electronic-structure code with the dipole-correction setups, has negligible overhead, and should be used in any simulation involving charge transfer, bias or voltage-sensitive processes.
+    about: [ent:TPS]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Correct sampling follows by construction from the fluctuation-dissipation relation given; portability and 'negligible overhead' are asserted without timings, and the recommendation favours the authors' own method without a comparative benchmark."
+  - id: todorova2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: DISCUSSION
+    text: Under constant-charge conditions a charge-transfer reaction creates an uncompensated surface dipole that shifts the mean voltage and halts further reactions of the same type, so constant charge is inadequate for reactive simulations but suitable for equilibrium quantities such as the PZC.
+    about: [ent:BC]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Follows directly from periodic electrostatics as argued, and the scope restriction (equilibrium quantities) is stated."
+  - id: todorova2026:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 5
+    paper_part: DISCUSSION
+    text: The maximum field in explicit-water setups is limited by dielectric breakdown when the Fermi level reaches the electrolyte band edges, which happens below Eg/d depending on band alignment at the PZC; placing the counter charge inside the electrolyte allows realistic fields without breakdown.
+    about: [ent:Breakdown]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "A standard band-alignment argument, consistently presented; the specific remedy is supported by the cited implementation."
+  - id: todorova2026:LIM1
+    statement_type: LIMITATION
+    section: Sec. 6
+    paper_part: CONCLUSION
+    text: Lateral charge dynamics are treated as instantaneous under periodic boundaries, AIMD is limited to tens of picoseconds and semi-local functionals underestimate the water band gap, and grand-canonical pH control remains unsolved.
+  - id: todorova2026:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 6
+    paper_part: CONCLUSION
+    text: Machine-learning potentials with long-range electrostatics, QM/MM and enhanced sampling could extend potential-controlled simulations to realistic time scales and reaction networks.
+
+relations:
+  - {id: todorova2026:R1, subject: todorova2026:BG1, predicate: MOTIVATES, object: todorova2026:AIM1, asserted_by: AUTHORS}
+  - {id: todorova2026:R2, subject: todorova2026:OBS1, predicate: DELIVERS, object: todorova2026:AIM1, asserted_by: AUTHORS}
+  - {id: todorova2026:R3, subject: todorova2026:CLAIM1, predicate: DELIVERS, object: todorova2026:AIM1, asserted_by: AUTHORS}
+  - {id: todorova2026:R4, subject: todorova2026:CLAIM2, predicate: DELIVERS, object: todorova2026:AIM1, asserted_by: AUTHORS}
+  - {id: todorova2026:R5, subject: todorova2026:CLAIM4, predicate: DELIVERS, object: todorova2026:AIM1, asserted_by: AUTHORS}
+  - {id: todorova2026:R6, subject: todorova2026:OBS2, predicate: SUPPORTS, object: todorova2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: PARTLY, scope_match: MET, criteria_note: "One model cell from the authors' own work; no rate benchmark"}}
+  - {id: todorova2026:R7, subject: todorova2026:CLAIM3, predicate: SUPPORTS, object: todorova2026:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: todorova2026:R8, subject: todorova2026:OBS2, predicate: SUPPORTS, object: todorova2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "Sampling correct by construction; overhead and portability not quantified"}}
+  - {id: todorova2026:R9, subject: todorova2026:OBS3, predicate: SUPPORTS, object: todorova2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "size of fluctuations motivates potential control"}
+  - {id: todorova2026:R10, subject: todorova2026:OBS1, predicate: SUPPORTS, object: todorova2026:CLAIM4, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: todorova2026:R11, subject: todorova2026:LIM1, predicate: QUALIFIES, object: todorova2026:CLAIM2, asserted_by: AUTHORS}
+  - {id: todorova2026:R12, subject: todorova2026:LIM1, predicate: MOTIVATES, object: todorova2026:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A conceptual review of how to embed electrified interfaces in DFT
+    supercells: surrogate double-layer models, constant-charge versus
+    constant-field versus open boundary conditions, a fluctuation-
+    dissipation-based thermopotentiostat, and dielectric-breakdown limits.
+    The electrostatic arguments are coherent, and the inadequacy of
+    constant charge for reactive simulations and the breakdown limits
+    follow directly from the physics discussed. The comparative
+    conclusions rest on one illustrative model simulation from the
+    authors' own work, the recommendation of the authors' thermopotentiostat
+    is not accompanied by timings or a rate benchmark against other
+    schemes, and the stated size of potential fluctuations (±1 V)
+    depends on an unstated capacitance, with kBT/C and sqrt(kBT/C) used
+    interchangeably.
+  key_limitations:
+    - "Comparative claims illustrated by a single model system (OBS2, CLAIM1)."
+    - "No quantitative benchmark of rates or overhead for the recommended method (CLAIM2)."
+    - "Fluctuation magnitude depends on an unstated capacitance (OBS3)."
+  missing_evidence:
+    - "Side-by-side reaction-barrier or rate calculations under the three boundary conditions."
+    - "Timing overhead of the thermopotentiostat in production AIMD."

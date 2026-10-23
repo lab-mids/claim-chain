@@ -1,0 +1,219 @@
+id: claimchain:chain/Deissenbeck2024Revealing
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1021/jacs.4c10086
+  title: "Revealing the Reaction Pathway of Anodic Hydrogen Evolution at Magnesium Surfaces in Aqueous Electrolytes"
+  authors: [Florian Deißenbeck, Sudarsan Surendralal, Mira Todorova, Stefan Wippermann, Jörg Neugebauer]
+  year: 2024
+  doi: 10.1021/jacs.4c10086
+  url: https://doi.org/10.1021/jacs.4c10086
+
+entities:
+  - {id: ent:Mg, label: "kinked Mg slab (6 layers, (1 2 -3 15) miscut, two kink sites) with 64 explicit H2O", entity_type: MATERIAL}
+  - {id: ent:TPMD, label: ab initio thermopotentiostat molecular dynamics, entity_type: METHOD}
+  - {id: ent:MgOH, label: "solvated [Mg2+(OH)-]+ ion complex", entity_type: MATERIAL}
+  - {id: ent:NDE, label: "anomalous anodic hydrogen evolution (negative difference effect)", entity_type: CONCEPT}
+  - {id: ent:Potential, label: electrode potential relative to open circuit, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: deissenbeck2024:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Anodically polarized Mg shows strongly increasing hydrogen evolution and dissolves more Mg than coulometrically expected for Mg2+, which has been taken as evidence for univalent Mg+ ions living for minutes and reducing species at a distance.
+    evidence: [{evidence_kind: CITATION, references: ["10", "11", "14-21"]}]
+  - id: deissenbeck2024:BG2
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The Mg+ mechanism has been challenged because such an ion should be extremely short-lived, and atomic emission spectroelectrochemistry found direct evidence only for Mg2+.
+    evidence: [{evidence_kind: CITATION, references: ["10", "22", "23"]}]
+  - id: deissenbeck2024:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: The chemical nature of the postulated unipositive metal ions and the atomistic mechanism of anomalous anodic dissolution are unknown, and first-principles studies of realistic metal-water interfaces under potential control are lacking.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: deissenbeck2024:HYP1
+    statement_type: HYPOTHESIS
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Introduction, Summary
+    paper_part: INTRODUCTION
+    text: Under anodic conditions Mg dissolves from kink sites as a solvated, effectively univalent [Mg2+(OH)-]+ ion complex along a low-barrier pathway that removes hydroxyl from the surface, which explains the postulated Mg+ ions, the absence of a passivating hydroxide and the anomalous anodic hydrogen evolution.
+    about: [ent:MgOH, ent:NDE]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "The simulations show that a hydroxylated Mg ion can detach as [Mg2+(OH)-]+ and that this leaves the kink site free for further water dissociation; the pathway was obtained by steering the ion into solution, no free-energy barriers or rates compare it with the competing Mg2+ path, and the link to experimental Mg+ observations is interpretive."
+      missing_evidence:
+        - "Free-energy profiles (e.g. thermodynamic integration or metadynamics) for both detachment pathways"
+        - "Statistics over several kink sites and trajectories"
+        - "Experimental detection of [MgOH]+ in the anolyte"
+      proof_obligations:
+        - text: "Show that a [Mg2+(OH)-]+ complex can leave the surface"
+          obligation_status: DISCHARGED
+          discharged_by: [deissenbeck2024:OBS3]
+        - text: "Show that this pathway is energetically and kinetically favoured over Mg2+ release"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: free-energy barriers of both pathways, unit: eV, method: "enhanced-sampling AIMD under potential control"}]
+        - text: "Show that the complex is long-lived and reducing"
+          obligation_status: OPEN
+          priority: HIGH
+
+  # ---------------- Methods ----------------
+  - id: deissenbeck2024:METH1
+    statement_type: METHOD
+    section: Main text
+    paper_part: METHODS
+    text: A 6-layer Mg slab with two kink sites and 64 explicit water molecules is equilibrated at open circuit and then polarized with the thermopotentiostat to a target potential of -2 V; additional runs at Ũ = -0.35 V (weak anodic) and +1.15 V (cathodic) relative to open circuit are performed.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2b, main text"
+        values:
+          - {symbol: phi_ocp, quantity: mean open-circuit potential, value: -0.65, unit: V}
+          - {symbol: phi_t, quantity: target potential, value: -2.0, unit: V}
+          - {symbol: U_rel, quantity: stated potential vs open circuit, value: -1.35, unit: V}
+        derived_checks:
+          - {expression: "target minus open-circuit potential equals the stated -1.35 V", formula: "phi_t - phi_ocp", result: -1.35, unit: V}
+    about: [ent:TPMD, ent:Mg]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Trajectory lengths are picoseconds, with one cell and one kink geometry; functional, cutoffs and number of independent runs are not given in the main text.", priority: MEDIUM}
+  - id: deissenbeck2024:ASM1
+    statement_type: ASSUMPTION
+    section: Main text
+    paper_part: METHODS
+    text: Dissolution proceeds via kink atoms, so a single miscut slab with two kink sites is representative of the anodically dissolving Mg surface.
+    assumption_basis: COMMUNITY_ACCEPTED
+    open_question: "Do terraces, steps with impurities or second-phase particles open other pathways at the experimental potentials?"
+
+  # ---------------- Results ----------------
+  - id: deissenbeck2024:OBS1
+    statement_type: OBSERVATION
+    section: Main text, Fig. 2
+    paper_part: RESULTS
+    text: At open circuit a water molecule adsorbs dissociatively at a kink site, forming an adsorbed [Mg2+(OH)-]+ unit and H; after anodic polarization a fourth water joins within 1.6 ps, the kink atom is lifted by up to 3.6 A once its solvation shell is complete, and it remains bound to the surface through a hydroxyl bridge.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 2", values: [{quantity: maximum lift of kink atom, value: 3.6, unit: A}, {quantity: time to fourth water, value: 1.6, unit: ps}]}]
+    about: [ent:Mg, ent:TPMD]
+  - id: deissenbeck2024:OBS2
+    statement_type: OBSERVATION
+    section: Main text
+    paper_part: RESULTS
+    text: Separating the solvated [Mg2+(OH)-]+ complex from the surface in a vacuum calculation gives a hydroxyl-bridge binding energy of about 2 eV, which the authors judge inconsistent with the high experimental dissolution rates.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "main text", values: [{quantity: hydroxyl bridge binding energy, value: 2, unit: eV}]}]
+    about: [ent:MgOH]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "Binding energy estimated in vacuum without the solvent and field; no estimate of the solvated barrier.", priority: MEDIUM}
+  - id: deissenbeck2024:OBS3
+    statement_type: OBSERVATION
+    section: Main text, Fig. 3
+    paper_part: RESULTS
+    text: In one trajectory a concerted double proton transfer relocates the hydroxyl laterally and releases Mg2+ into solution, leaving OH on the surface; when the ion is pulled into solution at a constant 2/3 A/ps, an intra-solvation-shell proton transfer at ~13 ps instead releases the whole [Mg2+(OH)-]+ complex.
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 3"}]
+    about: [ent:MgOH, ent:TPMD]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The complex pathway was obtained under steered (constant-velocity) pulling, not spontaneously; neither pathway's free-energy barrier nor its frequency is quantified.", priority: HIGH}
+  - id: deissenbeck2024:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Main text, Abstract
+    paper_part: RESULTS
+    text: Two competing detachment pathways exist, and only release of the [Mg2+(OH)-]+ complex removes hydroxyl from the surface, keeping kink sites exposed for further dissociative water adsorption and hence sustaining the anomalous anodic hydrogen evolution, whereas Mg2+ release passivates the surface with hydroxyl.
+    about: [ent:MgOH, ent:NDE]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "A surface left hydroxylated cannot dissociate further water; a surface freed of OH can.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "Both pathways are observed and their different surface outcomes follow directly; whether the complex path dominates, and hence sustains hydrogen evolution, is not quantified because no relative rates are computed."
+      missing_evidence:
+        - "Relative rates of the two pathways at several potentials"
+  - id: deissenbeck2024:CLAIM2
+    statement_type: CLAIM
+    claim_role: MECHANISTIC_INTERPRETATION
+    section: Main text
+    paper_part: DISCUSSION
+    text: The elusive unipositive Mg+ ion is in fact the [Mg2+(OH)-]+ complex, which dominates over Mg2+ above pH 11.44 given pKb = 2.56, may be thermodynamically stabilized by the locally high pH, and is long-lived because of the Coulomb barrier to positively charged reactants such as H+.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "main text, ref. 30"
+        values:
+          - {symbol: pKb, quantity: pKb of MgOH+ dissociation, value: 2.56}
+        derived_checks:
+          - {expression: "pH above which MgOH+ dominates (stated 11.44)", formula: "14 - pKb", result: 11.44}
+    about: [ent:MgOH]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Long lifetime from a Coulomb barrier and stabilization by local pH are speculative; no lifetime or barrier is computed.", priority: MEDIUM}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Atomic emission experiments cited in the introduction detected only Mg2+; the paper does not discuss whether [MgOH]+ would appear as Mg2+ in such measurements.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The identification is a plausible reinterpretation consistent with the effective +1 charge and the known MgOH+ equilibrium, but the simulations do not address lifetime or reducing power, and no experimental test is reported."
+      missing_evidence:
+        - "Titration or spectroscopic detection of [MgOH]+ in collected anolyte"
+  - id: deissenbeck2024:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Main text, Fig. 4
+    paper_part: DISCUSSION
+    text: A reaction model with fraction k of dissolution via the ion complex and 1-k via Mg2+ reproduces the overall balance Mg + 2H+ -> Mg2+ + H2 and explains why hydrogen produced per unit charge decreases with current density, as more current is carried by Mg2+ at higher current density.
+    about: [ent:NDE, ent:MgOH]
+    claim_modality: CAUSAL
+    author_certainty: SPECULATIVE
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Steps (8) and (10) are inferred, not simulated, and the current-density dependence of k is speculated.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The model is stoichiometrically consistent, but k and its dependence on current density are not computed or fitted to data."
+  - id: deissenbeck2024:OUT1
+    statement_type: OUTLOOK
+    section: Main text, Abstract
+    paper_part: CONCLUSION
+    text: Collecting anolyte from anodically polarized Mg and titrating it, or THz, UV-vis and NMR spectroscopy, could detect the ion complex, and the mechanism may transfer to other metals with anomalous dissolution such as Fe, Cr and Zn.
+
+relations:
+  - {id: deissenbeck2024:R1, subject: deissenbeck2024:BG1, predicate: MOTIVATES, object: deissenbeck2024:GAP1, asserted_by: AUTHORS}
+  - {id: deissenbeck2024:R2, subject: deissenbeck2024:BG2, predicate: MOTIVATES, object: deissenbeck2024:GAP1, asserted_by: AUTHORS}
+  - {id: deissenbeck2024:R3, subject: deissenbeck2024:GAP1, predicate: MOTIVATES, object: deissenbeck2024:HYP1, asserted_by: AUTHORS}
+  - {id: deissenbeck2024:R4, subject: deissenbeck2024:METH1, predicate: DEPENDS_ON, object: deissenbeck2024:ASM1, asserted_by: AUTHORS}
+  - {id: deissenbeck2024:R5, subject: deissenbeck2024:OBS1, predicate: SUPPORTS, object: deissenbeck2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: deissenbeck2024:R6, subject: deissenbeck2024:OBS3, predicate: SUPPORTS, object: deissenbeck2024:CLAIM1, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: NOT_MET, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Single steered trajectory; no barriers or statistics"}}
+  - {id: deissenbeck2024:R7, subject: deissenbeck2024:OBS2, predicate: SUPPORTS, object: deissenbeck2024:CLAIM1, asserted_by: AUTHORS, note: "Strong bridge bond requires catalysed breaking", support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deissenbeck2024:R8, subject: deissenbeck2024:CLAIM1, predicate: SUPPORTS, object: deissenbeck2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true}
+  - {id: deissenbeck2024:R9, subject: deissenbeck2024:CLAIM2, predicate: SUPPORTS, object: deissenbeck2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deissenbeck2024:R10, subject: deissenbeck2024:BG1, predicate: SUPPORTS, object: deissenbeck2024:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deissenbeck2024:R11, subject: deissenbeck2024:BG2, predicate: UNDERCUTS, object: deissenbeck2024:CLAIM2, asserted_by: ANNOTATOR, note: "Direct spectroscopic evidence only for Mg2+"}
+  - {id: deissenbeck2024:R12, subject: deissenbeck2024:CLAIM1, predicate: SUPPORTS, object: deissenbeck2024:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deissenbeck2024:R13, subject: deissenbeck2024:CLAIM3, predicate: SUPPORTS, object: deissenbeck2024:HYP1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: deissenbeck2024:R14, subject: deissenbeck2024:ASM1, predicate: QUALIFIES, object: deissenbeck2024:HYP1, asserted_by: ANNOTATOR, note: "One kink geometry, ps timescale"}
+  - {id: deissenbeck2024:R15, subject: deissenbeck2024:HYP1, predicate: ANSWERS, object: deissenbeck2024:GAP1, asserted_by: AUTHORS}
+  - {id: deissenbeck2024:R16, subject: deissenbeck2024:CLAIM2, predicate: MOTIVATES, object: deissenbeck2024:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A short, technically advanced AIMD study under potential control that
+    shows dissociative water adsorption at a Mg kink, hydroxyl-bridged
+    anchoring of the ionized kink atom, and two detachment routes, one of
+    which releases an effectively univalent [Mg2+(OH)-]+ complex and
+    leaves the site free for further water dissociation. This offers an
+    elegant reinterpretation of the Mg+ controversy. The evidence is a few
+    picosecond trajectories on one kink geometry; the complex pathway was
+    obtained under steered pulling, no free-energy barriers or rates
+    support 'low barrier' and 'kinetically favourable', and the lifetime,
+    reducing power and dominance of the complex are speculative.
+  key_limitations:
+    - "No free-energy barriers or rates for the competing pathways (OBS3, CLAIM1)."
+    - "Complex pathway obtained by steered pulling in a single trajectory (OBS3)."
+    - "Lifetime and identity with experimental Mg+ untested; spectroscopy found only Mg2+ (CLAIM2)."
+    - "Single kink geometry and small cell (ASM1, METH1)."
+  missing_evidence:
+    - "Enhanced-sampling free-energy profiles for both pathways at several potentials."
+    - "Experimental detection of [MgOH]+ in the anolyte."
+    - "Statistics over multiple kink sites and independent trajectories."

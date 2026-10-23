@@ -1,0 +1,293 @@
+id: claimchain:chain/Garcia2025Information
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1007/978-3-031-94575-5_12
+  title: "Information-Aware Entity Indexing in Knowledge Graphs to Enable Semantic Search"
+  authors: [Samuel García, Carlos Bobed]
+  year: 2025
+  doi: 10.1007/978-3-031-94575-5_12
+  url: https://doi.org/10.1007/978-3-031-94575-5_12
+
+entities:
+  - {id: ent:Metrics, label: "property importance metrics ETImp, EntF and EntETImp (and weighted geometric means)", entity_type: METHOD}
+  - {id: ent:VDoc, label: "multi-field virtual documents from KMeans++ clustering of properties by importance", entity_type: METHOD}
+  - {id: ent:BM25F, label: "BM25F retrieval in Galago with linearly spaced field weights", entity_type: METHOD}
+  - {id: ent:DBpedia, label: "DBpedia-Entity v2 test collection (467 queries, 4.64 M indexed entities)", entity_type: DATA_TYPE}
+  - {id: ent:IMDb, label: "QUIRA IMDb KG (50 keyword queries)", entity_type: DATA_TYPE}
+  - {id: ent:NDCG, label: "NDCG@10 and NDCG@100", entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: garcia2025:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1-2
+    paper_part: INTRODUCTION
+    text: Entity retrieval over knowledge graphs builds fielded virtual documents per entity and ranks them with IR models such as BM25F; choosing properties, field granularity and field weights currently requires domain experts and supervised tuning on annotated query sets.
+    evidence: [{evidence_kind: CITATION, references: ["2", "3", "13", "17", "25"]}]
+  - id: garcia2025:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: No method builds multi-field KG indexes and field weights without manual analysis or annotated relevance data.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: garcia2025:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Define domain-independent importance metrics for KG properties and use them to build multi-field virtual document templates in an unsupervised way.
+    author_certainty: DEMONSTRATED
+  - id: garcia2025:AIM2
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Show empirically that the unsupervised approach reaches state-of-the-art-comparable retrieval without manual or supervised tuning (Q1) and can derive type-specific vertical indexes (Q2).
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: garcia2025:METH1
+    statement_type: METHOD
+    section: Sec. 3-4
+    paper_part: METHODS
+    text: For each property and type, ETImp weighs entity frequency by a log inverse ratio, EntF is the Shannon entropy of the property's objects, and EntETImp their product; properties are clustered by metric value with KMeans++ (k = 3 or 5) into fields ordered by centroid, globally (summed over types) or per type.
+    about: [ent:Metrics, ent:VDoc]
+  - id: garcia2025:ASM1
+    statement_type: ASSUMPTION
+    section: Sec. 4.3, 5.1
+    paper_part: METHODS
+    text: Uniformly spaced field weights (1.0, 0.66, 0.33 or 1.0 to 0.2) by centroid order suffice, with global BM25F parameters k1/b of 1.2/0.75 (default) or 0.9/0.4 (taken from supervised tuning by Hasibi et al.); for IMDb b is set to 0 because of unbalanced document lengths.
+    concerns:
+      - {concern_type: AD_HOC_PARAMETER, description: "The 0.9/0.4 setting stems from supervised tuning on the same DBpedia benchmark, and b = 0 for IMDb was chosen after inspecting the data; both enter the headline 'unsupervised' results.", priority: MEDIUM}
+  - id: garcia2025:METH2
+    statement_type: METHOD
+    section: Sec. 5.1
+    paper_part: METHODS
+    text: Sixteen global configurations (4 metric variants x 2 cluster numbers x 2 parameter pairs) are evaluated on DBpedia-Entity v2 and IMDb, plus Coordinate Ascent tuning and EMBERT reranking of the best two, and type-based templates for Person, Organisation and Place queries.
+    about: [ent:DBpedia, ent:IMDb, ent:BM25F]
+    concerns:
+      - {concern_type: OVERCLAIM, description: "The best configuration is selected on the same test queries it is reported for, which is an implicit use of relevance judgments in an approach sold as needing none.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: garcia2025:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Table 4
+    paper_part: RESULTS
+    text: On DBpedia-Entity v2 the best unsupervised configurations reach total NDCG@10 of 0.436 (default parameters) and 0.456 (0.9/0.4) and NDCG@100 up to 0.516, versus BM25 0.256/0.358, SDM 0.418/0.514 and supervised BM25F-CA 0.460/0.550.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 4"
+        values:
+          - {symbol: bm25_10, quantity: BM25 total NDCG@10, value: 0.256}
+          - {symbol: ours_def_10, quantity: best default-parameter NDCG@10, value: 0.436}
+          - {symbol: ours_best_10, quantity: best NDCG@10 with 0.9/0.4, value: 0.456}
+          - {symbol: ours_worst_10, quantity: worst configuration NDCG@10, value: 0.425}
+          - {symbol: ours_best_100, quantity: best NDCG@100, value: 0.516}
+          - {symbol: ca_10, quantity: BM25F-CA total NDCG@10, value: 0.460}
+          - {symbol: ca_100, quantity: BM25F-CA total NDCG@100, value: 0.550}
+        derived_checks:
+          - {expression: "improvement over BM25 with default parameters (stated about 70%)", formula: "(ours_def_10/bm25_10 - 1)*100", result: 70.3, unit: "%"}
+          - {expression: "improvement over BM25 with 0.9/0.4 (stated about 78%)", formula: "(ours_best_10/bm25_10 - 1)*100", result: 78.1, unit: "%"}
+          - {expression: "gap of best NDCG@10 to BM25F-CA", formula: "(1 - ours_best_10/ca_10)*100", result: 0.9, unit: "%"}
+          - {expression: "gap of best NDCG@100 to BM25F-CA (stated range 1-5%)", formula: "(1 - ours_best_100/ca_100)*100", result: 6.2, unit: "%"}
+          - {expression: "gap of worst configuration NDCG@10 to BM25F-CA", formula: "(1 - ours_worst_10/ca_10)*100", result: 7.6, unit: "%"}
+    about: [ent:NDCG, ent:DBpedia]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "The stated 1-5% gap to BM25F-CA holds for NDCG@10 of the better configurations, but the best NDCG@100 is 6.2% below and the weakest configuration 7.6% below on NDCG@10.", priority: LOW}
+  - id: garcia2025:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Table 4
+    paper_part: RESULTS
+    text: On the SemSearch-ES and ListSearch subsets the best configurations exceed BM25F-CA on NDCG@10 (0.647 vs 0.628 and 0.427 vs 0.425); significance tests are only in the repository.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 4"
+        values:
+          - {symbol: ls_ours, quantity: best ListSearch NDCG@10, value: 0.427}
+          - {symbol: ls_ca, quantity: BM25F-CA ListSearch NDCG@10, value: 0.425}
+        derived_checks:
+          - {expression: "ListSearch margin over BM25F-CA", formula: "ls_ours - ls_ca", result: 0.002}
+    about: [ent:NDCG]
+  - id: garcia2025:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Table 6
+    paper_part: RESULTS
+    text: Coordinate Ascent tuning of the best configurations changes total NDCG@10 only to 0.457-0.461 (BM25F-CA 0.460) and NDCG@100 to 0.516-0.520 (0.550); EMBERT reranking gives NDCG@10 0.496 vs 0.486 for EMBERT on BM25F-CA, with NDCG@100 0.551 vs 0.553.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Table 6"}]
+    about: [ent:NDCG]
+  - id: garcia2025:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Table 5
+    paper_part: RESULTS
+    text: On IMDb the best MAP is 0.725 versus 0.820 for QUIRA, which reranks results of manually crafted SPARQL queries; manual inspection shows descriptive actor properties assigned to the top field.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 5"
+        values:
+          - {symbol: map_ours, quantity: best MAP on IMDb, value: 0.725}
+          - {symbol: map_quira, quantity: QUIRA MAP, value: 0.820}
+    about: [ent:IMDb]
+  - id: garcia2025:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 5.2, Table 7
+    paper_part: RESULTS
+    text: Type-based templates raise NDCG@10 for Person (best 0.520 vs 0.507 global) and Organisation (0.422 vs 0.388) but stay below the global template for Place in every configuration (best 0.402 vs 0.412).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Table 7"
+        values:
+          - {symbol: org_type, quantity: best type-based Organisation NDCG@10, value: 0.422}
+          - {symbol: org_glob, quantity: best global Organisation NDCG@10, value: 0.388}
+          - {symbol: pl_type, quantity: best type-based Place NDCG@10, value: 0.402}
+          - {symbol: pl_glob, quantity: best global Place NDCG@10, value: 0.412}
+        derived_checks:
+          - {expression: "type-based Place below global Place", formula: "pl_type < pl_glob", satisfied: true}
+          - {expression: "Organisation gain", formula: "org_type - org_glob", result: 0.034}
+    about: [ent:VDoc]
+
+  # ---------------- Claims ----------------
+  - id: garcia2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 5.2, Sec. 6
+    paper_part: RESULTS
+    text: Fully unsupervised information-aware field construction rivals supervised state-of-the-art fielded retrieval on DBpedia-Entity v2 without manual analysis or annotated query sets (Q1 answered affirmatively).
+    about: [ent:Metrics, ent:VDoc]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "NDCG within a few percent of BM25F-CA on a standard benchmark means comparable retrieval quality.", warrant_basis: DOMAIN_CONVENTION}
+    assessment:
+      validity: PARTIAL
+      rationale: "NDCG@10 is within 1% of BM25F-CA and far above BM25, recomputed from Table 4; NDCG@100 stays 6% below, the IMDb MAP is well below QUIRA, and configuration and BM25 parameter choices use the test benchmark or prior supervised tuning."
+      proof_obligations:
+        - text: "Show performance without selecting the configuration on the test queries"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "NDCG@10/@100 of a configuration fixed a priori or chosen on held-out queries", method: "cross-validation over query subsets"}]
+        - text: "Show significance of the differences to BM25F-CA"
+          obligation_status: OPEN
+          priority: MEDIUM
+          requested_data: [{quantity: "paired test p-values", method: "per-query paired t-test or randomization test"}]
+  - id: garcia2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 5.2
+    paper_part: RESULTS
+    text: The approach outperforms BM25F-CA on SemSearch-ES and ListSearch, the categories closest to pure entity search.
+    about: [ent:NDCG]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The ListSearch margin is 0.002 NDCG; no significance is given in the paper.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Holds for SemSearch (0.647 vs 0.628); the ListSearch difference is negligible and untested."
+  - id: garcia2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 5.2, Sec. 6
+    paper_part: CONCLUSION
+    text: Using the unsupervised index as the base for supervised reranking increases performance over the state of the art.
+    about: [ent:BM25F]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "EMBERT on the new index beats EMBERT on BM25F-CA in NDCG@10 (0.496 vs 0.486) but not in NDCG@100 (0.551 vs 0.553); EMBERT-1st reranking worsens the 3-cluster results."
+  - id: garcia2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Sec. 5.2, Sec. 6
+    paper_part: RESULTS
+    text: Type-based metric aggregation yields locally optimized vertical indexes, showing that the metrics capture property importance in a domain-independent way (Q2 answered affirmatively).
+    about: [ent:VDoc, ent:Metrics]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "Domain independence is concluded from three DBpedia types (one of which gets worse) and one IMDb run.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Vertical indexes improve two of three types and are slightly worse for Place; domain independence beyond DBpedia and IMDb is not tested."
+  - id: garcia2025:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 5.1
+    paper_part: RESULTS
+    text: The metrics are robust to noise because misspelled DBpedia properties are implicitly assigned to the least relevant clusters.
+    about: [ent:Metrics]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Illustrated by examples without counts of noisy properties or their cluster assignment."
+  - id: garcia2025:LIM1
+    statement_type: LIMITATION
+    section: Sec. 5.2
+    paper_part: DISCUSSION
+    text: The approach does not reach BM25F-CA on NDCG@100, possibly due to indexing or text-generation differences.
+  - id: garcia2025:OUT1
+    statement_type: OUTLOOK
+    section: Sec. 6
+    paper_part: CONCLUSION
+    text: Integrate other unsupervised techniques such as message passing for QA over KGs and build evaluation sets for further KGs.
+  - id: garcia2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 6
+    paper_part: CONCLUSION
+    text: The retrieval performance of the unsupervised approach rivals systems using manually crafted index definitions and supervised machine learning, while eliminating the need for evaluation datasets.
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Restatement of CLAIM1; the configuration was still selected on the evaluation queries."
+
+relations:
+  - {id: garcia2025:R1, subject: garcia2025:BG1, predicate: MOTIVATES, object: garcia2025:GAP1, asserted_by: AUTHORS}
+  - {id: garcia2025:R2, subject: garcia2025:GAP1, predicate: MOTIVATES, object: garcia2025:AIM1, asserted_by: AUTHORS}
+  - {id: garcia2025:R3, subject: garcia2025:GAP1, predicate: MOTIVATES, object: garcia2025:AIM2, asserted_by: AUTHORS}
+  - {id: garcia2025:R4, subject: garcia2025:METH1, predicate: DELIVERS, object: garcia2025:AIM1, asserted_by: AUTHORS}
+  - {id: garcia2025:R5, subject: garcia2025:OBS1, predicate: DELIVERS, object: garcia2025:AIM2, asserted_by: AUTHORS}
+  - {id: garcia2025:R6, subject: garcia2025:CLAIM1, predicate: DELIVERS, object: garcia2025:AIM2, asserted_by: AUTHORS}
+  - {id: garcia2025:R7, subject: garcia2025:CLAIM4, predicate: DELIVERS, object: garcia2025:AIM2, asserted_by: AUTHORS}
+  - {id: garcia2025:R8, subject: garcia2025:CLAIM4, predicate: DELIVERS, object: garcia2025:AIM1, asserted_by: AUTHORS}
+  - {id: garcia2025:R9, subject: garcia2025:CONC1, predicate: DELIVERS, object: garcia2025:AIM2, asserted_by: AUTHORS}
+  - {id: garcia2025:R10, subject: garcia2025:METH1, predicate: DEPENDS_ON, object: garcia2025:ASM1, asserted_by: AUTHORS}
+  - {id: garcia2025:R11, subject: garcia2025:OBS1, predicate: SUPPORTS, object: garcia2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: MET, scope_match: MET, criteria_note: "467 standard queries; configuration chosen on the test set; no significance in the paper"}}
+  - {id: garcia2025:R12, subject: garcia2025:OBS4, predicate: QUALIFIES, object: garcia2025:CLAIM1, asserted_by: ANNOTATOR, note: "IMDb MAP 0.725 vs 0.820"}
+  - {id: garcia2025:R13, subject: garcia2025:ASM1, predicate: QUALIFIES, object: garcia2025:CLAIM1, asserted_by: ANNOTATOR, note: "0.9/0.4 stems from supervised tuning"}
+  - {id: garcia2025:R14, subject: garcia2025:OBS2, predicate: SUPPORTS, object: garcia2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Subset sizes small; no significance test in paper"}}
+  - {id: garcia2025:R15, subject: garcia2025:OBS3, predicate: SUPPORTS, object: garcia2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: MET, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Gain only at @10; @100 slightly lower"}}
+  - {id: garcia2025:R16, subject: garcia2025:OBS5, predicate: SUPPORTS, object: garcia2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_APPLICABLE, scope_match: PARTLY, criteria_note: "Three types of one KG; Place worse"}}
+  - {id: garcia2025:R17, subject: garcia2025:OBS4, predicate: SUPPORTS, object: garcia2025:CLAIM4, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "manual inspection of IMDb templates"}
+  - {id: garcia2025:R18, subject: garcia2025:METH1, predicate: SUPPORTS, object: garcia2025:CLAIM5, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: garcia2025:R19, subject: garcia2025:LIM1, predicate: QUALIFIES, object: garcia2025:CLAIM1, asserted_by: AUTHORS}
+  - {id: garcia2025:R20, subject: garcia2025:CONC1, predicate: RESTATES, object: garcia2025:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: garcia2025:R21, subject: garcia2025:OBS1, predicate: SUPPORTS, object: garcia2025:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: LOW}
+  - {id: garcia2025:R22, subject: garcia2025:CLAIM1, predicate: ANSWERS, object: garcia2025:GAP1, asserted_by: AUTHORS}
+  - {id: garcia2025:R23, subject: garcia2025:LIM1, predicate: MOTIVATES, object: garcia2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    The paper defines entropy- and frequency-based property importance
+    metrics, clusters KG properties into BM25F fields without supervision
+    and evaluates the resulting entity search on DBpedia-Entity v2 and
+    IMDb. The headline numbers recompute from Table 4 (about 70-78% over
+    BM25, NDCG@10 within 1% of supervised BM25F-CA), and the comparison
+    with tuned and reranked variants is thorough. The 'fully
+    unsupervised' framing is weakened by choosing the best of sixteen
+    configurations on the test queries and by BM25 parameters taken from
+    supervised tuning; NDCG@100 remains 6% below BM25F-CA, the IMDb MAP is
+    below QUIRA, vertical indexes do not help for Place, and significance
+    tests are deferred to the repository.
+  key_limitations:
+    - "Configuration selected on the test benchmark (METH2, CLAIM1)."
+    - "BM25 parameters 0.9/0.4 come from supervised tuning (ASM1)."
+    - "NDCG@100 gap of 6% and IMDb MAP below QUIRA (OBS1, OBS4)."
+    - "Domain independence inferred from two KGs and three types (CLAIM4)."
+  missing_evidence:
+    - "Cross-validated configuration choice on held-out queries."
+    - "Per-query significance tests reported in the paper."
+    - "Evaluation on a third KG from a different domain."

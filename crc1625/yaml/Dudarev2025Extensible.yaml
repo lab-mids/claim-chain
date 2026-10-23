@@ -1,0 +1,235 @@
+id: claimchain:chain/Dudarev2025Extensible
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1038/s41524-025-01618-1
+  title: "An extensible open-source solution for research digitalisation in materials science"
+  authors: [Victor Dudarev, Lars Banko, Alfred Ludwig]
+  year: 2025
+  doi: 10.1038/s41524-025-01618-1
+  url: https://doi.org/10.1038/s41524-025-01618-1
+
+entities:
+  - {id: ent:MatInf, label: "MatInf research data management system (ASP.Net Core, SQL Server)", entity_type: METHOD}
+  - {id: ent:UDT, label: "user-defined object types delegated to external validation, import and visualisation services via REST API", entity_type: CONCEPT}
+  - {id: ent:MatModel, label: "set-theoretic model of material system, material and modification", entity_type: CONCEPT}
+  - {id: ent:RDMS, label: "existing RDMS and ELNs (NOMAD, Kadi4mat, Chemotion, eLabFTW, openBIS)", entity_type: METHOD}
+  - {id: ent:HTE, label: "high-throughput thin-film materials library workflows", entity_type: TECHNIQUE}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: dudarev2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Data-driven materials science requires managing heterogeneous data, from proprietary binary instrument files to structured XML, JSON or CSV.
+    evidence: [{evidence_kind: CITATION, references: ["1", "2"]}]
+  - id: dudarev2025:GAP1
+    statement_type: GAP
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Existing open-source ELNs lack user-defined data types and materials search, and NFDI research data management systems (NOMAD, Kadi4mat, Chemotion) do not natively support combinatorial thin-film high-throughput workflows or object enrichment when new objects are added.
+    evidence: [{evidence_kind: ARGUMENT}]
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The comparison with existing systems is asserted without a feature table or reproducible criteria, although usability testing and design reviews are said to have been performed.", priority: MEDIUM}
+  - id: dudarev2025:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Develop a high-level metadata model for materials data and implement it in an open-source, extensible system based on user-defined data types.
+    author_certainty: DEMONSTRATED
+  - id: dudarev2025:AIM2
+    statement_type: AIM
+    section: Introduction, Abstract
+    paper_part: INTRODUCTION
+    text: Demonstrate the system for heterogeneous materials data, in particular high-throughput experimentation, and show that it adapts to any materials laboratory and suits multi-lab collaborations.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Results / Methods (design) ----------------
+  - id: dudarev2025:DEF1
+    statement_type: DEFINITION
+    section: Results, Methods
+    paper_part: METHODS
+    text: A material system is a set of elements, a material is a set of (element, amount) pairs, and a modification is a string for phase or form; these are first-class tables (Sample, Composition) derived from a root ObjectInfo class.
+    about: [ent:MatModel]
+  - id: dudarev2025:METH1
+    statement_type: METHOD
+    section: Results, Figs. 1-3
+    paper_part: METHODS
+    text: MatInf stores strongly typed objects in a relational database with type-dependent property tables (int, float, string) supporting hierarchical names and sparse virtual tables, directed object links forming a graph, multi-tenancy, and role- and access-level-based permissions.
+    about: [ent:MatInf]
+  - id: dudarev2025:METH2
+    statement_type: METHOD
+    section: Results, Fig. 1
+    paper_part: METHODS
+    text: Validation, data import and visualisation of new file types are delegated to built-in interface implementations or external web services that return standardized JSON according to an OpenAPI specification.
+    about: [ent:UDT]
+  - id: dudarev2025:OBS1
+    statement_type: OBSERVATION
+    section: Results
+    paper_part: RESULTS
+    text: The access-control description states that objects have one of three access levels but lists four (Public, Protected, ProtectedNDA, Private).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Sec. Defining requirements"}]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "Three access levels announced, four listed; the ObjectInfo description also lists four.", priority: LOW}
+  - id: dudarev2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Figs. 4-5
+    paper_part: RESULTS
+    text: Screenshots show colour-coded composition maps of a quaternary materials library and a property-range search (Ga 40-60%, any As, band gap 2-2.1 eV).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Figs. 4, 5"}]
+    about: [ent:HTE, ent:MatInf]
+    scope: {sample_count: 1, scope_note: one library visualisation and one search example}
+
+  # ---------------- Claims ----------------
+  - id: dudarev2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Results, Discussion
+    paper_part: DISCUSSION
+    text: Delegating type handling to external services lets MatInf process files of any format "with equal success", giving it considerable versatility for heterogeneous data.
+    about: [ent:UDT]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "If unknown formats are parsed by external services returning a standard schema, the core system needs no change to support them.", warrant_basis: AUTHOR_ARGUMENT}
+    assessment:
+      validity: PARTIAL
+      rationale: "The architecture makes extensibility plausible by construction, but no implemented external type service, number of supported formats or example of adding a new type is reported."
+      missing_evidence:
+        - "List of user-defined types and external services in production use, with development effort per type"
+  - id: dudarev2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Introduction
+    paper_part: INTRODUCTION
+    text: MatInf can easily be adapted to any materials science laboratory, is especially useful for collaborative multi-lab projects, and is already used successfully in several tenants by distributed teams.
+    about: [ent:MatInf]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: OVERCLAIM, description: "No usage data (number of tenants, users, objects, labs), adoption effort or user study is reported; usability testing is mentioned but its results are not.", priority: HIGH}
+      - {concern_type: OVERGENERALIZATION, description: "'Any laboratory' is generalized from in-house use in one group and its collaborations.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "The paper contains no data on deployments, adaptation effort or user experience; the claim rests on author statements."
+      proof_obligations:
+        - text: "Report deployments and adaptation effort"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "tenants, users, stored objects and new types per lab", method: "usage statistics from the production instances"}]
+        - text: "Report the usability tests mentioned in the introduction"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "task completion and satisfaction scores", method: "user study"}]
+  - id: dudarev2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Close interaction between objects, such as enriching existing objects when new ones are added, is unavailable in other systems, and no fully open-source extensible system covering simulated and experimental data is known.
+    about: [ent:RDMS]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "No systematic comparison of features against NOMAD, Kadi4mat, Chemotion or openBIS is presented."
+  - id: dudarev2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: RESULTS
+    text: The ASP.Net Core and SQL Server architecture has proven high performance and reliability, and the access-control scheme has minimal overhead.
+    about: [ent:MatInf]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "No load, latency or uptime figures; the 100k-object threshold for switching to derived tables is given without measurements.", priority: MEDIUM}
+    assessment:
+      validity: INCONCLUSIVE
+      rationale: "Asserted without any benchmark."
+  - id: dudarev2025:CLAIM5
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Fig. 4-5
+    paper_part: RESULTS
+    text: MatInf supports materials-library visualisation and type-aware property search with shareable persistent search URLs for high-throughput experimentation data.
+    about: [ent:HTE]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "YES"
+      rationale: "Shown by screenshots and backed by the public playground and source code."
+  - id: dudarev2025:OUT1
+    statement_type: OUTLOOK
+    section: Results
+    paper_part: CONCLUSION
+    text: Next steps are tenant customisation and an API for direct data input from measurement devices, enabling automated data collection, and building a community around user-defined type services.
+
+  - id: dudarev2025:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "Delegating type handling to external services lets MatInf process files of any format \"with equal success\", giving it considerable versatility for heterogeneous data."
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "PARTIAL"
+      rationale: "Restatement of CLAIM1 in the conclusion; verdict as there."
+  - id: dudarev2025:CONC2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Conclusion
+    paper_part: CONCLUSION
+    text: "MatInf can easily be adapted to any materials science laboratory, is especially useful for collaborative multi-lab projects, and is already used successfully in several tenants by distributed teams."
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: "INCONCLUSIVE"
+      rationale: "Restatement of CLAIM2 in the conclusion; verdict as there."
+
+relations:
+  - {id: dudarev2025:R1, subject: dudarev2025:BG1, predicate: MOTIVATES, object: dudarev2025:GAP1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R2, subject: dudarev2025:GAP1, predicate: MOTIVATES, object: dudarev2025:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R3, subject: dudarev2025:GAP1, predicate: MOTIVATES, object: dudarev2025:AIM2, asserted_by: AUTHORS}
+  - {id: dudarev2025:R4, subject: dudarev2025:DEF1, predicate: DELIVERS, object: dudarev2025:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R5, subject: dudarev2025:METH1, predicate: DELIVERS, object: dudarev2025:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R6, subject: dudarev2025:METH2, predicate: DELIVERS, object: dudarev2025:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R7, subject: dudarev2025:CLAIM1, predicate: DELIVERS, object: dudarev2025:AIM1, asserted_by: AUTHORS}
+  - {id: dudarev2025:R8, subject: dudarev2025:OBS2, predicate: DELIVERS, object: dudarev2025:AIM2, asserted_by: AUTHORS}
+  - {id: dudarev2025:R9, subject: dudarev2025:CLAIM5, predicate: DELIVERS, object: dudarev2025:AIM2, asserted_by: AUTHORS}
+  - {id: dudarev2025:R10, subject: dudarev2025:CLAIM2, predicate: DELIVERS, object: dudarev2025:AIM2, asserted_by: AUTHORS}
+  - {id: dudarev2025:R11, subject: dudarev2025:METH2, predicate: SUPPORTS, object: dudarev2025:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: PARTLY, sufficiency: PARTLY, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Design description, no implemented external type service shown"}}
+  - {id: dudarev2025:R12, subject: dudarev2025:METH1, predicate: SUPPORTS, object: dudarev2025:CLAIM1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: dudarev2025:R13, subject: dudarev2025:OBS2, predicate: SUPPORTS, object: dudarev2025:CLAIM5, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: STRONG, uncertainty: LOW, link_criteria: {directness: MET, sufficiency: MET, controls: NOT_APPLICABLE, alternatives: NOT_APPLICABLE, scope_match: MET, criteria_note: "Feature existence shown by screenshots and public instance"}}
+  - {id: dudarev2025:R14, subject: dudarev2025:METH1, predicate: SUPPORTS, object: dudarev2025:CLAIM2, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH, note: "multi-tenancy enables but does not demonstrate adoption"}
+  - {id: dudarev2025:R15, subject: dudarev2025:GAP1, predicate: SUPPORTS, object: dudarev2025:CLAIM3, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: WEAK, uncertainty: HIGH}
+  - {id: dudarev2025:R16, subject: dudarev2025:CLAIM1, predicate: MOTIVATES, object: dudarev2025:OUT1, asserted_by: AUTHORS}
+
+  - {id: dudarev2025:R17, subject: dudarev2025:CONC1, predicate: RESTATES, object: dudarev2025:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: dudarev2025:R18, subject: dudarev2025:CONC2, predicate: RESTATES, object: dudarev2025:CLAIM2, asserted_by: ANNOTATOR}
+
+paper_assessment:
+  overall_validity: WEAK
+  summary: >-
+    A system description of MatInf, an open-source research data
+    management system with a set-theoretic materials model, typed
+    extensible properties, an object graph and delegation of new file
+    types to external services. The design is described clearly, and the
+    visualisation and search features are shown and publicly accessible.
+    The evaluative claims - adaptability to any lab, successful use in
+    several tenants, superiority over existing RDMS, high performance -
+    are not backed by any usage data, benchmark, user study or feature
+    comparison, and the access-control text announces three levels but
+    lists four.
+  key_limitations:
+    - "No deployment or usability data behind adaptability claims (CLAIM2)."
+    - "No systematic comparison with NOMAD, Kadi4mat, Chemotion, openBIS (CLAIM3, GAP1)."
+    - "No performance benchmark (CLAIM4)."
+    - "No implemented external type service demonstrated (CLAIM1)."
+  missing_evidence:
+    - "Usage statistics of production tenants and adaptation effort per lab."
+    - "Feature comparison table against existing RDMS."
+    - "Worked example of adding a new data type via an external service."

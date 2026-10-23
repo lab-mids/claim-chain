@@ -1,0 +1,215 @@
+id: claimchain:chain/Adofo2026Impact
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures and SI judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1002/smll.202510517
+  title: "Impact of Structural Heterogeneities in Hierarchically Grown Microribbons on 2D WS2 Monolayer on the Measured Local Hydrogen Evolution Activity on Au Substrate"
+  authors: [Laud Anim Adofo, Alejandro E. Pérez Mendoza, Miran Joo, Lithin Madayan-Banatheth, Andrew Ben-Smith, Ki Kang Kim, Christina Scheu, Corina Andronescu]
+  year: 2026
+  doi: 10.1002/smll.202510517
+  url: https://doi.org/10.1002/smll.202510517
+
+entities:
+  - {id: ent:WS2, label: "molten-salt CVD WS2 monolayer with homoepitaxial 1L and multilayer microribbons, PMMA-transferred onto Au/SiO2/Si", entity_type: MATERIAL}
+  - {id: ent:SECCM, label: "SECCM hopping-mode LSVs in 0.1 M HClO4 (54 nm and 118 nm pipettes; 33,768 and 3,696 points)", entity_type: TECHNIQUE}
+  - {id: ent:Spec, label: "Raman and PL mapping, AFM, HR-(S)TEM, KPFM", entity_type: TECHNIQUE}
+  - {id: ent:Regions, label: "edges, monolayer basal plane, 1L and multilayer microribbons", entity_type: CONCEPT}
+  - {id: ent:VCT, label: "vertical (interlayer) charge transport from the Au substrate", entity_type: CONCEPT}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: adofo2026:BG1
+    statement_type: BACKGROUND
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: SECCM on TMDs shows edges, grain boundaries and cracks to be more HER-active than the basal plane, while the effect of layer number is debated (no difference in some SECCM studies, about 4.5-fold drop per MoS2 layer in macroscopic studies); metallic substrates such as Au enhance TMD HER activity.
+    evidence: [{evidence_kind: CITATION, references: ["15-27", "31", "32"]}]
+  - id: adofo2026:GAP1
+    statement_type: GAP
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: The influence of microribbons formed during molten-salt CVD on the local HER activity of the underlying TMD monolayer is poorly understood.
+    evidence: [{evidence_kind: ARGUMENT}]
+  - id: adofo2026:AIM1
+    statement_type: AIM
+    section: Sec. 1
+    paper_part: INTRODUCTION
+    text: Spatially resolve HER activity of WS2 monolayers decorated with microribbons by SECCM correlated with Raman, PL, TEM, AFM and KPFM, and explain the thickness dependence.
+    author_certainty: DEMONSTRATED
+
+  # ---------------- Methods ----------------
+  - id: adofo2026:METH1
+    statement_type: METHOD
+    section: Sec. 2.2, Sec. 4
+    paper_part: METHODS
+    text: WS2 is grown by NaCl-assisted CVD, transferred by PMMA wet transfer onto Au/SiO2/Si and annealed at 300 °C in forming gas; SECCM LSVs are recorded under Ar in 0.1 M HClO4 with a two-electrode Ag/AgCl QRCE; regions are classified manually from the current map or by Raman E2g intensity after interpolation to the SECCM grid; current densities are obtained by normalizing to the pipette size.
+    about: [ent:SECCM, ent:WS2]
+    concerns:
+      - {concern_type: CONFOUNDED_COMPARISON, description: "In the first map the edge, basal and ribbon classes are assigned by visual inspection of the current map itself, so the class statistics are partly circular.", priority: MEDIUM}
+
+  # ---------------- Results ----------------
+  - id: adofo2026:OBS1
+    statement_type: OBSERVATION
+    section: Sec. 2.1, 2.3, Figs. 1, 3
+    paper_part: RESULTS
+    text: AFM shows a 0.7 nm monolayer with 2-5 µm wide, up to 120 µm long microribbons 0.7-4 nm high; Raman intensity increases and PL is quenched and red-shifted (618 to 635-640 nm) in ribbons; HR-TEM shows a moiré from two layers rotated by 18° in a 1L microribbon.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Figs. 1, 3"}]
+    about: [ent:Spec, ent:WS2]
+  - id: adofo2026:OBS2
+    statement_type: OBSERVATION
+    section: Sec. 2.2, Fig. 2, Figs. S4-S5
+    paper_part: RESULTS
+    text: With the 54 nm pipette (168 x 201 points) the averaged currents at -0.58 V are -1480 pA at edges, -741 pA on the monolayer basal plane and -130 pA on microribbons, stated as -80.4, -38.6 and -6.6 A/cm2; enhanced activity extends about 2 µm from edges; the edge current is called about twice the basal plane and almost fifteen times the ribbons.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 2d, Fig. S5"
+        values:
+          - {symbol: i_edge, quantity: averaged edge current at -0.58 V, value: 1480, unit: pA}
+          - {symbol: i_basal, quantity: averaged basal current at -0.58 V, value: 741, unit: pA}
+          - {symbol: i_rib, quantity: averaged microribbon current at -0.58 V, value: 130, unit: pA}
+          - {symbol: d_pip, quantity: pipette inner diameter, value: 54, unit: nm}
+          - {symbol: j_edge, quantity: stated edge current density, value: 80.4, unit: A cm-2}
+        derived_checks:
+          - {expression: "edge/basal current ratio (stated about 2)", formula: "i_edge/i_basal", result: 2.0}
+          - {expression: "edge/microribbon current ratio (stated almost 15)", formula: "i_edge/i_rib", result: 11.4}
+          - {expression: "edge current density from the 54 nm pipette opening", formula: "i_edge*1e-12/(3.14159*(d_pip*1e-7/2)**2)", result: 64.6, unit: A cm-2}
+    about: [ent:SECCM, ent:Regions]
+    concerns:
+      - {concern_type: ARITHMETIC, description: "The edge-to-ribbon ratio is 11.4, not 'almost fifteen'; the stated current densities imply a normalization area different from the 54 nm opening without explanation.", priority: LOW}
+  - id: adofo2026:OBS3
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 4, Fig. S8, Fig. S12
+    paper_part: RESULTS
+    text: With the 118 nm pipette and Raman-based classes, currents at -0.58 V are -3200 pA (monolayer), -635 pA (1L ribbon) and -330 pA (ML ribbon), stated as -25.2, -4.3 and -2.3 A/cm2; the ordering persists at pH 3 (-45, -30 pA and negligible).
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 4c, Fig. S8"
+        values:
+          - {symbol: i_ml, quantity: monolayer current, value: 3200, unit: pA}
+          - {symbol: i_1l, quantity: 1L ribbon current, value: 635, unit: pA}
+          - {symbol: i_mlr, quantity: multilayer ribbon current, value: 330, unit: pA}
+          - {symbol: j_ml, quantity: stated monolayer current density, value: 25.2, unit: A cm-2}
+          - {symbol: j_1l, quantity: stated 1L ribbon current density, value: 4.3, unit: A cm-2}
+          - {symbol: j_mlr, quantity: stated multilayer ribbon current density, value: 2.3, unit: A cm-2}
+        derived_checks:
+          - {expression: "monolayer/1L current ratio (stated over 5-fold)", formula: "i_ml/i_1l", result: 5.04}
+          - {expression: "monolayer/ML current ratio (stated 10-fold)", formula: "i_ml/i_mlr", result: 9.7}
+          - {expression: "implied normalization area monolayer", formula: "i_ml*1e-12/j_ml", result: 1.27e-10, unit: cm2}
+          - {expression: "implied normalization area 1L ribbon", formula: "i_1l*1e-12/j_1l", result: 1.48e-10, unit: cm2}
+    about: [ent:SECCM, ent:Regions]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The stated current densities imply different normalization areas for different regions (1.27e-10 vs 1.48e-10 cm2) although one pipette was used, so current and density ratios differ (5.0 vs 5.9; 9.7 vs 11).", priority: LOW}
+  - id: adofo2026:CLAIM1
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.2, Sec. 3
+    paper_part: RESULTS
+    text: Monolayer WS2 edges are about twice as active as the basal plane, and single- and multilayer microribbons suppress HER activity by over 5- and 10-fold relative to the monolayer basal plane.
+    about: [ent:Regions]
+    claim_modality: COMPARATIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Large numbers of local LSVs give a consistent ordering edge > basal > 1L > ML across two pipettes and two pH values, and the factors 2, 5 and about 10 recompute from the currents; the absolute comparison depends on Au access at edges and transfer quality, which are not controlled (see CLAIM2)."
+  - id: adofo2026:OBS4
+    statement_type: OBSERVATION
+    section: Sec. 2.4, Fig. 5, Table 1, Figs. S9-S11
+    paper_part: RESULTS
+    text: Within the monolayer, current correlates linearly with PL peak position and inversely with Raman A1g and E2g intensities; low-PL regions (edge region B, A) are more active than high-PL inner regions (C, D).
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5, Figs. S9-S11, Table 1"}]
+    about: [ent:Spec, ent:SECCM]
+  - id: adofo2026:OBS5
+    statement_type: OBSERVATION
+    section: Sec. 2.5, Fig. 6
+    paper_part: RESULTS
+    text: KPFM gives work functions of about 5.18 eV (monolayer), 5.35 eV (1L ribbon) and 5.45 eV (ML ribbon) against a 5.12 eV Au reference, measured in ambient air.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 6"}]
+    about: [ent:Spec]
+  - id: adofo2026:CLAIM2
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Sec. 2.5, Sec. 3
+    paper_part: DISCUSSION
+    text: The high monolayer activity results from charge injection from the Au substrate, and the suppressed microribbon activity from interlayer van der Waals coupling and sluggish vertical charge transport that limits electron delivery to surface sites.
+    about: [ent:VCT, ent:WS2]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    concerns:
+      - {concern_type: CAUSAL_OVERREACH, description: "The vertical-transport mechanism is inferred from ambient KPFM work functions and literature; no measurement of interlayer resistance or of activity on a non-metallic substrate tests it.", priority: HIGH}
+      - {concern_type: UNADDRESSED_COUNTEREVIDENCE, description: "Activity at A/cm2 scale near edges and in a 2 µm zone could stem from partial droplet contact with exposed, highly HER-active Au at edges, cracks or pinholes of the transferred monolayer; no bare-Au reference current or pinhole analysis is given.", priority: HIGH}
+    assessment:
+      validity: WEAK
+      rationale: "The thickness trend is consistent with reduced vertical transport, but Au exposure at edges and defects is an untested alternative, and the mechanistic link from work function to transport is argued rather than measured."
+      proof_obligations:
+        - text: "Exclude direct Au contribution at edges and defects"
+          obligation_status: OPEN
+          priority: CRITICAL
+          requested_data: [{quantity: "SECCM current on bare Au and on WS2 transferred onto an inert substrate (e.g. glassy carbon or HOPG)", unit: pA, method: "same SECCM protocol"}]
+  - id: adofo2026:CLAIM3
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 2.4
+    paper_part: DISCUSSION
+    text: Within the monolayer, tensile strain and defects (lower PL intensity, red-shifted PL) enhance HER activity, and edge-induced strain extends into the adjacent basal plane.
+    about: [ent:Spec, ent:SECCM]
+    claim_modality: CAUSAL
+    author_certainty: PROPOSED
+    assessment:
+      validity: WEAK
+      rationale: "PL/Raman-current correlations are shown, but PL intensity and position also depend on Au-induced quenching and doping, and strain is not measured independently."
+  - id: adofo2026:CONC1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Sec. 3
+    paper_part: CONCLUSION
+    text: Edges are most active; monolayer basal planes reach -25.2 A/cm2, about 5-fold above 1L and over 10-fold above multilayer microribbons, because of enhanced substrate charge transfer to the monolayer and poor interlayer charge transport in ribbons.
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: WEAK
+      rationale: "Restates CLAIM1 (partial) and CLAIM2 (weak)."
+
+relations:
+  - {id: adofo2026:R1, subject: adofo2026:BG1, predicate: MOTIVATES, object: adofo2026:GAP1, asserted_by: AUTHORS}
+  - {id: adofo2026:R2, subject: adofo2026:GAP1, predicate: MOTIVATES, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R3, subject: adofo2026:METH1, predicate: DELIVERS, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R4, subject: adofo2026:OBS3, predicate: DELIVERS, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R5, subject: adofo2026:CLAIM1, predicate: DELIVERS, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R6, subject: adofo2026:CLAIM2, predicate: DELIVERS, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R7, subject: adofo2026:CONC1, predicate: DELIVERS, object: adofo2026:AIM1, asserted_by: AUTHORS}
+  - {id: adofo2026:R8, subject: adofo2026:OBS2, predicate: SUPPORTS, object: adofo2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Many points; classes from the current map itself; Au access not excluded"}}
+  - {id: adofo2026:R9, subject: adofo2026:OBS3, predicate: SUPPORTS, object: adofo2026:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: MET, controls: PARTLY, alternatives: PARTLY, scope_match: MET, criteria_note: "Independent Raman classification; one flake; two pH values"}}
+  - {id: adofo2026:R10, subject: adofo2026:OBS5, predicate: SUPPORTS, object: adofo2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH, essential: true, link_criteria: {directness: NOT_MET, sufficiency: PARTLY, controls: PARTLY, alternatives: NOT_MET, scope_match: PARTLY, criteria_note: "Ambient work function as proxy for vertical transport under electrolyte"}}
+  - {id: adofo2026:R11, subject: adofo2026:OBS3, predicate: SUPPORTS, object: adofo2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM}
+  - {id: adofo2026:R12, subject: adofo2026:OBS2, predicate: ALTERNATIVE_EXPLANATION_FOR, object: adofo2026:CLAIM2, asserted_by: ANNOTATOR_BACKGROUND, note: "edge-zone enhancement compatible with droplet contact to exposed Au"}
+  - {id: adofo2026:R13, subject: adofo2026:OBS4, predicate: SUPPORTS, object: adofo2026:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: adofo2026:R14, subject: adofo2026:CONC1, predicate: RESTATES, object: adofo2026:CLAIM1, asserted_by: ANNOTATOR}
+  - {id: adofo2026:R15, subject: adofo2026:OBS3, predicate: SUPPORTS, object: adofo2026:CONC1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: adofo2026:R16, subject: adofo2026:OBS1, predicate: SUPPORTS, object: adofo2026:CLAIM2, asserted_by: AUTHORS, support_basis: QUALITATIVE, support_strength: WEAK, uncertainty: MEDIUM, note: "thickness and interlayer twist of ribbons"}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    Tens of thousands of SECCM voltammograms on a CVD WS2 monolayer with
+    microribbons on Au, correlated with Raman, PL, TEM, AFM and KPFM,
+    establish a robust local activity ordering (edges > monolayer basal
+    plane > 1L ribbon > multilayer ribbon) across two pipette sizes and
+    two pH values; the 2-, 5- and 10-fold factors recompute from the
+    currents. The mechanism - Au charge injection into the monolayer and
+    poor vertical transport through ribbons - rests on ambient KPFM and
+    literature, and the obvious alternative that edge and defect regions
+    let the droplet reach highly active Au is not tested by a bare-Au or
+    inert-substrate reference. The first map's classes are drawn from the
+    current map itself, the edge/ribbon ratio is 11 rather than 15, and
+    current densities use inconsistent normalization areas.
+  key_limitations:
+    - "No bare-Au or inert-substrate control for Au contribution (CLAIM2)."
+    - "Transport mechanism inferred from ambient work functions (CLAIM2)."
+    - "Circular classification in the first map (METH1)."
+    - "Minor arithmetic and normalization inconsistencies (OBS2, OBS3)."
+  missing_evidence:
+    - "SECCM on bare Au and on WS2 on HOPG or glassy carbon."
+    - "Local conductance (C-AFM) through 1L and ML ribbons."
+    - "Repeat on several flakes."

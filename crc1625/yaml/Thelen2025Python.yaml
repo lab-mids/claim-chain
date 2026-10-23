@@ -1,0 +1,229 @@
+id: claimchain:chain/Thelen2025Python
+schema_version: 0.6.0
+annotator: Claude Opus 5.5 (Claude Code, manual encoding from the PDF text; figures judged from captions and text)
+annotation_date: '2026-10-22'
+publication:
+  id: doi:10.1016/j.surfcoat.2025.131998
+  title: "A Python-Based Approach to Sputter Deposition Simulations in Combinatorial Materials Science"
+  authors: [Felix Thelen, Rico Zehl, Jan Lukas Bürgel, Diederik Depla, Alfred Ludwig]
+  year: 2025
+  doi: 10.1016/j.surfcoat.2025.131998
+  url: https://doi.org/10.1016/j.surfcoat.2025.131998
+
+entities:
+  - {id: ent:pySIMTRA, label: "pySIMTRA Python wrapper around the SIMTRA Monte Carlo sputter transport code", entity_type: METHOD}
+  - {id: ent:Libs, label: "seven Ni-Pd-Pt-Ru thin-film materials libraries (six quaternary, one ternary) on 100 mm sapphire", entity_type: MATERIAL}
+  - {id: ent:EDS, label: "EDS composition mapping, 342 areas per library, nominal accuracy ±1 at.%", entity_type: TECHNIQUE}
+  - {id: ent:Rate, label: "power-to-sputter-rate calibration by profilometry on lift-off patterns", entity_type: METHOD}
+  - {id: ent:dE, label: "normalized Euclidean distance between measured and simulated compositions", entity_type: QUANTITY}
+  - {id: ent:Tilt, label: cathode tilt angle, entity_type: QUANTITY}
+
+statements:
+
+  # ---------------- Introduction ----------------
+  - id: thelen2025:BG1
+    statement_type: BACKGROUND
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Combinatorial co-sputtering produces composition-gradient libraries, but planning libraries in multinary spaces from a single sputter-rate measurement with a linear power-rate assumption is not accurate enough; Monte Carlo transport codes such as SIMTRA can predict deposition profiles but handle one cathode at a time.
+    evidence: [{evidence_kind: CITATION, references: ["1-13"]}]
+  - id: thelen2025:AIM1
+    statement_type: AIM
+    section: Introduction
+    paper_part: INTRODUCTION
+    text: Provide a Python wrapper that simulates multi-cathode co-sputtering with SIMTRA in parallel and validate it against measured compositions of seven Ni-Pd-Pt-Ru libraries.
+
+  # ---------------- Methods ----------------
+  - id: thelen2025:METH1
+    statement_type: METHOD
+    section: Methods, Fig. 1
+    paper_part: METHODS
+    text: pySIMTRA represents chamber, magnetrons and dummy objects as Python classes, splits an n-cathode system into n single-cathode SIMTRA runs executed in parallel, and merges the outputs.
+    about: [ent:pySIMTRA]
+  - id: thelen2025:ASM1
+    statement_type: ASSUMPTION
+    section: Methods
+    paper_part: METHODS
+    text: Splitting into single-cathode runs assumes no cross-deposition between cathodes; it is expected to be minimal due to the cathode chimneys.
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "The absence of cross-contamination between cathodes is asserted from source design, not measured.", priority: LOW}
+  - id: thelen2025:ASM2
+    statement_type: ASSUMPTION
+    section: Methods, Results
+    paper_part: METHODS
+    text: Sputter rate is linear in power between two calibration points per element, arriving particle fractions convert to composition using nominal bulk density and atomic mass, and energy and angular distributions are independent (cosine angular, Thompson energy distribution).
+    concerns:
+      - {concern_type: UNTESTED_ASSERTION, description: "Linearity is fixed by only two power points per element; film density of sputtered films is acknowledged to differ from bulk and to vary across a library.", priority: MEDIUM}
+  - id: thelen2025:METH2
+    statement_type: METHOD
+    section: Methods, Figs. 2-4, Table 1
+    paper_part: METHODS
+    text: Racetracks of 16 targets were measured with a modified four-point-probe stage; the AJA Polaris chamber was modelled from confidential manufacturer drawings; sputter rates were calibrated at 5/35 W (DC) and 7/30-60 W (RF) by profilometry on films up to about 100 nm, and about 1e7 particles were simulated per cathode.
+    about: [ent:Rate, ent:pySIMTRA]
+    concerns:
+      - {concern_type: REPRODUCIBILITY, description: "Chamber dimensions cannot be disclosed, so the geometry model cannot be independently reproduced.", priority: MEDIUM}
+  - id: thelen2025:DEF1
+    statement_type: DEFINITION
+    section: Results
+    paper_part: RESULTS
+    text: Accuracy is the Euclidean distance between measured and simulated compositions, divided by sqrt(2) so that the maximum distance between two pure elements equals 100%.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Sec. Results"
+        values:
+          - {symbol: dmax, quantity: distance between two pure elements, value: 141.42, unit: at.%}
+        derived_checks:
+          - {expression: "normalized maximum distance", formula: "dmax/2**0.5", result: 100, unit: "%"}
+    about: [ent:dE]
+
+  # ---------------- Results ----------------
+  - id: thelen2025:OBS1
+    statement_type: OBSERVATION
+    section: Results, Fig. 5, Fig. 6a
+    paper_part: RESULTS
+    text: For six libraries the mean normalized Euclidean distance is below 5% with a maximum of 9%; the equiatomic library agrees best.
+    evidence: [{evidence_kind: DATA_QUANTITATIVE, locator: "Fig. 5"}]
+    about: [ent:dE, ent:Libs]
+  - id: thelen2025:OBS2
+    statement_type: OBSERVATION
+    section: Results, Fig. 6b
+    paper_part: RESULTS
+    text: The Ni-rich library deviates with a mean of 7.5% and maximum 18%; measured Pd is 0.9-1.2 at.% vs 2.2-3.8 at.% simulated, and omitting the Pd cathode reduces the mean distance to 3%; the Pd cathode at 7 W RF was observed to be unstable and occasionally switched off.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 5, Fig. 6b"
+        values:
+          - {symbol: d_ni, quantity: mean distance Ni-rich library, value: 7.5, unit: "%"}
+          - {symbol: d_ni_nopd, quantity: mean distance Ni-rich without Pd, value: 3, unit: "%"}
+    about: [ent:Libs, ent:dE]
+  - id: thelen2025:CLAIM1
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results
+    paper_part: RESULTS
+    text: The Ni-rich deviation originates from an unstable, near-extinction Pd discharge rather than from the model.
+    about: [ent:Libs]
+    claim_modality: CAUSAL
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Supported by the observed cathode instability and by the improved fit without Pd; however, removing an element always lowers the distance in the dominant-Ni space, so the improvement alone is not diagnostic."
+  - id: thelen2025:OBS3
+    statement_type: OBSERVATION
+    section: Results, Fig. 7
+    paper_part: RESULTS
+    text: Element-wise distributions match closely for the equiatomic library but are shifted for libraries rich in one element, attributed to sputter-rate errors from thin calibration films (1 nm thickness error on less than 100 nm, i.e. above 1%).
+    evidence: [{evidence_kind: DATA_QUALITATIVE, locator: "Fig. 7"}]
+    about: [ent:Rate]
+  - id: thelen2025:OBS4
+    statement_type: OBSERVATION
+    section: Results, Fig. 8
+    paper_part: RESULTS
+    text: The ternary Pd-Pt-Ru library spans a 4.3% smaller compositional area than simulated; increasing the simulated tilt from 12.2 to 12.8 degrees aligns the areas, while 13.3 or 13.9 degrees underestimate Pd too much.
+    evidence:
+      - evidence_kind: DATA_QUANTITATIVE
+        locator: "Fig. 8"
+        values:
+          - {symbol: t0, quantity: nominal cathode tilt, value: 12.2, unit: deg}
+          - {symbol: t1, quantity: best-matching cathode tilt, value: 12.8, unit: deg}
+        derived_checks:
+          - {expression: "tilt deviation (stated as 0.5 degrees)", formula: "t1 - t0", result: 0.6, unit: deg}
+    about: [ent:Tilt]
+    concerns:
+      - {concern_type: INTERNAL_INCONSISTENCY, description: "The best-matching tilt differs by 0.6 degrees from the nominal, but the text concludes a tilt deviation of 0.5 degrees.", priority: LOW}
+  - id: thelen2025:CLAIM2
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Results, Conclusions
+    paper_part: DISCUSSION
+    text: Deviations between simulation and measurement can diagnose process errors such as rotational substrate offsets and incorrect cathode tilt; a tilt accuracy of about 1 degree suffices for reliable results.
+    about: [ent:Tilt]
+    claim_modality: DESCRIPTIVE
+    author_certainty: PROPOSED
+    concerns:
+      - {concern_type: OVERGENERALIZATION, description: "The 1 degree tolerance is not derived; the data show that 0.6 degrees already shifts the composition area by several percent and that 1.1 degrees underestimates Pd too much.", priority: MEDIUM}
+    assessment:
+      validity: WEAK
+      rationale: "The tilt scan shows sensitivity in one library but the tilt is fitted post hoc together with rate errors, and the 1 degree tolerance contradicts the reported sensitivity."
+  - id: thelen2025:CLAIM3
+    statement_type: CLAIM
+    claim_role: MAIN_CONCLUSION
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: pySIMTRA reliably predicts composition distributions of co-sputtered libraries with a mean Euclidean distance of 3.5%, which makes it suitable for setting process parameters in advance and reducing preliminary experiments.
+    about: [ent:pySIMTRA, ent:dE]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    warrant: {rule: "Agreement on seven libraries made with calibrated rates in one chamber transfers to planning new libraries.", warrant_basis: AUTHOR_ARGUMENT}
+    concerns:
+      - {concern_type: MISSING_QUANTIFICATION, description: "The 3.5% headline is not derived explicitly; per-library means are only shown in Fig. 5 and it is unclear whether the Ni-rich library enters with or without Pd.", priority: MEDIUM}
+      - {concern_type: OVERCLAIM, description: "All test libraries were made before the rate calibration and are compared retrospectively; no library was planned prospectively with the tool.", priority: MEDIUM}
+    assessment:
+      validity: PARTIAL
+      rationale: "Agreement of a few percent across most libraries is well documented, but the comparison is retrospective, depends on rates measured after the depositions, and two libraries need post hoc explanations (Pd instability, tilt)."
+      proof_obligations:
+        - text: "Show prospective prediction of a new library planned with pySIMTRA"
+          obligation_status: OPEN
+          priority: HIGH
+          requested_data: [{quantity: "Euclidean distance for a library deposited at simulation-chosen powers", method: "planned co-deposition and EDS mapping"}]
+  - id: thelen2025:CLAIM4
+    statement_type: CLAIM
+    claim_role: INTERMEDIATE
+    section: Abstract, Conclusions
+    paper_part: CONCLUSION
+    text: Because cathodes are simulated in parallel, multi-cathode simulations take no additional time (20-40 min per library for 2-8 cathodes depending on hardware).
+    about: [ent:pySIMTRA]
+    claim_modality: DESCRIPTIVE
+    author_certainty: DEMONSTRATED
+    assessment:
+      validity: PARTIAL
+      rationale: "Follows from independent single-cathode runs given enough cores; no timing benchmark versus cathode number is shown."
+  - id: thelen2025:LIM1
+    statement_type: LIMITATION
+    section: Results
+    paper_part: DISCUSSION
+    text: Accuracy is limited by rotational misalignment of the measurement grid, sputter-rate uncertainty, unknown thin-film density, and the independence of energy and angular distributions.
+  - id: thelen2025:OUT1
+    statement_type: OUTLOOK
+    section: Conclusions
+    paper_part: CONCLUSION
+    text: Density-independent rate determination and codes such as SDTrimSP could improve predictions toward digital twins of combinatorial libraries.
+
+relations:
+  - {id: thelen2025:R1, subject: thelen2025:BG1, predicate: MOTIVATES, object: thelen2025:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025:R2, subject: thelen2025:METH1, predicate: DEPENDS_ON, object: thelen2025:ASM1, asserted_by: AUTHORS}
+  - {id: thelen2025:R3, subject: thelen2025:METH2, predicate: DEPENDS_ON, object: thelen2025:ASM2, asserted_by: AUTHORS}
+  - {id: thelen2025:R4, subject: thelen2025:METH1, predicate: DELIVERS, object: thelen2025:CLAIM4, asserted_by: AUTHORS}
+  - {id: thelen2025:R5, subject: thelen2025:OBS1, predicate: SUPPORTS, object: thelen2025:CLAIM3, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: MEDIUM, essential: true, link_criteria: {directness: MET, sufficiency: PARTLY, controls: PARTLY, alternatives: PARTLY, scope_match: PARTLY, criteria_note: "Retrospective comparison on seven libraries in one chamber and one system"}}
+  - {id: thelen2025:R6, subject: thelen2025:OBS2, predicate: SUPPORTS, object: thelen2025:CLAIM1, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: INTERMEDIATE, uncertainty: MEDIUM}
+  - {id: thelen2025:R7, subject: thelen2025:CLAIM1, predicate: QUALIFIES, object: thelen2025:CLAIM3, asserted_by: AUTHORS, note: "the worst library is explained by process instability"}
+  - {id: thelen2025:R8, subject: thelen2025:OBS3, predicate: QUALIFIES, object: thelen2025:CLAIM3, asserted_by: AUTHORS}
+  - {id: thelen2025:R9, subject: thelen2025:OBS4, predicate: SUPPORTS, object: thelen2025:CLAIM2, asserted_by: AUTHORS, support_basis: QUANTITATIVE, support_strength: WEAK, uncertainty: HIGH}
+  - {id: thelen2025:R10, subject: thelen2025:OBS4, predicate: UNDERCUTS, object: thelen2025:CLAIM2, asserted_by: ANNOTATOR, note: "a 0.6 degree change already matters, questioning the 1 degree tolerance"}
+  - {id: thelen2025:R11, subject: thelen2025:DEF1, predicate: SUPPORTS, object: thelen2025:OBS1, asserted_by: AUTHORS, support_basis: LOGICAL, support_strength: STRONG, uncertainty: LOW}
+  - {id: thelen2025:R12, subject: thelen2025:LIM1, predicate: QUALIFIES, object: thelen2025:CLAIM3, asserted_by: AUTHORS}
+  - {id: thelen2025:R13, subject: thelen2025:CLAIM3, predicate: DELIVERS, object: thelen2025:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025:R14, subject: thelen2025:CLAIM4, predicate: DELIVERS, object: thelen2025:AIM1, asserted_by: AUTHORS}
+  - {id: thelen2025:R15, subject: thelen2025:LIM1, predicate: MOTIVATES, object: thelen2025:OUT1, asserted_by: AUTHORS}
+
+paper_assessment:
+  overall_validity: PARTIAL
+  summary: >-
+    A software paper presenting a Python wrapper that parallelizes SIMTRA
+    for multi-cathode co-sputtering, validated against EDS maps of seven
+    Ni-Pd-Pt-Ru libraries. Agreement of a few percent (normalized
+    Euclidean distance) is shown for most libraries, with plausible
+    explanations for the outliers (unstable Pd discharge, cathode tilt).
+    The validation is retrospective, uses rates calibrated after the
+    depositions and an undisclosed chamber geometry, the 3.5% headline is
+    not derived explicitly, and the recommended 1 degree tilt tolerance is
+    looser than the sensitivity the paper itself reports.
+  key_limitations:
+    - "Retrospective validation only; no prospectively planned library (CLAIM3)."
+    - "Outliers explained post hoc (CLAIM1, OBS4)."
+    - "Undisclosed chamber geometry limits reproducibility (METH2)."
+    - "Tilt tolerance and stated tilt deviation inconsistent with the scan (CLAIM2, OBS4)."
+  missing_evidence:
+    - "Prospective planning test of a new library."
+    - "Timing benchmark versus number of cathodes."
+    - "Explicit table of per-library mean distances and how 3.5% is computed."
