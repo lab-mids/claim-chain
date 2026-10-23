@@ -9,6 +9,7 @@ on:
       - 'schema/claim_chain.yaml'
       - 'examples/**'
       - 'test_papers/yaml/**'
+      - 'crc1625/yaml/**'
       - '.github/workflows/publish-book.yml'
   pull_request:
     paths:
@@ -17,6 +18,7 @@ on:
       - 'schema/claim_chain.yaml'
       - 'examples/**'
       - 'test_papers/yaml/**'
+      - 'crc1625/yaml/**'
       - '.github/workflows/publish-book.yml'
   workflow_dispatch:
 
