@@ -40,6 +40,7 @@ The website (a Jupyter Book in `docs/`) shows the tool at work on executable exa
 - [Getting started](https://lab-mids.github.io/claim-chain/00-getting-started.html)
 - [Peer review with SciLogic](https://lab-mids.github.io/claim-chain/01-peer-review.html)
 - [Finding research opportunities](https://lab-mids.github.io/claim-chain/02-research-opportunities.html)
+- [Summarizing a research project](https://lab-mids.github.io/claim-chain/03-research-project.html)
 
 To build it locally:
 
@@ -58,6 +59,7 @@ schema/claim_chain.yaml           LinkML schema: the format (v0.6)
 schema/claim_chain.schema.json    JSON Schema generated from it (e.g. for LLM structured output)
 scripts/render.py                 YAML -> readable chain, report, argument maps, one-page summary chart, scores, derived verdicts, golden thread, local checks per part, recomputed checks
 examples/<paper>/                 encoded papers; generated/ holds the outputs
+crc1625/yaml/                     the 62 publications of CRC 1625 encoded in the format (LLM drafts)
 test_papers/                      10 recent arXiv cond-mat.mtrl-sci papers to test on (BibTeX only; fetch PDFs yourself)
 test_papers/yaml/                 the 10 test papers encoded in the format (LLM drafts)
 docs/blackboard_2026-10-21/       photos and transcription of the team's blackboard discussion

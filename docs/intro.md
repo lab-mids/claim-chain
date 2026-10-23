@@ -19,5 +19,6 @@ Read the [SciLogic paper (PDF)](scilogic_paper.pdf).
 - [Getting started](00-getting-started.ipynb): load an encoding, inspect statements and relations, compute the logic score.
 - [Peer review](01-peer-review.ipynb): the argument of Zhuang, Chen and Carter (2017), with its verdicts, recomputed checks and open proof obligations.
 - [Research opportunities](02-research-opportunities.ipynb): collect the open items of ten recent arXiv preprints and trace five derived studies back to them.
+- [Research project](03-research-project.ipynb): summarize the 62 publications of the Collaborative Research Center CRC 1625 by research theme, with cross-paper connections, tensions and recurring open obligations.
 
 All examples run on encodings stored in the repository, so the notebooks make no LLM calls and build reproducibly.
